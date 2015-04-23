@@ -1,593 +1,564 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Source">
+      <UniqueIdentifier>{c72e76c1-ab16-47d6-b7b7-05f70155840c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Source\Util">
+      <UniqueIdentifier>{50f4a8db-bf8f-4da3-805f-5888c042e8bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Source\Events">
+      <UniqueIdentifier>{aef8dfc9-6bc0-409c-84e4-d97b165dcca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Facets">
+      <UniqueIdentifier>{15cb8491-a4f3-41a3-a465-29c3ce321edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{acef0a97-4b13-4031-8d5d-b293d33f31d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Lua">
+      <UniqueIdentifier>{d3ac6680-ea59-4f72-a34b-eacc36e02b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{ff02b40f-a234-46b3-b4c7-3f5a060a03a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Menus">
+      <UniqueIdentifier>{ef638ed0-4244-4cc0-a2a0-57b729ce8f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Particles">
+      <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Resources">
+      <UniqueIdentifier>{eea02a1c-bc37-4ddc-a7b2-abbe2a1a49ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Systems">
+      <UniqueIdentifier>{bc630133-5c4a-47b9-bb55-4782c031f1f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Systems">
-      <UniqueIdentifier>{bc630133-5c4a-47b9-bb55-4782c031f1f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Events">
-      <UniqueIdentifier>{aef8dfc9-6bc0-409c-84e4-d97b165dcca3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Facets">
-      <UniqueIdentifier>{15cb8491-a4f3-41a3-a465-29c3ce321edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Resources">
-      <UniqueIdentifier>{eea02a1c-bc37-4ddc-a7b2-abbe2a1a49ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Math">
-      <UniqueIdentifier>{ff02b40f-a234-46b3-b4c7-3f5a060a03a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Util">
-      <UniqueIdentifier>{50f4a8db-bf8f-4da3-805f-5888c042e8bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Events">
-      <UniqueIdentifier>{87d10504-c813-4bd5-9aab-e4b27f40dba2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Resources">
-      <UniqueIdentifier>{6f0f74cc-978e-43c8-a5ae-874bc8b34798}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Systems">
-      <UniqueIdentifier>{a25d2f3b-0ab9-40e3-b8b3-5de6c35c35e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Particles">
-      <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Particles">
-      <UniqueIdentifier>{04090894-65e0-4a5e-95dd-09fdcf29dd3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Lua">
-      <UniqueIdentifier>{d3ac6680-ea59-4f72-a34b-eacc36e02b23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Lua">
-      <UniqueIdentifier>{6d10cce4-cb2d-429c-962e-5cea261d5ccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Menus">
-      <UniqueIdentifier>{ef638ed0-4244-4cc0-a2a0-57b729ce8f90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\LuaCore">
+    <Filter Include="Lua">
       <UniqueIdentifier>{25aa2ede-1cc1-4e5b-a039-5f07ddd2032a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LuaArbor">
-      <UniqueIdentifier>{4f423ef2-8253-4c66-8869-f3fcf9f0cc90}</UniqueIdentifier>
+    <Filter Include="Source\Events\Physics">
+      <UniqueIdentifier>{5f04b6f6-2b74-4a76-830a-38dd1fbd4a1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{5251884a-1802-4ce3-9e1c-8c67a986c894}</UniqueIdentifier>
+    <Filter Include="Source\Events\Queries">
+      <UniqueIdentifier>{1ae269b5-16bf-4647-af8f-7aa85e3a9519}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{acef0a97-4b13-4031-8d5d-b293d33f31d0}</UniqueIdentifier>
+    <Filter Include="Source\Events\Graphics">
+      <UniqueIdentifier>{334f1e3f-f7fa-495a-a95c-af3aa87a5c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events\Interface">
+      <UniqueIdentifier>{b889cf74-3920-44d1-ad07-b4fcc443b09f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Console.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Core.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Core.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Interface.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="EventFilter.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\Camera2d.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\AnimationSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="EventProcessor.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\BasicPositionSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\Animation.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\Event.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\EventFilter.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\EventProcessor.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
-    <ClCompile Include="PositionChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\FacetPauseEvent.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
-    <ClCompile Include="RenderedTextToken.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="TextContentChange.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\ParticleSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\PhysicsSystem.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\RenderableSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="EntityPositionQuery.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\TextRenderSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="LinearParticleField.cpp">
-      <Filter>Source Files\Particles</Filter>
+    <ClCompile Include="src\TextureRenderSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="LuaState.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="src\World.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="LuaMap.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="src\System.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="LuaTable.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="src\LinearParticleField.cpp">
+      <Filter>Source\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="LuaList.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="src\LuaCursor.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="TextureChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\LuaFunction.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="EntitiesInRectQuery.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\LuaList.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="ColorChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\LuaMap.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LuaFunction.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="src\LuaState.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="Interface.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\LuaTable.cpp">
+      <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="OrientationChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\Map.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="DimensionChangeEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="FacetPauseEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\RenderedTextToken.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="MouseEvent.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\ShaderManager.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="EntityLayerQuery.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\ShaderProgram.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="FacetDimensionQuery.cpp">
-      <Filter>Source Files\Events</Filter>
+    <ClCompile Include="src\VertexArrayObject.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TextureRenderSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\Renderer2d.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TextRenderSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer2d.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\AnimationChangeEvent.cpp">
+      <Filter>Source\Events\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="VertexArrayObject.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\DimensionChangeEvent.cpp">
+      <Filter>Source\Events\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="BasicPositionSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\EntitiesInRectQuery.cpp">
+      <Filter>Source\Events\Queries</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\EntityLayerQuery.cpp">
+      <Filter>Source\Events\Queries</Filter>
     </ClCompile>
-    <ClCompile Include="RenderableSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\EntityPositionQuery.cpp">
+      <Filter>Source\Events\Queries</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationSystem2d.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="src\FacetDimensionQuery.cpp">
+      <Filter>Source\Events\Queries</Filter>
     </ClCompile>
-    <ClCompile Include="Camera2d.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\ColorChangeEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\MouseEvent.cpp">
+      <Filter>Source\Events\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\PositionChangeEvent.cpp">
+      <Filter>Source\Events\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\OrientationChangeEvent.cpp">
+      <Filter>Source\Events\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="src\TextContentChange.cpp">
+      <Filter>Source\Events\Graphics</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Config.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RuntimeContext.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Templates.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AccelerationChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventFilter.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventListener.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventProcessor.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Facet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraFollowFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="GamepadEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationFrame.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationSet.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Music.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="System.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateableSystem.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="SDLEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectCollisionQuery.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="TextContentChange.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectInteractionEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="VelocityChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="TextFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="World.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaUtil.hpp">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="SDLUtil.hpp">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Util.hpp">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderedTextToken.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaEventFilter.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionState.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TimedEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityPositionQuery.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="LinearParticleField.hpp">
-      <Filter>Header Files\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleField.hpp">
-      <Filter>Header Files\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="TestStarField.hpp">
-      <Filter>Header Files\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaState.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaTable.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaVector.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaMap.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaList.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuOption.hpp">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.hpp">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseMoveEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseButtonEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EntitiesInRectQuery.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaFunction.hpp">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InterfaceFacet.hpp">
-      <Filter>Header Files\Facets</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityLayerQuery.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="OrientationChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="DimensionChangeEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="FacetPauseEvent.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventTopic.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="FacetDimensionQuery.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRenderSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderableSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicPositionSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer2d.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferObjectBase.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBufferObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexArrayObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBufferObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationSystem2d.hpp">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera2d.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderProgram.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShader.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="FragmentShader.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
+    <ClCompile Include="src\TextureChangeEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\lua-core\config.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\core.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\deepcopy.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\facet.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\fonts.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\interface.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\interface-facet.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\maps.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\menu-entity.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\particles.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\physics-entity.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\physics-facet.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\require.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\sdl.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\sounds.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\text-facet.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\sprites.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\texture-facet.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\util.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
     <None Include="Debug\lua-core\world.lua">
-      <Filter>Source Files\LuaCore</Filter>
+      <Filter>Lua</Filter>
     </None>
-    <None Include="Debug\lua\firstscene.lua">
-      <Filter>Source Files\LuaArbor</Filter>
-    </None>
-    <None Include="Debug\lua\menus.lua">
-      <Filter>Source Files\LuaArbor</Filter>
-    </None>
-    <None Include="Debug\lua\titlescene.lua">
-      <Filter>Source Files\LuaArbor</Filter>
-    </None>
-    <None Include="Debug\lua\arbor.lua">
-      <Filter>Source Files\LuaArbor</Filter>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Config.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Console.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interface.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RuntimeContext.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Templates.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BufferObjectBase.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BufferObject.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera2d.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraFollowFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BasicPositionSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationFrame.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationSet.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DebugEvent.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventProcessor.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventFilter.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventListener.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventTopic.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacetPauseEvent.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FragmentShader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Drawable.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Facet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Font.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IndexBufferObject.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Geometry.hpp">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaEventFilter.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TimedEvent.hpp">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PhysicsSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderableSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextRenderSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureRenderSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UpdateableSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LinearParticleField.hpp">
+      <Filter>Source\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleField.hpp">
+      <Filter>Source\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InterfaceFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaCursor.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaFunction.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaList.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaMap.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaState.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaTable.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaUtil.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaVector.hpp">
+      <Filter>Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Map.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Music.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resource.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManager.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderedTextToken.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderManager.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderProgram.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexArrayObject.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexBufferObject.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexShader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer2d.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PhysicsFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PositionFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math.hpp">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util.hpp">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDLUtil.hpp">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sound.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.hpp">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AccelerationChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CollisionState.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DimensionChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntitiesInRectQuery.hpp">
+      <Filter>Source\Events\Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityLayerQuery.hpp">
+      <Filter>Source\Events\Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityPositionQuery.hpp">
+      <Filter>Source\Events\Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacetDimensionQuery.hpp">
+      <Filter>Source\Events\Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjectCollisionQuery.hpp">
+      <Filter>Source\Events\Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ColorChangeEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GamepadEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyboardEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseButtonEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseMoveEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PositionChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VelocityChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrientationChangeEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDLEvent.hpp">
+      <Filter>Source\Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextContentChange.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureChangeEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjectInteractionEvent.hpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

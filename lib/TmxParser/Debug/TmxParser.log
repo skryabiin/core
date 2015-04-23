@@ -1,7 +1,7 @@
-﻿Build started 3/15/2015 12:08:46 AM.
-     1>Project "C:\code\Arbor\TmxParser\TmxParser.vcxproj" on node 3 (Rebuild target(s)).
+﻿Build started 4/23/2015 10:55:45 AM.
+     1>Project "C:\code\core\lib\TmxParser\TmxParser.vcxproj" on node 3 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\code\Arbor\TmxParser\zlib /IC:\code\Arbor\TmxParser\tinyxml /ZI /nologo /W0 /WX- /Od /Oy- /D NULL=0 /D _CRT_SECURE_NO_WARNINGS /D _CRT_NONSTDC_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TmxImage.cpp TmxLayer.cpp TmxEllipse.cpp TmxImageLayer.cpp TmxMap.cpp TmxObject.cpp TmxObjectGroup.cpp TmxPolygon.cpp TmxPolyline.cpp TmxPropertySet.cpp TmxTile.cpp TmxTileset.cpp TmxUtil.cpp tinyxml\tinystr.cpp tinyxml\tinyxml.cpp tinyxml\tinyxmlerror.cpp tinyxml\tinyxmlparser.cpp base64\base64.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\code\core\lib\TmxParser\zlib /IC:\code\core\lib\TmxParser\tinyxml /ZI /nologo /W0 /WX- /Od /Oy- /D NULL=0 /D _CRT_SECURE_NO_WARNINGS /D _CRT_NONSTDC_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TmxImage.cpp TmxLayer.cpp TmxEllipse.cpp TmxImageLayer.cpp TmxMap.cpp TmxObject.cpp TmxObjectGroup.cpp TmxPolygon.cpp TmxPolyline.cpp TmxPropertySet.cpp TmxTile.cpp TmxTileset.cpp TmxUtil.cpp tinyxml\tinystr.cpp tinyxml\tinyxml.cpp tinyxml\tinyxmlerror.cpp tinyxml\tinyxmlparser.cpp base64\base64.cpp
          base64.cpp
          tinyxmlparser.cpp
          tinyxmlerror.cpp
@@ -21,7 +21,7 @@
          TmxLayer.cpp
          TmxImage.cpp
          Generating Code...
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\code\Arbor\TmxParser\zlib /IC:\code\Arbor\TmxParser\tinyxml /ZI /nologo /W0 /WX- /Od /Oy- /D NULL=0 /D _CRT_SECURE_NO_WARNINGS /D _CRT_NONSTDC_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt zlib\adler32.c zlib\compress.c zlib\crc32.c zlib\deflate.c zlib\gzclose.c zlib\gzlib.c zlib\gzread.c zlib\gzwrite.c zlib\infback.c zlib\inffast.c zlib\inflate.c zlib\inftrees.c zlib\trees.c zlib\uncompr.c zlib\zutil.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\code\core\lib\TmxParser\zlib /IC:\code\core\lib\TmxParser\tinyxml /ZI /nologo /W0 /WX- /Od /Oy- /D NULL=0 /D _CRT_SECURE_NO_WARNINGS /D _CRT_NONSTDC_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt zlib\adler32.c zlib\compress.c zlib\crc32.c zlib\deflate.c zlib\gzclose.c zlib\gzlib.c zlib\gzread.c zlib\gzwrite.c zlib\infback.c zlib\inffast.c zlib\inflate.c zlib\inftrees.c zlib\trees.c zlib\uncompr.c zlib\zutil.c
          zutil.c
          uncompr.c
          trees.c
@@ -38,10 +38,10 @@
          compress.c
          adler32.c
          Generating Code...
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1354,5): warning MSB8012: TargetPath(C:\code\Arbor\lib\TmxParser.lib) does not match the Library's OutputFile property value (C:\code\Arbor\lib\TmxParserd.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1354,5): warning MSB8012: TargetPath(C:\code\core\lib\TmxParser.lib) does not match the Library's OutputFile property value (C:\code\core\lib\TmxParserd.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1356,5): warning MSB8012: TargetName(TmxParser) does not match the Library's OutputFile property value (TmxParserd). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\code\Arbor\lib\TmxParserd.lib" /NOLOGO Debug\TmxImage.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\code\core\lib\TmxParserd.lib" /NOLOGO Debug\TmxImage.obj
          Debug\TmxLayer.obj
          Debug\TmxEllipse.obj
          Debug\TmxImageLayer.obj
@@ -74,9 +74,9 @@
          Debug\trees.obj
          Debug\uncompr.obj
          Debug\zutil.obj
-         TmxParser.vcxproj -> C:\code\Arbor\lib\TmxParser.lib
-     1>Done Building Project "C:\code\Arbor\TmxParser\TmxParser.vcxproj" (Rebuild target(s)).
+         TmxParser.vcxproj -> C:\code\core\lib\TmxParser.lib
+     1>Done Building Project "C:\code\core\lib\TmxParser\TmxParser.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.48
+Time Elapsed 00:00:08.02

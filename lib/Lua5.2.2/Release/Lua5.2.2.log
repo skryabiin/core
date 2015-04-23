@@ -1,0 +1,42 @@
+﻿Build started 4/23/2015 12:35:58 PM.
+     1>Project "C:\code\core\lib\Lua5.2.2\Lua5.2.2.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\code\core\Release\Lua5.2.2.lib" /NOLOGO /LTCG Release\lapi.obj
+         Release\lauxlib.obj
+         Release\lbaselib.obj
+         Release\lbitlib.obj
+         Release\lcode.obj
+         Release\lcorolib.obj
+         Release\lctype.obj
+         Release\ldblib.obj
+         Release\ldebug.obj
+         Release\ldo.obj
+         Release\ldump.obj
+         Release\lfunc.obj
+         Release\lgc.obj
+         Release\linit.obj
+         Release\liolib.obj
+         Release\llex.obj
+         Release\lmathlib.obj
+         Release\lmem.obj
+         Release\loadlib.obj
+         Release\lobject.obj
+         Release\lopcodes.obj
+         Release\loslib.obj
+         Release\lparser.obj
+         Release\lstate.obj
+         Release\lstring.obj
+         Release\lstrlib.obj
+         Release\ltable.obj
+         Release\ltablib.obj
+         Release\ltm.obj
+         Release\lua.obj
+         Release\lundump.obj
+         Release\lvm.obj
+         Release\lzio.obj
+         Lua5.2.2.vcxproj -> C:\code\core\Release\Lua5.2.2.lib
+     1>Done Building Project "C:\code\core\lib\Lua5.2.2\Lua5.2.2.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.73

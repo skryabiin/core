@@ -38,13 +38,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>bin\</OutDir>
+    <IntDir>obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>bin\</OutDir>
+    <IntDir>obj\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\lib\glm\glm;..\lib\glew-1.12.0\include;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\include;..\TmxParser;..\Lua5.2.2;..\lib\SDL2-2.0.3\include;..\lib\SDL2_image-2.0.0\include;..\lib\SDL2_ttf-2.0.12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glm\glm;..\lib\glew-1.12.0\include;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\include;..\lib\TmxParser;..\lib\Lua5.2.2;..\lib\SDL2-2.0.3\include;..\lib\SDL2_image-2.0.0\include;..\lib\SDL2_ttf-2.0.12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,164 +75,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\Lua5.2.2\Lua5.2.2.vcxproj">
-      <Project>{5f623a10-25d9-4dbf-9c31-d34197aeb717}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\TmxParser\TmxParser.vcxproj">
-      <Project>{798fc53d-6da5-4634-8c4e-1ca2368f27ea}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AnimationChangeEvent.cpp" />
-    <ClCompile Include="AnimationSystem2d.cpp" />
-    <ClCompile Include="BasicPositionSystem2d.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Camera2d.cpp" />
-    <ClCompile Include="ColorChangeEvent.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="Core.cpp" />
-    <ClCompile Include="DimensionChangeEvent.cpp" />
-    <ClCompile Include="EntitiesInRectQuery.cpp" />
-    <ClCompile Include="EntityLayerQuery.cpp" />
-    <ClCompile Include="EntityPositionQuery.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="EventFilter.cpp" />
-    <ClCompile Include="EventProcessor.cpp" />
-    <ClCompile Include="FacetDimensionQuery.cpp" />
-    <ClCompile Include="FacetPauseEvent.cpp" />
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="Interface.cpp" />
-    <ClCompile Include="LinearParticleField.cpp" />
-    <ClCompile Include="LuaFunction.cpp" />
-    <ClCompile Include="LuaList.cpp" />
-    <ClCompile Include="LuaMap.cpp" />
-    <ClCompile Include="LuaState.cpp" />
-    <ClCompile Include="LuaTable.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MouseEvent.cpp" />
-    <ClCompile Include="OrientationChangeEvent.cpp" />
-    <ClCompile Include="ParticleSystem2d.cpp" />
-    <ClCompile Include="PhysicsSystem.cpp" />
-    <ClCompile Include="PositionChangeEvent.cpp" />
-    <ClCompile Include="RenderableSystem2d.cpp" />
-    <ClCompile Include="RenderedTextToken.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Renderer2d.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="System.cpp" />
-    <ClCompile Include="TextContentChange.cpp" />
-    <ClCompile Include="TextRenderSystem2d.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureChangeEvent.cpp" />
-    <ClCompile Include="TextureRenderSystem2d.cpp" />
-    <ClCompile Include="VertexArrayObject.cpp" />
-    <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AccelerationChangeEvent.hpp" />
-    <ClInclude Include="Animation.hpp" />
-    <ClInclude Include="AnimationChangeEvent.hpp" />
-    <ClInclude Include="AnimationFacet.hpp" />
-    <ClInclude Include="AnimationFrame.hpp" />
-    <ClInclude Include="AnimationSet.hpp" />
-    <ClInclude Include="AnimationSystem2d.hpp" />
-    <ClInclude Include="BasicPositionSystem2d.hpp" />
-    <ClInclude Include="BufferObject.hpp" />
-    <ClInclude Include="BufferObjectBase.hpp" />
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Camera2d.hpp" />
-    <ClInclude Include="CameraFollowFacet.hpp" />
-    <ClInclude Include="CollisionState.hpp" />
-    <ClInclude Include="ColorChangeEvent.hpp" />
-    <ClInclude Include="Config.hpp" />
-    <ClInclude Include="Console.hpp" />
-    <ClInclude Include="Core.hpp" />
-    <ClInclude Include="DebugEvent.hpp" />
-    <ClInclude Include="DimensionChangeEvent.hpp" />
-    <ClInclude Include="Drawable.hpp" />
-    <ClInclude Include="EntitiesInRectQuery.hpp" />
-    <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="EntityLayerQuery.hpp" />
-    <ClInclude Include="EntityPositionQuery.hpp" />
-    <ClInclude Include="Event.hpp" />
-    <ClInclude Include="EventFilter.hpp" />
-    <ClInclude Include="EventListener.hpp" />
-    <ClInclude Include="EventProcessor.hpp" />
-    <ClInclude Include="EventTopic.hpp" />
-    <ClInclude Include="Facet.hpp" />
-    <ClInclude Include="FacetDimensionQuery.hpp" />
-    <ClInclude Include="FacetPauseEvent.hpp" />
-    <ClInclude Include="FragmentShader.hpp" />
-    <ClInclude Include="GamepadEvent.hpp" />
-    <ClInclude Include="Geometry.hpp" />
-    <ClInclude Include="IndexBufferObject.hpp" />
-    <ClInclude Include="Interface.hpp" />
-    <ClInclude Include="InterfaceFacet.hpp" />
-    <ClInclude Include="KeyboardEvent.hpp" />
-    <ClInclude Include="LinearParticleField.hpp" />
-    <ClInclude Include="LuaFunction.hpp" />
-    <ClInclude Include="LuaList.hpp" />
-    <ClInclude Include="LuaMap.hpp" />
-    <ClInclude Include="LuaVector.hpp" />
-    <ClInclude Include="LuaEventFilter.hpp" />
-    <ClInclude Include="LuaState.hpp" />
-    <ClInclude Include="LuaTable.hpp" />
-    <ClInclude Include="LuaUtil.hpp" />
-    <ClInclude Include="main.hpp" />
-    <ClInclude Include="Map.hpp" />
-    <ClInclude Include="Math.hpp" />
-    <ClInclude Include="Menu.hpp" />
-    <ClInclude Include="MenuOption.hpp" />
-    <ClInclude Include="MouseButtonEvent.hpp" />
-    <ClInclude Include="MouseEvent.hpp" />
-    <ClInclude Include="MouseMoveEvent.hpp" />
-    <ClInclude Include="Music.hpp" />
-    <ClInclude Include="ObjectCollisionQuery.hpp" />
-    <ClInclude Include="ObjectInteractionEvent.hpp" />
-    <ClInclude Include="OrientationChangeEvent.hpp" />
-    <ClInclude Include="ParticleField.hpp" />
-    <ClInclude Include="ParticleFacet.hpp" />
-    <ClInclude Include="ParticleSystem2d.hpp" />
-    <ClInclude Include="PhysicsFacet.hpp" />
-    <ClInclude Include="PositionChangeEvent.hpp" />
-    <ClInclude Include="RenderableSystem2d.hpp" />
-    <ClInclude Include="RenderedTextToken.hpp" />
-    <ClInclude Include="Renderer2d.hpp" />
-    <ClInclude Include="Shader.hpp" />
-    <ClInclude Include="ShaderManager.hpp" />
-    <ClInclude Include="ShaderProgram.hpp" />
-    <ClInclude Include="TestStarField.hpp" />
-    <ClInclude Include="TextContentChange.hpp" />
-    <ClInclude Include="TextFacet.hpp" />
-    <ClInclude Include="TextRenderSystem2d.hpp" />
-    <ClInclude Include="TextureChangeEvent.hpp" />
-    <ClInclude Include="TextureRenderSystem2d.hpp" />
-    <ClInclude Include="TimedEvent.hpp" />
-    <ClInclude Include="VelocityChangeEvent.hpp" />
-    <ClInclude Include="PhysicsSystem.hpp" />
-    <ClInclude Include="PositionFacet.hpp" />
-    <ClInclude Include="Renderer.hpp" />
-    <ClInclude Include="Resource.hpp" />
-    <ClInclude Include="ResourceManager.hpp" />
-    <ClInclude Include="RuntimeContext.hpp" />
-    <ClInclude Include="SDLEvent.hpp" />
-    <ClInclude Include="SDLUtil.hpp" />
-    <ClInclude Include="Sound.hpp" />
-    <ClInclude Include="System.hpp" />
-    <ClInclude Include="Templates.hpp" />
-    <ClInclude Include="Font.hpp" />
-    <ClInclude Include="Texture.hpp" />
-    <ClInclude Include="UpdateableSystem.hpp" />
-    <ClInclude Include="Util.hpp" />
-    <ClInclude Include="TextureFacet.hpp" />
-    <ClInclude Include="VertexArrayObject.hpp" />
-    <ClInclude Include="VertexBufferObject.hpp" />
-    <ClInclude Include="VertexShader.hpp" />
-    <ClInclude Include="World.hpp" />
+    <ClCompile Include="src\Animation.cpp" />
+    <ClCompile Include="src\AnimationChangeEvent.cpp" />
+    <ClCompile Include="src\AnimationSystem2d.cpp" />
+    <ClCompile Include="src\BasicPositionSystem2d.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Camera2d.cpp" />
+    <ClCompile Include="src\ColorChangeEvent.cpp" />
+    <ClCompile Include="src\Console.cpp" />
+    <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\DimensionChangeEvent.cpp" />
+    <ClCompile Include="src\EntitiesInRectQuery.cpp" />
+    <ClCompile Include="src\EntityLayerQuery.cpp" />
+    <ClCompile Include="src\EntityPositionQuery.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\EventFilter.cpp" />
+    <ClCompile Include="src\EventProcessor.cpp" />
+    <ClCompile Include="src\FacetDimensionQuery.cpp" />
+    <ClCompile Include="src\FacetPauseEvent.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\Interface.cpp" />
+    <ClCompile Include="src\LinearParticleField.cpp" />
+    <ClCompile Include="src\LuaCursor.cpp" />
+    <ClCompile Include="src\LuaFunction.cpp" />
+    <ClCompile Include="src\LuaList.cpp" />
+    <ClCompile Include="src\LuaMap.cpp" />
+    <ClCompile Include="src\LuaState.cpp" />
+    <ClCompile Include="src\LuaTable.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="src\OrientationChangeEvent.cpp" />
+    <ClCompile Include="src\ParticleSystem2d.cpp" />
+    <ClCompile Include="src\PhysicsSystem.cpp" />
+    <ClCompile Include="src\PositionChangeEvent.cpp" />
+    <ClCompile Include="src\RenderableSystem2d.cpp" />
+    <ClCompile Include="src\RenderedTextToken.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Renderer2d.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\ShaderManager.cpp" />
+    <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\System.cpp" />
+    <ClCompile Include="src\TextContentChange.cpp" />
+    <ClCompile Include="src\TextRenderSystem2d.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TextureChangeEvent.cpp" />
+    <ClCompile Include="src\TextureRenderSystem2d.cpp" />
+    <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\lua-core\config.lua" />
@@ -248,10 +146,114 @@
     <None Include="Debug\lua-core\texture-facet.lua" />
     <None Include="Debug\lua-core\util.lua" />
     <None Include="Debug\lua-core\world.lua" />
-    <None Include="Debug\lua\arbor.lua" />
-    <None Include="Debug\lua\firstscene.lua" />
-    <None Include="Debug\lua\menus.lua" />
-    <None Include="Debug\lua\titlescene.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AccelerationChangeEvent.hpp" />
+    <ClInclude Include="src\Animation.hpp" />
+    <ClInclude Include="src\AnimationChangeEvent.hpp" />
+    <ClInclude Include="src\AnimationFacet.hpp" />
+    <ClInclude Include="src\AnimationFrame.hpp" />
+    <ClInclude Include="src\AnimationSet.hpp" />
+    <ClInclude Include="src\AnimationSystem2d.hpp" />
+    <ClInclude Include="src\BasicPositionSystem2d.hpp" />
+    <ClInclude Include="src\BufferObject.hpp" />
+    <ClInclude Include="src\BufferObjectBase.hpp" />
+    <ClInclude Include="src\Camera.hpp" />
+    <ClInclude Include="src\Camera2d.hpp" />
+    <ClInclude Include="src\CameraFollowFacet.hpp" />
+    <ClInclude Include="src\CollisionState.hpp" />
+    <ClInclude Include="src\ColorChangeEvent.hpp" />
+    <ClInclude Include="src\Config.hpp" />
+    <ClInclude Include="src\Console.hpp" />
+    <ClInclude Include="src\Core.hpp" />
+    <ClInclude Include="src\DebugEvent.hpp" />
+    <ClInclude Include="src\DimensionChangeEvent.hpp" />
+    <ClInclude Include="src\Drawable.hpp" />
+    <ClInclude Include="src\EntitiesInRectQuery.hpp" />
+    <ClInclude Include="src\Entity.hpp" />
+    <ClInclude Include="src\EntityLayerQuery.hpp" />
+    <ClInclude Include="src\EntityPositionQuery.hpp" />
+    <ClInclude Include="src\Event.hpp" />
+    <ClInclude Include="src\EventFilter.hpp" />
+    <ClInclude Include="src\EventListener.hpp" />
+    <ClInclude Include="src\EventProcessor.hpp" />
+    <ClInclude Include="src\EventTopic.hpp" />
+    <ClInclude Include="src\Facet.hpp" />
+    <ClInclude Include="src\FacetDimensionQuery.hpp" />
+    <ClInclude Include="src\FacetPauseEvent.hpp" />
+    <ClInclude Include="src\Font.hpp" />
+    <ClInclude Include="src\FragmentShader.hpp" />
+    <ClInclude Include="src\GamepadEvent.hpp" />
+    <ClInclude Include="src\Geometry.hpp" />
+    <ClInclude Include="src\IndexBufferObject.hpp" />
+    <ClInclude Include="src\Interface.hpp" />
+    <ClInclude Include="src\InterfaceFacet.hpp" />
+    <ClInclude Include="src\KeyboardEvent.hpp" />
+    <ClInclude Include="src\LinearParticleField.hpp" />
+    <ClInclude Include="src\LuaCursor.hpp" />
+    <ClInclude Include="src\LuaEventFilter.hpp" />
+    <ClInclude Include="src\LuaFunction.hpp" />
+    <ClInclude Include="src\LuaList.hpp" />
+    <ClInclude Include="src\LuaMap.hpp" />
+    <ClInclude Include="src\LuaState.hpp" />
+    <ClInclude Include="src\LuaTable.hpp" />
+    <ClInclude Include="src\LuaUtil.hpp" />
+    <ClInclude Include="src\LuaVector.hpp" />
+    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\Map.hpp" />
+    <ClInclude Include="src\Math.hpp" />
+    <ClInclude Include="src\MouseButtonEvent.hpp" />
+    <ClInclude Include="src\MouseEvent.hpp" />
+    <ClInclude Include="src\MouseMoveEvent.hpp" />
+    <ClInclude Include="src\Music.hpp" />
+    <ClInclude Include="src\ObjectCollisionQuery.hpp" />
+    <ClInclude Include="src\ObjectInteractionEvent.hpp" />
+    <ClInclude Include="src\OrientationChangeEvent.hpp" />
+    <ClInclude Include="src\ParticleFacet.hpp" />
+    <ClInclude Include="src\ParticleField.hpp" />
+    <ClInclude Include="src\ParticleSystem2d.hpp" />
+    <ClInclude Include="src\PhysicsFacet.hpp" />
+    <ClInclude Include="src\PhysicsSystem.hpp" />
+    <ClInclude Include="src\PositionChangeEvent.hpp" />
+    <ClInclude Include="src\PositionFacet.hpp" />
+    <ClInclude Include="src\RenderableSystem2d.hpp" />
+    <ClInclude Include="src\RenderedTextToken.hpp" />
+    <ClInclude Include="src\Renderer.hpp" />
+    <ClInclude Include="src\Renderer2d.hpp" />
+    <ClInclude Include="src\Resource.hpp" />
+    <ClInclude Include="src\ResourceManager.hpp" />
+    <ClInclude Include="src\RuntimeContext.hpp" />
+    <ClInclude Include="src\SDLEvent.hpp" />
+    <ClInclude Include="src\SDLUtil.hpp" />
+    <ClInclude Include="src\Shader.hpp" />
+    <ClInclude Include="src\ShaderManager.hpp" />
+    <ClInclude Include="src\ShaderProgram.hpp" />
+    <ClInclude Include="src\Sound.hpp" />
+    <ClInclude Include="src\System.hpp" />
+    <ClInclude Include="src\Templates.hpp" />
+    <ClInclude Include="src\TextContentChange.hpp" />
+    <ClInclude Include="src\TextFacet.hpp" />
+    <ClInclude Include="src\TextRenderSystem2d.hpp" />
+    <ClInclude Include="src\Texture.hpp" />
+    <ClInclude Include="src\TextureChangeEvent.hpp" />
+    <ClInclude Include="src\TextureFacet.hpp" />
+    <ClInclude Include="src\TextureRenderSystem2d.hpp" />
+    <ClInclude Include="src\TimedEvent.hpp" />
+    <ClInclude Include="src\UpdateableSystem.hpp" />
+    <ClInclude Include="src\Util.hpp" />
+    <ClInclude Include="src\VelocityChangeEvent.hpp" />
+    <ClInclude Include="src\VertexArrayObject.hpp" />
+    <ClInclude Include="src\VertexBufferObject.hpp" />
+    <ClInclude Include="src\VertexShader.hpp" />
+    <ClInclude Include="src\World.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\Lua5.2.2\Lua5.2.2.vcxproj">
+      <Project>{5f623a10-25d9-4dbf-9c31-d34197aeb717}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\TmxParser\TmxParser.vcxproj">
+      <Project>{798fc53d-6da5-4634-8c4e-1ca2368f27ea}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

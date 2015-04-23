@@ -1,17 +1,12 @@
-﻿Build started 3/15/2015 12:08:48 AM.
-     1>Project "C:\code\Arbor\LuaTestbed\LuaTestbed.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 4/23/2015 12:28:07 PM.
+     1>Project "C:\code\core\lua-cmd\LuaTestbed.vcxproj" on node 4 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets(1430,5): warning : The referenced project '..\Lua5.2.2\Lua5.2.2.vcxproj' does not exist.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\Lua5.2.2 /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt LuaTestbed.cpp stdafx.cpp
-         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\Lua5.2.2 /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt LuaTestbed.cpp
          LuaTestbed.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\code\Arbor\Debug\LuaTestbed.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\code\Arbor\Debug\LuaTestbed.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\code\Arbor\Debug\LuaTestbed.lib" /MACHINE:X86 Debug\LuaTestbed.obj
-         Debug\stdafx.obj
-         C:\code\Arbor\Debug\Lua5.2.2.lib
-         LuaTestbed.vcxproj -> C:\code\Arbor\Debug\LuaTestbed.exe
-     1>Done Building Project "C:\code\Arbor\LuaTestbed\LuaTestbed.vcxproj" (Rebuild target(s)).
+     1>c:\code\core\lua-cmd\luatestbed.cpp(9): fatal error C1083: Cannot open include file: 'lua.hpp': No such file or directory
+     1>Done Building Project "C:\code\core\lua-cmd\LuaTestbed.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.22
+Time Elapsed 00:00:00.57
