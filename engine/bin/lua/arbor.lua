@@ -57,7 +57,7 @@ while not doQuit do
 		doQuit = true
 	end
 
-	--otherwise, this will continue around to the menu screen again
+	--otherwise, this will continue to the next scene
 	
 end
 
