@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7EFFEA1A-3C0E-4438-81FB-077F7A880532}</ProjectGuid>
+    <RootNamespace>Core</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\lib\glm\glm;..\lib\glew-1.12.0\include;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\include;..\TmxParser;..\Lua5.2.2;..\lib\SDL2-2.0.3\include;..\lib\SDL2_image-2.0.0\include;..\lib\SDL2_ttf-2.0.12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\lib\glew-1.12.0\lib\Release\Win32;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\lib\x86;..\lib\SDL2-2.0.3\lib\x86;..\lib\SDL2_ttf-2.0.12\lib\x86;..\lib\SDL2_image-2.0.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;glut32.lib;SDL2_mixer.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>NotSet</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\Lua5.2.2\Lua5.2.2.vcxproj">
+      <Project>{5f623a10-25d9-4dbf-9c31-d34197aeb717}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\TmxParser\TmxParser.vcxproj">
+      <Project>{798fc53d-6da5-4634-8c4e-1ca2368f27ea}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationChangeEvent.cpp" />
+    <ClCompile Include="AnimationSystem2d.cpp" />
+    <ClCompile Include="BasicPositionSystem2d.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera2d.cpp" />
+    <ClCompile Include="ColorChangeEvent.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="DimensionChangeEvent.cpp" />
+    <ClCompile Include="EntitiesInRectQuery.cpp" />
+    <ClCompile Include="EntityLayerQuery.cpp" />
+    <ClCompile Include="EntityPositionQuery.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventFilter.cpp" />
+    <ClCompile Include="EventProcessor.cpp" />
+    <ClCompile Include="FacetDimensionQuery.cpp" />
+    <ClCompile Include="FacetPauseEvent.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="LinearParticleField.cpp" />
+    <ClCompile Include="LuaFunction.cpp" />
+    <ClCompile Include="LuaList.cpp" />
+    <ClCompile Include="LuaMap.cpp" />
+    <ClCompile Include="LuaState.cpp" />
+    <ClCompile Include="LuaTable.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MouseEvent.cpp" />
+    <ClCompile Include="OrientationChangeEvent.cpp" />
+    <ClCompile Include="ParticleSystem2d.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PositionChangeEvent.cpp" />
+    <ClCompile Include="RenderableSystem2d.cpp" />
+    <ClCompile Include="RenderedTextToken.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Renderer2d.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="System.cpp" />
+    <ClCompile Include="TextContentChange.cpp" />
+    <ClCompile Include="TextRenderSystem2d.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureChangeEvent.cpp" />
+    <ClCompile Include="TextureRenderSystem2d.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
+    <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AccelerationChangeEvent.hpp" />
+    <ClInclude Include="Animation.hpp" />
+    <ClInclude Include="AnimationChangeEvent.hpp" />
+    <ClInclude Include="AnimationFacet.hpp" />
+    <ClInclude Include="AnimationFrame.hpp" />
+    <ClInclude Include="AnimationSet.hpp" />
+    <ClInclude Include="AnimationSystem2d.hpp" />
+    <ClInclude Include="BasicPositionSystem2d.hpp" />
+    <ClInclude Include="BufferObject.hpp" />
+    <ClInclude Include="BufferObjectBase.hpp" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Camera2d.hpp" />
+    <ClInclude Include="CameraFollowFacet.hpp" />
+    <ClInclude Include="CollisionState.hpp" />
+    <ClInclude Include="ColorChangeEvent.hpp" />
+    <ClInclude Include="Config.hpp" />
+    <ClInclude Include="Console.hpp" />
+    <ClInclude Include="Core.hpp" />
+    <ClInclude Include="DebugEvent.hpp" />
+    <ClInclude Include="DimensionChangeEvent.hpp" />
+    <ClInclude Include="Drawable.hpp" />
+    <ClInclude Include="EntitiesInRectQuery.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EntityLayerQuery.hpp" />
+    <ClInclude Include="EntityPositionQuery.hpp" />
+    <ClInclude Include="Event.hpp" />
+    <ClInclude Include="EventFilter.hpp" />
+    <ClInclude Include="EventListener.hpp" />
+    <ClInclude Include="EventProcessor.hpp" />
+    <ClInclude Include="EventTopic.hpp" />
+    <ClInclude Include="Facet.hpp" />
+    <ClInclude Include="FacetDimensionQuery.hpp" />
+    <ClInclude Include="FacetPauseEvent.hpp" />
+    <ClInclude Include="FragmentShader.hpp" />
+    <ClInclude Include="GamepadEvent.hpp" />
+    <ClInclude Include="Geometry.hpp" />
+    <ClInclude Include="IndexBufferObject.hpp" />
+    <ClInclude Include="Interface.hpp" />
+    <ClInclude Include="InterfaceFacet.hpp" />
+    <ClInclude Include="KeyboardEvent.hpp" />
+    <ClInclude Include="LinearParticleField.hpp" />
+    <ClInclude Include="LuaFunction.hpp" />
+    <ClInclude Include="LuaList.hpp" />
+    <ClInclude Include="LuaMap.hpp" />
+    <ClInclude Include="LuaVector.hpp" />
+    <ClInclude Include="LuaEventFilter.hpp" />
+    <ClInclude Include="LuaState.hpp" />
+    <ClInclude Include="LuaTable.hpp" />
+    <ClInclude Include="LuaUtil.hpp" />
+    <ClInclude Include="main.hpp" />
+    <ClInclude Include="Map.hpp" />
+    <ClInclude Include="Math.hpp" />
+    <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="MenuOption.hpp" />
+    <ClInclude Include="MouseButtonEvent.hpp" />
+    <ClInclude Include="MouseEvent.hpp" />
+    <ClInclude Include="MouseMoveEvent.hpp" />
+    <ClInclude Include="Music.hpp" />
+    <ClInclude Include="ObjectCollisionQuery.hpp" />
+    <ClInclude Include="ObjectInteractionEvent.hpp" />
+    <ClInclude Include="OrientationChangeEvent.hpp" />
+    <ClInclude Include="ParticleField.hpp" />
+    <ClInclude Include="ParticleFacet.hpp" />
+    <ClInclude Include="ParticleSystem2d.hpp" />
+    <ClInclude Include="PhysicsFacet.hpp" />
+    <ClInclude Include="PositionChangeEvent.hpp" />
+    <ClInclude Include="RenderableSystem2d.hpp" />
+    <ClInclude Include="RenderedTextToken.hpp" />
+    <ClInclude Include="Renderer2d.hpp" />
+    <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="ShaderManager.hpp" />
+    <ClInclude Include="ShaderProgram.hpp" />
+    <ClInclude Include="TestStarField.hpp" />
+    <ClInclude Include="TextContentChange.hpp" />
+    <ClInclude Include="TextFacet.hpp" />
+    <ClInclude Include="TextRenderSystem2d.hpp" />
+    <ClInclude Include="TextureChangeEvent.hpp" />
+    <ClInclude Include="TextureRenderSystem2d.hpp" />
+    <ClInclude Include="TimedEvent.hpp" />
+    <ClInclude Include="VelocityChangeEvent.hpp" />
+    <ClInclude Include="PhysicsSystem.hpp" />
+    <ClInclude Include="PositionFacet.hpp" />
+    <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="Resource.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
+    <ClInclude Include="RuntimeContext.hpp" />
+    <ClInclude Include="SDLEvent.hpp" />
+    <ClInclude Include="SDLUtil.hpp" />
+    <ClInclude Include="Sound.hpp" />
+    <ClInclude Include="System.hpp" />
+    <ClInclude Include="Templates.hpp" />
+    <ClInclude Include="Font.hpp" />
+    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="UpdateableSystem.hpp" />
+    <ClInclude Include="Util.hpp" />
+    <ClInclude Include="TextureFacet.hpp" />
+    <ClInclude Include="VertexArrayObject.hpp" />
+    <ClInclude Include="VertexBufferObject.hpp" />
+    <ClInclude Include="VertexShader.hpp" />
+    <ClInclude Include="World.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Debug\lua-core\config.lua" />
+    <None Include="Debug\lua-core\core.lua" />
+    <None Include="Debug\lua-core\deepcopy.lua" />
+    <None Include="Debug\lua-core\facet.lua" />
+    <None Include="Debug\lua-core\fonts.lua" />
+    <None Include="Debug\lua-core\interface-facet.lua" />
+    <None Include="Debug\lua-core\interface.lua" />
+    <None Include="Debug\lua-core\maps.lua" />
+    <None Include="Debug\lua-core\menu-entity.lua" />
+    <None Include="Debug\lua-core\particles.lua" />
+    <None Include="Debug\lua-core\physics-entity.lua" />
+    <None Include="Debug\lua-core\physics-facet.lua" />
+    <None Include="Debug\lua-core\require.lua" />
+    <None Include="Debug\lua-core\sdl.lua" />
+    <None Include="Debug\lua-core\sounds.lua" />
+    <None Include="Debug\lua-core\sprites.lua" />
+    <None Include="Debug\lua-core\text-facet.lua" />
+    <None Include="Debug\lua-core\texture-facet.lua" />
+    <None Include="Debug\lua-core\util.lua" />
+    <None Include="Debug\lua-core\world.lua" />
+    <None Include="Debug\lua\arbor.lua" />
+    <None Include="Debug\lua\firstscene.lua" />
+    <None Include="Debug\lua\menus.lua" />
+    <None Include="Debug\lua\titlescene.lua" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

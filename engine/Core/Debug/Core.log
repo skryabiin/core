@@ -1,0 +1,112 @@
+﻿Build started 4/23/2015 10:01:33 AM.
+     1>Project "C:\code\Arbor\Core\Core.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\TmxParser /I..\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Animation.cpp AnimationChangeEvent.cpp AnimationSystem2d.cpp BasicPositionSystem2d.cpp Camera2d.cpp ColorChangeEvent.cpp Console.cpp Core.cpp DimensionChangeEvent.cpp EntitiesInRectQuery.cpp EntityLayerQuery.cpp EntityPositionQuery.cpp Event.cpp EventFilter.cpp EventProcessor.cpp FacetDimensionQuery.cpp FacetPauseEvent.cpp Font.cpp Interface.cpp LinearParticleField.cpp LuaFunction.cpp LuaList.cpp LuaMap.cpp LuaState.cpp LuaTable.cpp MouseEvent.cpp OrientationChangeEvent.cpp ParticleSystem2d.cpp PhysicsSystem.cpp PositionChangeEvent.cpp RenderableSystem2d.cpp RenderedTextToken.cpp Renderer.cpp Renderer2d.cpp ResourceManager.cpp ShaderManager.cpp ShaderProgram.cpp System.cpp TextContentChange.cpp TextRenderSystem2d.cpp Texture.cpp TextureChangeEvent.cpp TextureRenderSystem2d.cpp VertexArrayObject.cpp World.cpp main.cpp
+         main.cpp
+         World.cpp
+         VertexArrayObject.cpp
+         TextureRenderSystem2d.cpp
+         TextureChangeEvent.cpp
+         Texture.cpp
+         TextRenderSystem2d.cpp
+         TextContentChange.cpp
+         System.cpp
+         ShaderProgram.cpp
+         ShaderManager.cpp
+         ResourceManager.cpp
+         Renderer2d.cpp
+         Renderer.cpp
+     1>c:\code\arbor\core\renderer.cpp(221): warning C4316: 'core::Renderer2d' : object allocated on the heap may not be aligned 16
+         RenderedTextToken.cpp
+         RenderableSystem2d.cpp
+         PositionChangeEvent.cpp
+         PhysicsSystem.cpp
+         ParticleSystem2d.cpp
+         OrientationChangeEvent.cpp
+         Generating Code...
+         Compiling...
+         MouseEvent.cpp
+         LuaTable.cpp
+         LuaState.cpp
+         LuaMap.cpp
+         LuaList.cpp
+         LuaFunction.cpp
+         LinearParticleField.cpp
+         Interface.cpp
+         Font.cpp
+         FacetPauseEvent.cpp
+         FacetDimensionQuery.cpp
+         EventProcessor.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         EventFilter.cpp
+         Event.cpp
+         EntityPositionQuery.cpp
+         EntityLayerQuery.cpp
+         EntitiesInRectQuery.cpp
+         DimensionChangeEvent.cpp
+         Core.cpp
+         Console.cpp
+         ColorChangeEvent.cpp
+         Camera2d.cpp
+         BasicPositionSystem2d.cpp
+         AnimationSystem2d.cpp
+         AnimationChangeEvent.cpp
+         Animation.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\code\Arbor\Debug\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\code\Arbor\Debug\Core.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\code\Arbor\Debug\Core.lib" /MACHINE:X86 Debug\Animation.obj
+         Debug\AnimationChangeEvent.obj
+         Debug\AnimationSystem2d.obj
+         Debug\BasicPositionSystem2d.obj
+         Debug\Camera.obj
+         Debug\Camera2d.obj
+         Debug\ColorChangeEvent.obj
+         Debug\Console.obj
+         Debug\Core.obj
+         Debug\DimensionChangeEvent.obj
+         Debug\EntitiesInRectQuery.obj
+         Debug\EntityLayerQuery.obj
+         Debug\EntityPositionQuery.obj
+         Debug\Event.obj
+         Debug\EventFilter.obj
+         Debug\EventProcessor.obj
+         Debug\FacetDimensionQuery.obj
+         Debug\FacetPauseEvent.obj
+         Debug\Font.obj
+         Debug\Interface.obj
+         Debug\LinearParticleField.obj
+         Debug\LuaFunction.obj
+         Debug\LuaList.obj
+         Debug\LuaMap.obj
+         Debug\LuaState.obj
+         Debug\LuaTable.obj
+         Debug\main.obj
+         Debug\Map.obj
+         Debug\MouseEvent.obj
+         Debug\OrientationChangeEvent.obj
+         Debug\ParticleSystem2d.obj
+         Debug\PhysicsSystem.obj
+         Debug\PositionChangeEvent.obj
+         Debug\RenderableSystem2d.obj
+         Debug\RenderedTextToken.obj
+         Debug\Renderer.obj
+         Debug\Renderer2d.obj
+         Debug\ResourceManager.obj
+         Debug\ShaderManager.obj
+         Debug\ShaderProgram.obj
+         Debug\System.obj
+         Debug\TextContentChange.obj
+         Debug\TextRenderSystem2d.obj
+         Debug\Texture.obj
+         Debug\TextureChangeEvent.obj
+         Debug\TextureRenderSystem2d.obj
+         Debug\VertexArrayObject.obj
+         Debug\World.obj
+         C:\code\Arbor\Debug\Lua5.2.2.lib
+         C:\code\Arbor\lib\TmxParserd.lib
+         Core.vcxproj -> C:\code\Arbor\Debug\Core.exe
+     1>Done Building Project "C:\code\Arbor\Core\Core.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:01:00.95

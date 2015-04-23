@@ -1,0 +1,2119 @@
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 11:42:14 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 11:42:20 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:20:43 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:20:51 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:25:05 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:32:07 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:37:33 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:41:14 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:41:43 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:42:40 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:42:55 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:43:20 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:43:32 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:47:36 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:47:45 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 12:56:15 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 12:56:35 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:03:07 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:03:14 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:04:21 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[info] Creating text facet for entity 4
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 6
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:04:29 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:04:52 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[info] Creating text facet for entity 4
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 6
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:05:11 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:07:26 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[info] Creating text facet for entity 4
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 6
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:07:32 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:07:46 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[error] Error running lua script: C:\code\Arbor\Debug\lua-core/core.lua:49: attempt to index field 'scene' (a nil value)
+[notice] Stopping Core at Wed Apr 22 13:07:47 2015
+
+[notice] Reason: 
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:09:34 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:09:48 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:10:35 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:15:54 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:23:32 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:24:09 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:26:23 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:26:36 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:28:33 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 9
+[info] Creating text facet for entity 10
+[info] Creating text facet for entity 11
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Transitioning to first scene
+[info] Unloaded texture '4' with source path '
+
+[info] Unloaded texture '5' with source path '
+
+[info] Unloaded texture '6' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 14
+[info] Creating text facet for entity 16
+[info] Creating text facet for entity 17
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:28:56 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 9
+[info] Creating text facet for entity 10
+[info] Creating text facet for entity 11
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Transitioning to first scene
+[info] Unloaded texture '4' with source path '
+
+[info] Unloaded texture '5' with source path '
+
+[info] Unloaded texture '6' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 14
+[info] Creating text facet for entity 16
+[info] Creating text facet for entity 17
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '7' with source path '
+
+[info] Unloaded texture '8' with source path '
+
+[info] Unloaded texture '9' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 19
+[info] Creating text facet for entity 20
+[info] Creating text facet for entity 21
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Transitioning to first scene
+[info] Unloaded texture '10' with source path '
+
+[info] Unloaded texture '11' with source path '
+
+[info] Unloaded texture '12' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 24
+[info] Creating text facet for entity 26
+[info] Creating text facet for entity 27
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] interface.lua(7),onClick: clicked on entity 23, facet 89
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '13' with source path '
+
+[info] Unloaded texture '14' with source path '
+
+[info] Unloaded texture '15' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 29
+[info] Creating text facet for entity 30
+[info] Creating text facet for entity 31
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Quit
+[info] Unloaded texture '16' with source path '
+
+[info] Unloaded texture '17' with source path '
+
+[info] Unloaded texture '18' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:29:27 2015
+
+[notice] Reason: Quit
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:33:16 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 13:37:08 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 13:37:26 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 15:23:11 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 15:23:17 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 15:26:18 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 15:44:48 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 15:45:02 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 16:17:22 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[error] Unable to compile shader 6: Fragment shader failed to compile with the following errors:
+ERROR: 0:6: error(#132) Syntax error: 'colorTransform' parse error
+ERROR: error(#273) 1 compilation errors.  No code generated
+
+[error] Attempting to link program  (8) before fragment shader is loaded.
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[error] Attempting to link program  (10) before fragment shader is loaded.
+[info] Creating text facet for entity 5
+[error] Attempting to link program  (12) before fragment shader is loaded.
+[error] Attempting to link program  (14) before fragment shader is loaded.
+[error] Attempting to link program  (16) before fragment shader is loaded.
+[error] Attempting to link program  (18) before fragment shader is loaded.
+[error] Attempting to link program  (20) before fragment shader is loaded.
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[error] Attempting to link program  (22) before fragment shader is loaded.
+[error] In VertexArrayobject::bind1, error code 1282
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 16:22:57 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 16:23:16 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 16:25:01 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 16:25:06 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 16:25:21 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 16:25:24 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 16:26:29 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] arbor.lua(50): main loop response is AppClosed
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 16:26:34 2015
+
+[notice] Reason: AppClosed
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 17:59:20 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 9
+[info] Creating text facet for entity 10
+[info] Creating text facet for entity 11
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Transitioning to first scene
+[info] Unloaded texture '4' with source path '
+
+[info] Unloaded texture '5' with source path '
+
+[info] Unloaded texture '6' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 14
+[info] Creating text facet for entity 16
+[info] Creating text facet for entity 17
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] interface.lua(7),onClick: clicked on entity 13, facet 49
+[info] interface.lua(7),onClick: clicked on entity 13, facet 49
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '7' with source path '
+
+[info] Unloaded texture '8' with source path '
+
+[info] Unloaded texture '9' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 19
+[info] Creating text facet for entity 20
+[info] Creating text facet for entity 21
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Quit
+[info] Unloaded texture '10' with source path '
+
+[info] Unloaded texture '11' with source path '
+
+[info] Unloaded texture '12' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 17:59:56 2015
+
+[notice] Reason: Quit
+[info] Core system cleanup complete.
+[notice] ----------------------------------------------------
+[notice] Starting Core at Wed Apr 22 20:06:15 2015
+
+[notice] Verbosity =  4
+[info] Initializing Core...
+[info] Initializing console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Initializing ResourceManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Initializing Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.10428 Compatibility Profile Context
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'createEntity_bind'
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
+[info] sounds.lua(10),load: Loading sounds...
+[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] particles.lua(7),load: Loading particle effects...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[info] arbor.lua(40): Entering main loop.
+[info] firstscene.lua(6),init: In first scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 5
+[info] Creating text facet for entity 7
+[info] Creating text facet for entity 8
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] interface.lua(7),onClick: clicked on entity 4, facet 12
+[info] arbor.lua(50): main loop response is Transitioning to title scene
+[info] Unloaded texture '1' with source path '
+
+[info] Unloaded texture '2' with source path '
+
+[info] Unloaded texture '3' with source path '
+
+[info] Core system cleanup complete.
+[info] arbor.lua(40): Entering main loop.
+[info] titlescene.lua(39),init: In title scene
+[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
+[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
+[warn] Overwriting registered lua bound function 'addTextFacet_bind'
+[info] Creating text facet for entity 9
+[info] Creating text facet for entity 10
+[info] Creating text facet for entity 11
+[dbug] in interface init.
+[warn] Overwriting registered lua bound function 'getMouseState_bind'
+[warn] Overwriting registered lua bound function 'setCursorTexture_bind'
+[warn] Overwriting registered lua bound function 'updateInterfaceFacet_bind'
+[warn] Overwriting registered lua bound function 'getKeyStates_bind'
+[warn] Overwriting registered lua bound function 'getGamepadStates_bind'
+[info] arbor.lua(50): main loop response is Quit
+[info] Unloaded texture '4' with source path '
+
+[info] Unloaded texture '5' with source path '
+
+[info] Unloaded texture '6' with source path '
+
+[info] Core system cleanup complete.
+[notice] Stopping Core at Wed Apr 22 20:06:57 2015
+
+[notice] Reason: Quit
+[info] Core system cleanup complete.

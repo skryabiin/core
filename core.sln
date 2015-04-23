@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "engine\Core.vcxproj", "{7EFFEA1A-3C0E-4438-81FB-077F7A880532}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717} = {5F623A10-25D9-4DBF-9C31-D34197AEB717}
+		{798FC53D-6DA5-4634-8C4E-1CA2368F27EA} = {798FC53D-6DA5-4634-8C4E-1CA2368F27EA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua5.2.2", "lib\Lua5.2.2\Lua5.2.2.vcxproj", "{5F623A10-25D9-4DBF-9C31-D34197AEB717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6E2A418-8508-4948-9B69-CCF075E336D3}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+		Performance2.psess = Performance2.psess
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TmxParser", "lib\TmxParser\TmxParser.vcxproj", "{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DebugConsole", "console\DebugConsole.vcxproj", "{37B80F41-29B1-4498-B577-A000B7281244}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaTestbed", "lua-cmd\LuaTestbed.vcxproj", "{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717} = {5F623A10-25D9-4DBF-9C31-D34197AEB717}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EFFEA1A-3C0E-4438-81FB-077F7A880532}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7EFFEA1A-3C0E-4438-81FB-077F7A880532}.Debug|Win32.Build.0 = Debug|Win32
+		{7EFFEA1A-3C0E-4438-81FB-077F7A880532}.Release|Win32.ActiveCfg = Release|Win32
+		{7EFFEA1A-3C0E-4438-81FB-077F7A880532}.Release|Win32.Build.0 = Release|Win32
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717}.Debug|Win32.Build.0 = Debug|Win32
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717}.Release|Win32.ActiveCfg = Release|Win32
+		{5F623A10-25D9-4DBF-9C31-D34197AEB717}.Release|Win32.Build.0 = Release|Win32
+		{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}.Debug|Win32.Build.0 = Debug|Win32
+		{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}.Release|Win32.ActiveCfg = Release|Win32
+		{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}.Release|Win32.Build.0 = Release|Win32
+		{37B80F41-29B1-4498-B577-A000B7281244}.Debug|Win32.ActiveCfg = Debug|Win32
+		{37B80F41-29B1-4498-B577-A000B7281244}.Debug|Win32.Build.0 = Debug|Win32
+		{37B80F41-29B1-4498-B577-A000B7281244}.Release|Win32.ActiveCfg = Release|Win32
+		{37B80F41-29B1-4498-B577-A000B7281244}.Release|Win32.Build.0 = Release|Win32
+		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Debug|Win32.Build.0 = Debug|Win32
+		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Release|Win32.ActiveCfg = Release|Win32
+		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
