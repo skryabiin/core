@@ -1,0 +1,14 @@
+﻿Build started 4/23/2015 12:28:07 PM.
+     1>Project "C:\code\core\console\DebugConsole.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"..\lib\SDL2_mixer-2.0.0\include" /I..\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt DebugConsole.cpp main.cpp
+         main.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'main.cpp': No such file or directory
+         DebugConsole.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'DebugConsole.cpp': No such file or directory
+         Generating Code...
+     1>Done Building Project "C:\code\core\console\DebugConsole.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.29
