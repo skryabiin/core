@@ -1,9 +1,0 @@
-#version 140
-
-	out vec4 fragmentColor;
-	in vec2 uvMapping;
-	uniform sampler2D textureSampler;
-	
-	void main() { 
-		fragmentColor = texture(textureSampler, uvMapping); 
-	}
