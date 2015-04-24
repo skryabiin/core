@@ -1,0 +1,42 @@
+Core Engine Overview
+--------------------
+
+Disclaimer: At the moment this is meant for my own personal use.  You are free to use it or browse the source code, but I do not offer any support.  It is available under the MIT License.
+
+Core is a two-part engine.  The main component is in C++, implementing SDL for system access, and implements what I'm calling EASE architecture (entity/aspect/system/event), which is certainly not unique but differs from most entity/component designs. This forgoes all object oriented design for entities.  Entity is literally a typedef for int. Aspects of different types are "added" to entities, and are stored by specific systems. Systems maintain all the information they need (in contiguous memory) to execute their functions, in some cases duplicating information.  Events are used to keep systems in sync.  The idea is that most data does not change every update cycle, and thus processing events is cheaper than a series of dereferences.  This also allows the systems to be agnostic to the source data, agnostic to consumers of output data, and provides opportunities for straightforward multi-threading.
+
+Widespread lua bindings are an important part of the design.  A lua state abstraction removes most of the need for working with the lua stack directly, and offers an easy way to translate data structs from/to the stack. This is tightly integrated with the event processor, so that all events can be handled by both lua and C++ listeners.  This does not implement full object method access, but since there is no OO for entities it is not so important. 
+
+The lua bindings form the basis for the second part of the engine, which is in lua.  This is a more familiar (and convenient) entity/component model with an object oriented focus (including parent/child relationships). The engine features lua-configured resource loading (including fonts, shaders, animations, sounds, etc.), event listening and publishing, integrated logging, scene organization, and mouse-interaction callbacks. In addition all lua bindings are naturally public, so these abstractions can be bypassed if desired.
+
+Graphics are implmented using OpenGL directly, which allows for a wide variety of efficient visual effects.  Currently there is a single standard shader for 2D sprite mapping, but this will be more flexible in the future. 
+
+ 
+Roadmap
+-------
+Next up:
+-Update function in lua scene
+-Separate renderer thread
+-Fully customizable shaders
+	-First-class VAOs for sprites
+	-Shader and buffer managment lua bindings
+-Standard visual effects
+	-Blur
+	-Drop-shadow
+	-Rotations
+
+
+Near Future:
+-Interpolations on aspects and filters
+-Positional audio
+-audio effects
+
+Middle Future:
+-System/thread assignment
+-Dynamic sprite lighting with integrated normal maps
+-Pathfinding
+
+Far:
+Multi-platform build targets (including mobile)
+
+
