@@ -169,6 +169,10 @@ function Entity:setFlip(flipX, flipY)
 		self.flip.y = flipY
 end
 
+function Entity:align(horizontal, vertical)
+
+end
+
 
 function Entity:doFullPositionQuery() 
 		local positionQuery = {

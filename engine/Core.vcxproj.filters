@@ -10,9 +10,6 @@
     <Filter Include="Source\Events">
       <UniqueIdentifier>{aef8dfc9-6bc0-409c-84e4-d97b165dcca3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Facets">
-      <UniqueIdentifier>{15cb8491-a4f3-41a3-a465-29c3ce321edd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Graphics">
       <UniqueIdentifier>{acef0a97-4b13-4031-8d5d-b293d33f31d0}</UniqueIdentifier>
     </Filter>
@@ -38,9 +35,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Lua">
-      <UniqueIdentifier>{25aa2ede-1cc1-4e5b-a039-5f07ddd2032a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Events\Physics">
       <UniqueIdentifier>{5f04b6f6-2b74-4a76-830a-38dd1fbd4a1d}</UniqueIdentifier>
     </Filter>
@@ -52,6 +46,36 @@
     </Filter>
     <Filter Include="Source\Events\Interface">
       <UniqueIdentifier>{b889cf74-3920-44d1-ad07-b4fcc443b09f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{31230db2-55f6-4bb5-a550-313a3b64cafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua-Core">
+      <UniqueIdentifier>{25aa2ede-1cc1-4e5b-a039-5f07ddd2032a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{109eb73e-086b-4c02-b1a8-f1098ddf90a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Tmx">
+      <UniqueIdentifier>{503cce86-cdf2-4906-87ea-64eed4a3b847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Audio">
+      <UniqueIdentifier>{149f2a42-4213-4001-8a99-33089774819b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Tilesets">
+      <UniqueIdentifier>{a0c89fc8-ac63-43b2-833f-22dc7aa8c521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{95bdd959-2e5d-4672-910a-98b01dd38548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Animations">
+      <UniqueIdentifier>{63cd35b1-ea18-4bca-9637-81b247e8915c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Fonts">
+      <UniqueIdentifier>{c745dd94-4899-4f93-a081-02ea1f8c8a54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Facets">
+      <UniqueIdentifier>{15cb8491-a4f3-41a3-a465-29c3ce321edd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -205,63 +229,99 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug\lua-core\config.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\core.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\deepcopy.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\facet.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\fonts.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\interface.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\interface-facet.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\maps.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\menu-entity.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\particles.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\physics-entity.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\physics-facet.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\require.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\sdl.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\sounds.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\text-facet.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\sprites.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\texture-facet.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\util.lua">
-      <Filter>Lua</Filter>
+      <Filter>Lua-Core</Filter>
     </None>
     <None Include="Debug\lua-core\world.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\shaders\basic.glfs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\basic.glvs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\shape2d.glfs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\shape2d.glvs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\textureRender2d.glfs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\textureRender2d.glvs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\lua\maps\level1\Level.tmx">
+      <Filter>Resources\Tmx</Filter>
+    </None>
+    <None Include="bin\lua\arbor.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua\firstscene.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua\loadassets.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua\menus.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua\titlescene.lua">
       <Filter>Lua</Filter>
     </None>
   </ItemGroup>
@@ -560,5 +620,56 @@
     <ClInclude Include="src\ObjectInteractionEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="bin\lua\sounds\button-3.wav">
+      <Filter>Resources\Audio</Filter>
+    </Media>
+    <Media Include="bin\lua\sounds\button-25.wav">
+      <Filter>Resources\Audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bin\lua\sprites\AUAlogowithRibbon.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\red_box.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\cursor.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\cursor.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\cursor_brown.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\maps\tilesets\guy.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\brobot\littlebot.png">
+      <Filter>Resources\Animations</Filter>
+    </Image>
+    <Image Include="bin\lua\maps\tilesets\littlebot.png">
+      <Filter>Resources\Animations</Filter>
+    </Image>
+    <Image Include="bin\lua\maps\tilesets\Palette2.png">
+      <Filter>Resources\Tilesets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="bin\lua\fonts\coders_crux.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
+    <Font Include="bin\lua\fonts\munro.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
+    <Font Include="bin\lua\fonts\pixel_berry.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
+    <Font Include="bin\lua\fonts\RobotoCondensed-Regular.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

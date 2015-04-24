@@ -126,6 +126,18 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\lua\arbor.lua" />
+    <None Include="bin\lua\firstscene.lua" />
+    <None Include="bin\lua\loadassets.lua" />
+    <None Include="bin\lua\maps\level1\Level.tmx" />
+    <None Include="bin\lua\menus.lua" />
+    <None Include="bin\lua\titlescene.lua" />
+    <None Include="bin\shaders\basic.glfs" />
+    <None Include="bin\shaders\basic.glvs" />
+    <None Include="bin\shaders\shape2d.glfs" />
+    <None Include="bin\shaders\shape2d.glvs" />
+    <None Include="bin\shaders\textureRender2d.glfs" />
+    <None Include="bin\shaders\textureRender2d.glvs" />
     <None Include="Debug\lua-core\config.lua" />
     <None Include="Debug\lua-core\core.lua" />
     <None Include="Debug\lua-core\deepcopy.lua" />
@@ -254,6 +266,27 @@
     <ProjectReference Include="..\lib\TmxParser\TmxParser.vcxproj">
       <Project>{798fc53d-6da5-4634-8c4e-1ca2368f27ea}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="bin\lua\sounds\button-25.wav" />
+    <Media Include="bin\lua\sounds\button-3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bin\lua\maps\tilesets\guy.png" />
+    <Image Include="bin\lua\maps\tilesets\littlebot.png" />
+    <Image Include="bin\lua\maps\tilesets\Palette2.png" />
+    <Image Include="bin\lua\sprites\AUAlogowithRibbon.png" />
+    <Image Include="bin\lua\sprites\brobot\littlebot.png" />
+    <Image Include="bin\lua\sprites\cursor.jpg" />
+    <Image Include="bin\lua\sprites\cursor.png" />
+    <Image Include="bin\lua\sprites\cursor_brown.png" />
+    <Image Include="bin\lua\sprites\red_box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="bin\lua\fonts\coders_crux.ttf" />
+    <Font Include="bin\lua\fonts\munro.ttf" />
+    <Font Include="bin\lua\fonts\pixel_berry.ttf" />
+    <Font Include="bin\lua\fonts\RobotoCondensed-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
