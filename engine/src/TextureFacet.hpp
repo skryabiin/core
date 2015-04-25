@@ -25,7 +25,7 @@ namespace core {
 		
 
 
-		int drawableId;
+		Drawable drawable;
 
 	};
 

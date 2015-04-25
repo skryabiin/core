@@ -9,13 +9,12 @@ namespace core {
 		auto facet = ParticleFacet{};
 		_facets.push_back(std::move(facet));
 		auto& pf = _facets.back();
-		pf.setOf(e);
-		auto d = Drawable{};		
-		d.facet = &pf;
-		d.zIndex = -10;
-		d.systemRendered = true;	
-		d.system = this;
-		pf.drawableId = single<Renderer>().createDrawable(d);
+		pf.setOf(e);				
+		pf.drawable.facet = &pf;
+		pf.drawable.zIndex = -10;
+		pf.drawable.systemRendered = true;
+		pf.drawable.system = this;
+		pf.drawable.id = single<Renderer>().createDrawable(pf.drawable);
 		return pf;
 	}
 
@@ -29,11 +28,11 @@ namespace core {
 				if (pauseEvent.facetId == -1) {
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}
 					continue;
 				}
@@ -42,11 +41,11 @@ namespace core {
 				else if (pauseEvent.facetId == facet.id()) {
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}					
 					break;
 				}
@@ -88,7 +87,7 @@ namespace core {
 
 		for (auto& facet : _facets) {
 
-			single<Renderer>().destroyDrawable(facet.drawableId);
+			single<Renderer>().destroyDrawable(facet.drawable);
 		}
 
 		_facets.clear();

@@ -32,6 +32,13 @@ namespace core {
 
 	public:
 
+		static T& unsynchronized() {
+			if (singleton<T>::_instance == nullptr) {
+				singleton<T>::_instance = new T();
+			}
+			return *(singleton<T>::_instance);
+		}
+
 		static T& instance() {
 			if (singleton<T>::_instance == nullptr) {
 				SDL_AtomicLock(&singleton<T>::_lock);
@@ -60,6 +67,11 @@ namespace core {
 	template<typename T>
 	T* singleton<T>::_instance = nullptr;
 
+
+	template<typename T>
+	inline T& unsynchronized() {
+		return singleton<T>::unsynchronized();
+	}
 
 
 	template<typename T>

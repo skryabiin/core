@@ -47,13 +47,13 @@ namespace core {
 
 	TextureFacet& TextureRenderSystem2d::updateTexture(TextureChangeEvent& e) {
 		for (auto& facet : _textureFacets) {
-			if (facet.of() == e.entity && facet.id() == e.facetId) {
-				auto& d = single<Renderer>().getDrawable(facet.drawableId);
-				d.texture = single<ResourceManager>().getTexture(e.textureName);
-				d.sourceRect = e.sourceTextureRect.getRect();
-				auto targetRect = d.targetRect;
-				d.targetRect = SDL_Rect{ targetRect.x + facet.offset.x, targetRect.y + facet.offset.y, roundFloat(facet.width * facet.scale.x), roundFloat(facet.height * facet.scale.y) };
+			if (facet.of() == e.entity && facet.id() == e.facetId) {				
+				facet.drawable.texture = single<ResourceManager>().getTexture(e.textureName);
+				facet.drawable.sourceRect = e.sourceTextureRect.getRect();
+				auto targetRect = facet.drawable.targetRect;
+				facet.drawable.targetRect = SDL_Rect{ targetRect.x + facet.offset.x, targetRect.y + facet.offset.y, roundFloat(facet.width * facet.scale.x), roundFloat(facet.height * facet.scale.y) };
 				return facet;
+				single<Renderer>().updateDrawable(facet.drawable);
 			}
 		}
 		return _nullFacet;
@@ -114,7 +114,7 @@ namespace core {
 			texture = moveIt->second;
 		}
 
-		auto& d = single<Renderer>().getDrawable(texture->drawableId);
+		auto& d = texture->drawable;
 
 		auto p = positionChange.position.getPixel();
 		auto dp = Pixel{ d.targetRect.x, d.targetRect.y, d.zIndex };
@@ -147,11 +147,11 @@ namespace core {
 				if (pauseEvent.facetId == -1 || facet.id() == pauseEvent.facetId) {
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}
 					if (facet.id() == pauseEvent.facetId) break;
 				}
@@ -163,8 +163,8 @@ namespace core {
 
 		
 		for (auto& facet : _textureFacets) {
-			if (facet.of() == colorChangeEvent.entity && facet.id() == colorChangeEvent.facetId) {				
-				auto& d = single<Renderer>().getDrawable(facet.drawableId);
+			if (facet.of() == colorChangeEvent.entity && facet.id() == colorChangeEvent.facetId) {	
+				auto& d = facet.drawable;
 				d.texture->setBlendMode(colorChangeEvent.blendMode);
 				if (colorChangeEvent.doModulateColor) {
 					Color newColor = colorChangeEvent.color.getColor();
@@ -193,10 +193,8 @@ namespace core {
 		facet.offset = offset;
 		facet.width = dimensions.w;
 		facet.height = dimensions.h;
-		Drawable drawable = Drawable{};
-		
 
-		facet.drawableId = drawable.id;
+		auto& drawable = facet.drawable;
 		drawable.entityId = e;
 		drawable.camera = getCamera();
 		drawable.layerId = _drawableLayerId;
@@ -208,7 +206,7 @@ namespace core {
 		drawable.sourceRect = (source.h == 0 || source.w == 0) ? drawable.texture->dimensions() : source;
 
 		drawable.zIndex = position.z + offset.z;
-		facet.drawableId = single<Renderer>().createDrawable(drawable);
+		drawable.id = single<Renderer>().createDrawable(drawable);
 
 		_textureFacets.push_back(std::move(facet));
 		return _textureFacets.back();
@@ -232,7 +230,7 @@ namespace core {
 		_movingTextures.clear();
 
 		for (auto& facet : _textureFacets) {
-			single<Renderer>().destroyDrawable(facet.drawableId);
+			single<Renderer>().destroyDrawable(facet.drawable);
 		}
 
 		_textureFacets.clear();
@@ -252,7 +250,7 @@ namespace core {
 		for (auto it = std::begin(_textureFacets); it != std::end(_textureFacets); ++it) {
 
 			if (it->of() == entity) {
-				single<Renderer>().destroyDrawable(it->drawableId);
+				single<Renderer>().destroyDrawable(it->drawable);
 				it = _textureFacets.erase(it);
 				return;
 			}

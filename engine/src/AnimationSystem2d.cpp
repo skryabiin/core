@@ -34,11 +34,11 @@ namespace core {
 
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}
 					continue;
 				}
@@ -47,11 +47,11 @@ namespace core {
 				else if (pauseEvent.facetId == facet.id()) {
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}
 					continue;
 					break;
@@ -141,9 +141,10 @@ namespace core {
 		for (auto& facet : _animationFacets) {
 			if (facet.isPaused()) continue;
 			auto didChangeFrames = facet.currentAnimation.update(context.dt);
-			if (didChangeFrames || facet.startedAnimation) {
-				auto& d = single<Renderer>().getDrawable(facet.drawableId);
-				d.sourceRect = facet.currentAnimation.frames[facet.currentAnimation.currentFrameIndex].frame;
+			if (didChangeFrames || facet.startedAnimation) {				
+
+				facet.drawable.sourceRect = facet.currentAnimation.frames[facet.currentAnimation.currentFrameIndex].frame;
+				single<Renderer>().updateDrawable(facet.drawable);
 				facet.startedAnimation = false;
 			}
 		}
@@ -175,15 +176,12 @@ namespace core {
 			animation = moveIt->second;
 		}
 
-		
 
-
-		auto& drawable = single<Renderer>().getDrawable(animation->drawableId);
 
 		auto p = positionChange.position.getPixel();
 		if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {			
-			auto w = drawable.targetRect.w;
-			auto h = drawable.targetRect.h;
+			auto w = animation->drawable.targetRect.w;
+			auto h = animation->drawable.targetRect.h;
 			auto x = p.x + w * 0.5f;
 			auto y = p.y + h * 0.5f;
 			snapCameraToCoordinates(x, y);
@@ -192,10 +190,10 @@ namespace core {
 		int x1 = p.x + animation->offset.x;
 		int y1 = p.y + animation->offset.y;
 
-		drawable.targetRect.x = x1;
-		drawable.targetRect.y = y1 + drawable.targetRect.h;
+		animation->drawable.targetRect.x = x1;
+		animation->drawable.targetRect.y = y1 + animation->drawable.targetRect.h;
 
-		drawable.zIndex = p.z + animation->offset.z;
+		animation->drawable.zIndex = p.z + animation->offset.z;
 
 
 	}
@@ -206,7 +204,7 @@ namespace core {
 		single<EventProcessor>().removeFilter(&_animationChangeFilter);
 
 		for (auto& facet : _animationFacets) {
-			single<Renderer>().destroyDrawable(facet.drawableId);
+			single<Renderer>().destroyDrawable(facet.drawable);
 		}
 
 		_movingAnimations.clear();		
@@ -226,7 +224,7 @@ namespace core {
 
 		for (auto it = std::begin(_animationFacets); it != std::end(_animationFacets); ++it) {
 			if (it->of() == e) {
-				single<Renderer>().destroyDrawable(it->drawableId);
+				single<Renderer>().destroyDrawable(it->drawable);
 				it = _animationFacets.erase(it);
 				break;
 			}
@@ -267,22 +265,22 @@ namespace core {
 			facet.currentAnimation = animationSet.getAnimation(currentAnimation);
 
 			facet.offset = offset.getPixel();
-			auto drawable = Drawable{};
 
-			drawable.entityId = entity;			
+			facet.drawable.entityId = entity;
 			
-			drawable.camera = system->getCamera();
+			facet.drawable.camera = system->getCamera();
 
-			drawable.texture = facet.currentAnimation.texture;
+			facet.drawable.texture = facet.currentAnimation.texture;
 
-			drawable.sourceRect = facet.currentAnimation.frames[facet.currentAnimation.currentFrameIndex].frame;
-			drawable.layerId = system->getDrawableLayerId();
-			drawable.targetRect.w = roundFloat(drawable.sourceRect.w * facet.scale.x);
-			drawable.targetRect.h = roundFloat(drawable.sourceRect.h * facet.scale.y);
-			drawable.targetRect.x = position[0] + facet.offset.x;
-			drawable.targetRect.y = position[1] + facet.offset.y - drawable.targetRect.h;
-			drawable.zIndex = position[2];
-			facet.drawableId = single<Renderer>().createDrawable(drawable);
+			facet.drawable.sourceRect = facet.currentAnimation.frames[facet.currentAnimation.currentFrameIndex].frame;
+			facet.drawable.layerId = system->getDrawableLayerId();
+			facet.drawable.targetRect.w = roundFloat(facet.drawable.sourceRect.w * facet.scale.x);
+			facet.drawable.targetRect.h = roundFloat(facet.drawable.sourceRect.h * facet.scale.y);
+			facet.drawable.targetRect.x = position[0] + facet.offset.x;
+			facet.drawable.targetRect.y = position[1] + facet.offset.y - facet.drawable.targetRect.h;
+			facet.drawable.zIndex = position[2];
+			facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
+
 			lua.pushStack(facet.id());
 		}
 		else {

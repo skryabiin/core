@@ -18,9 +18,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	// create the application instance
 	auto& lua = single<Core>().lua();
-	lua.runFile("./lua-core/config.lua");
-	lua.runFile(lua("Config")["mainLuaFile"]);
-	
+	//lua.runFile("./lua-core/config.lua");
+	//lua.runFile(lua("Config")["mainLuaFile"]);
+	lua.runFile(lpCmdLine);
+
+
 	//TODO figure out why this destructor is not callable
 	single<Core>().shutdown();
 

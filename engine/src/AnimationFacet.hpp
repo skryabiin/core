@@ -7,6 +7,7 @@
 #include "AnimationSet.hpp"
 #include "Animation.hpp"
 #include "Geometry.hpp"
+#include "Drawable.hpp"
 
 namespace core {
 
@@ -24,7 +25,8 @@ namespace core {
 		Pixel offset;
 		Vec2 scale;
 
-		int drawableId;
+		Drawable drawable;
+
 	};
 
 

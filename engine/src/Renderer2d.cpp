@@ -114,6 +114,7 @@ namespace core {
 	}
 
 
+
 	void Renderer2d::setWindow(SDL_Window* window, SDL_Rect& windowRect) {
 		_sdlWindow = window;
 		_windowRect = windowRect;

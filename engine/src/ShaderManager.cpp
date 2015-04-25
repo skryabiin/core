@@ -70,7 +70,7 @@ namespace core {
 		for (auto& uniform : uniforms) {
 			shader->declareUniformVar(uniform);
 		}
-		shader->initialize();
+		//shader->initialize();
 		return shader;
 	}
 
@@ -96,7 +96,7 @@ namespace core {
 		for (auto& uniform : uniforms) {
 			shader->declareUniformVar(uniform);
 		}
-		shader->initialize();
+		//shader->initialize();
 		return shader;
 
 
@@ -104,13 +104,21 @@ namespace core {
 
 	VertexShader* ShaderManager::getVertexShader(std::string name) {
 		auto it = _vertexShaders.find(name);
-		return (it == _vertexShaders.end()) ? nullptr : it->second.get();
+		if (it == _vertexShaders.end()) return nullptr; 
+		auto out = it->second.get();
+
+		out->initialize();
+		return out;
 	}
 
 	FragmentShader* ShaderManager::getFragmentShader(std::string name) {
 
-		auto it = _fragmentShaders.find(name);
-		return (it == _fragmentShaders.end()) ? nullptr : it->second.get();
+		auto it = _fragmentShaders.find(name);		
+		if (it == _fragmentShaders.end()) return nullptr;
+		auto out = it->second.get();
+
+		out->initialize();
+		return out;
 	}
 
 	int ShaderManager::createShaderProgram_bind(LuaState& lua) {

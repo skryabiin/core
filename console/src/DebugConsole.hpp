@@ -13,8 +13,8 @@
 #define SCREEN_HEIGHT 800
 #define FONT_SIZE 15
 #define FONT_BUFFER 2
-#define FONT_PATH "./lua-core/fonts/coders_crux.ttf"
-#define LOG_FILE_PATH "log.txt"
+#define FONT_PATH "./assets/fonts/coders_crux.ttf"
+#define LOG_FILE_PATH "../../engine/bin/log.txt"
 
 namespace core {
 

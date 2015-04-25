@@ -7,7 +7,11 @@ function Interface.functions.basicOnClick(self, interfaceState)
 	Console.info("clicked on entity " .. self:getOf():getId() .. ", facet " .. self:getId())
 end
 
-function Interface.functions.basicDragMove(self, interfaceState)		
+function Interface.functions.basicDragMove(self, interfaceState)
+	if self:getOf():isPaused() then 
+		return
+	end
+	
 	if interfaceState.pickedUpThisTick then
 		local position = self:getOf():getPosition()
 		self.dragDelta = Util.subtractPositions(position,interfaceState.clickPosition)		

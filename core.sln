@@ -21,11 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TmxParser", "lib\TmxParser\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DebugConsole", "console\DebugConsole.vcxproj", "{37B80F41-29B1-4498-B577-A000B7281244}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaTestbed", "lua-cmd\LuaTestbed.vcxproj", "{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5F623A10-25D9-4DBF-9C31-D34197AEB717} = {5F623A10-25D9-4DBF-9C31-D34197AEB717}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -48,10 +43,6 @@ Global
 		{37B80F41-29B1-4498-B577-A000B7281244}.Debug|Win32.Build.0 = Debug|Win32
 		{37B80F41-29B1-4498-B577-A000B7281244}.Release|Win32.ActiveCfg = Release|Win32
 		{37B80F41-29B1-4498-B577-A000B7281244}.Release|Win32.Build.0 = Release|Win32
-		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Debug|Win32.Build.0 = Debug|Win32
-		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Release|Win32.ActiveCfg = Release|Win32
-		{5F761DC8-B91D-43F1-A2F9-B6B5828D5218}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,11 +40,11 @@ namespace core {
 
 		if (single<Console>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
 
+		if (single<Interface>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
+
 		if (single<ResourceManager>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
 
 		if (single<Renderer>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
-
-		if (single<Interface>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
 
 		if (single<ShaderManager>().initialize() == InitStatus::INIT_FAILED) return InitStatus::INIT_FAILED;
 
@@ -73,6 +73,8 @@ namespace core {
 		single<EventProcessor>().addFilter(&_sdlEventFilter);
 
 
+		
+
 		return InitStatus::INIT_TRUE;
 	}
 
@@ -90,10 +92,10 @@ namespace core {
 		auto& eventProcessor = single<EventProcessor>();
 		auto& renderer = single<Renderer>();
 
-		if (single<Interface>().getInitializedStatus() == InitStatus::INIT_FALSE) {
+		single<Interface>().initialize();
 
-			single<Interface>().initialize();
-		}
+
+		single<Renderer>().resume();
 
 		_gogogo = true;		
 
@@ -111,9 +113,11 @@ namespace core {
 
 			update();
 
-			render();
+			//render();
 
 		}
+
+		single<Renderer>().pause();
 		_lua.pushStack(_returnString);
 
 		return 1;
@@ -190,6 +194,8 @@ namespace core {
 				system->update(_runtimeContext);
 			}
 		}
+
+		_lua.call("Core.update", _runtimeContext.dt);
 	}
 
 	void Core::render() {
@@ -210,12 +216,16 @@ namespace core {
 		*/
 	}
 
+	void Core::doQuit(std::string msg) {
+		single<Core>()._gogogo = false;
+		single<Core>()._returnString = msg;
+	}
+
 
 	int Core::doQuit_bind(LuaState& lua) {
 
 		std::string returnMessage = lua.pullStack<std::string>(1);
-		single<Core>()._gogogo = false;
-		single<Core>()._returnString = returnMessage;
+		single<Core>().doQuit(returnMessage);
 		return 0;
 	}
 
@@ -267,7 +277,7 @@ namespace core {
 			cleanup();
 
 			single<Console>().shutdown();
-
+			single<Renderer>().cleanup();
 			SDL_Quit();
 
 			_initStatus = InitStatus::INIT_FALSE;

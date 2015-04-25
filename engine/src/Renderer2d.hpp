@@ -74,6 +74,8 @@ namespace core {
 
 	private:
 
+		SDL_SpinLock _drawablesLock;
+
 		GLuint _vertexBuffer;
 		GLuint _indexBuffer;
 

@@ -1,3 +1,4 @@
+require "config"
 require "lua-core/require"
 
 

@@ -65,7 +65,7 @@ namespace core {
 
 		void resumeImpl();
 
-		
+		void doQuit(std::string msg);
 		
 		template <typename Facet_type>
 		std::vector<Facet_type*> getFacetsByType(Entity e) {

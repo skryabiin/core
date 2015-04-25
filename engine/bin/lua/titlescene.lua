@@ -131,6 +131,10 @@ function Scenes.title.init()
 	
 end
 
+function Scenes.title.update(dt)
+
+end
+
 
 function Scenes.title.reset() 
 

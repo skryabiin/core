@@ -5,6 +5,7 @@
 #include "Geometry.hpp"
 #include "RenderedTextToken.hpp"
 #include "Font.hpp"
+#include "Drawable.hpp"
 
 namespace core {
 
@@ -12,7 +13,7 @@ namespace core {
 
 	struct TextFacet : public Facet {
 
-		TextFacet() : offset{ 0, 0, 0 }, position{ 0, 0, 0 }, textContent{ "" }, scale{ 1.0f, 1.0f }, color{ 255, 0, 0, 255 }, drawableId{ -1 } {
+		TextFacet() : offset{ 0, 0, 0 }, position{ 0, 0, 0 }, textContent{ "" }, scale{ 1.0f, 1.0f }, color{ 255, 0, 0, 255 } {
 			renderedTextToken = nullptr;
 			font = nullptr;
 		};
@@ -31,7 +32,7 @@ namespace core {
 
 		Color color;
 
-		int drawableId;
+		Drawable drawable;
 
 	};
 

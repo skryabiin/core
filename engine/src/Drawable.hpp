@@ -12,7 +12,7 @@ namespace core {
 
 	class Texture;
 
-
+	
 
 	struct Drawable {
 
@@ -49,7 +49,21 @@ namespace core {
 
 	};
 
+	struct DrawableChange {
 
+		enum class Operation {
+
+			CREATE,
+			UPDATE,
+			DESTROY,
+			PAUSE,
+			RESUME
+		};
+
+		Operation operation;		
+		Drawable drawable;
+
+	};
 
 } //end namespace core
 

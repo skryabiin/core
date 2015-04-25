@@ -253,7 +253,7 @@ namespace core {
 
 			//clear the stack for this
 			clearStack();
-			globalToStack(functionName);
+			global(functionName);
 			auto numArgs = 0;
 			callRec(numArgs, args...);
 

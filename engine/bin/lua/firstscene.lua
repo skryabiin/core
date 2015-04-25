@@ -88,6 +88,10 @@ function Scenes.first.init()
 	actionMenu:pause()
 end
 
+function Scenes.first.update(dt) 
+	
+end
+
 function Scenes.first.reset()
 
 end

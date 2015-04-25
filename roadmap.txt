@@ -15,27 +15,24 @@ Graphics are implmented using OpenGL directly, which allows for a wide variety o
 Roadmap
 -------
 Next up:
--Update function in lua scene
--Separate renderer thread
--Fully customizable shaders
-	-First-class VAOs for sprites
-	-Shader and buffer managment lua bindings
+
 -Standard visual effects
 	-Blur
 	-Drop-shadow
 	-Rotations
-
-
-Near Future:
 -Interpolations on aspects and filters
 -Positional audio
 -audio effects
+-Pathfinding
+
 
 Middle Future:
 -System/thread assignment
 -Dynamic sprite lighting with integrated normal maps
--Pathfinding
 
+-Fully customizable shaders
+	-First-class VAOs for sprites
+	-Shader and buffer managment lua bindings
 Far:
 Multi-platform build targets (including mobile)
 

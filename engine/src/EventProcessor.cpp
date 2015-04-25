@@ -17,6 +17,9 @@ namespace core {
 	InitStatus EventProcessor::initializeImpl() {
 
 
+		//SDL_Init(SDL_INIT_EVENTS);
+		//SDL_Init(SDL_INIT_TIMER);
+		
 
 		auto& lua = single<Core>().lua();
 

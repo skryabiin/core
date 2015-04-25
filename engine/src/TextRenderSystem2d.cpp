@@ -32,7 +32,7 @@ namespace core {
 		single<EventProcessor>().removeFilter(&_textContentChangeFilter);
 		single<EventProcessor>().removeFilter(&_facetDimensionQueryFilter);
 		for (auto& facet : _textFacets) {
-			single<Renderer>().destroyDrawable(facet.drawableId);
+			single<Renderer>().destroyDrawable(facet.drawable);
 		}
 		_textFacets.clear();
 		_renderedTextTokens.clear();
@@ -73,23 +73,21 @@ namespace core {
 
 		for (auto& facet : _textFacets) {
 			if (facet.of() == positionChange.entity) {			
-
-				
-				auto drawable = single<Renderer>().getDrawable(facet.drawableId);				
+			
 				auto base = (positionChange.relative) ? facet.position : Pixel{};
 				auto p = positionChange.position.getPixel() + base;
 				facet.position = p;
 				if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {					
-					auto x = p.x + drawable.targetRect.w * 0.5f;
-					auto y = p.y + drawable.targetRect.h * 0.5f;
+					auto x = p.x + facet.drawable.targetRect.w * 0.5f;
+					auto y = p.y + facet.drawable.targetRect.h * 0.5f;
 					snapCameraToCoordinates(x, y);
 				}
 
-				drawable.targetRect.x = p.x + facet.offset.x;
-				drawable.targetRect.y = p.y + facet.offset.y;
-				drawable.zIndex = p.z + facet.offset.z;
+				facet.drawable.targetRect.x = p.x + facet.offset.x;
+				facet.drawable.targetRect.y = p.y + facet.offset.y;
+				facet.drawable.zIndex = p.z + facet.offset.z;
 
-				single<Renderer>().updateDrawable(drawable);
+				single<Renderer>().updateDrawable(facet.drawable);
 				return;
 			}
 		}
@@ -122,10 +120,6 @@ namespace core {
 
 		facet.position = position;
 
-		auto drawable = single<Renderer>().getDrawable(facet.drawableId);
-
-		drawable.entityId = facet.of();
-
 
 
 		Font* font = nullptr;
@@ -148,24 +142,24 @@ namespace core {
 			facet.renderedTextToken->setText(text);
 		}
 
-		drawable.layerId = _drawableLayerId;
-		drawable.camera = getCamera();
-		drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
-		drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, drawable.sourceRect.w, drawable.sourceRect.h };		
-		drawable.texture = facet.renderedTextToken->texture();
+		facet.drawable.layerId = _drawableLayerId;
+		facet.drawable.camera = getCamera();
+		facet.drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
+		facet.drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, facet.drawable.sourceRect.w, facet.drawable.sourceRect.h };
+		facet.drawable.texture = facet.renderedTextToken->texture();
 
 
 		if (facet.color != Color::get(Color::CommonColor::WHITE)) {
-			drawable.textureModulateColor = facet.color;
-			drawable.doModulateColor = true;
+			facet.drawable.textureModulateColor = facet.color;
+			facet.drawable.doModulateColor = true;
 		}
 
-		drawable.zIndex = position.z + offset.z;
-		if (facet.drawableId >= 0) {
-			single<Renderer>().updateDrawable(drawable);
+		facet.drawable.zIndex = position.z + offset.z;
+		if (facet.drawable.id >= 0) {
+			single<Renderer>().updateDrawable(facet.drawable);
 		}
 		else {
-			facet.drawableId = single<Renderer>().createDrawable(drawable);
+			facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
 		}
 
 
@@ -193,9 +187,7 @@ namespace core {
 		for (auto& facet : _textFacets) {
 			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {
 
-				auto d = single<Renderer>().getDrawable(facet.drawableId);
-
-				SDL_Rect dim = d.texture->dimensions();
+				SDL_Rect dim = facet.drawable.texture->dimensions();
 
 				facetDimensionQuery.dimensions.setDimension(Dimension{ dim.w, dim.h });
 				facetDimensionQuery.found = true;
@@ -222,7 +214,7 @@ namespace core {
 		for (auto it = std::begin(_textFacets); it != std::end(_textFacets); ++it) {
 			if (it->of() == entity) {
 				renderedToken = it->renderedTextToken;				
-				single<Renderer>().destroyDrawable(it->drawableId);
+				single<Renderer>().destroyDrawable(it->drawable);
 				_textFacets.erase(it);
 				break;
 			}
@@ -247,11 +239,11 @@ namespace core {
 				if (pauseEvent.facetId == -1 || pauseEvent.facetId == facet.id()) {
 					if (pauseEvent.paused) {
 						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawableId);
+						single<Renderer>().pauseDrawable(facet.drawable);
 					}
 					else {
 						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawableId);
+						single<Renderer>().resumeDrawable(facet.drawable);
 					}
 					if(pauseEvent.facetId == facet.id()) break;
 				}
@@ -282,13 +274,12 @@ namespace core {
 		else {
 			facet.renderedTextToken->setText(text);
 		}
-		
-		auto drawable = single<Renderer>().getDrawable(facet.drawableId);
-		drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
-		drawable.targetRect.w = drawable.sourceRect.w;
-		drawable.targetRect.h = drawable.sourceRect.h;
-		drawable.texture = facet.renderedTextToken->texture();
-		single<Renderer>().updateDrawable(drawable);
+				
+		facet.drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
+		facet.drawable.targetRect.w = facet.drawable.sourceRect.w;
+		facet.drawable.targetRect.h = facet.drawable.sourceRect.h;
+		facet.drawable.texture = facet.renderedTextToken->texture();
+		single<Renderer>().updateDrawable(facet.drawable);
 	}
 
 	void TextRenderSystem2d::setText(Entity& e, std::string text) {

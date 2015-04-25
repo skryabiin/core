@@ -41,6 +41,12 @@ function Core.reset()
 	reset_bind()
 end
 
+function Core.update(dt)
+	if Core.scene then
+		Core.scene.update(dt)
+	end
+end
+
 function Core.transitionScene()
 	if Core.scene then
 		Core.scene.reset()

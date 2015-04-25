@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include "Facet.hpp"
 #include "ParticleField.hpp"
+#include "Drawable.hpp"
 
 namespace core {
 
@@ -16,7 +17,8 @@ namespace core {
 
 		ParticleFieldBase* particleField; 
 
-		int drawableId;
+		Drawable drawable;
+
 	};
 	
 

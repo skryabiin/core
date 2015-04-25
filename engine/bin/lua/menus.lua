@@ -53,7 +53,7 @@ function Menu:new(menu)
 		end
 	)
 	closeBox.facets.interface:setOnDrag(
-		function(self, interfaceState)			
+		function(self, interfaceState)		
 			self:getOf():align()
 		end
 	)

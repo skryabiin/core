@@ -80,7 +80,11 @@ namespace core {
 					WrappedSdlEvent sdlEvent{};
 					sdlEvent._wrappedEvent = &e;
 					single<EventProcessor>().process(sdlEvent);
-
+				}
+				else if (e.type == SDL_QUIT) {
+					WrappedSdlEvent sdlEvent{};
+					sdlEvent._wrappedEvent = &e;
+					single<EventProcessor>().process(sdlEvent);
 				}
 			}
 			else {

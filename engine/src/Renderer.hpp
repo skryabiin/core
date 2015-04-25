@@ -31,7 +31,7 @@ namespace core {
 
 struct TextureFacet;
 
-class Renderer : public initializable<Renderer, void, void>, public EventListener {
+class Renderer : public initializable<Renderer, void, void>, public EventListener, public pausable<Renderer> {
 
 public:
 
@@ -44,25 +44,27 @@ public:
 
 	InitStatus resetImpl();	
 
-	void pauseDrawable(int id);
+	void pauseImpl();
 
-	void resumeDrawable(int id);
+	void resumeImpl();
+
+	void pauseDrawable(const Drawable& d);
+
+	void resumeDrawable(Drawable& d);
 
 	void setDepthTestFunction(GLenum test);
-
-	void render(Drawable& drawable, Camera2d& camera);
 	
 	void render();	
 
 	void render(Drawable& d);
 
-	int createDrawable(Drawable d);
+	int createDrawable(Drawable& d);
+	
+	static int renderThread(void* data);
 
-	Drawable getDrawable(int id);
+	void updateDrawable(Drawable& d);
 
-	void updateDrawable(Drawable d);
-
-	void destroyDrawable(int id);
+	void destroyDrawable(Drawable& d);
 
 	int getMaxZIndex(int layerId) const;
 
@@ -78,11 +80,33 @@ public:
 
 	static int getMaxZIndex_bind(LuaState& lua);
 
+	
 	//temp
 
 	void start();
 	void end();
 private:
+
+	SDL_Thread* _renderThread;
+
+	void _processDrawableChanges();	
+	void _processPauseDrawable(DrawableChange& dc);
+	void _processResumeDrawable(DrawableChange& dc);
+	void _processCreateDrawable(DrawableChange& dc);
+	void _processUpdateDrawable(DrawableChange& dc);
+	void _processDestroyDrawable(DrawableChange& dc);
+
+	void _pollWindowEvents();
+
+	SDL_SpinLock _drawableChangePtrLock;
+	SDL_SpinLock _masterDrawablesLock;
+
+	bool _firstQueue;
+	bool _doRenderThread;
+
+	std::vector<DrawableChange>* _drawableChanges;
+	std::vector<DrawableChange> _drawableChanges1;
+	std::vector<DrawableChange> _drawableChanges2;
 
 	/*
 template <typename Drawable_type>
@@ -95,13 +119,11 @@ void drawImpl(Drawable_type* drawableAspect, RuntimeContext& context) {
 
 	void updateDrawable(Renderer2d* drawableLayer, Drawable d);
 
-	int createDrawable(Renderer2d* drawableLayer, Drawable d);
+	void createDrawable(Renderer2d* drawableLayer, Drawable d);
 
 	int _thisDrawableId;
 
-	std::vector<std::unique_ptr<Renderer2d>> _renderers;
-
-	std::vector<Drawable> _updatedDrawables;
+	std::vector<std::unique_ptr<Renderer2d>> _renderers;	
 
 	Color _backgroundColor;
 
@@ -109,6 +131,7 @@ void drawImpl(Drawable_type* drawableAspect, RuntimeContext& context) {
 
 	SDL_Renderer* _sdlRenderer;	
 	
+	SDL_GLContext _sdlInitContext;
 	SDL_GLContext _sdlGlContext;
 
 	SDL_Rect _screenRect;
