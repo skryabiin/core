@@ -177,32 +177,50 @@ namespace core {
 
 	enum class InitStatus {
 
+		CREATE_FALSE,
+		CREATE_TRUE,
+		CREATE_FAILED,
 		INIT_TRUE,
-		INIT_FALSE,
 		INIT_FAILED,
-		RESET_FAILED
+		RESET_FAILED,		
+		DESTROY_FAILED
 
 	};
 
-	template <typename T, typename Init_type, typename Reset_type>
+	template <typename T, typename Create_type, typename Init_type, typename Reset_type, typename Destroy_type>
 	class initializable {
 	public:
 		initializable() :
-			_initStatus{ InitStatus::INIT_FALSE }
+			_initStatus{ InitStatus::CREATE_FALSE }
 		{}
+
+		template<typename Create_type>
+		InitStatus create(Create_type createConfig) {
+			if (_initStatus == InitStatus::CREATE_FALSE || _initStatus == InitStatus::CREATE_FAILED) {
+				_initStatus = (static_cast<T*>(this)->createImpl(createConfig)) ? InitStatus::CREATE_TRUE : InitStatus::CREATE_FAILED;
+			}
+			return _initStatus;
+		}
+
+		InitStatus create() {
+			if (_initStatus == InitStatus::CREATE_FALSE || _initStatus == InitStatus::CREATE_FAILED) {
+				_initStatus = (static_cast<T*>(this)->createImpl()) ? InitStatus::CREATE_TRUE : InitStatus::CREATE_FAILED;
+			}
+			return _initStatus;
+		}
 
 		template<typename Init_type>
 		InitStatus initialize(Init_type initConfig) {
-			if (_initStatus == InitStatus::INIT_FALSE || _initStatus == InitStatus::INIT_FAILED) {
-				_initStatus = static_cast<T*>(this)->initializeImpl(initConfig);
+			if (_initStatus == InitStatus::CREATE_TRUE || _initStatus == InitStatus::INIT_FAILED) {
+				_initStatus = (static_cast<T*>(this)->initializeImpl(initConfig)) ? InitStatus::INIT_TRUE : InitStatus::INIT_FAILED;
 			}
 			return _initStatus;
 		}
 
 		
 		InitStatus initialize() {
-			if (_initStatus == InitStatus::INIT_FALSE || _initStatus == InitStatus::INIT_FAILED) {
-				_initStatus = static_cast<T*>(this)->initializeImpl();
+			if (_initStatus == InitStatus::CREATE_TRUE || _initStatus == InitStatus::INIT_FAILED) {
+				_initStatus = (static_cast<T*>(this)->initializeImpl()) ? InitStatus::INIT_TRUE : InitStatus::INIT_FAILED;
 			}
 			return _initStatus;
 		}
@@ -210,18 +228,32 @@ namespace core {
 		template<typename Reset_type>
 		InitStatus reset(Reset_type resetConfig) {
 			if (_initStatus == InitStatus::INIT_TRUE || _initStatus == InitStatus::RESET_FAILED) {
-				_initStatus = static_cast<T*>(this)->resetImpl(resetConfig);
+				_initStatus = (static_cast<T*>(this)->resetImpl(resetConfig)) ? InitStatus::CREATE_TRUE : InitStatus::RESET_FAILED;
 			}
 			return _initStatus;
 		}
 
 		InitStatus reset() {
 			if (_initStatus == InitStatus::INIT_TRUE || _initStatus == InitStatus::RESET_FAILED) {
-				_initStatus = static_cast<T*>(this)->resetImpl();
+				_initStatus = (static_cast<T*>(this)->resetImpl()) ? InitStatus::CREATE_TRUE : InitStatus::RESET_FAILED;
 			}
 			return _initStatus;
 		}
 		
+		template<typename Destroy_type>
+		InitStatus destroy(Destroy_type destroyConfig) {
+			if (_initStatus == InitStatus::CREATE_TRUE || _initStatus == InitStatus::DESTROY_FAILED) {
+				_initStatus = (static_cast<T*>(this)->destroyImpl(destroyConfig)) ? InitStatus::CREATE_FALSE : InitStatus::DESTROY_FAILED;
+			}
+			return _initStatus;
+		}
+
+		InitStatus destroy() {
+			if (_initStatus == InitStatus::CREATE_TRUE || _initStatus == InitStatus::DESTROY_FAILED) {
+				_initStatus = (static_cast<T*>(this)->destroyImpl()) ? InitStatus::CREATE_FALSE : InitStatus::DESTROY_FAILED;
+			}
+			return _initStatus;
+		}
 
 		void setInitializedStatus(InitStatus status) {
 			_initStatus = status;

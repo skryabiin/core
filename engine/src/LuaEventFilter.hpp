@@ -2,6 +2,7 @@
 #define CORE_LUA_EVENT_FILTER_HPP
 
 #include "LuaTable.hpp"
+#include "Entity.hpp"
 namespace core {
 
 

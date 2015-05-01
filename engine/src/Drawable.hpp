@@ -6,47 +6,54 @@
 #include "Facet.hpp"
 #include "Texture.hpp"
 #include "Camera2d.hpp"
-#include "RenderableSystem2d.hpp"
 
 namespace core {
 
 	class Texture;
 
-	
+	class RenderableSystem2d;
 
 	struct Drawable {
 
-		Drawable() : zIndex{ 0 }, angle{ 0 }, disabled{ false }, doModulateColor{ false }, systemRendered{ false }, layerId{ 0 }  {
+		enum class DrawableType {
+			CIRCLE,
+			RECTANGLE,
+			POLYGON,
+			LINE,
+			TEXTURE,
+			PARTICLE
+		};
+
+		Drawable() : zIndex{ 0 }, angle{ 0 }, disabled{ false }, layerId{ 0 }, radius{ 0 }, filled{ false }, color{ 1.0f, 1.0f, 1.0f, 1.0f } {
+
 			texture = nullptr;
 		}
 
 		Texture* texture;
 		SDL_Rect sourceRect;
 		SDL_Rect targetRect;
-		Color textureModulateColor;
 
 		int layerId;
-
-		bool doModulateColor;
-
+		
 		int zIndex;
 		double angle;		
-
-
-		int entityId;
 
 		bool disabled; 
 		Camera2d* camera;
 
 		int id;
-
 		
-
-		bool systemRendered;
 		Facet* facet;
-		RenderableSystem2d* system;
 
+		ColorTransform colorTransform;
 
+		Color color;
+
+		std::vector<Pixel> vertices;
+		int radius;
+		bool filled;
+
+		DrawableType drawableType;
 	};
 
 	struct DrawableChange {
@@ -63,7 +70,7 @@ namespace core {
 		Operation operation;		
 		Drawable drawable;
 
-	};
+	};	
 
 } //end namespace core
 

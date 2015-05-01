@@ -15,14 +15,28 @@ function TextureFacet:isRenderableFacet()
 end
 
 function TextureFacet:setTextureName(textureName)
-
-	self.name = textureName
-	
+	self.name = textureName	
+    self:setTexture()
 end
 
 function TextureFacet:setTextureCoordinates(sourceRect)
-	self.coordinates = sourceRect		
+	self.coordinates = sourceRect
+    self:setTexture()
 end
+
+function TextureFacet:setTexture()
+    if self:isCoreFacet() then 
+        local textureChange = {
+            typeName = "TextureChangeEvent",
+            entityId = self.of:getId(),            
+            textureName = self.name,
+            sourceTextureRect = self.coordinates,
+            facetId = self:getId()
+        }
+        EventProcessor.process(textureChange)
+    end
+end
+
 
 function TextureFacet:getTextureName()	
 	return self.name
@@ -32,20 +46,57 @@ function TextureFacet:getTextureCoordinates()
 	return self.coordinates or {0,0,0,0}
 end
 
-function TextureFacet:getVisualOffset()
+function TextureFacet:getOffset()
 	return self.offset or {0,0}
 end
 	
-	
-function TextureFacet:setVisualOffset(offset)
+function TextureFacet:setOffset(offset)
 	self.offset = offset
+	if self:isCoreFacet() then	
+		local offsetChange = {
+			typeName = "OffsetChangeEvent",
+			entityId = self.of:getId(),
+			offset = offset,
+            facetId = self:getId()
+		}
+		EventProcessor.process(offsetChange)	
+	end
 end
 
-function TextureFacet:setVisualScale(scale)
+function TextureFacet:scaleToEntity()
+
+     
+
+    if self:isCoreFacet() then
+        local dimensions = self.of:getDimensions()         
+        local myDimensions = self:getDimensions()
+        local scale = self:getScale()
+        local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }
+        self:setScale(newScale)
+    elseif self.coordinates and self.coordinates[3] ~= 0 and self.coordinates[4] ~= 0 then
+        local dimensions = self.of:getDimensions() 
+        local newScale = {dimensions[1] / self.coordinates[3], dimensions[2] / self.coordinates[3]}
+        self:setScale(newScale)
+    else
+        self:setScale({1,1})
+    end
+       
+end
+
+function TextureFacet:setScale(scale)
 	self.scale = scale
+    if self:isCoreFacet() then
+        local scaleChange = {
+            typeName = "ScaleChangeEvent",
+            entityId = self.of:getId(),
+            scale = self:getScale(),
+            facetId = self:getId()
+        }
+        EventProcessor.process(scaleChange)
+    end
 end
 
-function TextureFacet:getVisualScale()
+function TextureFacet:getScale()
 	return self.scale or {1,1}
 end
 
@@ -53,30 +104,15 @@ function TextureFacet:getColor()
 	return self.color or {255,255,255,255}
 end
 
-function TextureFacet:setColor(color)
-	self.color = color	
-	if self:isCoreFacet() then
-		local colorChangeEvent = {
-			typeName = "ColorChangeEvent",
-			entityId = self.of:getId(),
-			color = self:getColor(),
-			doModulateColor = true,
-			blendMode = 1,
-			facetId = self:getId()
-		}		
-		EventProcessor.process(colorChangeEvent)		
-	end
-end
 
 function TextureFacet:createFacetInCore()
 	if self:isCoreFacet() == false then
 		local facet = {
 			source = self:getTextureCoordinates(),	
 			textureName = self:getTextureName(),
-			position = self.of:getPosition(),
-			dimensions = self.of:getDimensions(),
-			scale = self:getVisualScale(),
-			offset = self:getVisualOffset()
+			position = self.of:getPosition(),			
+			scale = self:getScale(),
+			offset = self:getOffset()
 		}		
 		self.id = addTextureFacet_bind(self.systemName, self.of:getId(), facet)
 		

@@ -50,24 +50,35 @@ namespace core {
 
 		}
 
-		InitStatus initializeImpl() override {
-			_sdlSound = Mix_LoadWAV(_soundFilePath.c_str());						
+		bool createImpl() override {
+			_sdlSound = Mix_LoadWAV(_soundFilePath.c_str());
 			if (_sdlSound == nullptr) {
 				warn("Could not load sound '", _name, "' at ", _soundFilePath, ": ", SDL_GetError());
-				return InitStatus::INIT_FAILED;
+				return false;
 			}
-			setVolumeLevel(10);
-			return InitStatus::INIT_TRUE;
+
+			return true;
+
 		}
 
-		InitStatus resetImpl() override {
+		bool initializeImpl() override {
+			setVolumeLevel(10);
+			return true;
+		}
+
+		bool resetImpl() override {
+			return true;
+		}
+
+		bool destroyImpl() override {
 			Mix_FreeChunk(_sdlSound);
 			_sdlSound = nullptr;
-			return InitStatus::INIT_FALSE;
+			return false;
 		}
 
 		virtual ~Sound() {
 			reset();
+			destroy();
 		}
 		
 

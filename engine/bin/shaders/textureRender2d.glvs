@@ -1,8 +1,9 @@
 #version 140
 
 	out vec2 uvPassed; 
-	in vec2 vertexPos;
 	in vec2 uvIn; 
+	in vec2 vertexPos;
+
 
 	void main() { 
 		gl_Position = vec4( vertexPos.x, vertexPos.y, 0, 1); 

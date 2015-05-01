@@ -31,26 +31,18 @@ namespace core {
 
 		}
 
-		virtual InitStatus resetImpl() {
-			glDeleteShader(_shaderId);
-			return InitStatus::INIT_FALSE;
-		}
-
-
-		virtual InitStatus initializeImpl() {
-
-			
+		virtual bool createImpl() {
 			if (!_source.compare("") && !_fileSource.compare("")) {
 
 				error("Attempting to compile shader ", _shaderId, "  with no source defined.");
-				return InitStatus::INIT_FAILED;
+				return false;
 			}
 
 			if (_fileSource.compare("")) {
 				auto source = SDL_RWFromFile(_fileSource.c_str(), "r");
 				if (source == NULL) {
 					error("Shader source file '", _fileSource, "' not found.");
-					return InitStatus::INIT_FAILED;
+					return false;
 				}
 
 				char c;
@@ -62,6 +54,16 @@ namespace core {
 				};
 				source->close(source);
 			}
+
+			return true;
+
+		}
+
+
+
+		virtual bool initializeImpl() {
+
+			
 
 			const char *source_cstr = _source.c_str();
 			_shaderId = static_cast<SHADER_TYPE*>(this)->createShader(); 
@@ -88,15 +90,22 @@ namespace core {
 					
 				error("Unable to compile shader ", _shaderId, ": ", infoLog);
 				delete[] infoLog;
-				return InitStatus::INIT_FAILED;
+				return false;
 			}
 
 			
 
-			return InitStatus::INIT_TRUE;
+			return true;
 		}
 
+		virtual bool resetImpl() {
+			glDeleteShader(_shaderId);
+			return true;
+		}
 
+		virtual bool destroyImpl() {
+			return true;
+		}
 
 		void declareUniformVar(std::string varName) {
 			_uniformVarNames.push_back(varName);

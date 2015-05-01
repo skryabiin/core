@@ -3,6 +3,7 @@
 
 
 #include "Event.hpp"
+#include "LuaVector.hpp"
 
 namespace core {
 
@@ -11,12 +12,7 @@ namespace core {
 
 
 
-		AccelerationChangeEvent()  {
-
-			lua_reg("additive", &additive);
-			lua_reg("axes", &axes);
-			lua_reg("entityId", &entity);
-		}
+		AccelerationChangeEvent();
 		
 
 		bool additive;
@@ -27,10 +23,9 @@ namespace core {
 
 		Entity entity;
 
-		static std::string getEventTypeNameImpl() {
-
-			return "AccelerationChangeEvent";
-		}
+		static std::string getEventTypeNameImpl();
+		
+		static bool createFromLua(LuaState& lua);
 	};
 
 

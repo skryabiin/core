@@ -12,22 +12,26 @@ namespace core {
 
 	public:
 
-		ParticleFacet& createParticleFacet(Entity& e);
+		ParticleFacet& createParticleFacet(Entity& e);		
 
-		virtual void updateDrawPosition(PositionChangeEvent& positionChange) override;
 		virtual void updateImpl(RuntimeContext& context) override;
 
-		virtual InitStatus initializeImpl() override;
 
-		virtual InitStatus resetImpl() override;
+		virtual bool createImpl() override;
+
+		virtual bool initializeImpl() override;
+
+		virtual bool resetImpl() override;
+
+		virtual bool destroyImpl() override;
 
 		virtual void destroyFacets(Entity& e) override;
-
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
 
 		void renderFacet(SDL_Renderer* renderer, Facet* facet);
 
 		static int createFacet_bind(LuaState& lua);
+
+		virtual ~ParticleSystem2d() {};
 
 	private:
 

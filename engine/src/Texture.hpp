@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "Resource.hpp"
 #include "GL/glew.h"
-
+#include "Color.hpp"
 
 namespace core {
 
@@ -25,7 +25,6 @@ namespace core {
 
 		void setSdlSurfaceSource(SDL_Surface* sdlSurface);
 
-
 		void setFileSource(std::string fileName);
 
 		void modulateTextureColor(Color& color);
@@ -34,37 +33,33 @@ namespace core {
 
 		void restoreDefaultTextureColor();
 
-		void setBlendMode(int mode);
+		void setBlendMode(GLenum blendMode);
 
-		void setBlendModeMod();
-
-		void setBlendModeBlend();
-
-		void setBlendModeAdd();
-
-		void setBlendModeNone();
 
 		GLuint getGlTextureId() const;
 
-		virtual InitStatus initializeImpl() override;
+		virtual bool createImpl() override;
 
-		virtual InitStatus resetImpl() override;
+		virtual bool initializeImpl() override;
+
+		virtual bool resetImpl() override;
+
+		virtual bool destroyImpl() override;
 
 		virtual ~Texture();
 
 		SDL_Rect dimensions() const;
 
-		bool createFromSurfaceLinearBlend();
+		SDL_Rect surfaceTrueDimensions() const;
 
-		bool createFromSurfaceNoBlend();
-
-		bool createFromSurface(GLenum blendMode);
+		bool createFromSurface();
 
 	private:
-
+		GLenum _blendMode;
 
 		SDL_Surface* _sdlSurface;
 
+		SDL_Rect _surfaceTrueDimensions;
 		SDL_Rect _dimensions;
 
 		std::string _fileSource;

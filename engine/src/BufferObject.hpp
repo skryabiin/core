@@ -26,7 +26,6 @@ namespace core {
 
 		bool unbindImpl() {
 			glBindBuffer(BUFFER_TYPE, NULL);
-
 			return true;
 		}
 
@@ -47,7 +46,6 @@ namespace core {
 				_numVertices = numVertices;
 				GLuint numBytes = numVertices * _vertexDimension * sizeof(T);
 				glBufferData(BUFFER_TYPE, numBytes, data, usage);
-				return true;
 			}
 			return false;
 		}

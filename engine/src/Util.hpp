@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <time.h>
+#include <GL/glew.h>
 
 namespace core {
 
@@ -21,15 +22,15 @@ namespace core {
 		return std::string{ buffer };
 	}
 
-	inline void hexToRgb(std::string hexString, unsigned short& r, unsigned short& g, unsigned short& b) {
+	inline void hexToRgb(std::string hexString, GLfloat& r, GLfloat& g, GLfloat& b) {
 		if (hexString[0] == '#') {
 			hexString = hexString.substr(1);
 		}
 		char* p;
 
-		r = strtol(hexString.substr(0, 2).c_str(), &p, 16);
-		g = strtol(hexString.substr(2, 2).c_str(), &p, 16);
-		b = strtol(hexString.substr(4, 2).c_str(), &p, 16);
+		r = strtol(hexString.substr(0, 2).c_str(), &p, 16) / 255.0f;
+		g = strtol(hexString.substr(2, 2).c_str(), &p, 16) / 255.0f;
+		b = strtol(hexString.substr(4, 2).c_str(), &p, 16) / 255.0f;
 
 	}
 

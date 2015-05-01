@@ -4,7 +4,7 @@
 #include "SDL.h"
 #include "LuaState.hpp"
 #include "LuaTable.hpp"
-
+#include "Color.hpp"
 
 namespace core {
 

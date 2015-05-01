@@ -23,9 +23,13 @@ namespace core {
 
 		void setFileSource(std::string fileName);
 
-		InitStatus initializeImpl() override;
+		bool createImpl() override;
 
-		InitStatus resetImpl() override;
+		bool initializeImpl() override;
+
+		bool resetImpl() override;
+
+		bool destroyImpl() override;
 
 		void setFontSize(int size);
 

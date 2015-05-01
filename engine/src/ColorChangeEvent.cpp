@@ -4,12 +4,11 @@
 
 namespace core {
 
-	ColorChangeEvent::ColorChangeEvent() : facetId{ -1 }, blendMode{ 1 } {
+	ColorChangeEvent::ColorChangeEvent() : facetId{ -1 } {
 
 		lua_reg("entityId", &entity);
 		lua_reg("color", &color);		
-		lua_reg("doModulateColor", &doModulateColor);
-		lua_reg("blendMode", &blendMode);
+		
 		lua_reg("facetId", &facetId);
 	}
 

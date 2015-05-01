@@ -11,13 +11,17 @@ namespace core {
 
 
 
-	class VertexArrayObject : public initializable<VertexArrayObject, bool, void>, public bindable<VertexArrayObject> {
+	class VertexArrayObject : public initializable<VertexArrayObject, void, bool, void, void>, public bindable<VertexArrayObject> {
 
 	public:
 
-		InitStatus initializeImpl(bool autoBindMode); 
+		bool createImpl();
 
-		InitStatus resetImpl();
+		bool initializeImpl(bool autoBindMode); 
+
+		bool resetImpl();
+		
+		bool destroyImpl();
 
 		bool bindImpl();
 
@@ -26,8 +30,11 @@ namespace core {
 		bool disableSetAttributes();
 
 		bool setIndices(IndexBufferObject& ibo)  {
+			if (!ibo.isBound()) {
+				error("Attempting to set indices with unbound IBO.");
+				return false;
+			}
 			if (_autoBindMode) bind();
-			ibo.bind();
 			_indices = &ibo;
 			if (_autoBindMode) unbind();
 			return true;
@@ -54,11 +61,7 @@ namespace core {
 		template <typename T>
 		void setVertexArrayAttribute(std::string attributeName, VertexBufferObject<T>& vbo, GLenum normalized) {
 			auto& va = _program->_vertexAttributes[attributeName];
-			if (vbo.bind()) {
-				vbo.setVertexAttributePointer(va.index, normalized, 0);				
-				vbo.unbind();
-			}
-			
+			vbo.setVertexAttributePointer(va.index, normalized, 0);														
 		}
 
 		template<typename T>

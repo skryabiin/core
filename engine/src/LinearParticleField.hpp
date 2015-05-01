@@ -16,7 +16,7 @@ namespace core {
 		BasicParticle() :		
 		velocity{ 0.0f, 0.0f },
 		accel{ 0.0f, 0.0f },
-		color{ 0, 0, 0, 0 },
+		color{ 0.0f, 0.0f, 0.0f, 0.0f },
 		lifetime{ -1 },
 		initialDelay{ 0 },
 		active{ false }

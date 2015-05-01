@@ -18,7 +18,7 @@ namespace core {
 
 		virtual bool updateImpl(int dt) = 0;
 		
-		virtual void updateDrawPosition(PositionChangeEvent& e) {};
+		virtual void handlePositionChange(PositionChangeEvent& e) {};
 
 		virtual ~ParticleFieldBase() {};
 
@@ -68,7 +68,7 @@ namespace core {
 			return _particles;
 		}
 
-		virtual void updateDrawPosition(PositionChangeEvent& positionChange) {};
+		virtual void handlePositionChange(PositionChangeEvent& positionChange) {};
 
 
 

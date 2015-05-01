@@ -16,10 +16,13 @@ namespace core {
 
 		bool setVertexAttributePointer(GLuint index, GLboolean normalized, GLuint stride) {
 			if (_isBound) {
-				glVertexAttribPointer(index, _vertexDimension, getTypeEnum<T>() , normalized, 0, NULL);				
+				glVertexAttribPointer(index, _vertexDimension, getTypeEnum<T>() , normalized, 0, NULL);		
 				return true;
 			}
-			return false;
+			else {
+				error("Error attempting to set vertex attribute pointer: buffer object is not bound.");
+				return false;
+			}			
 		}
 
 

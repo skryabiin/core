@@ -1,5 +1,6 @@
 #include "EntitiesInRectQuery.hpp"
 #include "Core.hpp"
+#include "EventProcessor.hpp"
 
 namespace core {
 

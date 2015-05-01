@@ -2,7 +2,8 @@
 
 	out vec4 fragmentColor;
 	uniform vec4 drawColor;
-	
+	uniform mat4 colorTransform;
+
 	void main() { 
-		fragmentColor = drawColor; 
+		fragmentColor = colorTransform * drawColor; 
 	}

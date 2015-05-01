@@ -46,80 +46,47 @@ namespace core {
 			_debugOutProc = SDL_CreateThread(consoleWriteProc, "DebugOutput", (void*)NULL);
 		}
 
-#ifdef _WIN32
-		openDebugPipe();
-#endif
-		
-	
-	};
-
-#ifdef _WIN32
-	void Console::openDebugPipe() {
-
-
-		SECURITY_ATTRIBUTES sa;
-
-		// Set up the security attributes struct.
-		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-		sa.lpSecurityDescriptor = NULL;
-		sa.bInheritHandle = TRUE;
-		_debugPipeServerEnd =
-			CreateNamedPipe("\\\\.\\pipe\\core_debug_pipe", PIPE_ACCESS_DUPLEX,
-			PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE, 1, 1024, 1024, 0, &sa);
-
-
 	}
 
-#endif
+	bool Console::createImpl() {
+		info("Creating console...");
 
-	InitStatus Console::initializeImpl() {
-		
-		info("Initializing console...");
-
-		auto& lua = single<Core>().lua();
-
-
+		auto& lua = single<Core>().lua();		
 		lua.bindFunction("setDebug_bind", Console::setDebug_bind);
 		lua.bindFunction("debug_bind", Console::debug_bind);
 		lua.bindFunction("info_bind", Console::info_bind);
 		lua.bindFunction("warn_bind", Console::warn_bind);
 		lua.bindFunction("error_bind", Console::error_bind);
-
 		lua.bindFunction("doCommand_bind", Console::doCommand_bind);
 
-		//set up event filter
-		//create the callback for keyboard events
-		std::function<void(Console*, WrappedSdlEvent&)> sdlEventCallback = std::mem_fn(&Console::handleToggleEvent);
-		_consoleToggleFilter.init(this, sdlEventCallback);
-
+		//TODO remove this in favor of a better scheme
 		_keyToggle = lua("Config")["keyDebugToggle"];
 
-		//set the predicate for only the toggle key
-		_consoleToggleFilter.setPredicate(
-			[&](WrappedSdlEvent& event)->bool {
-			if (event._wrappedEvent->type == SDL_KEYDOWN && event._wrappedEvent->key.repeat == 0) {
-				return event._wrappedEvent->key.keysym.sym == _keyToggle;
-			}
-			else if(event._wrappedEvent->type == SDL_CONTROLLERBUTTONDOWN) {
-				return event._wrappedEvent->cbutton.button == _buttonToggle;
-			}
-			else {
-				return false;
-			}
-		});
+		return true;
 
+	}
 
-		single<EventProcessor>().addFilter(&_consoleToggleFilter);
-		return InitStatus::INIT_TRUE;
+	bool Console::initializeImpl() {
+		
+			
+		return true;
 
 
 	}
 
-	InitStatus Console::resetImpl() {
+	bool Console::resetImpl() {
 
-		//do not allow reset
-		return InitStatus::INIT_FALSE;
+		return true;
 
+	}
+
+	bool Console::destroyImpl() {
+
+		_running = false;
+
+		SDL_WaitThread(_debugOutProc, NULL);
+
+		return true;
 	}
 
 	std::string Console::getLogFilePath() {
@@ -133,14 +100,6 @@ namespace core {
 		//OutputDebugString("\n");
 	}
 
-	void Console::handleToggleEvent(WrappedSdlEvent& event) {
-		_debug = !_debug;		
-		auto debugEvent = DebugEvent{};
-		single<EventProcessor>().process(debugEvent);		
-		if (_debug) {
-			single<Interface>().checkGamepadStatus();
-		}
-	}
 
 
 	bool Console::getDebugFlag(std::string flagName) const {
@@ -180,17 +139,6 @@ namespace core {
 	void Console::setConsoleOut(bool consoleOut) {
 
 		_consoleOut = consoleOut;
-	}
-
-	
-	void Console::shutdown() {
-		single<EventProcessor>().removeFilter(&_consoleToggleFilter);
-
-		SDL_AtomicLock(&_consoleLogLock);
-		_running = false;
-		SDL_AtomicUnlock(&_consoleLogLock);
-
-		SDL_Delay(1000);
 	}
 
 

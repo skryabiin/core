@@ -1,24 +1,16 @@
 #include "System.hpp"
+#include "EventProcessor.hpp"
 
 namespace core {
 
 
-	InitStatus System::initializeImpl() {
 
-		if (this->getInitializedStatus() == InitStatus::INIT_TRUE) return InitStatus::INIT_TRUE;
-
-		std::function<void(System*, FacetPauseEvent&)> facetPauseHandler = std::mem_fn(&System::handleFacetPauseEvent);
-		_facetPauseFilter.init(this, facetPauseHandler);
-		single<EventProcessor>().addFilter(&_facetPauseFilter);
-
-		return InitStatus::INIT_TRUE;
+	bool System::initializeImpl() {		
+		return true;
 	}
 
-	InitStatus System::resetImpl() {
-
-		single<EventProcessor>().removeFilter(&_facetPauseFilter);
-
-		return InitStatus::INIT_FALSE;
+	bool System::resetImpl() {		
+		return true;
 	}
 
 } //end namespace core

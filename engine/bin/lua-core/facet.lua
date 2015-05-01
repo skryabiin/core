@@ -36,7 +36,7 @@ function Facet:getDimensions()
 		facetId = self:getId(),
 		dimensions = {0,0},
 		found = false }
-
+    
 	dimensionQueryEvent = EventProcessor.process(dimensionQueryEvent)		
 	return dimensionQueryEvent.dimensions
 

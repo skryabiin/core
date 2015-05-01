@@ -14,6 +14,7 @@ namespace core {
 
 		virtual void updateImpl(RuntimeContext& context) = 0;
 
+		virtual ~UpdateableSystem() {};
 	};
 
 

@@ -13,13 +13,14 @@
 namespace core {
 
 
-	class ShaderManager : public singleton<ShaderManager>, public initializable<ShaderManager, void, void> {
+	class ShaderManager : public singleton<ShaderManager>, public initializable<ShaderManager, void, void, void, void> {
 
 	public:
 
-		InitStatus initializeImpl();
-
-		InitStatus resetImpl();
+		bool createImpl();
+		bool initializeImpl();
+		bool resetImpl();
+		bool destroyImpl();
 
 		ShaderProgram* getShaderProgram(std::string name);
 

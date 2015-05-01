@@ -14,12 +14,14 @@ namespace core {
 		}
 
 		GLuint createShader() {
-			return glCreateShader(GL_FRAGMENT_SHADER);			
+			auto id = glCreateShader(GL_FRAGMENT_SHADER);
+			return id;
 		}
 
 
 		~FragmentShader() {
 			reset();
+			destroy();
 		}
 
 

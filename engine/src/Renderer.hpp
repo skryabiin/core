@@ -1,5 +1,16 @@
-#ifndef RENDERER_H_INCLUDED
-#define RENDERER_H_INCLUDED
+#ifndef CORE_RENDERER_HPP
+#define CORE_RENDERER_HPP
+
+
+#define CORE_GL_DEBUG
+
+
+
+#ifdef CORE_GL_DEBUG
+
+
+
+#endif
 
 #include <algorithm>
 #include <memory>
@@ -13,7 +24,6 @@
 #include "Config.hpp"
 #include "Math.hpp"
 #include "ResourceManager.hpp"
-#include "Renderer2d.hpp"
 #include "Animation.hpp"
 #include "Camera2d.hpp"
 #include "RuntimeContext.hpp"
@@ -21,32 +31,42 @@
 #include "Drawable.hpp"
 #include "Event.hpp"
 #include "Console.hpp"
-#include "EventFilter.hpp"
 #include "DebugEvent.hpp"
 #include "ParticleField.hpp"
 #include "LinearParticleField.hpp"
+#include "RenderLayer.hpp"
+#include "ShaderManager.hpp"
+#include "VertexShader.hpp"
+#include "FragmentShader.hpp"
+#include "ShaderProgram.hpp"
+#include "VertexArrayObject.hpp"
 
 namespace core {
 
 
 struct TextureFacet;
 
-class Renderer : public initializable<Renderer, void, void>, public EventListener, public pausable<Renderer> {
+
+class Renderer : public updateable<Renderer, void, RuntimeContext>, public initializable<Renderer, void, void, void, void>, public pausable<Renderer> {
 
 public:
 
-	Renderer() : _backgroundColor{ 0, 0, 0, 1 }, _debugShowTextureBounds{ false }, _thisDrawableId{ 0 } {
+	Renderer() : _backgroundColor{ 0.0f, 0.0f, 0.0f, 1.0f }, _debugShowTextureBounds{ false }, _thisDrawableId{ 0 } {
 		_sdlWindow = nullptr;
 		_sdlRenderer = nullptr;
 	};
 
-    InitStatus initializeImpl();
-
-	InitStatus resetImpl();	
+	bool createImpl();
+	bool initializeImpl();
+	bool resetImpl();
+	bool destroyImpl();
 
 	void pauseImpl();
 
 	void resumeImpl();
+
+	void updateImpl(RuntimeContext& context);
+
 
 	void pauseDrawable(const Drawable& d);
 
@@ -54,9 +74,9 @@ public:
 
 	void setDepthTestFunction(GLenum test);
 	
-	void render();	
+	void render();		
 
-	void render(Drawable& d);
+
 
 	int createDrawable(Drawable& d);
 	
@@ -66,7 +86,7 @@ public:
 
 	void destroyDrawable(Drawable& d);
 
-	int getMaxZIndex(int layerId) const;
+	int getMinZIndex(int layerId) const;
 
 	void handleDebugEvent(DebugEvent& debugEvent);
 
@@ -78,9 +98,20 @@ public:
 	
 	LinearParticleField* TEMP_particleTest;
 
-	static int getMaxZIndex_bind(LuaState& lua);
+	static int getMinZIndex_bind(LuaState& lua);
 
-	
+	static int hideWindow_bind(LuaState& lua);
+
+	static int showWindow_bind(LuaState& lua);
+
+	void hideWindow();
+
+	void showWindow();
+
+	bool isMultithreaded();
+
+	void multithreadRender();
+
 	//temp
 
 	void start();
@@ -96,14 +127,32 @@ private:
 	void _processUpdateDrawable(DrawableChange& dc);
 	void _processDestroyDrawable(DrawableChange& dc);
 
-	void _pollWindowEvents();
+	Drawable* _getDrawable(int id, int layerId);
+	void _draw(Drawable& d);
 
+	void _drawTexture(Drawable& d);
+
+	void _drawPoly(Drawable& d);
+
+	void _drawPoly(std::vector<int>& points, Color& color, ColorTransform& colorTransform, bool filled);
+
+	void _drawPoly(GLfloat* v, unsigned numPoints, Color& color, ColorTransform& colorTransform, bool filled);
+
+	bool _renderMultithreaded;
 	SDL_SpinLock _drawableChangePtrLock;
-	SDL_SpinLock _masterDrawablesLock;
+	SDL_SpinLock _renderThreadLock;
+	SDL_atomic_t _writingFirstQueueFlag;
 
-	bool _firstQueue;
+	void _checkGlDebugLog();
+
+	bool _initGlObjects();
+	bool _didInitGlObjects;
+	void _addDrawableChange(DrawableChange& dc);
+
+	bool _writingToFirstQueue;
+	
 	bool _doRenderThread;
-
+	
 	std::vector<DrawableChange>* _drawableChanges;
 	std::vector<DrawableChange> _drawableChanges1;
 	std::vector<DrawableChange> _drawableChanges2;
@@ -115,32 +164,62 @@ void drawImpl(Drawable_type* drawableAspect, RuntimeContext& context) {
     }
 
 	*/
-	Renderer2d* getRenderer2d(int layerId);
+	
+	
 
-	void updateDrawable(Renderer2d* drawableLayer, Drawable d);
+	int _thisDrawableId;	
 
-	void createDrawable(Renderer2d* drawableLayer, Drawable d);
-
-	int _thisDrawableId;
-
-	std::vector<std::unique_ptr<Renderer2d>> _renderers;	
+	std::vector<RenderLayer> _layers;
 
 	Color _backgroundColor;
 
 	SDL_Window* _sdlWindow;
-
+	bool _windowShown;
 	SDL_Renderer* _sdlRenderer;	
 	
 	SDL_GLContext _sdlInitContext;
 	SDL_GLContext _sdlGlContext;
 
-	SDL_Rect _screenRect;
-
-	EventFilter<DebugEvent> _debugFilter;
+	SDL_Rect _screenRect;	
 
 	bool _debugShowTextureBounds;
 
 	GLenum _depthTestFunction;
+
+	int _maxFramesPerSecond;
+
+	SDL_SpinLock _drawablesLock;
+
+	GLuint _vertexBuffer;
+	GLuint _indexBuffer;
+
+	VertexArrayObject _textureVao;
+	VertexBufferObject<GLfloat> _textureVbo;
+	IndexBufferObject _textureIbo;
+	VertexBufferObject<GLfloat> _textureUvbo;
+
+	ColorTransform _colorMatrix;
+
+	std::vector<GLfloat> _drawColor;
+	std::vector<GLfloat> _textureVertices;
+	std::vector<GLfloat> _drawVertices;
+
+	VertexShader *_defaultRenderVertexShader;
+	FragmentShader *_defaultRenderFragmentShader;
+
+	VertexShader* _defaultDrawVertexShader;
+	FragmentShader* _defaultDrawFragmentShader;
+
+	VertexShader* _currentDrawVertexShader;
+	FragmentShader* _currentDrawFragmentShader;
+
+	ShaderProgram _renderShaderProgram;
+	ShaderProgram _drawShaderProgram;
+
+	GLint _vertexPosVarLoc;
+
+	SDL_Rect _windowRect;
+
 };
 
 

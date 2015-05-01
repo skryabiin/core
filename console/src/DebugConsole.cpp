@@ -138,6 +138,13 @@ namespace core {
 				consoleErrorColor.r = 0xFF;
 				return consoleErrorColor;
 			}
+			else if (!severity.compare("[dbug")) {
+				auto consoleErrorColor = SDL_Color{};
+				consoleErrorColor.a = 0xFF;
+				consoleErrorColor.b = 0xCC;
+				consoleErrorColor.g = 0xCC;
+				consoleErrorColor.r = 0xCC;
+			}
 			else {
 				auto consoleDebugColor = SDL_Color{};
 

@@ -8,61 +8,42 @@ namespace core {
 
 	AnimationSystem2d::AnimationSystem2d() {
 
-
 	}
 
 
-
-	InitStatus AnimationSystem2d::initializeImpl() {
-
-
-		std::function<void(AnimationSystem2d*, AnimationChangeEvent&)> callback = std::mem_fn(&AnimationSystem2d::handleAnimationChange);
-
-		_animationChangeFilter.init(this, callback);
-		single<EventProcessor>().addFilter(&_animationChangeFilter);
-
-		return RenderableSystem2d::initializeImpl();
+	bool AnimationSystem2d::createImpl() {
+		if (!RenderableSystem2d::createImpl()) return false;
+		return true;
 	}
 
-	void AnimationSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {		
+	bool AnimationSystem2d::initializeImpl() {
+
+		if (!RenderableSystem2d::initializeImpl()) return false;
+
+
+		return true;
+	}
+
+	//TODO these have to do the right thing
+	bool AnimationSystem2d::resetImpl() {		
 
 		for (auto& facet : _animationFacets) {
-			if (facet.of() == pauseEvent.entity) {
-
-				//doing all of the facets for this entity so continue
-				if (pauseEvent.facetId == -1) {
-
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}
-					continue;
-				}
-
-				//doing just the one facet for this entity so stop
-				else if (pauseEvent.facetId == facet.id()) {
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}
-					continue;
-					break;
-				}
-
-			}
+			single<Renderer>().destroyDrawable(facet.drawable);
 		}
+
+		_movingAnimations.clear();
+		_animationFacets.clear();
+		_animationFacets.shrink_to_fit();
+
+		return RenderableSystem2d::resetImpl();
 
 	}
 
-	void AnimationSystem2d::handleAnimationChange(AnimationChangeEvent& animationChange) {
+	bool AnimationSystem2d::destroyImpl() {
+		return RenderableSystem2d::destroyImpl();
+	}
+
+	bool AnimationSystem2d::handleEvent(AnimationChangeEvent& animationChange) {
 
 	
 
@@ -83,11 +64,12 @@ namespace core {
 					
 				}
 
-				return;
+				return true;
 
 			}
 
 		}
+		return true;
 
 	}
 
@@ -151,69 +133,6 @@ namespace core {
 	}
 
 
-	void AnimationSystem2d::updateDrawPosition(PositionChangeEvent& positionChange) {
-
-		//check if this is the entity the camera is centered on
-		
-
-		auto moveIt = _movingAnimations.find(positionChange.entity);
-
-		AnimationFacet* animation = nullptr;
-
-		if (moveIt == std::end(_movingAnimations)) {
-			for (unsigned i = 0; i < _animationFacets.size(); i++) {
-				if (_animationFacets[i].of() == positionChange.entity) {
-					animation = &_animationFacets[i];
-					break;
-				}
-			}
-			if (animation == nullptr) return;
-
-			_movingAnimations.insert(std::pair<Entity, AnimationFacet*>(positionChange.entity, animation));
-
-		}
-		else {
-			animation = moveIt->second;
-		}
-
-
-
-		auto p = positionChange.position.getPixel();
-		if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {			
-			auto w = animation->drawable.targetRect.w;
-			auto h = animation->drawable.targetRect.h;
-			auto x = p.x + w * 0.5f;
-			auto y = p.y + h * 0.5f;
-			snapCameraToCoordinates(x, y);
-		}
-
-		int x1 = p.x + animation->offset.x;
-		int y1 = p.y + animation->offset.y;
-
-		animation->drawable.targetRect.x = x1;
-		animation->drawable.targetRect.y = y1 + animation->drawable.targetRect.h;
-
-		animation->drawable.zIndex = p.z + animation->offset.z;
-
-
-	}
-
-	//TODO these have to do the right thing
-	InitStatus AnimationSystem2d::resetImpl() {
-
-		single<EventProcessor>().removeFilter(&_animationChangeFilter);
-
-		for (auto& facet : _animationFacets) {
-			single<Renderer>().destroyDrawable(facet.drawable);
-		}
-
-		_movingAnimations.clear();		
-		_animationFacets.clear();
-		_animationFacets.shrink_to_fit();
-
-		return RenderableSystem2d::resetImpl();
-		
-	}
 
 	void AnimationSystem2d::destroyFacets(Entity& e) {
 
@@ -266,8 +185,6 @@ namespace core {
 
 			facet.offset = offset.getPixel();
 
-			facet.drawable.entityId = entity;
-			
 			facet.drawable.camera = system->getCamera();
 
 			facet.drawable.texture = facet.currentAnimation.texture;
@@ -291,8 +208,6 @@ namespace core {
 
 		return 1;
 	}
-
-	EventProcessor::EventRegistration<AnimationChangeEvent> animationChangeEventReg{};
 
 
 } //end namespace core

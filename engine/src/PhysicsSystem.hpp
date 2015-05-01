@@ -83,15 +83,17 @@ namespace core {
 
 	
 
-	class PhysicsSystem : public UpdateableSystem {
+	class PhysicsSystem : public UpdateableSystem, public EventListener<VelocityChangeEvent>, public EventListener<AccelerationChangeEvent>, public EventListener<PositionChangeEvent>, 
+		public EventListener<ObjectCollisionQuery>, public EventListener<EntityPositionQuery>, public EventListener<EntitiesInRectQuery> {
 
 	public:
 
 		PhysicsSystem();
 
-		virtual InitStatus initializeImpl() override;
-
-		virtual InitStatus resetImpl() override;
+		virtual bool createImpl() override;
+		virtual bool initializeImpl() override;
+		virtual bool resetImpl() override;
+		virtual bool destroyImpl() override;
 
 		void updateImpl(RuntimeContext& context);
 
@@ -109,23 +111,25 @@ namespace core {
 
 		void solveCollision(Collision& col);
 
-		void handleVelocityChange(VelocityChangeEvent& event);
+		bool handleEvent(VelocityChangeEvent& event);
 
-		void handleAccelerationChange(AccelerationChangeEvent& event);
+		bool handleEvent(AccelerationChangeEvent& event);
 
-		void handlePositionChange(PositionChangeEvent& event);
+		bool handleEvent(PositionChangeEvent& event);
 
-		void answerObjectCollisionQuery(ObjectCollisionQuery& query);
+		bool handleEvent(ObjectCollisionQuery& query);
 
-		void answerEntityPositionQuery(EntityPositionQuery& query);
+		bool handleEvent(EntityPositionQuery& query);
 
-		void answerEntitiesInRectQuery(EntitiesInRectQuery& query);
+		bool handleEvent(EntitiesInRectQuery& query);
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
+		virtual bool handleEvent(FacetPauseEvent& pauseEvent) override;
 
 		void setPosition(Entity& e, Pixel p);
 
 		static int createFacet_bind(LuaState& lua);
+
+		virtual ~PhysicsSystem() {};
 	private:
 
 		void PhysicsSystem::getPositionValues(PhysicsFacet& pf, int(&x)[4], int(&y)[4]);
@@ -134,17 +138,6 @@ namespace core {
 		
 		std::vector<PhysicsFacet> _fixedPhysicsFacets;
 
-		EventFilter<VelocityChangeEvent> _velocityChangeFilter;
-
-		EventFilter<AccelerationChangeEvent> _accelerationChangeFilter;
-
-		EventFilter<ObjectCollisionQuery> _objectCollisionFilter;
-
-		EventFilter<PositionChangeEvent> _positionChangeFilter;
-
-		EventFilter<EntityPositionQuery> _positionQueryFilter;
-
-		EventFilter<EntitiesInRectQuery> _entitiesInRectQueryFilter;
 
 		Vec2 _gravity;
 

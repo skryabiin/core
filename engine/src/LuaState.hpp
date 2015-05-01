@@ -16,7 +16,7 @@ namespace core {
 	typedef int(*BoundFunction)(LuaState&);
 
 
-	class LuaState : public initializable<LuaState, bool, bool> {
+	class LuaState : public initializable<LuaState, bool, void, void, bool> {
 		friend class LuaTable;
 	public:
 
@@ -30,9 +30,13 @@ namespace core {
 
 		LuaState& operator=(LuaState&& other) = delete;
 
-		InitStatus initializeImpl(bool loadLibs);
+		bool createImpl(bool loadLibs);
 
-		InitStatus resetImpl(bool clearBoundFunctions);
+		bool initializeImpl();
+
+		bool resetImpl(bool clearBoundFunctions);
+
+		bool destroyImpl();
 
 		std::string printStack();
 
@@ -248,19 +252,6 @@ namespace core {
 
 		}
 
-		template<typename ...Args>
-		void call(std::string functionName, Args&... args) {
-
-			//clear the stack for this
-			clearStack();
-			global(functionName);
-			auto numArgs = 0;
-			callRec(numArgs, args...);
-
-			lua_pcall(_L, numArgs, LUA_MULTRET, 0);
-
-		}
-
 
 
 
@@ -279,7 +270,6 @@ namespace core {
 		operator LuaFunction();
 
 	private:
-
 
 		void addStackAdditions(int n);
 
@@ -303,6 +293,8 @@ namespace core {
 			callRec(numArgs, arg2, args...);
 
 		}
+
+		void checkCallStatus(int status);
 
 		void popStackAdditions();
 

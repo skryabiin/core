@@ -4,10 +4,9 @@
 #include "Templates.hpp"
 #include "Geometry.hpp"
 #include "MouseEvent.hpp"
-#include "EventListener.hpp"
 #include "TextureRenderSystem2d.hpp"
 #include "InterfaceFacet.hpp"
-
+#include "UpdateableSystem.hpp"
 
 
 namespace core {
@@ -52,9 +51,10 @@ namespace core {
 
 		Interface();
 
-		virtual InitStatus initializeImpl() override;
-
-		virtual InitStatus resetImpl() override;
+		virtual bool createImpl() override;
+		virtual bool initializeImpl() override;
+		virtual bool resetImpl() override;
+		virtual bool destroyImpl() override;
 
 		void updateImpl(RuntimeContext& runtimeContext);
 
@@ -74,7 +74,7 @@ namespace core {
 
 		virtual void destroyFacets(Entity& e) override;
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
+		bool handleEvent(FacetPauseEvent& pauseEvent);
 
 		void checkGamepadStatus();
 

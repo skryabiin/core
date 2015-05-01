@@ -14,7 +14,7 @@ namespace core {
 	}
 	RenderedTextToken::~RenderedTextToken() {
 		if (_texture != nullptr) {
-			single<ResourceManager>().removeTexture(_texture->name());
+			//single<ResourceManager>().removeTexture(_texture->name());
 		}
 	}
 

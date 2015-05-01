@@ -38,8 +38,7 @@ namespace core {
 		}
 
 		static bool createFromLua(LuaState& lua) {
-			auto vce = VelocityChangeEvent{};
-			vce.setOriginator(&single<EventProcessor>().luaDummyListener);
+			auto vce = VelocityChangeEvent{};			
 			vce.fromLua(lua);
 			single<EventProcessor>().process(vce);
 			return false;

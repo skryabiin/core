@@ -6,13 +6,22 @@ function Scenes.first.init()
 	Console.info("In first scene")
 
 	Core.createSystem("BasicPositionSystem2d", "MenuPositions")
-	Core.createSystem("TextureRenderSystem2d", "MenuTextures", 10)
-	Core.createSystem("TextRenderSystem2d", "MenuText", 10)
+	Core.createSystem("TextureRenderSystem2d", "MenuTextures", 1)
+	Core.createSystem("TextRenderSystem2d", "MenuText", 1)
 		
 	currentPositionSystemPtr = Core.createSystem("BasicPositionSystem2d", "Positions")
-	currentTextureRenderSystemPtr = Core.createSystem("TextureRenderSystem2d", "Textures", 0)
-	currentTextRenderSystemPtr = Core.createSystem("TextRenderSystem2d", "Text", 0)	
-
+	currentTextureRenderSystemPtr = Core.createSystem("TextureRenderSystem2d", "Textures", 2)
+	currentTextRenderSystemPtr = Core.createSystem("TextRenderSystem2d", "Text", 2)	
+    local cursorTexture = {
+			source = {0, 0, 24, 32},
+			dimensions = {24, 32},
+			textureName = "cursor_brown",			
+			scale = {1, 1},
+			offset = {0, -32},			
+			textureColorMod = {100,255,255,100}
+		}
+        
+Interface.setCursorTexture(cursorTexture)
 
 	TestEntity = {}
 
@@ -20,15 +29,16 @@ function Scenes.first.init()
 	testEntity = testEntity or {}
 	testEntity = Entity:new(testEntity)
 	testEntity:addBasicPosition("Positions")
-	testEntity:setDimensions({32,32})		
+	testEntity:setDimensions({64,64})		
 	testEntity:setPosition({300,300,0})
 	testEntity.facets.texture = TextureFacet:new(testEntity)
 	testEntity.facets.texture:setSystemName("Textures")
 	testEntity.facets.texture:setTextureName("redBox")
 	testEntity.facets.texture:setTextureCoordinates({0,0,32,32})
-	testEntity.facets.texture:setVisualScale({1,1})
-	testEntity.facets.texture:setVisualOffset({0,0})
+	--testEntity.facets.texture:setScale({2,1})
+	testEntity.facets.texture:setOffset({0,0})
 	testEntity.facets.texture:createFacetInCore()
+    testEntity.facets.texture:scaleToEntity()
 	testEntity.facets.interface:setDraggable(true)
 	testEntity.facets.interface:setHoverable(false)
 	testEntity.facets.interface:setClickable(true)
@@ -85,7 +95,7 @@ function Scenes.first.init()
 	actionMenu.facets.interface:setOnDrag(Interface.functions.basicDragMove)
 	testEntity1.facets.interface:setOnDrag(Interface.functions.basicDragMove)
 	actionMenu:addChild(testEntity1)
-	actionMenu:pause()
+	--actionMenu:pause()
 end
 
 function Scenes.first.update(dt) 

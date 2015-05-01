@@ -19,15 +19,23 @@
 
 namespace core {
 
-	InitStatus World::initializeImpl() {
+	bool World::createImpl() {
+		return true;
+	}
+
+	bool World::initializeImpl() {
 
 		return System::initializeImpl();
 	}
 
-	InitStatus World::resetImpl() {
+	bool World::resetImpl() {
 		_map.~Map();
 
 		return System::resetImpl();
+	}
+
+	bool World::destroyImpl() {
+		return true;
 	}
 
 	void World::openMap(std::string mapName,int callbackRef) {

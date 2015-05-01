@@ -1,36 +1,32 @@
 #include "RenderableSystem2d.hpp"
 #include "PhysicsFacet.hpp"
 #include "Core.hpp"
+#include "VisualFacet.hpp"
 
 namespace core {
 
+	bool RenderableSystem2d::createImpl() {
+		if (!this->System::createImpl()) {
+			return false;
+		}
+		return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;
+	}
 
-
-	InitStatus RenderableSystem2d::initializeImpl() {
+	bool RenderableSystem2d::initializeImpl() {
 
 		this->System::initializeImpl();
 
-		std::function<void(RenderableSystem2d*, PositionChangeEvent&)> positionChangeCallback = std::mem_fn(&RenderableSystem2d::updateDrawPosition);
-		_moveFilter.init(this, positionChangeCallback);
-		single<EventProcessor>().addFilter(&_moveFilter);
-
-		std::function<void(RenderableSystem2d*, EntityLayerQuery&)> entityLayerQueryHandler = std::mem_fn(&RenderableSystem2d::handleEntityLayerQuery);
-		_entityLayerQueryFilter.init(this, entityLayerQueryHandler);
-		single<EventProcessor>().addFilter(&_entityLayerQueryFilter);
-
-		std::function<void(RenderableSystem2d*, ColorChangeEvent&)> colorChangeHandler = std::mem_fn(&RenderableSystem2d::updateColor);
-		_colorChangeFilter.init(this, colorChangeHandler);
-		single<EventProcessor>().addFilter(&_colorChangeFilter);
-
-		return _camera.initialize();
+		return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
 	}
 
-	InitStatus RenderableSystem2d::resetImpl() {
-		_camera.reset();
-		single<EventProcessor>().removeFilter(&_colorChangeFilter);
-		single<EventProcessor>().removeFilter(&_entityLayerQueryFilter);
-		single<EventProcessor>().removeFilter(&_moveFilter);
+	bool RenderableSystem2d::resetImpl() {
+		//_camera.reset();
 		return System::resetImpl();
+	}
+
+	bool RenderableSystem2d::destroyImpl() {
+		_camera.destroy();
+		return System::destroyImpl();
 	}
 
 	void RenderableSystem2d::snapCameraToCoordinates(float x, float y) {
@@ -70,19 +66,133 @@ namespace core {
 		return _cameraFollow;
 	}
 
-	void RenderableSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {		
-		if (_cameraFollow.of() == pauseEvent.entity) {
-			if (pauseEvent.facetId == -1 || _cameraFollow.id() == pauseEvent.facetId) {
-				if (pauseEvent.paused) {
-					_cameraFollow.pause();
-				}
-				else {
-					_cameraFollow.resume();
-				}
+	bool RenderableSystem2d::handleEvent(ScaleChangeEvent& scaleChange) {
+		auto facets = getFacets(scaleChange.entity);
+		for (auto& facet : facets) {
+			if (facet->id() == scaleChange.facetId || scaleChange.facetId == -1) {
+				auto newScale = scaleChange.scale.getVec2();
+				auto vfacet = static_cast<VisualFacet*>(facet);
+				auto oldScale = vfacet->scale;
+				auto rect = vfacet->drawable.targetRect;
+				rect.w = roundFloat((rect.w / oldScale.x) * newScale.x);
+				rect.h = roundFloat((rect.h / oldScale.y) * newScale.y);
+				vfacet->drawable.targetRect = rect;
+				vfacet->scale = newScale;
+				if (scaleChange.facetId != -1) return false;
 			}
 		}
+		return true;
 	}
 
+	bool RenderableSystem2d::handleEvent(EntityLayerQuery& entityLayerQuery) {
+		auto facets = getFacets(entityLayerQuery.entity);
+		for (auto& facet : facets) {
+			if (_drawableLayerId > entityLayerQuery.layerId) {
+				entityLayerQuery.layerId = _drawableLayerId;
+				entityLayerQuery.found = true;				
+			}		
+		}
+		return (!entityLayerQuery.found);
+	}
+
+	bool RenderableSystem2d::handleEvent(FacetPauseEvent& pauseEvent) {
+
+		if (_cameraFollow.of() == pauseEvent.entity && pauseEvent.facetId == -1) {
+			if (pauseEvent.paused) {
+				_cameraFollow.pause();
+			}
+			else {
+				_cameraFollow.resume();
+			}
+		}
+
+		auto facets = getFacets(pauseEvent.entity);
+		for (auto& facet : facets) {			
+
+			if (pauseEvent.facetId == -1 || facet->id() == pauseEvent.facetId) {
+				auto vfacet = static_cast<VisualFacet*>(facet);
+				if (pauseEvent.paused) {					
+					vfacet->pause();
+					single<Renderer>().pauseDrawable(vfacet->drawable);
+				}
+				else {
+					vfacet->resume();
+					single<Renderer>().resumeDrawable(vfacet->drawable);
+				}
+				if (facet->id() == pauseEvent.facetId) return false;
+			}
+		}
+		return true;
+	}
+
+
+
+	bool RenderableSystem2d::handleEvent(PositionChangeEvent& positionChange) {
+
+
+		auto facets = getFacets(positionChange.entity);
+		for (auto& facet : facets) {			
+			auto vfacet = static_cast<VisualFacet*>(facet);
+			auto p = positionChange.position.getPixel();
+			if (positionChange.relative) {
+				vfacet->drawable.targetRect.x += p.x;
+				vfacet->drawable.targetRect.y += p.y;
+				vfacet->drawable.zIndex += p.z;
+			}
+			else {
+				vfacet->drawable.targetRect.x = p.x + vfacet->offset.x;
+				vfacet->drawable.targetRect.y = p.y + vfacet->offset.y;
+				vfacet->drawable.zIndex = p.z + vfacet->offset.z;
+			}
+			if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {
+				auto x = vfacet->drawable.targetRect.x + vfacet->drawable.targetRect.w * 0.5f;
+				auto y = vfacet->drawable.targetRect.y + vfacet->drawable.targetRect.h * 0.5f;
+				snapCameraToCoordinates(x, y);
+			}
+
+			single<Renderer>().updateDrawable(vfacet->drawable);
+			return true;
+	
+		}
+		return true;
+	}
+
+	bool RenderableSystem2d::handleEvent(OffsetChangeEvent& offsetChangeEvent) {
+		auto facets = getFacets(offsetChangeEvent.entity);
+		for (auto& facet : facets) {
+			if (offsetChangeEvent.facetId == -1 || offsetChangeEvent.facetId == facet->id()) {
+				auto offset = offsetChangeEvent.offset.getPixel();
+				auto vfacet = static_cast<VisualFacet*>(facet);
+				auto currentOffset = vfacet->offset;
+				auto rect = vfacet->drawable.targetRect;
+				rect.x = rect.x - currentOffset.x + offset.x;
+				rect.y = rect.y - currentOffset.y + offset.y;
+				vfacet->drawable.targetRect = rect;
+				vfacet->drawable.zIndex = vfacet->drawable.zIndex - currentOffset.z + offset.z;
+				vfacet->offset = offset;
+				single<Renderer>().updateDrawable(vfacet->drawable);
+				if (offsetChangeEvent.facetId != -1) return false;
+			}
+		}
+		return true;
+	}
+
+	bool RenderableSystem2d::handleEvent(ColorModulationEvent& colorModulationEvent) {
+
+		auto facets = getFacets(colorModulationEvent.entity);
+		for (auto facet : facets) {
+			if (colorModulationEvent.facetId == -1 || colorModulationEvent.facetId == facet->id()) {
+				auto& valList = colorModulationEvent.matrix;
+				auto& d = (static_cast<VisualFacet*>(facet))->drawable;
+				for (int i = 0; i < 4; ++i) {
+					d.colorTransform.setChannel(i, valList[i * 4], valList[i * 4 + 1], valList[i * 4 + 2], valList[i * 4 + 3]);
+				}
+				single<Renderer>().updateDrawable(d);
+				if (colorModulationEvent.facetId != -1) return false;
+			}
+		}
+		return true;
+	}
 
 	int RenderableSystem2d::createFacet_bind(LuaState& lua) {
 
@@ -100,10 +210,6 @@ namespace core {
 		}
 		return 0;
 	}
-
-
-
-	EventProcessor::EventRegistration<EntityLayerQuery> entityLayerQueryReg{};
 
 
 } //end namespace core

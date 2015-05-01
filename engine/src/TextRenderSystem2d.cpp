@@ -3,8 +3,9 @@
 #include "RenderedTextToken.hpp"
 #include "TextRenderSystem2d.hpp"
 #include "Drawable.hpp"
-#include "TextContentChange.hpp"
+#include "TextContentChangeEvent.hpp"
 #include "Core.hpp"
+#include "OffsetChangeEvent.hpp"
 
 namespace core {
 
@@ -16,21 +17,18 @@ namespace core {
 
 	}
 
-	InitStatus TextRenderSystem2d::initializeImpl() {
-		std::function<void(TextRenderSystem2d*, TextContentChange&)> callback = std::mem_fn(&TextRenderSystem2d::handleTextContentChange);
-		_textContentChangeFilter.init(this, callback);
-		single<EventProcessor>().addFilter(&_textContentChangeFilter);
+	bool TextRenderSystem2d::createImpl() {
+		return RenderableSystem2d::createImpl();
+	}
 
-		std::function<void(TextRenderSystem2d*, FacetDimensionQuery&)> dimensionQueryCallback = std::mem_fn(&TextRenderSystem2d::handleFacetDimensionQuery);
-		_facetDimensionQueryFilter.init(this, dimensionQueryCallback);
-		single<EventProcessor>().addFilter(&_facetDimensionQueryFilter);
+	bool TextRenderSystem2d::initializeImpl() {
+	
 
 		return RenderableSystem2d::initializeImpl();
 	}
 
-	InitStatus TextRenderSystem2d::resetImpl() {
-		single<EventProcessor>().removeFilter(&_textContentChangeFilter);
-		single<EventProcessor>().removeFilter(&_facetDimensionQueryFilter);
+	bool TextRenderSystem2d::resetImpl() {
+
 		for (auto& facet : _textFacets) {
 			single<Renderer>().destroyDrawable(facet.drawable);
 		}
@@ -39,59 +37,18 @@ namespace core {
 		
 		return RenderableSystem2d::resetImpl();
 	}
-	/*
-	void TextRenderSystem2d::renderImpl() {
 
-		auto d = Drawable{};
-
-		int x, y;
-
-		for (auto& text : _textFacets) {
-
-			if (text.isPaused() || (_currentColorId >= 0 && text.colorId >= 0 && text.colorId != _currentColorId)) continue;
-			if (text.renderedTextToken == nullptr) continue;
-
-			d.texture = text.renderedTextToken->texture();
-			d.sourceRect = d.texture->dimensions();
-			x = text.position.x + text.offset.x;
-			y = text.position.y + text.offset.y;
-			d.targetRect = SimpleRect<int>{ x, y,x + d.sourceRect.width(), y + d.sourceRect.height() };
-			d.zIndex = text.position.z;
-			d.scale = text.scale;			
-
-			single<Renderer>().render(d, _camera);
-
-		}
-
-
-	} */
-
-
-	void TextRenderSystem2d::updateDrawPosition(PositionChangeEvent& positionChange) {
-		
-
-
-		for (auto& facet : _textFacets) {
-			if (facet.of() == positionChange.entity) {			
-			
-				auto base = (positionChange.relative) ? facet.position : Pixel{};
-				auto p = positionChange.position.getPixel() + base;
-				facet.position = p;
-				if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {					
-					auto x = p.x + facet.drawable.targetRect.w * 0.5f;
-					auto y = p.y + facet.drawable.targetRect.h * 0.5f;
-					snapCameraToCoordinates(x, y);
-				}
-
-				facet.drawable.targetRect.x = p.x + facet.offset.x;
-				facet.drawable.targetRect.y = p.y + facet.offset.y;
-				facet.drawable.zIndex = p.z + facet.offset.z;
-
-				single<Renderer>().updateDrawable(facet.drawable);
-				return;
-			}
-		}
+	bool TextRenderSystem2d::destroyImpl() {
+		return RenderableSystem2d::destroyImpl();
 	}
+	
+
+
+	bool TextRenderSystem2d::handleEvent(ColorChangeEvent& colorChangeEvent) {
+		return true;
+	}
+
+
 
 	std::vector<Facet*> TextRenderSystem2d::getFacets(Entity& e) {
 
@@ -105,73 +62,38 @@ namespace core {
 		return out;
 	}
 
-	void TextRenderSystem2d::updateTextFacet(TextFacet& facet, std::string fontName, Pixel position, Pixel offset, Color color, std::string text) {
-
-		if (!fontName.compare("default")) {
-			facet.font = single<ResourceManager>().getDefaultFont();
-		}
-		else {
-			facet.font = single<ResourceManager>().getFont(fontName);
-		}
-
-		facet.offset = offset;
-
-		facet.color = color;
-
-		facet.position = position;
-
-
-
-		Font* font = nullptr;
-		if (facet.font != nullptr) {
-			font = facet.font;
-		}
-		else if (_defaultFont != nullptr) {
-			font = _defaultFont;
-		}
-		if (font == nullptr) {
-			error("Font not specified for ", facet.of(), ", no default font in TextRenderSystem2d ", this->name());
-		}
-		if (facet.renderedTextToken == nullptr) {
-			auto& rtt = font->getRenderedTextToken();
-			rtt->setText(text);
-			facet.renderedTextToken = rtt.get();
-			_renderedTextTokens.push_back(std::move(rtt));
-		}
-		else {
-			facet.renderedTextToken->setText(text);
-		}
-
-		facet.drawable.layerId = _drawableLayerId;
-		facet.drawable.camera = getCamera();
-		facet.drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
-		facet.drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, facet.drawable.sourceRect.w, facet.drawable.sourceRect.h };
-		facet.drawable.texture = facet.renderedTextToken->texture();
-
-
-		if (facet.color != Color::get(Color::CommonColor::WHITE)) {
-			facet.drawable.textureModulateColor = facet.color;
-			facet.drawable.doModulateColor = true;
-		}
-
-		facet.drawable.zIndex = position.z + offset.z;
-		if (facet.drawable.id >= 0) {
-			single<Renderer>().updateDrawable(facet.drawable);
-		}
-		else {
-			facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
-		}
-
-
-
-	}
-	TextFacet& TextRenderSystem2d::createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Color color, std::string text) {
+	
+	TextFacet& TextRenderSystem2d::createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Vec2 scale, Color color, std::string text) {
 
 
 		auto facet = TextFacet{};
 		facet.setOf(e);
+		facet.offset = offset;
+		facet.color = color;
+		facet.textContent = text;		
+		if (!fontName.compare("default")) {
+			single<ResourceManager>().getDefaultFont();
+		} else {
+			facet.font = single<ResourceManager>().getFont(fontName);
+		}
 		
-		updateTextFacet(facet, fontName, position, offset, color, text);
+		auto rtt = facet.font->getRenderedTextToken();
+		rtt->setText(text);
+		facet.renderedTextToken = rtt.get();
+		_renderedTextTokens.push_back(std::move(rtt));
+	
+	
+		facet.drawable.sourceRect = facet.renderedTextToken->texture()->dimensions();
+		facet.drawable.targetRect.x = position.x + offset.x;
+		facet.drawable.targetRect.y = position.y + offset.y;
+		facet.drawable.targetRect.w = facet.drawable.sourceRect.w * scale.x;
+		facet.drawable.targetRect.h = facet.drawable.sourceRect.h * scale.y;
+		facet.drawable.zIndex = position.z + offset.z;
+		facet.drawable.layerId = _drawableLayerId;
+		facet.drawable.drawableType = Drawable::DrawableType::TEXTURE;
+		facet.drawable.camera = getCamera();
+		facet.drawable.texture = facet.renderedTextToken->texture();
+		facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
 
 
 		_textFacets.push_back(std::move(facet));
@@ -179,32 +101,30 @@ namespace core {
 	}
 
 
-	EventProcessor::EventRegistration<TextContentChange> textContentChangeReg{};
-	EventProcessor::EventRegistration<FacetDimensionQuery> facetDimensionQueryReg{};
-
-	void TextRenderSystem2d::handleFacetDimensionQuery(FacetDimensionQuery& facetDimensionQuery) {
+	bool TextRenderSystem2d::handleEvent(FacetDimensionQuery& facetDimensionQuery) {
 
 		for (auto& facet : _textFacets) {
 			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {
 
-				SDL_Rect dim = facet.drawable.texture->dimensions();
-
+				SDL_Rect dim = facet.drawable.targetRect;				
 				facetDimensionQuery.dimensions.setDimension(Dimension{ dim.w, dim.h });
 				facetDimensionQuery.found = true;
-				return;
+				return false;
 			}
 		}
-
+		return true;
 	}
 
 
-	void TextRenderSystem2d::handleTextContentChange(TextContentChange& textContentChange) {
+	bool TextRenderSystem2d::handleEvent(TextContentChangeEvent& textContentChange) {
 
-		for (auto& facet : _textFacets)
-		if (facet.of() == textContentChange.entity && facet.id() == textContentChange.facetId) {			
-			updateTextFacet(facet, textContentChange.font, facet.position, textContentChange.offset.getPixel(), textContentChange.color.getColor(), textContentChange.textContent);
-			break;
+		for (auto& facet : _textFacets) {
+			if (facet.of() == textContentChange.entity && facet.id() == textContentChange.facetId) {
+				setText(facet, textContentChange.font, textContentChange.textContent);
+				return false;
+			}
 		}
+		return true;
 	}
 
 	void TextRenderSystem2d::destroyFacets(Entity& entity) {
@@ -233,27 +153,8 @@ namespace core {
 		}
 	}
 
-	void TextRenderSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {
-		for (auto& facet : _textFacets) {
-			if (facet.of() == pauseEvent.entity) {
-				if (pauseEvent.facetId == -1 || pauseEvent.facetId == facet.id()) {
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}
-					if(pauseEvent.facetId == facet.id()) break;
-				}
-			}
 
-		}
-
-	}
-
-	void TextRenderSystem2d::setText(TextFacet& facet, std::string text) {
+	void TextRenderSystem2d::setText(TextFacet& facet, std::string font ,std::string text) {
 		facet.textContent = text;
 
 		if (facet.renderedTextToken == nullptr) {
@@ -282,19 +183,6 @@ namespace core {
 		single<Renderer>().updateDrawable(facet.drawable);
 	}
 
-	void TextRenderSystem2d::setText(Entity& e, std::string text) {
-
-		for (auto& facet : _textFacets) {
-			if (facet.of() == e) {
-
-				setText(facet, text);
-
-				return;
-			}
-
-		}
-	}
-
 
 	void TextRenderSystem2d::setDefaultFont(Font* defaultFont) {
 		_defaultFont = defaultFont;
@@ -321,9 +209,11 @@ namespace core {
 
 			LuaColor color = lua["color"];
 
-			std::string text = lua["text"];			
+			std::string text = lua["text"];	
 
-			auto& newFacet = system->createTextFacet(entity, fontName, position.getPixel(), offset.getPixel(), color.getColor(), text);
+			LuaVec2 scale = lua["scale"];
+
+			auto& newFacet = system->createTextFacet(entity, fontName, position.getPixel(), offset.getPixel(), scale.getVec2(), color.getColor(), text);
 			lua.pushStack(newFacet.id());
 		}
 		else {

@@ -4,16 +4,23 @@
 namespace core {
 
 
-InitStatus Map::initializeImpl() {
-
-	return InitStatus::INIT_TRUE;
+bool Map::createImpl() {
+	return true;
 }
 
-InitStatus Map::resetImpl() {
+bool Map::initializeImpl() {
 
-	return InitStatus::INIT_FALSE;
+	return true;
 }
 
+bool Map::resetImpl() {
+
+	return true;
+}
+
+bool Map::destroyImpl() {
+	return true;
+}
 
 
 void Map::setTmxFilePath(std::string tmxFilePath) {

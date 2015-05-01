@@ -15,7 +15,6 @@
 #include "Config.hpp"
 #include "Templates.hpp"
 #include "SDLEvent.hpp"
-#include "EventFilter.hpp"
 #include "Event.hpp"
 
 
@@ -45,16 +44,17 @@ namespace core {
 	inline void endl() {}
 
 	class Core;
-	class Console : public basicOutStream, public EventListener, public initializable<Console, void, void>, public singleton<Console> {
+	class Console : public basicOutStream, public initializable<Console, void, void, void, void>, public singleton<Console> {
 
 		friend class Core;
 	public:
 
 		Console();
 
-		InitStatus initializeImpl();
-
-		InitStatus resetImpl();
+		bool createImpl();
+		bool initializeImpl();
+		bool resetImpl();
+		bool destroyImpl();
 		
 		template <typename ... Args>
 		void log(int debugLevel, Args&& ... args) {
@@ -100,9 +100,7 @@ namespace core {
 
 		void addNewLogMessage(std::string msg);
 
-		friend int consoleWriteProc(void* data);
-
-		void handleToggleEvent(WrappedSdlEvent& event);
+		friend int consoleWriteProc(void* data);		
 
 		void currentlyLogging(bool logging);
 
@@ -162,9 +160,7 @@ namespace core {
 
 		bool _running;
 
-		std::string _logFilePath;
-
-		EventFilter<WrappedSdlEvent> _consoleToggleFilter;
+		std::string _logFilePath;		
 
 		console_out_buf _buffer;		
 

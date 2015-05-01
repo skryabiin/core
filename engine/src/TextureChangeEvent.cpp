@@ -1,6 +1,6 @@
 #include "TextureChangeEvent.hpp"
 #include "Console.hpp"
-
+#include "EventProcessor.hpp"
 
 namespace core {
 

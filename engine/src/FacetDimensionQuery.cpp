@@ -17,13 +17,6 @@ namespace core {
 		return "FacetDimensionQuery";
 
 	}
-	long facetId;
-
-	Entity entity;
-
-	bool found;
-
-	LuaDimension dimensions;
 
 
 	bool FacetDimensionQuery::createFromLua(LuaState& lua) {

@@ -1,27 +1,60 @@
 #include "ShaderManager.hpp"
 #include "Core.hpp"
+#include "LuaList.hpp"
+
 
 namespace core {
 
-	InitStatus ShaderManager::initializeImpl() {
-
+	bool ShaderManager::createImpl() {
 
 		//register lua functions
 		auto& lua = single<Core>().lua();
 		lua.bindFunction("loadVertexShader_bind", loadVertexShader_bind);
 		lua.bindFunction("loadFragmentShader_bind", loadFragmentShader_bind);
 		lua.bindFunction("createShaderProgram_bind", createShaderProgram_bind);
-		return InitStatus::INIT_TRUE;
+		return true;
 	}
 
-	InitStatus ShaderManager::resetImpl() {
+	bool ShaderManager::initializeImpl() {
 
+		return true;
+	}
+
+	bool ShaderManager::resetImpl() {
+
+		for (auto& shader : _vertexShaders) {
+			shader.second.get()->reset();
+		}		
+
+		for (auto& shader : _fragmentShaders) {
+			shader.second.get()->reset();
+		}
+		
+		for (auto& sp : _shaderPrograms) {
+			sp.second.get()->reset();
+		}
+
+		return true;
+
+	}
+
+	bool ShaderManager::destroyImpl() {
+		for (auto& shader : _vertexShaders) {
+			shader.second.get()->destroy();
+		}
 		_vertexShaders.clear();
+
+		for (auto& shader : _fragmentShaders) {
+			shader.second.get()->destroy();
+		}
 		_fragmentShaders.clear();
+
+		for (auto& sp : _shaderPrograms) {
+			sp.second.get()->destroy();
+		}
 		_shaderPrograms.clear();
 
-		return InitStatus::INIT_FALSE;
-
+		return true;
 	}
 
 	ShaderProgram* ShaderManager::getShaderProgram(std::string name) {
@@ -70,7 +103,7 @@ namespace core {
 		for (auto& uniform : uniforms) {
 			shader->declareUniformVar(uniform);
 		}
-		//shader->initialize();
+		shader->create();
 		return shader;
 	}
 
@@ -96,7 +129,7 @@ namespace core {
 		for (auto& uniform : uniforms) {
 			shader->declareUniformVar(uniform);
 		}
-		//shader->initialize();
+		shader->create();
 		return shader;
 
 

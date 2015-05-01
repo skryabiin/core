@@ -6,12 +6,14 @@
 namespace core {
 
 
-	class Resource : public equal_comparable<Resource>, public nameable, public taggable, public initializable<Resource, void, void> {
+	class Resource : public equal_comparable<Resource>, public nameable, public taggable, public initializable<Resource, void, void, void, void> {
 
 	public:
 
-		virtual InitStatus initializeImpl() = 0;
-		virtual InitStatus resetImpl() = 0;
+		virtual bool createImpl() = 0;
+		virtual bool initializeImpl() = 0;
+		virtual bool resetImpl() = 0;
+		virtual bool destroyImpl() = 0;
 
 		~Resource() { };
 

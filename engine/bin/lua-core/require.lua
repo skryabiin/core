@@ -1,5 +1,6 @@
---require "lua-core/config"
+require "lua-core/config-default"
 require "lua-core/util"
+require "lua-core/renderer"
 require "lua-core/facet"
 require "lua-core/interface-facet"
 require "lua-core/physics-facet"

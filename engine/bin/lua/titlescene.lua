@@ -14,8 +14,7 @@ function Scenes.title.keyboardCallback(keyboardEvent)
 				end
 			end		
 	
-		if keyboardEvent.keysym == sdl.key.space then
-	
+		if keyboardEvent.keysym == sdl.key.space then			
 			titleButtons[selectedIndex]:doUnselect()
 			
 			if selectedIndex == #titleButtons then
@@ -25,8 +24,7 @@ function Scenes.title.keyboardCallback(keyboardEvent)
 			end
 			
 			titleButtons[selectedIndex]:doSelect()
-		elseif keyboardEvent.keysym == sdl.key.returnkey then
-			Console.info("doing on click, selected index is " .. selectedIndex)
+		elseif keyboardEvent.keysym == sdl.key.returnkey then			
 			titleButtons[selectedIndex].facets.interface:doOnClick()			
 		end
 		
@@ -39,8 +37,8 @@ function Scenes.title.init()
 	Console.info("In title scene")
 
 	Core.createSystem("BasicPositionSystem2d", "MenuPositions")
-	Core.createSystem("TextureRenderSystem2d", "MenuTextures", 10)
-	Core.createSystem("TextRenderSystem2d", "MenuText", 10)
+	Core.createSystem("TextureRenderSystem2d", "MenuTextures", 1)
+	Core.createSystem("TextRenderSystem2d", "MenuText", 1)
 	
 	Scenes.title.keyboardCallbackRef = EventProcessor.addEventFilter(-1,"KeyboardEvent", Scenes.title.keyboardCallback)
 	
@@ -65,21 +63,21 @@ function Scenes.title.init()
 			self:setPosition({x, y, 10})
 			self:setDimensions(dimensions)
 		end
-		function o:doSelect()
-			if not o.selected then
+		function o:doSelect()		
+			if not o.selected then			
 				o.facets.label:setText("+ " .. o.baseLabelText .. " +")
 				local position = o:getPosition()
 				o:setCenteredPosition(position[2])
-				o.selected = true
+				o.selected = true			
 			end
 		end
 		
-		function o:doUnselect()
-			if o.selected then
-				o.facets.label:setText(o.baseLabelText)
-				local position = o:getPosition()
-				o:setCenteredPosition(position[2])
-				o.selected = false
+		function o:doUnselect()			
+			if o.selected then								
+				o.facets.label:setText(o.baseLabelText)			
+				local position = o:getPosition()				
+				o:setCenteredPosition(position[2])				
+				o.selected = false				
 			end
 		end
 		return o
@@ -138,6 +136,6 @@ end
 
 function Scenes.title.reset() 
 
-	EventProcessor.removeEventFilter(Scenes.title.keyboardCallbackRef)
+	--EventProcessor.removeEventFilter(Scenes.title.keyboardCallbackRef)
 
 end

@@ -2,32 +2,34 @@
 
 namespace core {
 
+	bool VertexArrayObject::createImpl() {
+		return true;
+	}
 
-	InitStatus VertexArrayObject::initializeImpl(bool autoBindMode) {
+	bool VertexArrayObject::initializeImpl(bool autoBindMode) {
 		_autoBindMode = autoBindMode;
 		glGenVertexArrays(1, &_id);
-		return InitStatus::INIT_TRUE;
-	}
 
-	InitStatus VertexArrayObject::resetImpl() {
-		glDeleteVertexArrays(1, &_id);
-		return InitStatus::INIT_FALSE;
-
-	}
-
-
-	bool VertexArrayObject::bindImpl() {		
-		glBindVertexArray(_id);
-		auto glError = glGetError();
-		if (glError != GL_NO_ERROR) {
-			error("In VertexArrayobject::bind1, error code ", glError);
-		}
-		_program->bind();
-		glError = glGetError();
-		if (glError != GL_NO_ERROR) {
-			error("In VertexArrayobject::bind2, error code ", glError);
-		}
 		return true;
+	}
+
+	bool VertexArrayObject::resetImpl() {
+		if (!unbind()) return false;
+
+		glDeleteVertexArrays(1, &_id);
+		return true;
+
+	}
+
+	bool VertexArrayObject::destroyImpl() {
+		return true;
+	}
+
+	bool VertexArrayObject::bindImpl() {	
+
+		glBindVertexArray(_id);
+
+		return _program->bind();
 
 	}
 
@@ -35,10 +37,7 @@ namespace core {
 		if (_autoBindMode) bind();
 		glDrawElements(mode, _indices->getNumVertices(), GL_UNSIGNED_SHORT, NULL);
 		//glDrawArrays(mode, 0, 12 * 3);
-		auto glError = glGetError();
-		if (glError != GL_NO_ERROR) {
-			error("In VertexArrayobject::draw, error code ", glError);
-		}
+
 		if (_autoBindMode) unbind();
 	}
 
@@ -58,15 +57,16 @@ namespace core {
 		if (_autoBindMode) unbind();
 		return true;
 	}
-	bool VertexArrayObject::unbindImpl() {		
-		_program->unbind();
-		auto glError = glGetError();
-		if (glError != GL_NO_ERROR) {
-			error("In VertexArrayobject::unbind1, error code ", glError);
-		}
+	bool VertexArrayObject::unbindImpl() {	
+		bool out = true;
 		glBindVertexArray(NULL);
 
-		return true;
+		if (!_program->unbind()) {
+			out = false;
+		}
+
+
+		return out;
 	}
 
 }

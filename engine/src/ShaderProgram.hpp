@@ -42,9 +42,10 @@ namespace core {
 
 		~ShaderProgram();
 
-		virtual InitStatus initializeImpl() override;
-
-		virtual InitStatus resetImpl() override;
+		virtual bool createImpl() override;
+		virtual bool initializeImpl() override;
+		virtual bool resetImpl() override;
+		virtual bool destroyImpl() override;
 
 		bool link();
 
@@ -135,6 +136,19 @@ namespace core {
 		template<typename T>
 		void setUniformVariableMatrix(GLint& location, T& matrix) {
 
+		}
+		
+		void setUniformVariableArray(std::string name, glm::vec4& values) {
+			auto& var = _uniformVars[name.c_str()];
+
+			if (var.location == -1) {
+				var.location = glGetUniformLocation(_programId, var.name.c_str());
+			}
+			setUniformVariableArray(var.location, values);
+		}
+
+		void setUniformVariableArray(GLint& location, glm::vec4& values) {
+			glUniform4fv(location, 4, &values[0]);
 		}
 
 		template<>

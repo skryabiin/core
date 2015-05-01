@@ -9,7 +9,6 @@
 #include "Animation.hpp"
 #include "AnimationChangeEvent.hpp"
 #include "PositionChangeEvent.hpp"
-#include "EventFilter.hpp"
 #include "RenderableSystem2d.hpp"
 
 namespace core {
@@ -21,11 +20,11 @@ namespace core {
 
 	struct ColorStateChange;
 
-	class AnimationSystem2d : public RenderableSystem2d, public UpdateableSystem {
+	class AnimationSystem2d : public RenderableSystem2d, public UpdateableSystem, public EventListener<AnimationChangeEvent> {
 
 	public:
 
-		AnimationSystem2d();
+		AnimationSystem2d();		
 
 		AnimationFacet& createAnimationFacet(Entity& e);
 
@@ -33,24 +32,22 @@ namespace core {
 
 		virtual void updateImpl(RuntimeContext& context) override;		
 
-		void handleAnimationChange(AnimationChangeEvent& animationChange);
-
-		virtual void updateDrawPosition(PositionChangeEvent& positionChange) override;
+		bool handleEvent(AnimationChangeEvent& animationChange);		
 
 		virtual void renderFacet(SDL_Renderer* renderer, Facet* facet) {};
-
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
-		virtual InitStatus initializeImpl() override;
-
-		virtual InitStatus resetImpl() override;
 		
+		virtual bool createImpl() override;
+		virtual bool initializeImpl() override;
+		virtual bool resetImpl() override;
+		virtual bool destroyImpl() override;
+
 		virtual void destroyFacets(Entity& entity) override;
 
 		static int createFacet_bind(LuaState& lua);
 
-	private:
+		virtual ~AnimationSystem2d() {};
 
-		EventFilter<AnimationChangeEvent> _animationChangeFilter;
+	private:		
 
 		std::vector<AnimationFacet> _animationFacets;
 

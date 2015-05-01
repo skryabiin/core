@@ -59,7 +59,8 @@ Assets.fragmentShaders = {
 		name = "shape2d",
 		path = "./shaders/shape2d.glfs",
 		uniforms = {
-			"drawColor"
+			"drawColor",
+            "colorTransform"
 		}
 	},
 	{

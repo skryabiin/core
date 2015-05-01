@@ -11,57 +11,45 @@ namespace core {
 		
 	}
 
-	void BasicPositionSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {		
+	bool BasicPositionSystem2d::handleEvent(FacetPauseEvent& pauseEvent) {		
 		for (auto& facet : _facets) {
 			if (facet.of() == pauseEvent.entity) {
 				if (pauseEvent.facetId == -1 || facet.of() == pauseEvent.facetId) {
 					(pauseEvent.paused) ? facet.pause() : facet.resume();
-				}
-				break;
+					if (pauseEvent.facetId != -1) {
+						return false;
+					}
+				}				
 			}
 		}
-
+		return true;
 	}
 
 
-	InitStatus BasicPositionSystem2d::initializeImpl() {
+	bool BasicPositionSystem2d::createImpl() {		
+		return System::createImpl();
 
-		std::function<void(BasicPositionSystem2d*, PositionChangeEvent&)> positionChangeCallback = std::mem_fn(&BasicPositionSystem2d::handlePositionChange);
-		_positionChangeFilter.init(this, positionChangeCallback);
-		single<EventProcessor>().addFilter(&_positionChangeFilter);
+	}
+	bool BasicPositionSystem2d::initializeImpl() {
 
-		std::function<void(BasicPositionSystem2d*, OrientationChangeEvent&)> orientationChangeCallback = std::mem_fn(&BasicPositionSystem2d::handleOrientationChange);
-		_orientationChangeFilter.init(this, orientationChangeCallback);
-		single<EventProcessor>().addFilter(&_orientationChangeFilter);
+		if (!System::initializeImpl()) return false;
 
-		std::function<void(BasicPositionSystem2d*, DimensionChangeEvent&)> dimensionChangeCallback = std::mem_fn(&BasicPositionSystem2d::handleDimensionChange);
-		_dimensionChangeFilter.init(this, dimensionChangeCallback);
-		single<EventProcessor>().addFilter(&_dimensionChangeFilter);
+	
 
-		std::function<void(BasicPositionSystem2d*, EntityPositionQuery&)> positionQueryCallback = std::mem_fn(&BasicPositionSystem2d::answerEntityPositionQuery);
-		_positionQueryFilter.init(this, positionQueryCallback);
-		single<EventProcessor>().addFilter(&_positionQueryFilter);
-
-		std::function<void(BasicPositionSystem2d*, EntitiesInRectQuery&)> entitiesInRectQueryCallback = std::mem_fn(&BasicPositionSystem2d::answerEntitiesInRectQuery);
-		_entitiesInRectQueryFilter.init(this, entitiesInRectQueryCallback);
-		single<EventProcessor>().addFilter(&_entitiesInRectQueryFilter);
-
-		return System::initializeImpl();
+		return true;
 	}
 
 
-	InitStatus BasicPositionSystem2d::resetImpl() {
-
-		single<EventProcessor>().removeFilter(&_positionChangeFilter);
-		single<EventProcessor>().removeFilter(&_orientationChangeFilter);
-		single<EventProcessor>().removeFilter(&_dimensionChangeFilter);
-		single<EventProcessor>().removeFilter(&_positionQueryFilter);
-		single<EventProcessor>().removeFilter(&_entitiesInRectQueryFilter);
+	bool BasicPositionSystem2d::resetImpl() {
 
 		_facets.clear();
 		_facets.shrink_to_fit();
 
 		return System::resetImpl();
+	}
+
+	bool BasicPositionSystem2d::destroyImpl() {
+		return System::destroyImpl();
 	}
 
 	void BasicPositionSystem2d::destroyFacets(Entity& e) {
@@ -73,42 +61,45 @@ namespace core {
 		}
 	}
 
-	void BasicPositionSystem2d::handlePositionChange(PositionChangeEvent& event) {		
+	bool BasicPositionSystem2d::handleEvent(PositionChangeEvent& event) {
 
 		for (auto it = std::begin(_facets); it != std::end(_facets); it++) {
 
 			if (it->of() == event.entity) {
 				auto base = (event.relative) ? it->p : Pixel{};
 				it->p = event.position.getPixel() + base;				
-				return;
+				return true;
 			}
 		}
+		return true;
 	}
 
-	void BasicPositionSystem2d::handleDimensionChange(DimensionChangeEvent& event) {
+	bool BasicPositionSystem2d::handleEvent(DimensionChangeEvent& event) {
 
 		for (auto it = std::begin(_facets); it != std::end(_facets); it++) {
 
 			if (it->of() == event.entity) {
 				it->dim = event.dimensions.getDimension();
-				return;
+				return true;
 			}
 		}
+		return true;
 	}
 
-	void BasicPositionSystem2d::handleOrientationChange(OrientationChangeEvent& event) {
+	bool BasicPositionSystem2d::handleEvent(OrientationChangeEvent& event) {
 
 		for (auto it = std::begin(_facets); it != std::end(_facets); it++) {
 
 			if (it->of() == event.entity) {
 				it->orientation = event.orientation.getVec2();
-				return;
+				return true;
 			}
 		}
+		return true;
 	}
 
 
-	void BasicPositionSystem2d::answerEntitiesInRectQuery(EntitiesInRectQuery& query) {
+	bool BasicPositionSystem2d::handleEvent(EntitiesInRectQuery& query) {
 
 		int x1 = query.rect[0];
 		int y1 = query.rect[1];
@@ -131,16 +122,16 @@ namespace core {
 			}
 
 		}
-
+		return true;
 
 	}
 
 
-	void BasicPositionSystem2d::answerEntityPositionQuery(EntityPositionQuery& query) {
+	bool BasicPositionSystem2d::handleEvent(EntityPositionQuery& query) {
 
 
 		//return if another system already has the position
-		if (query.found) return;
+		if (query.found) return false;
 
 		for (auto it = std::begin(_facets); it != std::end(_facets); ++it) {
 			if (it->of() == query.entity) {
@@ -151,6 +142,8 @@ namespace core {
 				break;
 			}
 		}
+
+		return !query.found;
 	}
 
 	PositionFacet& BasicPositionSystem2d::createFacet(Entity& e, Pixel position, Dimension dimensions, Vec2 orientation) {
@@ -181,6 +174,4 @@ namespace core {
 		return 1;
 	}
 
-	EventProcessor::EventRegistration<OrientationChangeEvent> orientationChangeEventReg{};
-	EventProcessor::EventRegistration<DimensionChangeEvent> dimensionChangeEventReg{};
 }

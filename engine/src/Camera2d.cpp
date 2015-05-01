@@ -7,21 +7,32 @@
 
 namespace core {
 
-	InitStatus Camera2d::initializeImpl() {
+	bool Camera2d::createImpl() {
+
+		return true;
+	}
+
+	bool Camera2d::initializeImpl() {
 		auto& lua = single<Core>().lua();
 		_worldScale = Vec2{ lua("Config")["scale"][1], lua("Config")["scale"][2] };
-	
+
 		_windowWidth = lua("Config")["window"][1];
 		_windowHeight = lua("Config")["window"][2];
 		_worldCenterPosition.x = _windowWidth / 2;
 		_worldCenterPosition.y = _windowHeight / 2;
-		return InitStatus::INIT_TRUE;
+		_viewportRect.w = _windowWidth;
+		_viewportRect.h = _windowHeight;
+		return true;
 	}
 
-	InitStatus Camera2d::resetImpl() {
-		return InitStatus::INIT_FALSE;
-
+	bool Camera2d::resetImpl() {
+		return true;
 	}
+
+	bool Camera2d::destroyImpl() {
+		return true;
+	}
+
 	void Camera2d::setWorldCenterPosition(Point p) {
 
 		_worldCenterPosition = p;
@@ -61,6 +72,47 @@ namespace core {
 
 	}
 	*/
+
+	bool Camera2d::positionPoints(std::vector<Pixel>& pixels, std::vector<GLfloat>& vertices) {
+		bool onScreen = true;
+		auto aligned = Pixel{};
+		for (auto& pixel : pixels) {
+			/*
+			aligned.x = (_windowWidth / 2) - (_worldCenterPosition.x - pixel.x);
+			aligned.y = (_windowHeight / 2) - (_worldCenterPosition.y - pixel.y);
+			*/
+			//TODO check on screen
+			vertices.push_back((GLfloat(_windowWidth / 2.0) - GLfloat(_worldCenterPosition.x - pixel.x)) / GLfloat(_windowWidth / 2.0));
+			vertices.push_back((GLfloat(_windowHeight / 2.0) - GLfloat(_worldCenterPosition.y - pixel.y)) / GLfloat(_windowHeight / 2.0));
+		}
+		return true;
+
+	}
+
+	bool Camera2d::positionRect(SDL_Rect& rect, std::vector<GLfloat>& vertices) {
+		_bufferRect.x = (_windowWidth / 2) - (_worldCenterPosition.x - rect.x);
+		_bufferRect.y = (_windowHeight / 2) - (_worldCenterPosition.y - rect.y);
+		_bufferRect.w = rect.w;
+		_bufferRect.h = rect.h;
+		if (!SDL_HasIntersection(&_bufferRect, &_viewportRect)) {
+			return false;
+		}
+
+		auto x0 = (GLfloat(_bufferRect.x) - _viewportRect.w / 2.0f) / (_windowWidth / 2.0f);
+		auto x1 = (GLfloat(_bufferRect.x + _bufferRect.w) - _viewportRect.w / 2.0f) / (_windowWidth / 2.0f);
+		auto y0 = (GLfloat(_bufferRect.y) - _viewportRect.h / 2.0f) / (_windowHeight / 2.0f);
+		auto y1 = (GLfloat(_bufferRect.y + _bufferRect.h) - _viewportRect.h / 2.0f) / (_windowHeight / 2.0f);
+		vertices.clear();
+		vertices.push_back(x0);
+		vertices.push_back(y0);
+		vertices.push_back(x1);
+		vertices.push_back(y0);
+		vertices.push_back(x1);
+		vertices.push_back(y1);
+		vertices.push_back(x0);
+		vertices.push_back(y1);
+		return true;
+	}
 
 	void Camera2d::positionRect(SDL_Rect& rect) {
 		rect.x = (_windowWidth / 2) - (_worldCenterPosition.x - rect.x);

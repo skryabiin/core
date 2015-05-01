@@ -9,40 +9,33 @@
 namespace core {
 
 
-/*	void TextureRenderSystem::renderImpl() {
 
-		auto d = Drawable{};
-
-		for (auto& texture : _textureFacets) {
-
-			if (texture.isPaused() || (_currentColorId >= 0 && texture.colorId >= 0 && texture.colorId != _currentColorId)) continue;
-
-			d.sourceRect = texture.sourceRect;
-			d.targetRect = texture.targetRect;
-			d.texture = texture.texture;
-			d.zIndex = texture.z;
-			//d.scale = texture.scale;
-
-			single<Renderer>().render(d, _camera);
-
-		}
-
-	}*/
-
-
-	EventProcessor::EventRegistration<ColorChangeEvent> colorChangeEventReg{};
 
 	TextureRenderSystem2d::TextureRenderSystem2d() {
-
+		int x = 0;
 	}
 
 
-	void TextureRenderSystem2d::handleTextureChange(TextureChangeEvent& e) {
+	bool TextureRenderSystem2d::handleEvent(TextureChangeEvent& e) {
 
 		updateTexture(e);
 		
 		
+		return true;
+	}
 
+	bool TextureRenderSystem2d::handleEvent(FacetDimensionQuery& facetDimensionQuery) {
+
+		for (auto& facet : _textureFacets) {
+			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {
+
+				SDL_Rect dim = facet.drawable.targetRect;
+				facetDimensionQuery.dimensions.setDimension(Dimension{ dim.w, dim.h });
+				facetDimensionQuery.found = true;
+				return false;
+			}
+		}
+		return true;
 	}
 
 	TextureFacet& TextureRenderSystem2d::updateTexture(TextureChangeEvent& e) {
@@ -51,7 +44,7 @@ namespace core {
 				facet.drawable.texture = single<ResourceManager>().getTexture(e.textureName);
 				facet.drawable.sourceRect = e.sourceTextureRect.getRect();
 				auto targetRect = facet.drawable.targetRect;
-				facet.drawable.targetRect = SDL_Rect{ targetRect.x + facet.offset.x, targetRect.y + facet.offset.y, roundFloat(facet.width * facet.scale.x), roundFloat(facet.height * facet.scale.y) };
+				facet.drawable.targetRect = SDL_Rect{ targetRect.x + facet.offset.x, targetRect.y + facet.offset.y, roundFloat(facet.drawable.sourceRect.w * facet.scale.x), roundFloat(facet.drawable.sourceRect.h * facet.scale.y) };
 				return facet;
 				single<Renderer>().updateDrawable(facet.drawable);
 			}
@@ -59,18 +52,7 @@ namespace core {
 		return _nullFacet;
 	}
 
-	void TextureRenderSystem2d::handleEntityLayerQuery(EntityLayerQuery& entityLayerQuery) {
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == entityLayerQuery.entity) {
-				if (_drawableLayerId > entityLayerQuery.layerId) {
-					entityLayerQuery.layerId = _drawableLayerId;
-					entityLayerQuery.found = true;
-				}
-			}
-		}
 
-
-	}
 
 	std::vector<Facet*> TextureRenderSystem2d::getFacets(Entity& e) {
 
@@ -90,120 +72,26 @@ namespace core {
 
 	}
 
-	void TextureRenderSystem2d::updateDrawPosition(PositionChangeEvent& positionChange) {
-
-
-
-		auto moveIt = _movingTextures.find(positionChange.entity);
-
-		TextureFacet* texture = nullptr;
-
-		if (moveIt == std::end(_movingTextures)) {
-			for (unsigned i = 0; i < _textureFacets.size(); i++) {
-				if (_textureFacets[i].of() == positionChange.entity) {
-					texture = &_textureFacets[i];
-					break;
-				}
-			}
-			if (texture == nullptr) return;
-
-			_movingTextures.insert(std::pair<Entity, TextureFacet*>(positionChange.entity, texture));
-
-		}
-		else {
-			texture = moveIt->second;
-		}
-
-		auto& d = texture->drawable;
-
-		auto p = positionChange.position.getPixel();
-		auto dp = Pixel{ d.targetRect.x, d.targetRect.y, d.zIndex };
-		auto outP = (positionChange.relative) ? p + dp : p + texture->offset;
-
-		d.targetRect.x = outP.x;
-		d.targetRect.y = outP.y;
-
-
-		d.zIndex = outP.z;
-
-		single<Renderer>().updateDrawable(d);
-
-		//check if this is the entity the camera is centered on
-		if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {			
-			auto x = outP.x + texture->width * 0.5f;
-			auto y = outP.y + texture->height * 0.5f;
-			snapCameraToCoordinates(x, y);
-		}
-
-
-
-		
-	}
-
-	void TextureRenderSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {		
-
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == pauseEvent.entity) {
-				if (pauseEvent.facetId == -1 || facet.id() == pauseEvent.facetId) {
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}
-					if (facet.id() == pauseEvent.facetId) break;
-				}
-			}
-		}
-	}
-
-	void TextureRenderSystem2d::updateColor(ColorChangeEvent& colorChangeEvent) {
-
-		
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == colorChangeEvent.entity && facet.id() == colorChangeEvent.facetId) {	
-				auto& d = facet.drawable;
-				d.texture->setBlendMode(colorChangeEvent.blendMode);
-				if (colorChangeEvent.doModulateColor) {
-					Color newColor = colorChangeEvent.color.getColor();
-					if (newColor != Color::get(Color::CommonColor::WHITE)) {
-						d.doModulateColor = true;
-						d.textureModulateColor = colorChangeEvent.color.getColor();
-					}
-					else {
-						d.doModulateColor = false;
-					}
-				}
-				else {
-					d.doModulateColor = false;
-				}
-				single<Renderer>().updateDrawable(d);
-			}
-		}		
-	}
-
-	TextureFacet& TextureRenderSystem2d::createTextureFacet(Entity& e, Pixel position, Pixel offset, Dimension dimensions, Vec2 scale, SDL_Rect source, std::string textureName) {
+	TextureFacet& TextureRenderSystem2d::createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName) {
 
 		auto facet = TextureFacet{};
 		facet.setOf(e);
 
 		facet.scale = scale;
 		facet.offset = offset;
-		facet.width = dimensions.w;
-		facet.height = dimensions.h;
 
-		auto& drawable = facet.drawable;
-		drawable.entityId = e;
+		auto& drawable = facet.drawable;	
+		drawable.drawableType = Drawable::DrawableType::TEXTURE;
 		drawable.camera = getCamera();
 		drawable.layerId = _drawableLayerId;
-		
-		drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, roundFloat(dimensions.w * scale.x), roundFloat(dimensions.h * scale.y) };
-
 		drawable.texture = single<ResourceManager>().getTexture(textureName);
+		source = (source.h == 0 || source.w == 0) ? drawable.texture->dimensions() : source;
+
+		drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, roundFloat(source.w * scale.x), roundFloat(source.h * scale.y) };
+
 		
-		drawable.sourceRect = (source.h == 0 || source.w == 0) ? drawable.texture->dimensions() : source;
+
+		drawable.sourceRect = source;
 
 		drawable.zIndex = position.z + offset.z;
 		drawable.id = single<Renderer>().createDrawable(drawable);
@@ -212,21 +100,20 @@ namespace core {
 		return _textureFacets.back();
 	}
 
-	InitStatus TextureRenderSystem2d::initializeImpl() {
 
-		std::function<void(TextureRenderSystem2d*, TextureChangeEvent&)> callback = std::mem_fn(&TextureRenderSystem2d::handleTextureChange);
+	bool TextureRenderSystem2d::createImpl() {
+		return RenderableSystem2d::createImpl();
+	}
 
-		_textureChangeFilter.init(this, callback);
-		single<EventProcessor>().addFilter(&_textureChangeFilter);
-
+	bool TextureRenderSystem2d::initializeImpl() {
 
 
 		return RenderableSystem2d::initializeImpl();
 	}
 
 
-	InitStatus TextureRenderSystem2d::resetImpl() {
-		single<EventProcessor>().removeFilter(&_textureChangeFilter);
+	bool TextureRenderSystem2d::resetImpl() {
+	
 		_movingTextures.clear();
 
 		for (auto& facet : _textureFacets) {
@@ -239,6 +126,9 @@ namespace core {
 		return RenderableSystem2d::resetImpl();
 	}
 
+	bool TextureRenderSystem2d::destroyImpl() {
+		return RenderableSystem2d::destroyImpl();
+	}
 
 	void TextureRenderSystem2d::destroyFacets(Entity& entity) {
 		
@@ -268,9 +158,7 @@ namespace core {
 
 		if (system != nullptr) {
 			
-			LuaRect source = lua["source"];
-
-			LuaDimension dimensions = lua["dimensions"];
+			LuaRect source = lua["source"];			
 
 			LuaPixel position = lua["position"];
 
@@ -280,7 +168,7 @@ namespace core {
 			
 			std::string textureName = lua["textureName"];			
 			
-			auto& newFacet = system->createTextureFacet(entityId, position.getPixel(), offset.getPixel(), dimensions.getDimension(), scale.getVec2(), source.getRect(), textureName);
+			auto& newFacet = system->createTextureFacet(entityId, position.getPixel(), offset.getPixel(), scale.getVec2(), source.getRect(), textureName);
 			lua.pushStack(newFacet.id());
 		}
 		else {
@@ -289,7 +177,5 @@ namespace core {
 		return 1;
 	}
 
-	EventProcessor::EventRegistration<TextureChangeEvent> textureChangeEventReg{};
-	EventProcessor::EventRegistration<FacetPauseEvent> facetPauseEventReg{};
 
 } //end namespace core

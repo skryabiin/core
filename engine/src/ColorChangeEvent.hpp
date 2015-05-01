@@ -12,11 +12,10 @@ namespace core {
 
 		ColorChangeEvent();
 
-		Entity entity;
-		LuaColor color;		
+		Entity entity;	
 		int facetId;
-		bool doModulateColor;
-		int blendMode;
+		LuaVector<float, 16> colorMatrix;
+		LuaColor color;
 
 		static std::string getEventTypeNameImpl();
 

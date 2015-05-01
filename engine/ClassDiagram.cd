@@ -1,0 +1,1137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="core::console_out_buf" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Core" Collapsed="true">
+    <Position X="87.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQENEoAAAIoIUFhpggAgAAEACDQAIIBAAAjAUgAUgAI=</HashCode>
+      <FileName>src\Core.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Console" Collapsed="true">
+    <Position X="90.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAgQQgAAJAgAhFAELACERAUgAgEAAQDDEgQkBAAQA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Interface" Collapsed="true">
+    <Position X="90.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQBBAACAAJQAAgAFARAAAAMQACAAQAgAIAAAEAEEgA=</HashCode>
+      <FileName>src\Interface.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::RuntimeContext" Collapsed="true">
+    <Position X="147.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>src\RuntimeContext.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::nameable" Collapsed="true">
+    <Position X="70.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::singleton&lt;T&gt;" Collapsed="true">
+    <Position X="46.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAEAAgAAAAAAAAAQBAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::renderable&lt;T&gt;" Collapsed="true">
+    <Position X="145.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::updateable&lt;T, Return_type, Context_type&gt;" Collapsed="true">
+    <Position X="87.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::taggable" Collapsed="true">
+    <Position X="79" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAACAAAEAAAAAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::pausable&lt;T&gt;" Collapsed="true">
+    <Position X="73" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAAAAQAAAACAEAAAAAAAAAAQAAgAAAAAAAAAEIAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::initializable&lt;T, Init_type, Reset_type&gt;" Collapsed="true">
+    <Position X="81.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEABAAAAAgAAEAAAAAAAAAAAIAIAAAAAAAAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::equal_comparable&lt;T&gt;" Collapsed="true">
+    <Position X="76" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABBAAAAAAIAAAAAAQAAgAAAAAgA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::bindable&lt;T&gt;" Collapsed="true">
+    <Position X="49" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAABAAAAAgAAAAAAAgAAAAAAABAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::EventBase" Collapsed="true">
+    <Position X="82.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAEAAAAAAYgAAAEAAAAAAAAAIAAAAAAAAQAAAQA=</HashCode>
+      <FileName>src\Event.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::EventFilterBase" Collapsed="true">
+    <Position X="102" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQAAAAAAAAFCAAAQggAAAAAABIAAAEAAAAgAAAAAAAg=</HashCode>
+      <FileName>src\EventFilter.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::EventFilter&lt;EVENT_TYPE&gt;" Collapsed="true">
+    <Position X="76" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAQAAAAAAAAAAAAAAIIAAABACAAAAAA=</HashCode>
+      <FileName>src\EventFilter.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::EventListener" Collapsed="true">
+    <Position X="87.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventListener.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaDummyListener" Collapsed="true">
+    <Position X="87.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventListener.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::EventProcessor" Collapsed="true">
+    <Position X="63.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQABARgAMABggAABAAAAogAAAAAAAAAACAIAAEAgI=</HashCode>
+      <FileName>src\EventProcessor.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ObjectInteractionEvent" Collapsed="true">
+    <Position X="66.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\ObjectInteractionEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::WrappedSdlEvent" Collapsed="true">
+    <Position X="111" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\SDLEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::BufferObject&lt;T, BUFFER_TYPE&gt;" Collapsed="true">
+    <Position X="70" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAIABAAAAAAAA=</HashCode>
+      <FileName>src\BufferObject.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::BufferObjectBase" Collapsed="true">
+    <Position X="95.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAgAAIAAAgAAAAAAAAAAAAEAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>src\BufferObjectBase.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Camera" Collapsed="true">
+    <Position X="140.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACIgABgREAgAAQAQQEACEmUIEEoEUAoiABgWAQBCA=</HashCode>
+      <FileName>src\Camera.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Camera2d" Collapsed="true">
+    <Position X="70" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAAAAAIAAAgAAAAAAAAAAACACAAACAAIAAAAAyA=</HashCode>
+      <FileName>src\Camera2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Texture" Collapsed="true">
+    <Position X="97.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAhAgAAIAgAgAggAKKAAACEBBAAgEAAMgASEAAAQ=</HashCode>
+      <FileName>src\Texture.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::RenderableSystem2d" Collapsed="true">
+    <Position X="92.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBBCAQBKMgABigAAAQIAEAIAAAAAAAAiAAACIAAQA=</HashCode>
+      <FileName>src\RenderableSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::FragmentShader" Collapsed="true">
+    <Position X="54.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\FragmentShader.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::IndexBufferObject" Collapsed="true">
+    <Position X="71.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\IndexBufferObject.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Renderer" Collapsed="true">
+    <Position X="84.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RQAiAAACCApAAIksgBDBAQCQEAQGEgAxIQCQETKQBGI=</HashCode>
+      <FileName>src\Renderer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Renderer2d" Collapsed="true">
+    <Position X="97.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAtAAAAgIAoAgAQCQAAQAgAGAQIkAAAoAFAIAEAQA=</HashCode>
+      <FileName>src\Renderer2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Shader&lt;SHADER_TYPE&gt;" Collapsed="true">
+    <Position X="55.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAgCEIAAAkAAAAIAAAAAAAAgAAEAAEAAAAAAAE=</HashCode>
+      <FileName>src\Shader.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ShaderProgram" Collapsed="true">
+    <Position X="76" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AHiCECAYABIAAAgAAQAAgAhBEAAQBCAIiAIJAAAQAEA=</HashCode>
+      <FileName>src\ShaderProgram.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ShaderManager" Collapsed="true">
+    <Position X="60.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAQQIAkAgAAEAAAQAAAAAACAAACAAAQAAIAQE=</HashCode>
+      <FileName>src\ShaderManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::VertexArrayObject" Collapsed="true">
+    <Position X="66" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEiAAAAIAAIAAAgIAYJAgAAAAAAQAIAAAAAAAAAQAAA=</HashCode>
+      <FileName>src\VertexArrayObject.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::VertexBufferObject&lt;T&gt;" Collapsed="true">
+    <Position X="69" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\VertexBufferObject.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::VertexShader" Collapsed="true">
+    <Position X="56.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAABAAAAEAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\VertexShader.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaCursor" Collapsed="true">
+    <Position X="142.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgBiAAAAAAAEAAAgBEAAAAEAAAAAAAAgAAIAAAA=</HashCode>
+      <FileName>src\LuaCursor.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaState" Collapsed="true">
+    <Position X="93" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAOgAgVmAMNAAAwUEAAmBMQICAHIAAAARBAiARIjBEA=</HashCode>
+      <FileName>src\LuaState.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaFunction" Collapsed="true">
+    <Position X="144" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>src\LuaFunction.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaList&lt;T&gt;" Collapsed="true">
+    <Position X="35.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAgAABAAIEIAAAGAAEAACAAAAAAAAAAAiA=</HashCode>
+      <FileName>src\LuaList.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaMap" Collapsed="true">
+    <Position X="27.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAgAAAAAAAIAAAAAAEAAAAAAAAgAAAAACA=</HashCode>
+      <FileName>src\LuaMap.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaTable" Collapsed="true">
+    <Position X="53" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KFCBAAEAAAAgAAAEAIAoBEAEIMUAAiAAAAAgQAIBAEA=</HashCode>
+      <FileName>src\LuaTable.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LuaVector&lt;T, dimensions&gt;" Collapsed="true">
+    <Position X="30" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Segment" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAEAAAAAAAAEEAAAAAAAAAQAAgAQgAwAAABAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Shape" Collapsed="true">
+    <Position X="149.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::LinearParticleField" Collapsed="true">
+    <Position X="87.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAAAAABAAAAAAAAAgAAAAEAAAAIAAAAAQAAAAQA=</HashCode>
+      <FileName>src\LinearParticleField.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ParticleFieldBase" Collapsed="true">
+    <Position X="87.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAEAAAAAAAAAQAAAAAAAAAAAAAAACAAAAAAAQA=</HashCode>
+      <FileName>src\ParticleField.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ParticleField&lt;Particle_type&gt;" Collapsed="true">
+    <Position X="87.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIEAAAIAAACAQgAAQAEAAAAAAAAACAAgAAAAAA=</HashCode>
+      <FileName>src\ParticleField.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::AnimationSet" Collapsed="true">
+    <Position X="112" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIEAAAAAAAAAAAAAAAAAhAAIEAABAAAAAAAAAAAA=</HashCode>
+      <FileName>src\AnimationSet.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Font" Collapsed="true">
+    <Position X="99.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAIAAEgCAAAIAAAAAAAAAACAAAEACAQCAAA=</HashCode>
+      <FileName>src\Font.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::RenderedTextToken" Collapsed="true">
+    <Position X="116.5" Y="1.75" Width="1.5" />
+    <InheritanceLine Type="core::equal_comparable&lt;T&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="76" Y="1.062" />
+        <Point X="75.875" Y="1.062" />
+        <Point X="75.875" Y="1.375" />
+        <Point X="76.667" Y="1.375" Type="JumpStart" />
+        <Point X="76.833" Y="1.375" Type="JumpEnd" />
+        <Point X="81.917" Y="1.375" Type="JumpStart" />
+        <Point X="82.083" Y="1.375" Type="JumpEnd" />
+        <Point X="117.25" Y="1.375" />
+        <Point X="117.25" Y="1.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>oAAAAAAAAQAAAAAAAAAACACAwISAggAIABAAAAAAAAA=</HashCode>
+      <FileName>src\RenderedTextToken.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Map" Collapsed="true">
+    <Position X="85" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIIAAAgAAAAAAAAACAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>src\Map.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Music" Collapsed="true">
+    <Position X="79" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QYAAAAMAQIAAAAQAgBAAAAAAAAAgAACAAAAIAAAAAAA=</HashCode>
+      <FileName>src\Music.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Resource" Collapsed="true">
+    <Position X="76" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAgAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Resource.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ResourceManager" Collapsed="true">
+    <Position X="63.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAIIABAUDEIEQggCAQCAACQAEAAIEACMEAQgoAAECAA=</HashCode>
+      <FileName>src\ResourceManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Sound" Collapsed="true">
+    <Position X="73" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACABAAMAAAIAAAgAgBAAAWAAAACAAAAEBAAAAAAAAAE=</HashCode>
+      <FileName>src\Sound.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::AnimationSystem2d" Collapsed="true">
+    <Position X="93.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBEAABAAIAAAgAAAAAJAEAAAAAwAAAACAAAAAAIgA=</HashCode>
+      <FileName>src\AnimationSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::BasicPositionSystem2d" Collapsed="true">
+    <Position X="97" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAAAIIAggAAAAgIAAAEAAgBQAAACIIAAAAAgA=</HashCode>
+      <FileName>src\BasicPositionSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::ParticleSystem2d" Collapsed="true">
+    <Position X="91.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBACAAAAIAAAgAAAAAIAEAAAAAAQAAACAAAAAAAgA=</HashCode>
+      <FileName>src\ParticleSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::PhysicsSystem" Collapsed="true">
+    <Position X="97" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAIxAAAIICggAAAIhIAQCEAQAAAQIACAEAAAAAoA=</HashCode>
+      <FileName>src\PhysicsSystem.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::PrimitiveRenderSystem2d" Collapsed="true">
+    <Position X="90.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAQAAIAAAiAAAAQAAAAAAAAAQCAACAAAAAAAAA=</HashCode>
+      <FileName>src\PrimitiveRenderSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::System" Collapsed="true">
+    <Position X="90.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAIIAAAgAgAAAAAAAAAQAgABAAAAAAAAAAgA=</HashCode>
+      <FileName>src\System.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::TextRenderSystem2d" Collapsed="true">
+    <Position X="92.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AA1AAAAAQAIAACgACQEAIAGAAAAAAAAAACQAgAAACgA=</HashCode>
+      <FileName>src\TextRenderSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::TextureRenderSystem2d" Collapsed="true">
+    <Position X="94.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAaAAAAQAAIAgAqAAAAgIAAIAAAAAAAAACgBAAAACgA=</HashCode>
+      <FileName>src\TextureRenderSystem2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::UpdateableSystem" Collapsed="true">
+    <Position X="90.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\UpdateableSystem.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::World" Collapsed="true">
+    <Position X="88" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIAABgAAAAAAAAAAAAQBAIAAEAAAAAAAgA=</HashCode>
+      <FileName>src\World.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="core::Facet" Collapsed="true">
+    <Position X="73" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAAAAAAECAAAAAgAAAAAAAAABAEgAAAAAAQAAAAAA=</HashCode>
+      <FileName>src\Facet.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="core::cameraConfig" Collapsed="true">
+    <Position X="144" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAEAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::rendererConfig" Collapsed="true">
+    <Position X="147.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAABAAAgAAAAAAAAAAAAAAAAAAAAAAAIQ=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::inputConfig" Collapsed="true">
+    <Position X="147.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQgAAkAgAsQIAAAAEgAEgQAEAAAAAACAAAAQCAAA=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::gameConfig" Collapsed="true">
+    <Position X="145.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::consoleConfig" Collapsed="true">
+    <Position X="142.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAEAA=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Config" Collapsed="true">
+    <Position X="140.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAggAAAAAAAAAAAAAAAAAAABAIAAAAAAAAgAA=</HashCode>
+      <FileName>src\Config.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::DebugSettings" Collapsed="true">
+    <Position X="147.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::CoreConfig" Collapsed="true">
+    <Position X="145.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>src\Core.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::MouseCursorDef" Collapsed="true">
+    <Position X="140.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CACCAAAAAAAAAAAAAgAAAAACAEAAoAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Interface.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::InterfaceState" Collapsed="true">
+    <Position X="33" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAEAAAAAAAAAAAACAAAAAAgAAAAAAMAAAAE=</HashCode>
+      <FileName>src\Interface.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::DebugEvent" Collapsed="true">
+    <Position X="133.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\DebugEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Event&lt;T&gt;" Collapsed="true">
+    <Position X="82.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACIAAAAAQ=</HashCode>
+      <FileName>src\Event.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EventTopicBase" Collapsed="true">
+    <Position X="109.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventTopic.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EventTopic&lt;EVENT_TYPE&gt;" Collapsed="true">
+    <Position X="109.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventTopic.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::FacetPauseEvent" Collapsed="true">
+    <Position X="117.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAAAQAAAAAAAAACACAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>src\FacetPauseEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaEventFilter" Collapsed="true">
+    <Position X="73" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAQAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\LuaEventFilter.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::TimedEvent" Collapsed="true">
+    <Position X="129" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAABAAAAAAAAAAAAAAAACEAACAAACAAAAIAAAAAAA=</HashCode>
+      <FileName>src\TimedEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::AccelerationChangeEvent" Collapsed="true">
+    <Position X="135.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAACAAAAAEAAAAAAACAAgAAAAAAAAAABAA=</HashCode>
+      <FileName>src\AccelerationChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ContactState" Collapsed="true">
+    <Position X="40.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAABAAAAAAAAAACAAAAAAAAAAAAAAkAAAAAAAAAAA=</HashCode>
+      <FileName>src\CollisionState.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::CollisionState" Collapsed="true">
+    <Position X="61.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAgEAAAACAAAGAAAAAAAAAIAA=</HashCode>
+      <FileName>src\CollisionState.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::PositionChangeEvent" Collapsed="true">
+    <Position X="70.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAoAEAAAAAAAAAAIAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\PositionChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::VelocityChangeEvent" Collapsed="true">
+    <Position X="81.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAABAAAEAICAAAAAEAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\VelocityChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EntitiesInRectQuery" Collapsed="true">
+    <Position X="94.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAIAAAAAGAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EntitiesInRectQuery.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EntityLayerQuery" Collapsed="true">
+    <Position X="104.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAIAACAAAAAAAAAACAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EntityLayerQuery.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EntityPositionQuery" Collapsed="true">
+    <Position X="108.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAEAAIAAAAgAAIAQAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EntityPositionQuery.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::FacetDimensionQuery" Collapsed="true">
+    <Position X="113.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAIAQAAgAAAAAAAACAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>src\FacetDimensionQuery.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ObjectCollisionQuery" Collapsed="true">
+    <Position X="120" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQEAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\ObjectCollisionQuery.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::AnimationChangeEvent" Collapsed="true">
+    <Position X="124.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAAAAAAAAAAAAAAAiAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>src\AnimationChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ColorChangeEvent" Collapsed="true">
+    <Position X="131.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAAAQAAAAAAAIAAACAAACIAAAAAAAAAAA=</HashCode>
+      <FileName>src\ColorChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::TextContentChange" Collapsed="true">
+    <Position X="138" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACKAABAAAEAAAAQAAAAAAAAAAACAAACAAAAAAAAAEAA=</HashCode>
+      <FileName>src\TextContentChange.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::TextureChangeEvent" Collapsed="true">
+    <Position X="51.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAABAAAEAAAAQAAAAAAAEAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\TextureChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ColorModulationEvent" Collapsed="true">
+    <Position X="64" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABAAAEAAAAQAAAAAACAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\ColorModulationEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::GamepadEvent" Collapsed="true">
+    <Position X="68.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAACAAAAAAAAAAAAAACAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>src\GamepadEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::KeyboardEvent" Collapsed="true">
+    <Position X="79" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAACAAAAAgAAAAAAAACAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>src\KeyboardEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::MouseButtonEvent" Collapsed="true">
+    <Position X="92.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAABAAAACAABAAAAAIAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\MouseButtonEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::MouseEvent" Collapsed="true">
+    <Position X="102" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAgAAAEAIAABAAAAAAAIAACABCAEEAAIAQIAEQAAAA=</HashCode>
+      <FileName>src\MouseEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::MouseMoveEvent" Collapsed="true">
+    <Position X="106.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAAIAAAAADAEAAAIAQAAEAAAAA=</HashCode>
+      <FileName>src\MouseMoveEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::DimensionChangeEvent" Collapsed="true">
+    <Position X="115.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAAAAAAgAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\DimensionChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::OffsetChangeEvent" Collapsed="true">
+    <Position X="122.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAABAAAEAAAAQAAABAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\OffsetChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::OrientationChangeEvent" Collapsed="true">
+    <Position X="126.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAEAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\OrientationChangeEvent.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Drawable" Collapsed="true">
+    <Position X="140.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABASgAAAICAAAAAAAAAAEEQAkCAgAAAEABAAgA=</HashCode>
+      <FileName>src\Drawable.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::DrawableChange" Collapsed="true">
+    <Position X="142.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAAA=</HashCode>
+      <FileName>src\Drawable.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::TextureFacet" Collapsed="true">
+    <Position X="62" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAQAQAAAAAACAAAAAAIAAAAAAIAAAAA=</HashCode>
+      <FileName>src\TextureFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Segment2D" Collapsed="true">
+    <Position X="149.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAQAAAAAAAAA=</HashCode>
+      <FileName>src\Renderer2d.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Renderer2dInitSettings" Collapsed="true">
+    <Position X="145.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAEQAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Renderer2d.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::VertexAttribute" Collapsed="true">
+    <Position X="147.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAgAAAAAAAAAABAAAIAAAAAAEAAAAAAEAAAABAAA=</HashCode>
+      <FileName>src\ShaderProgram.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::UniformVar" Collapsed="true">
+    <Position X="144" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAACAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\ShaderProgram.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_var&lt;Key_type, Value_type&gt;" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAEAAEAAQAABAAACAAgAggAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_int&lt;Key_type&gt;" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_string&lt;Key_type&gt;" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_double&lt;Key_type&gt;" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_float&lt;Key_type&gt;" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_bool&lt;Key_type&gt;" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::lua_table&lt;Value_type, Key_type, arrayValues, fields&gt;" Collapsed="true">
+    <Position X="149.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAEABAAABAAAAAAgAgAAAAAAAA=</HashCode>
+      <FileName>src\LuaUtil.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaPixel" Collapsed="true">
+    <Position X="28.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaDimension" Collapsed="true">
+    <Position X="31" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAQAQAAAAAAAAAAAAAACQAAAAAAAAAA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaRange&lt;T&gt;" Collapsed="true">
+    <Position X="33.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaVec2" Collapsed="true">
+    <Position X="35.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaColor" Collapsed="true">
+    <Position X="24.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAIAAA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaRect" Collapsed="true">
+    <Position X="26.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>src\LuaVector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Vec2" Collapsed="true">
+    <Position X="145.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIEAIAAAABBAAAAAECSCAQgCABEAAAAAAABggAAAEAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Point" Collapsed="true">
+    <Position X="144" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAAAAAAAQAAAAAAAAAAAABgAAAABAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Dimension" Collapsed="true">
+    <Position X="149.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAQAAAQAggAAAAAAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Pixel" Collapsed="true">
+    <Position X="142.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAABAQAAAAAAAAAAAABgAQAAhAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Edge" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::EdgeIntersect" Collapsed="true">
+    <Position X="144" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAEAAAAAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::SimpleRect&lt;T&gt;" Collapsed="true">
+    <Position X="140.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AggAAAAAAAABAAQCQAAAAAAAIwAAAICAAQAAAAAABAA=</HashCode>
+      <FileName>src\Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ColorTransform" Collapsed="true">
+    <Position X="149.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABQQAAMIAAFAAAAAAAAAAAAAAEEEAAEAUAgAAAEAAA=</HashCode>
+      <FileName>src\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Color" Collapsed="true">
+    <Position X="147.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAoAQABgAAAAAA=</HashCode>
+      <FileName>src\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::SqMatrix2" Collapsed="true">
+    <Position X="142.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgQAAQAAQACAAgAAgAAAAAAA=</HashCode>
+      <FileName>src\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::BasicParticle" Collapsed="true">
+    <Position X="142.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAKAAAQAKABABAA=</HashCode>
+      <FileName>src\LinearParticleField.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LinearParticleDef" Collapsed="true">
+    <Position X="38" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABIBAIAgAAAACAEAAgDkBIgAAAFAIBAAAAAQAAAAAA=</HashCode>
+      <FileName>src\LinearParticleField.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Animation" Collapsed="true">
+    <Position X="79" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAADAAAAAAAggAAAAAEAIAAAAgAAAAACAQAEABA=</HashCode>
+      <FileName>src\Animation.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::AnimationFrame" Collapsed="true">
+    <Position X="140.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAACAgAAAAAACAAAAgAAAAACAAAAAAEAQAQAAA=</HashCode>
+      <FileName>src\AnimationFrame.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Contact" Collapsed="true">
+    <Position X="144" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABMBAAAAAAACCAAAAAAAAAAAAAAAQAAAAAAAAE=</HashCode>
+      <FileName>src\PhysicsSystem.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::Collision" Collapsed="true">
+    <Position X="145.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAARAAIAAAAAAAAABAAAAAAAAAAAgAAAAIAABIAA=</HashCode>
+      <FileName>src\PhysicsSystem.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::LuaTile" Collapsed="true">
+    <Position X="42.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAIAAAAAAACAAAAgAAIAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\World.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::AnimationFacet" Collapsed="true">
+    <Position X="65" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAgAAAAIAAQAAAAAAACAAgAAAAAAAAAIIAACAA=</HashCode>
+      <FileName>src\AnimationFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::CameraFollowFacet" Collapsed="true">
+    <Position X="67.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\CameraFollowFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::InterfaceFacet" Collapsed="true">
+    <Position X="69.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEEAAAAIAAAAAAAAAkQAAAAAAAAAQAA=</HashCode>
+      <FileName>src\InterfaceFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::ParticleFacet" Collapsed="true">
+    <Position X="78.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAgAAAAAAAAIAAAAA=</HashCode>
+      <FileName>src\ParticleFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::PhysicsFacet" Collapsed="true">
+    <Position X="59.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAAAAAAAAAAAAAAAAAAAAAAIAAAAAQiBAQAAAIAAAA=</HashCode>
+      <FileName>src\PhysicsFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::PositionFacet" Collapsed="true">
+    <Position X="59.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>src\PositionFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::PrimitiveFacet" Collapsed="true">
+    <Position X="92.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAgAAABACAAAAAAAAAAAAAIgAAAA=</HashCode>
+      <FileName>src\PrimitiveFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="core::TextFacet" Collapsed="true">
+    <Position X="94.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAAAAAIAAAAAAAAAAAIAACAAAAAACAAAAAAIAAEAQ=</HashCode>
+      <FileName>src\TextFacet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="core::basicOutStream" Collapsed="true">
+    <Position X="90.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="core::basicStreamBuf" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="core::basicIos" Collapsed="true">
+    <Position X="140.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="core::Entity" Collapsed="true">
+    <Position X="144" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Entity.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="core::BoundFunction" Collapsed="true">
+    <Position X="142.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\LuaState.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="core::InitStatus" Collapsed="true">
+    <Position X="140.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAARAAA=</HashCode>
+      <FileName>src\Templates.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

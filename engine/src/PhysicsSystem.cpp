@@ -15,42 +15,34 @@
 namespace core {
 
 
-
-
-
-
-	PhysicsSystem::PhysicsSystem() :  _gravity{ 0.0f, 0.0f } {
-		
-		std::function<void(PhysicsSystem*, VelocityChangeEvent&)> velocityChangeCallback = std::mem_fn(&PhysicsSystem::handleVelocityChange);
-		_velocityChangeFilter.init(this, velocityChangeCallback);
-		single<EventProcessor>().addFilter(&_velocityChangeFilter);
-
-
-		std::function<void(PhysicsSystem*, AccelerationChangeEvent&)> accelerationChangeCallback = std::mem_fn(&PhysicsSystem::handleAccelerationChange);
-		_accelerationChangeFilter.init(this, accelerationChangeCallback);
-		single<EventProcessor>().addFilter(&_accelerationChangeFilter);
-
-		std::function<void(PhysicsSystem*, ObjectCollisionQuery&)> objectCollisionCallback = std::mem_fn(&PhysicsSystem::answerObjectCollisionQuery);
-		_objectCollisionFilter.init(this, objectCollisionCallback);
-		single<EventProcessor>().addFilter(&_objectCollisionFilter);
-
-		std::function<void(PhysicsSystem*, PositionChangeEvent&)> positionChangeCallback = std::mem_fn(&PhysicsSystem::handlePositionChange);
-		_positionChangeFilter.init(this, positionChangeCallback);
-		single<EventProcessor>().addFilter(&_positionChangeFilter);
-
-
-		std::function<void(PhysicsSystem*, EntityPositionQuery&)> positionQueryCallback = std::mem_fn(&PhysicsSystem::answerEntityPositionQuery);
-		_positionQueryFilter.init(this, positionQueryCallback);
-		single<EventProcessor>().addFilter(&_positionQueryFilter);
-
-		std::function<void(PhysicsSystem*, EntitiesInRectQuery&)> entitiesInRectQueryCallback = std::mem_fn(&PhysicsSystem::answerEntitiesInRectQuery);
-		_entitiesInRectQueryFilter.init(this, entitiesInRectQueryCallback);
-		single<EventProcessor>().addFilter(&_positionQueryFilter);
+	PhysicsSystem::PhysicsSystem() {
 
 	}
 
+	bool PhysicsSystem::createImpl() {
+		return true;
+	}
 
+	bool PhysicsSystem::initializeImpl() {
+		_gravity = Vec2{ 0.0f, 0.0f };
+	
 
+		return System::initializeImpl();
+
+	}
+
+	bool PhysicsSystem::resetImpl() {
+	
+		_fixedPhysicsFacets.clear();
+		_fixedPhysicsFacets.shrink_to_fit();
+
+		return System::resetImpl();
+
+	}
+
+	bool PhysicsSystem::destroyImpl() {
+		return true;
+	}
 
 	PhysicsFacet& PhysicsSystem::createPhysicsFacet(Entity& e, bool fixed) {
 
@@ -68,8 +60,8 @@ namespace core {
 		}
 	}
 
-	void PhysicsSystem::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {
-
+	bool PhysicsSystem::handleEvent(FacetPauseEvent& pauseEvent) {
+		return true;
 	}
 
 	std::vector<Facet*> PhysicsSystem::getFacets(Entity& e) {
@@ -93,7 +85,7 @@ namespace core {
 	}
 
 
-	void PhysicsSystem::handleVelocityChange(VelocityChangeEvent& event) {
+	bool PhysicsSystem::handleEvent(VelocityChangeEvent& event) {
 
 		for (unsigned i = 0; i < _physicsFacets.size(); i++) {
 			if (_physicsFacets[i].of() == event.entity) {
@@ -112,9 +104,10 @@ namespace core {
 				break;
 			}
 		}
+		return true;
 	}
 
-	void PhysicsSystem::handleAccelerationChange(AccelerationChangeEvent& event) {
+	bool PhysicsSystem::handleEvent(AccelerationChangeEvent& event) {
 		for (unsigned i = 0; i < _physicsFacets.size(); i++) {
 			if (_physicsFacets[i].of() == event.entity) {
 				Vec2 newAccel = _physicsFacets[i].acceleration;
@@ -132,18 +125,19 @@ namespace core {
 			}
 		}
 
+		return true;
 	}
 
 	//modded to allow explicit position changes of fixed entities
-	void PhysicsSystem::handlePositionChange(PositionChangeEvent& event) {
-		if (event.originator() != nullptr && *event.originator() == *this) return;
+	bool PhysicsSystem::handleEvent(PositionChangeEvent& event) {
+		if (event.originator != nullptr && *event.originator == *this) return true;
 		
 		for (auto it = std::begin(_physicsFacets); it != std::end(_physicsFacets); it++) {
 
 			if (it->of() == event.entity) {
 				auto base = (event.relative) ? it->p : Pixel{};
 				it->p = event.position.getPixel() + base;
-				return;
+				return true;
 			}
 		}
 
@@ -151,19 +145,19 @@ namespace core {
 			if (it->of() == event.entity) {
 				auto base = (event.relative) ? it->p : Pixel{};
 				it->p = event.position.getPixel() + base;
-				return;
+				return true;
 			}
 
 		}
-
+		return true;
 	}
 
 
-	void PhysicsSystem::answerEntityPositionQuery(EntityPositionQuery& query) {
+	bool PhysicsSystem::handleEvent(EntityPositionQuery& query) {
 		
 		
 		//return if another system already has the position
-		if (query.found) return;
+		if (query.found) return false;
 		
 		for (auto it = std::begin(_physicsFacets); it != std::end(_physicsFacets); ++it) {
 			if (it->of() == query.entity) {
@@ -174,7 +168,7 @@ namespace core {
 				break;
 			}
 		}
-		if (query.found) return;
+		if (query.found) return false;
 
 		for (auto it = std::begin(_fixedPhysicsFacets); it != std::end(_fixedPhysicsFacets); ++it) {
 			if (it->of() == query.entity) {
@@ -186,7 +180,7 @@ namespace core {
 			}
 		
 		}		
-
+		return !query.found;
 	}
 
 	void PhysicsSystem::setGravity(Vec2& gravity) {
@@ -198,51 +192,6 @@ namespace core {
 		return _gravity;
 	}
 
-	InitStatus PhysicsSystem::initializeImpl() {
-
-		std::function<void(PhysicsSystem*, VelocityChangeEvent&)> velocityChangeCallback = std::mem_fn(&PhysicsSystem::handleVelocityChange);
-		_velocityChangeFilter.init(this, velocityChangeCallback);
-		single<EventProcessor>().addFilter(&_velocityChangeFilter);
-
-
-		std::function<void(PhysicsSystem*, AccelerationChangeEvent&)> accelerationChangeCallback = std::mem_fn(&PhysicsSystem::handleAccelerationChange);
-		_accelerationChangeFilter.init(this, accelerationChangeCallback);
-		single<EventProcessor>().addFilter(&_accelerationChangeFilter);
-
-		std::function<void(PhysicsSystem*, ObjectCollisionQuery&)> objectCollisionCallback = std::mem_fn(&PhysicsSystem::answerObjectCollisionQuery);
-		_objectCollisionFilter.init(this, objectCollisionCallback);
-		single<EventProcessor>().addFilter(&_objectCollisionFilter);
-
-		std::function<void(PhysicsSystem*, PositionChangeEvent&)> positionChangeCallback = std::mem_fn(&PhysicsSystem::handlePositionChange);
-		_positionChangeFilter.init(this, positionChangeCallback);
-		single<EventProcessor>().addFilter(&_positionChangeFilter);
-
-
-		std::function<void(PhysicsSystem*, EntityPositionQuery&)> positionQueryCallback = std::mem_fn(&PhysicsSystem::answerEntityPositionQuery);
-		_positionQueryFilter.init(this, positionQueryCallback);
-		single<EventProcessor>().addFilter(&_positionQueryFilter);
-
-		std::function<void(PhysicsSystem*, EntitiesInRectQuery&)> entitiesInRectQueryCallback = std::mem_fn(&PhysicsSystem::answerEntitiesInRectQuery);
-		_entitiesInRectQueryFilter.init(this, entitiesInRectQueryCallback);
-		single<EventProcessor>().addFilter(&_entitiesInRectQueryFilter);
-
-
-		return System::initializeImpl();
-	}
-
-	InitStatus PhysicsSystem::resetImpl() {
-		single<EventProcessor>().removeFilter(&_velocityChangeFilter);
-		single<EventProcessor>().removeFilter(&_accelerationChangeFilter);
-		single<EventProcessor>().removeFilter(&_objectCollisionFilter);
-		single<EventProcessor>().removeFilter(&_positionChangeFilter);
-		single<EventProcessor>().removeFilter(&_positionQueryFilter);
-		single<EventProcessor>().removeFilter(&_entitiesInRectQueryFilter);
-		_fixedPhysicsFacets.clear();
-		_fixedPhysicsFacets.shrink_to_fit();
-
-		return System::resetImpl();
-
-	}
 
 	void PhysicsSystem::destroyFacets(Entity& entity) {
 
@@ -347,7 +296,7 @@ namespace core {
 				pf->p = pf->proposedMove;
 				auto ev = PositionChangeEvent{};
 
-				ev.setOriginator(this);
+				ev.originator = this;
 				ev.position.setPixel(pf->p);
 				ev.entity = pf->of();				
 				single<EventProcessor>().process(ev);
@@ -581,7 +530,7 @@ namespace core {
 
 	}
 
-	void PhysicsSystem::answerEntitiesInRectQuery(EntitiesInRectQuery& query) {
+	bool PhysicsSystem::handleEvent(EntitiesInRectQuery& query) {
 
 		int x1 = query.rect[0];
 		int y1 = query.rect[1];
@@ -617,10 +566,10 @@ namespace core {
 			}
 
 		}
-
+		return true;
 	}
 
-	void PhysicsSystem::answerObjectCollisionQuery(ObjectCollisionQuery& query) {
+	bool PhysicsSystem::handleEvent(ObjectCollisionQuery& query) {
 
 		PhysicsFacet& concerningFacet = _physicsFacets[0];
 
@@ -635,7 +584,7 @@ namespace core {
 			}
 		}
 		
-		if (!found) return;
+		if (!found) return true;
 
 		int ax1 = concerningFacet.p.x;
 		int ax2 = ax1 + concerningFacet.dim.w;
@@ -676,12 +625,9 @@ namespace core {
 			}
 		}
 
-	}
+		return true;
 
-	EventProcessor::EventRegistration<EntityPositionQuery> entityPositionQueryReg{};
-	EventProcessor::EventRegistration<VelocityChangeEvent> velChangeEventReg{};
-	EventProcessor::EventRegistration<PositionChangeEvent> positionChangeEventReg{};
-	EventProcessor::EventRegistration<EntitiesInRectQuery> entitiesInRectQueryReg{};
+	}
 
 	int PhysicsSystem::createFacet_bind(LuaState& lua) {
 

@@ -6,53 +6,53 @@
 #include "Font.hpp"
 #include "TextureFacet.hpp"
 #include "TextureChangeEvent.hpp"
+#include "FacetDimensionQuery.hpp"
 
 
 namespace core {
 
 
 
-	class TextureRenderSystem2d : public RenderableSystem2d {
+	class TextureRenderSystem2d : public RenderableSystem2d, public EventListener<TextureChangeEvent>, public EventListener<FacetDimensionQuery> {
 
 
 	public:
 
 		TextureRenderSystem2d();
 
-		virtual void updateDrawPosition(PositionChangeEvent& positionChange) override;
+		
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 
-		TextureFacet& createTextureFacet(Entity& e, Pixel position, Pixel offset, Dimension dimensions, Vec2 scale, SDL_Rect source, std::string textureName);
+		TextureFacet& createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName);
 
-		virtual InitStatus initializeImpl() override;
+		virtual bool createImpl() override;
 
-		virtual InitStatus resetImpl() override;
+		virtual bool initializeImpl() override;
+
+		virtual bool resetImpl() override;
+
+		virtual bool destroyImpl() override;
 
 		virtual void destroyFacets(Entity& entity) override;
 
 		void setDefaultFont(Font* font);
 
-		void handleTextureChange(TextureChangeEvent& e);
+		bool handleEvent(FacetDimensionQuery& e);
 
-		TextureFacet& updateTexture(TextureChangeEvent& e);
+		bool handleEvent(TextureChangeEvent& e);
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
-
-		virtual void handleEntityLayerQuery(EntityLayerQuery& entityLayerQuery) override;
-
-		virtual void updateColor(ColorChangeEvent& colorChangeEvent) override;
+		TextureFacet& updateTexture(TextureChangeEvent& e);		
 
 		static int createFacet_bind(LuaState& lua);
+
+		virtual ~TextureRenderSystem2d() {};
 
 	private:
 
 		TextureFacet _nullFacet;
 
 		std::vector<TextureFacet> _textureFacets;
-
-		EventFilter<TextureChangeEvent> _textureChangeFilter;
-
 
 		std::map<Entity, TextureFacet*> _movingTextures;
 

@@ -10,8 +10,14 @@ namespace core {
 
 	public:
 
-		InitStatus initializeImpl() override;
-		InitStatus resetImpl() override;
+		bool createImpl() override;
+
+		bool initializeImpl() override;
+
+		bool resetImpl() override;
+
+		bool destroyImpl() override;
+
 
 		void setTmxFilePath(std::string tmxFilePath);
 

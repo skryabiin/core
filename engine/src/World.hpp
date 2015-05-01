@@ -57,15 +57,21 @@ namespace core {
 		void openMap(std::string mapName, int callbackRef);
 
 
-		virtual InitStatus initializeImpl() override;
+		virtual bool createImpl() override;
 
-		virtual InitStatus resetImpl() override;		
+		virtual bool initializeImpl() override;
+
+		virtual bool resetImpl() override;	
+
+		virtual bool destroyImpl() override;
 		
 		static int openMap_bind(LuaState& lua);
 		
 		virtual void destroyFacets(Entity& entity) override {};
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override {};
+		bool handleEvent(FacetPauseEvent& pauseEvent) { return true; };
+
+		virtual ~World() {};
 
 	private:
 

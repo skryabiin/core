@@ -32,13 +32,14 @@ namespace core {
 
 
 
-	class ResourceManager : public initializable<ResourceManager, void, void>, public singleton<ResourceManager> {
+	class ResourceManager : public initializable<ResourceManager, void, void, void, void>, public singleton<ResourceManager> {
 
 	public:
 
-		InitStatus initializeImpl();
-
-		InitStatus resetImpl();
+		bool createImpl();
+		bool initializeImpl();
+		bool resetImpl();
+		bool destroyImpl();
 
 		Texture* addTexture(std::unique_ptr<Texture> texture);
 

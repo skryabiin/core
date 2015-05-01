@@ -1,5 +1,4 @@
 #include "OrientationChangeEvent.hpp"
-#include "EventProcessor.hpp"
 
 namespace core {
 

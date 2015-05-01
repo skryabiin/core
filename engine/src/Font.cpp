@@ -13,21 +13,25 @@ namespace core {
 		_fileSource = fileName;
 	}
 
-	InitStatus Font::initializeImpl() {
-		
+	bool Font::createImpl() {
+
 		_ttfFont = TTF_OpenFont(_fileSource.c_str(), _fontSize);
-		return (_ttfFont != nullptr) ? InitStatus::INIT_TRUE : InitStatus::INIT_FAILED;		
+		return (_ttfFont != nullptr) ? true : false;
 	}
 
-	InitStatus Font::resetImpl() {		
+	bool Font::initializeImpl() {
+		return true;
+	}
 
+	bool Font::resetImpl() {		
+		return true;
+	}
+
+	bool Font::destroyImpl() {
 		TTF_CloseFont(_ttfFont);
 		_ttfFont = nullptr;
-
-		return InitStatus::INIT_FALSE;
+		return true;
 	}
-
-
 
 	void Font::setFontSize(int size) {
 		_fontSize = size;
@@ -45,13 +49,20 @@ namespace core {
 
 	void Font::renderText(RenderedTextToken* token) {
 		if (getInitializedStatus() != InitStatus::INIT_TRUE) return;
-
-		auto texture = (token->_texture != nullptr) ? token->_texture : new Texture{};
+		auto texture = token->_texture;
+		if (texture == nullptr) {
+			texture = new Texture{};
+		}
+		else {
+			texture->reset();
+			texture->destroy();
+		}		
 
 		auto tempSurf = TTF_RenderText_Blended(_ttfFont, token->_text.c_str(), colorToSdl(token->_textColor));
 		texture->setSdlSurfaceSource(tempSurf);
-		texture->createFromSurfaceLinearBlend();
-		texture->setName(std::string{ ltos(token->id()) });
+		texture->setName("renderedText-" + std::string{ ltos(token->id()) });
+		texture->create();
+		texture->initialize();
 		if (token->_texture == nullptr) {
 			token->_texture = singleton<ResourceManager>::instance().addTexture(std::unique_ptr<Texture>(texture));
 		}

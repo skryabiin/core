@@ -3,28 +3,27 @@
 
 
 #include "Templates.hpp"
-#include "EventProcessor.hpp"
-#include "EventFilter.hpp"
 #include "RuntimeContext.hpp"
-#include "Event.hpp"
 #include "Camera.hpp"
 #include "Facet.hpp"
 #include "FacetPauseEvent.hpp"
+#include "EventProcessor.hpp"
 
 class Entity;
 
 namespace core {
 
-	class System : public pausable<System>, public nameable, public initializable<System, void, void>, public EventListener {
+	class System : public pausable<System>, public nameable, public initializable<System, void, void, void, void>, public EventListener<FacetPauseEvent> {
 		friend class SystemManager;
 	public:
 
-		virtual InitStatus initializeImpl() = 0;
-
-		virtual InitStatus resetImpl() = 0;
+		virtual bool createImpl() { return true; };
+		virtual bool initializeImpl();
+		virtual bool resetImpl();
+		virtual bool destroyImpl() { return true; };
 
 		virtual void pauseImpl() {};
-		virtual void resumeImpl() {};
+		virtual void resumeImpl() {};		
 
 		virtual std::vector<Facet*> getFacets(Entity& e) {
 
@@ -50,7 +49,6 @@ namespace core {
 			return out;
 		}
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) = 0;		
 
 		virtual void destroyFacets(Entity& e) = 0;
 
@@ -58,9 +56,7 @@ namespace core {
 
 	protected:
 
-		System() : pausable<System>() {};
-
-		EventFilter<FacetPauseEvent> _facetPauseFilter;
+		System() : pausable<System>() {};		
 
 	};
 

@@ -2,8 +2,9 @@
 #define CORE_ORIENTATION_CHANGE_EVENT_HPP
 
 #include "Core.hpp"
-#include "Event.hpp"
 #include "LuaVector.hpp"
+#include "Event.hpp"
+#include "EventProcessor.hpp"
 
 namespace core {
 

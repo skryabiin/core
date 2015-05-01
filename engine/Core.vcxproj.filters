@@ -77,6 +77,9 @@
     <Filter Include="Source\Facets">
       <UniqueIdentifier>{15cb8491-a4f3-41a3-a465-29c3ce321edd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Events\Dynamic">
+      <UniqueIdentifier>{d74590d7-6e19-4f80-8075-be7290e31064}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Console.cpp">
@@ -105,12 +108,6 @@
     </ClCompile>
     <ClCompile Include="src\Animation.cpp">
       <Filter>Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Event.cpp">
-      <Filter>Source\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EventFilter.cpp">
-      <Filter>Source\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\EventProcessor.cpp">
       <Filter>Source\Events</Filter>
@@ -184,17 +181,8 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer2d.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AnimationChangeEvent.cpp">
-      <Filter>Source\Events\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DimensionChangeEvent.cpp">
-      <Filter>Source\Events\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\EntitiesInRectQuery.cpp">
       <Filter>Source\Events\Queries</Filter>
@@ -217,77 +205,44 @@
     <ClCompile Include="src\PositionChangeEvent.cpp">
       <Filter>Source\Events\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\OrientationChangeEvent.cpp">
-      <Filter>Source\Events\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TextContentChange.cpp">
-      <Filter>Source\Events\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\TextureChangeEvent.cpp">
       <Filter>Source\Events\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\PrimitiveRenderSystem2d.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DimensionChangeEvent.cpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrientationChangeEvent.cpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OffsetChangeEvent.cpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnimationChangeEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ColorModulationEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextContentChangeEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScaleChangeEvent.cpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderLayer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventRegistry.cpp">
+      <Filter>Source\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AccelerationChangeEvent.cpp">
+      <Filter>Source\Events\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Debug\lua-core\config.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\core.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\deepcopy.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\facet.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\fonts.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\interface.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\interface-facet.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\maps.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\menu-entity.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\particles.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\physics-entity.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\physics-facet.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\require.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\sdl.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\sounds.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\text-facet.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\sprites.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\texture-facet.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\util.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
-    <None Include="Debug\lua-core\world.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
     <None Include="bin\shaders\basic.glfs">
       <Filter>Shaders</Filter>
     </None>
@@ -323,6 +278,82 @@
     </None>
     <None Include="bin\lua\titlescene.lua">
       <Filter>Lua</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="bin\lua-core\blank-scene.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\core.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\deepcopy.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\fonts.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\interface.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\interface-facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\maps.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\menu-entity.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\particles.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\physics-entity.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\physics-facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\renderer.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\require.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\sdl.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\shaders.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\sounds.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\sprites.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\text-facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\texture-facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\util.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\world.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\primitive-facet.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua\config.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua-core\config-default.lua">
+      <Filter>Lua-Core</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -389,16 +420,7 @@
     <ClInclude Include="src\EventProcessor.hpp">
       <Filter>Source\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventFilter.hpp">
-      <Filter>Source\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Event.hpp">
-      <Filter>Source\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventListener.hpp">
-      <Filter>Source\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventTopic.hpp">
       <Filter>Source\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\FacetPauseEvent.hpp">
@@ -521,9 +543,6 @@
     <ClInclude Include="src\Renderer.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer2d.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\ParticleFacet.hpp">
       <Filter>Source\Facets</Filter>
     </ClInclude>
@@ -557,13 +576,7 @@
     <ClInclude Include="src\AccelerationChangeEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="src\AnimationChangeEvent.hpp">
-      <Filter>Source\Events\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="src\CollisionState.hpp">
-      <Filter>Source\Events\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DimensionChangeEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\EntitiesInRectQuery.hpp">
@@ -605,20 +618,53 @@
     <ClInclude Include="src\VelocityChangeEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="src\OrientationChangeEvent.hpp">
-      <Filter>Source\Events\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="src\SDLEvent.hpp">
       <Filter>Source\Events\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TextContentChange.hpp">
-      <Filter>Source\Events\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureChangeEvent.hpp">
       <Filter>Source\Events\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\ObjectInteractionEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PrimitiveRenderSystem2d.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PrimitiveFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DimensionChangeEvent.hpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrientationChangeEvent.hpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OffsetChangeEvent.hpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationChangeEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ColorModulationEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VisualFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextContentChangeEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScaleChangeEvent.hpp">
+      <Filter>Source\Events\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Color.hpp">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderLayer.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventRegistry.hpp">
+      <Filter>Source\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

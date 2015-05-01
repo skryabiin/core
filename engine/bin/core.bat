@@ -1,0 +1,1 @@
+core.exe ./lua/arbor.lua

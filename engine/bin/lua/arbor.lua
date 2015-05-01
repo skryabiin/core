@@ -1,6 +1,5 @@
-require "config"
 require "lua-core/require"
-
+require "lua/config"
 
 
 --------------------------------------
@@ -11,7 +10,7 @@ require "lua-core/require"
 
 
 --initializes the engine
-Core.init()
+Core.create()
 	
 
 --set this up for the sequence loop
@@ -23,24 +22,16 @@ require "lua/loadassets"
 Assets.load()
 
 
-local cursorTexture = {
-			source = {0, 0, 24, 32},
-			dimensions = {24, 32},
-			textureName = "cursor_brown",			
-			scale = {1, 1},
-			offset = {0, -32},			
-			textureColorMod = {100,255,255,100}
-		}
-        
-Interface.setCursorTexture(cursorTexture)
 
-Core.setNextScene(Scenes.first)
+
+Core.setNextScene(Scenes.title)
 	
 while not doQuit do
 	
 	Console.info("Entering main loop.")
 	
-	
+	Core.init()
+
 	Core.transitionScene()
 	
 	local mainSequenceResponse = Core.run()	
@@ -55,10 +46,13 @@ while not doQuit do
 	
 	--if the user is trying to close the window, quit now
 	if mainSequenceResponse == "AppClosed"  or mainSequenceResponse == "Quit" then
+		Renderer.hideWindow()
 		doQuit = true
 	end
 
 	--otherwise, this will continue to the next scene
 	
 end
+
+Core.destroy()
 

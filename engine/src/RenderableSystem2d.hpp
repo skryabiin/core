@@ -8,35 +8,46 @@
 #include "PositionChangeEvent.hpp"
 #include "ColorChangeEvent.hpp"
 #include "EntityLayerQuery.hpp"
+#include "OffsetChangeEvent.hpp"
+#include "ColorModulationEvent.hpp"
+#include  "ScaleChangeEvent.hpp"
 #include "SDL.h"
 
 
 namespace core {
 
 
-	class RenderableSystem2d : public virtual System {
+	class RenderableSystem2d : public virtual System, public EventListener<ScaleChangeEvent>, public EventListener<PositionChangeEvent>, public EventListener<EntityLayerQuery>,
+		public EventListener<OffsetChangeEvent>, public EventListener<ColorModulationEvent> {
 
 	public:
 
 		RenderableSystem2d() {};
 
-		virtual InitStatus initializeImpl();
-
-		virtual InitStatus resetImpl();		
+		virtual bool createImpl() override;
+		virtual bool initializeImpl() override;
+		virtual bool resetImpl() override;
+		virtual bool destroyImpl() override;
 
 		void setDrawableLayerId(int drawableLayerId);
 
 		int RenderableSystem2d::getDrawableLayerId();
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
 
 		CameraFollowFacet& createCameraFollowFacet(Entity& e);
 
-		virtual void updateDrawPosition(PositionChangeEvent& positionChange) {};
 
-		virtual void updateColor(ColorChangeEvent& colorChangeEvent) {};
+		bool handleEvent(FacetPauseEvent& pauseEvent);
 
-		virtual void handleEntityLayerQuery(EntityLayerQuery& entityLayerQuery) {};
+		bool handleEvent(ScaleChangeEvent& scaleChange);		
+
+		virtual bool handleEvent(PositionChangeEvent& positionChange);
+
+		bool handleEvent(EntityLayerQuery& entityLayerQuery);
+
+		bool handleEvent(OffsetChangeEvent& offsetChangeEvent);
+
+		bool handleEvent(ColorModulationEvent& colorModulationEvent);
 
 		//this is expensive
 		void snapCameraToEntity();
@@ -49,16 +60,14 @@ namespace core {
 
 		virtual void renderFacet(SDL_Renderer* renderer, Facet* facet) {};
 
+		virtual ~RenderableSystem2d() {}
+
 	protected:
 
 		int _drawableLayerId;
 
 		CameraFollowFacet _cameraFollow;
 		Camera2d _camera;
-
-		EventFilter<PositionChangeEvent> _moveFilter;
-		EventFilter<EntityLayerQuery> _entityLayerQueryFilter;
-		EventFilter<ColorChangeEvent> _colorChangeFilter;
 
 
 	};

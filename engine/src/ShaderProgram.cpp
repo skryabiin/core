@@ -7,18 +7,34 @@ namespace core {
 
 	ShaderProgram::~ShaderProgram() {
 		reset();
+		destroy();
 	}
 
-	InitStatus ShaderProgram::initializeImpl() {
-		_programId = glCreateProgram();					
+	bool ShaderProgram::createImpl() {
 		_vertexAttributes = std::map<std::string, VertexAttribute>{};
-		return InitStatus::INIT_TRUE;
+		return true;
 	}
 
-	InitStatus ShaderProgram::resetImpl() {		
-		glDeleteProgram(_programId);
+	bool ShaderProgram::initializeImpl() {
+		_programId = glCreateProgram();		
+		auto glError = glGetError();
+		if (glError != GL_NO_ERROR) {
+			error("Error creating program: ", glError);
+		}
+		return true;
+	}
 
-		return InitStatus::INIT_FALSE;
+	bool ShaderProgram::resetImpl() {		
+		glDeleteProgram(_programId);
+		auto glError = glGetError();
+		if (glError != GL_NO_ERROR) {
+			error("Error deleting program: ", glError);
+		}
+		return true;
+	}
+
+	bool ShaderProgram::destroyImpl() {
+		return true;
 	}
 
 	bool ShaderProgram::drawElements(GLuint& vertexBufferObject, GLuint& indexBufferObject, GLenum mode, GLsizei count) {
@@ -38,8 +54,11 @@ namespace core {
 		if (_isVAenabled) {
 			auto& va = _vertexAttributes[name.c_str()]; 
 			glBindBuffer(GL_VERTEX_ARRAY, buffer);
+
 			glVertexAttribPointer(va.index, dimension, type, normalized, 0, NULL);
+
 			glBindBuffer(GL_VERTEX_ARRAY, NULL);
+
 		}
 	}
 
@@ -135,15 +154,16 @@ namespace core {
 			return false;
 		}
 
-		glUseProgram(_programId);		
+		glUseProgram(_programId);	
 
-		return true;
+		return enableVertexArrayAttributes();
+		
 	}
 
 	bool ShaderProgram::enableVertexArrayAttributes() {
 
 		for (auto& vertexAttr : _vertexAttributes) {
-			glEnableVertexAttribArray(vertexAttr.second.index);
+			glEnableVertexAttribArray(vertexAttr.second.index);			
 		}
 		_isVAenabled = true;
 		return true;
@@ -159,11 +179,7 @@ namespace core {
 		return true;
 	}
 	bool ShaderProgram::unbindImpl() {
-		if (_vertexAttributes.size() > 0) {
-			for (auto vertexAttr : _vertexAttributes) {
-				glDisableVertexAttribArray(vertexAttr.second.index);
-			}
-		}
+		disableVertexArrayAttributes();
 		glUseProgram(NULL);
 		return true;
 	}

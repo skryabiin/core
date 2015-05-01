@@ -3,7 +3,6 @@
 
 #include "System.hpp"
 #include "PositionFacet.hpp"
-#include "EventFilter.hpp"
 #include "PositionChangeEvent.hpp"
 #include "DimensionChangeEvent.hpp"
 #include "OrientationChangeEvent.hpp"
@@ -12,29 +11,37 @@
 
 namespace core {
 
-	class BasicPositionSystem2d : public System {
+	class BasicPositionSystem2d : public System, public EventListener<PositionChangeEvent>, public EventListener<DimensionChangeEvent>, public EventListener<OrientationChangeEvent>,
+		public EventListener<EntityPositionQuery>, public EventListener<EntitiesInRectQuery> {
 
 	public:
 
 		BasicPositionSystem2d();
 
-		void handlePositionChange(PositionChangeEvent& event);
+		bool handleEvent(PositionChangeEvent& event);
 
-		void handleDimensionChange(DimensionChangeEvent& event);
+		bool handleEvent(DimensionChangeEvent& event);
 
-		void handleOrientationChange(OrientationChangeEvent& event);
+		bool handleEvent(OrientationChangeEvent& event);
 
-		void answerEntityPositionQuery(EntityPositionQuery& query);
+		bool handleEvent(EntityPositionQuery& query);
 
-		void answerEntitiesInRectQuery(EntitiesInRectQuery& query);
+		bool handleEvent(EntitiesInRectQuery& query);
+
+		bool handleEvent(FacetPauseEvent& pauseEvent);
 
 		PositionFacet& createFacet(Entity& e, Pixel position, Dimension dimensions, Vec2 orientation);
 
-		virtual void handleFacetPauseEvent(FacetPauseEvent& pauseEvent) override;
+		virtual ~BasicPositionSystem2d() {};
+		
 
-		virtual InitStatus initializeImpl() override;
+		virtual bool createImpl() override;
 
-		virtual InitStatus resetImpl() override;
+		virtual bool initializeImpl() override;
+
+		virtual bool resetImpl() override;
+
+		virtual bool destroyImpl() override; 
 
 		virtual void destroyFacets(Entity& e) override;
 
@@ -43,16 +50,6 @@ namespace core {
 	private:
 
 		std::vector<PositionFacet> _facets;
-
-		EventFilter<PositionChangeEvent> _positionChangeFilter;
-
-		EventFilter<OrientationChangeEvent> _orientationChangeFilter;
-
-		EventFilter<DimensionChangeEvent> _dimensionChangeFilter;
-
-		EventFilter<EntityPositionQuery> _positionQueryFilter;
-
-		EventFilter<EntitiesInRectQuery> _entitiesInRectQueryFilter;
 
 	};
 } //end namespace core

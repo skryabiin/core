@@ -17,6 +17,7 @@ function Menu:new(menu)
 	menu.facets.background:setSystemName("MenuTextures")
 	menu.facets.background:setTextureName("blueBalls")
 	menu.facets.background:createFacetInCore()
+    menu.facets.background:scaleToEntity()
 	menu.facets.interface:setDraggable(true)
 	menu.facets.interface:setOnDrag(Interface.functions.basicDragMove)
 	menu.facets.interface:setHoverable(false)
@@ -26,7 +27,7 @@ function Menu:new(menu)
 	menu.facets.title = TextFacet:new(menu)
 	menu.facets.title:setSystemName("MenuText")
 	menu.facets.title:setText("Menu " .. menu:getId())
-	menu.facets.title:setVisualOffset({0,0,1})
+	menu.facets.title:setOffset({0,0,-1})
 	menu.facets.title:createFacetInCore()
 	
 	function menu:align()
@@ -43,8 +44,10 @@ function Menu:new(menu)
 	closeBox.facets.texture:setSystemName("MenuTextures")
 	closeBox.facets.texture:setTextureName("redBox")
 	closeBox.facets.texture:createFacetInCore()
+    closeBox.facets.texture:scaleToEntity()
 	closeBox.facets.interface:setDraggable(false)
 	closeBox.facets.interface:setClickable(true)
+    closeBox.facets.texture:setOffset({0,0,-2})
 	closeBox.facets.interface:setOnClick(
 		function(self, interfaceState)
 			local parent = self:getOf():getParent()
@@ -63,7 +66,7 @@ function Menu:new(menu)
 		local newPos = {}
 		newPos[1] = position[1] + dimensions[1] - 18
 		newPos[2] = position[2] + dimensions[2] - 18
-		newPos[3] = position[3] + 1
+		newPos[3] = position[3] - 2
 		self:setPosition(newPos)
 	end
 	

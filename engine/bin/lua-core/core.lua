@@ -5,15 +5,17 @@ Scenes = {}
 
 Core = { 
 	entities = {},
+	dt = 0,
 	controlFocus = 1,
     firstInit = true
 }
 
-function Core.init()
-        if Core.firstInit then  
-            Core.firstInit = false
-            Console.setDebug()
-        end
+function Core.create() 
+    Console.setDebug()
+    return create_bind()
+end
+
+function Core.init()       
 		return init_bind()
 end
 
@@ -36,9 +38,18 @@ function Core.destroyEntity(entityId)
 		destroyEntity_bind(entityId)
 		Core.entities[entityId] = nil
 end
-	
+
+function Core.update(dt)	
+	Core.dt = dt
+	Core.scene.update(dt)
+end
+
 function Core.reset() 
 	reset_bind()
+end
+
+function Core.destroy()
+    destroy_bind()
 end
 
 function Core.transitionScene()
@@ -331,6 +342,11 @@ end
 function Console.error(...)
 		msg = Console.out(...)
 		error_bind(msg)
+end
+
+function Console.debug(...)
+		msg = Console.out(...)
+		debug_bind(msg)
 end
 	
 function Console.out(...)

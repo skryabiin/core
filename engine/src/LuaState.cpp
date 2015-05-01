@@ -15,26 +15,27 @@ namespace core {
 		lua_close(_L);
 	}
 
-	InitStatus LuaState::initializeImpl(bool openStandardLibraries) {
+	bool LuaState::createImpl(bool openStandardLibraries) {
 
 
 		_L = luaL_newstate();
 		if (_L == nullptr) {
 			_lastError = "Could not initialize lua state.";
 			error(_lastError);
-			return InitStatus::INIT_FALSE;
+			return false;
 		}
 		if (openStandardLibraries) {
 			this->openStandardLibraries();
 		}		
 
-		return InitStatus::INIT_TRUE;
+		return true;
 	}
 
-	InitStatus LuaState::resetImpl(bool clearBoundFunctions) {
+	bool LuaState::initializeImpl() {
+		return true;
+	}
 
-
-		lua_close(_L);
+	bool LuaState::resetImpl(bool clearBoundFunctions) {
 
 		_lastError = "";
 
@@ -42,7 +43,15 @@ namespace core {
 			_boundFunctions.clear();
 		}
 
-		return InitStatus::INIT_FALSE;
+		return true;
+	}
+
+	bool LuaState::destroyImpl() {
+
+
+		lua_close(_L);
+
+		return true;
 	}
 
 	void LuaState::clearStack() {
@@ -133,7 +142,7 @@ namespace core {
 
 				
 				debug("Lua stack:");
-				for (i = 1; i <= top; i++) {  /* repeat for each level */
+				for (i = top; i >= 1; --i) {  /* repeat for each level */
 					int t = lua_type(_L, i);
 					std::ostringstream ss;
 					switch (t) {
@@ -387,6 +396,28 @@ namespace core {
 	void LuaState::popStackAdditions() {
 		popStack(_stackAdditions);
 		_stackAdditions = 0;
+	}
+
+
+	void LuaState::checkCallStatus(int status) {
+		if (status == LUA_OK) return;
+
+		std::string errorMessage = pullStack<std::string>();
+
+		switch (status) {
+		case LUA_ERRRUN:
+			error("Lua runtime error: ", errorMessage);
+			break;
+		case LUA_ERRMEM:
+			error("Lua memory allocation error: ", errorMessage);
+			break;
+		case LUA_ERRERR:
+			error("Lua error handler error: ", errorMessage);
+			break;
+		case LUA_ERRGCMM:
+			error("Lua  garbage collection error: ", errorMessage);
+			break;
+		}
 	}
 
 

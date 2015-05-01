@@ -19,41 +19,61 @@ end
 
 function TextFacet:setText(text)
 	self.text = text
-	self:updateFacetInCore()
-end
-
-function TextFacet:updateFacetInCore()	
-	if self:isCoreFacet() then
+	if self:isCoreFacet() then	
 		local textContentChange = {
-			typeName = "TextContentChange",
+			typeName = "TextContentChangeEvent",
 			entityId = self.of:getId(),			
-			offset = self:getVisualOffset(),
 			font = self:getFont(),
 			textContent = self:getText(),
-			color = self:getColor(),
 			facetId = self:getId()
-		}
-		
+		}		
 		EventProcessor.process(textContentChange)
 	end
 end
-
 	
-function TextFacet:getVisualOffset()
+function TextFacet:getOffset()
 	return self.offset or {0,0}
 end
 	
 	
-function TextFacet:setVisualOffset(offset)
+function TextFacet:setOffset(offset)
 	self.offset = offset
-	self:updateFacetInCore()
+	if self:isCoreFacet() then	
+		local offsetChange = {
+			typeName = "OffsetChangeEvent",
+			entityId = self.of:getId(),
+			offset = offset
+		}
+		EventProcessor.process(offsetChange)	
+	end
 end
 
-function TextFacet:setVisualScale(scale)
+function TextFacet:scaleToEntity()
+    if self:isCoreFacet() then
+        local dimensions = self.of:getDimensions()
+        local myDimensions = self:getDimensions()
+        local scale = self:getScale()
+        local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }
+        self:setScale(scale)
+    else 
+        self:setScale({1,1})
+    end
+end
+
+function TextFacet:setScale(scale)
 	self.scale = scale
+    if self:isCoreFacet() then
+        local scaleChange = {
+            typeName = "ScaleChangeEvent",
+            entityId = self.offset:getId(),
+            scale = self:getScale(),
+            facetId = self:getId()
+        }
+        EventProcessor.process(scaleChange)
+    end
 end
 
-function TextFacet:getVisualScale()
+function TextFacet:getScale()
 	return self.scale or {1,1}
 end
 
@@ -63,12 +83,20 @@ end
 
 function TextFacet:setColor(color)
 	self.color = color
-	self:updateFacetInCore()
+    if self:isCoreFacet() then	
+		local colorChange = {
+			typeName = "ColorChangeEvent",
+			entityId = self.of:getId(),            
+            color = self:getColor(),
+            facetId = self:getId()
+		}
+		EventProcessor.process(colorChange)	
+	end
 end
 
 function TextFacet:setFont(font)
 	self.font = font
-	self:updateFacetInCore()
+	self:setText(self.text)
 end
 
 function TextFacet:getFont()
@@ -84,7 +112,8 @@ function TextFacet:createFacetInCore()
 	if not self:isCoreFacet() then
 		local textFacet = {
 			position = self.of:getPosition(),
-			offset = self:getVisualOffset(),
+			offset = self:getOffset(),
+            scale = self:getScale(),
 			font = self:getFont(),
 			text = self:getText(),
 			color = self:getColor()

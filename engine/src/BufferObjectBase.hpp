@@ -7,13 +7,26 @@
 namespace core {
 
 
-	class BufferObjectBase : public initializable<BufferObjectBase, GLushort, void> {
+	class BufferObjectBase : public initializable<BufferObjectBase, GLushort, void, void, void> {
 	public:
 
-		InitStatus initializeImpl(GLushort vertexDimension) {
+		bool createImpl(GLushort vertexDimension) {
 			_vertexDimension = vertexDimension;
+			return true;
+		}
+
+		bool initializeImpl() {			
 			glGenBuffers(1, &_buffer);
-			return InitStatus::INIT_TRUE;
+			return true;
+		}
+
+		bool resetImpl() {
+			glDeleteBuffers(1, &_buffer);
+			return true;
+		}
+
+		bool destroyImpl() {
+			return true;
 		}
 
 		GLushort getNumVertices() const {
@@ -22,11 +35,7 @@ namespace core {
 
 
 
-		InitStatus resetImpl() {
-			glDeleteBuffers(1, &_buffer);
-			
-			return InitStatus::INIT_FALSE;
-		}
+
 
 		GLushort getVertexDimension() const {
 			return _vertexDimension;

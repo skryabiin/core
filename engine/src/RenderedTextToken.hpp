@@ -10,7 +10,7 @@ namespace core {
 	class RenderedTextToken : public equal_comparable<RenderedTextToken> {
 		friend class Font;
 	public:
-		RenderedTextToken() : _textColor{ Color{ 0xFF, 0xFF, 0xFF, 0xFF } }, _text{ "" } {
+		RenderedTextToken() : _textColor{ Color::CommonColor::WHITE }, _text{ "" } {
 			_texture = nullptr;
 			_font = nullptr;
 		};

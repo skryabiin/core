@@ -4,6 +4,7 @@
 #include <string>
 #include "lua.hpp"
 
+#include "System.hpp"
 #include "LuaState.hpp"
 #include "Util.hpp"
 #include "Templates.hpp"
@@ -12,11 +13,11 @@
 #include "ResourceManager.hpp"
 #include "RuntimeContext.hpp"
 #include "Entity.hpp"
-#include "System.hpp"
+
 #include "Console.hpp"
 #include "Renderer.hpp"
-#include "UpdateableSystem.hpp"
-#include "RenderableSystem2d.hpp"
+
+
 #include "KeyboardEvent.hpp"
 #include "GamepadEvent.hpp"
 
@@ -29,29 +30,32 @@ namespace core {
 	struct CoreConfig {
 		int keyScancodePause;
 		int buttonPause;
-		int maxFps;
+		int maxUpdatesPerSecond;
 	};
 
-	class Core : public initializable<Core, void, void>, public singleton<Core>, public EventListener, public pausable<Core> {
+	class RenderableSystem2d;
+	class UpdateableSystem;
+
+	class Core : public initializable<Core, void, void, void, void>, public singleton<Core>, public EventListener<WrappedSdlEvent>, public pausable<Core> {
 
 
 	public:
 
 		Core();
 
-		InitStatus initializeImpl();
+		bool createImpl();
 
-		InitStatus resetImpl();
+		bool initializeImpl();
+
+		bool resetImpl();
+
+		bool destroyImpl();
 
 		int run();
 
 		bool resetRuntimeContext();
 
-		void handleSdlEvent(WrappedSdlEvent& event);
-
-		void handleKeyboardEvent(KeyboardEvent& event);
-
-		void handleGamepadEvent(GamepadEvent& event);
+		bool handleEvent(WrappedSdlEvent& event);
 
 		void update();
 		
@@ -72,7 +76,7 @@ namespace core {
 
 			auto facets = std::vector<Facet_type*>{};
 
-			for (auto& system : _systems) {
+			for (auto system : _systems) {
 				auto results = system->getFacetsByType<Facet_type>(e);
 				facets.insert(std::end(facets), std::begin(results), std::end(results));
 			}
@@ -86,9 +90,9 @@ namespace core {
 		System_type* getSystemByName(std::string systemName) {
 
 
-			for (auto& system : _systems) {
+			for (auto system : _systems) {
 				if (!system->name().compare(systemName)) {
-					return dynamic_cast<System_type*>(system.get());
+					return dynamic_cast<System_type*>(system);
 				}
 			}
 
@@ -102,11 +106,15 @@ namespace core {
 
 		static int doQuit_bind(LuaState& lua);
 
-		static int reset_bind(LuaState& lua);
+		
+
+		static int create_bind(LuaState& lua);
 
 		static int init_bind(LuaState& lua);
 
-		static int shutdown_bind(LuaState& lua);
+		static int reset_bind(LuaState& lua);
+
+		static int destroy_bind(LuaState& lua);
 
 		static int createSystem_bind(LuaState& lua);
 
@@ -128,7 +136,7 @@ namespace core {
 
 		RenderableSystem2d* includeRenderableSystem2d(RenderableSystem2d* system);
 
-		System* addSystem(std::unique_ptr<System>&& system);
+		System* addSystem(System* system);
 		
 		void cleanup();
 
@@ -168,10 +176,6 @@ namespace core {
 		int _lastTick;
 
 
-		//filter for certain sdl events like quit
-		EventFilter<WrappedSdlEvent> _sdlEventFilter;
-
-
 		//entity list
 		std::vector<Entity> _entities;
 
@@ -190,7 +194,7 @@ namespace core {
 
 
 		//these systems interact in other ways
-		std::vector<std::unique_ptr<System>> _systems;
+		std::vector<System*> _systems;
 
 		struct TimedEventCallback {
 

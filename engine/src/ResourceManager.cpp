@@ -13,18 +13,16 @@ namespace core {
 
 
 
+	bool ResourceManager::createImpl() {
 
-
-	InitStatus ResourceManager::initializeImpl() {
-
-		info("Initializing ResourceManager:");
+		info("Creating ResourceManager:");
 
 		//init .png loading
 		info("Initializing SDL_image...");
 		int imgFlags = IMG_INIT_PNG;
 		if (!IMG_Init(imgFlags)) {
 			error("Error initializing SDL_image: ", IMG_GetError());
-			return InitStatus::INIT_FAILED;
+			return false;
 		}
 
 		//init tt font loading
@@ -33,21 +31,21 @@ namespace core {
 
 		if (TTF_Init() == -1) {
 			error("Error initializing SDL_ttf: ", TTF_GetError());
-			return InitStatus::INIT_FAILED;
+			return false;
 		}
 
 		info("Initializing SDL_audio...");
 
 		if (SDL_Init(SDL_INIT_AUDIO) < 0)  {
 			error("Error initializing SDL audio: ", SDL_GetError());
-			return InitStatus::INIT_FAILED;
+			return false;
 		}
 
 		info("Initializing SDL_mixer...");
 
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 			error("Error initializing SDL_mixer: ", Mix_GetError());
-			return InitStatus::INIT_FAILED;
+			return false;
 		}
 
 		info("Registering lua functions...");
@@ -62,13 +60,94 @@ namespace core {
 		lua.bindFunction("playSound_bind", playSound_bind);
 		lua.bindFunction("loadParticleEffect_bind", loadParticleEffect_bind);
 
-		return InitStatus::INIT_TRUE;
+		return true;
 	}
 
-	InitStatus ResourceManager::resetImpl() {
+	bool ResourceManager::initializeImpl() {
+		for (auto& texture : _loadedTextures) {
+			texture.second.get()->initialize();
+		}
 
+		for (auto& font : _loadedFonts) {
+			font.second.get()->initialize();
+		}
+
+
+		for (auto& sound : _loadedSounds) {
+			sound.second.get()->initialize();
+		}
+
+		for (auto& music : _loadedMusic) {
+			music.second.get()->initialize();
+		}
+
+		for (auto& map : _loadedMaps) {
+			map.second.initialize();
+		}
+		return true;
+	}
+
+	bool ResourceManager::resetImpl() {
+		/*
+		for (auto& texture : _loadedTextures) {
+			texture.second.get()->reset();
+		}
+
+		for (auto& font : _loadedFonts) {
+			font.second.get()->reset();
+		}
+
+
+		for (auto& sound : _loadedSounds) {
+			sound.second.get()->reset();
+		}
+		
+		for (auto& music : _loadedMusic) {
+			music.second.get()->reset();
+		}
+		
+		for (auto& map : _loadedMaps) {
+			map.second.reset();
+		}
+		*/
 		//TODO reset everything
-		return InitStatus::INIT_TRUE;
+		return true;
+	}
+
+	bool ResourceManager::destroyImpl() {
+
+		for (auto& texture : _loadedTextures) {
+			texture.second.get()->destroy();
+		}
+		_loadedTextures.clear();
+
+		_loadedAnimationSets.clear();
+
+		for (auto& font : _loadedFonts) {
+			font.second.get()->destroy();
+		}
+		_loadedFonts.clear();
+
+		for (auto& sound : _loadedSounds) {
+			sound.second.get()->destroy();
+		}
+
+		_loadedSounds.clear();
+
+		for (auto& music : _loadedMusic) {
+			music.second.get()->destroy();
+		}
+		_loadedMusic.clear();
+
+		for (auto& map : _loadedMaps) {
+			map.second.destroy();
+		}
+
+		_loadedMaps.clear();
+
+		//TODO why aren't these resources
+		_loadedParticleEffects.clear();
+		return true;
 	}
 
 	Font* ResourceManager::addFont(std::unique_ptr<Font> font) {
@@ -187,7 +266,8 @@ namespace core {
 	}
 
 	void ResourceManager::addMap(Map map) {
-
+		map.create();
+		map.initialize();
 		_loadedMaps.insert(std::pair<std::string, Map>(map.name(), map));
 	}
 
@@ -220,6 +300,7 @@ namespace core {
 		f->setFileSource(lua.pullStack<std::string>(2));
 		f->setFontSize(lua.pullStack<int>(3));
 		if (lua.pullStack<bool>(5)) {
+			f->create();
 			f->initialize();
 		}
 
@@ -239,6 +320,7 @@ namespace core {
 		s->setName(lua.pullStack<std::string>(1));
 		s->setSoundFilePath(lua.pullStack<std::string>(2));
 		if (lua.pullStack<bool>(3)) {
+			s->create();
 			s->initialize();
 		}
 
@@ -271,9 +353,15 @@ namespace core {
 
 		t->setName(lua["name"]);
 
-		if (t->initialize() != InitStatus::INIT_TRUE) {
+		if (t->create() != InitStatus::CREATE_TRUE) {
 			error("Could not load texture ", t->name());
+			return 0;
 		}
+		if (t->initialize() != InitStatus::INIT_TRUE) {
+			error("Could not bind GL texture ", t->name());
+			return 0;
+		}
+
 		else {
 			single<ResourceManager>().addTexture(std::unique_ptr<Texture>(t));
 		}

@@ -11,7 +11,7 @@ namespace core {
 	public:
 
 		GLuint createShader() {
-			return glCreateShader(GL_VERTEX_SHADER);			
+			return glCreateShader(GL_VERTEX_SHADER);				
 		}
 
 
@@ -21,6 +21,7 @@ namespace core {
 
 		~VertexShader() {
 			reset();
+			destroy();
 		}
 
 	private:

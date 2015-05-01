@@ -1,6 +1,7 @@
 #include "Interface.hpp"
 #include "Core.hpp"
 #include "TextureRenderSystem2d.hpp"
+#include "RenderableSystem2d.hpp"
 #include "EntitiesInRectQuery.hpp"
 #include "InterfaceFacet.hpp"
 #include "EntityPositionQuery.hpp"
@@ -15,25 +16,13 @@ namespace core {
 
 	}
 
-	InitStatus Interface::initializeImpl() {
-
-		this->System::initializeImpl();
-		
-		
-		debug("in interface init.");
-
+	bool Interface::createImpl() {
+		info("Creating interface...");
+		if (!this->System::createImpl()) return false;
 
 		SDL_Init(SDL_INIT_GAMECONTROLLER);
 		checkGamepadStatus();
 
-		_textureRenderSystem = new TextureRenderSystem2d{};
-		_textureRenderSystem->setName("InterfaceTextures");
-		single<Core>().addSystem(std::unique_ptr<TextureRenderSystem2d>(_textureRenderSystem));
-		single<Core>().includeRenderableSystem2d(_textureRenderSystem);
-		_textureRenderSystem->initialize();
-		_textureRenderSystem->setDrawableLayerId(100);
-		_mouseCursor = single<Core>().createEntity();
-		setCursorTextureFromDef();
 
 		auto& lua = single<Core>().lua();
 		lua.bindFunction("getMouseState_bind", Interface::getMouseState_bind);
@@ -42,18 +31,41 @@ namespace core {
 		lua.bindFunction("getKeyStates_bind", Interface::getKeyStates_bind);
 		lua.bindFunction("getGamepadStates_bind", Interface::getGamepadStates_bind);
 
-		return InitStatus::INIT_TRUE;
+		return true;
+
 	}
 
-	InitStatus Interface::resetImpl() {
+	bool Interface::initializeImpl() {
 
+		this->System::initializeImpl();
+
+
+
+
+		_textureRenderSystem = new TextureRenderSystem2d{};
+		_textureRenderSystem->setName("InterfaceTextures");
+		single<Core>().addSystem(_textureRenderSystem);
+		single<Core>().includeRenderableSystem2d(_textureRenderSystem);
+		_textureRenderSystem->create();
+		_textureRenderSystem->initialize();
+		_textureRenderSystem->setDrawableLayerId(0);
+		_mouseCursor = single<Core>().createEntity();
+		setCursorTextureFromDef();
+
+		return true;
+	}
+
+	bool Interface::resetImpl() {
+		
 		_facets.clear();
 		_facets.shrink_to_fit();
-
-		return InitStatus::INIT_FALSE;
+		return this->System::resetImpl();		
 	}
 
-
+	bool Interface::destroyImpl() {
+		
+		return this->System::destroyImpl();
+	}
 	//poll sdl for interface events
 	void Interface::pollSdlEvents() {
 
@@ -76,12 +88,12 @@ namespace core {
 					auto gamepadEvent = GamepadEvent{ e };
 					ep.process(gamepadEvent);
 				}
-				else if (e.type != SDL_MOUSEBUTTONDOWN && e.type != SDL_MOUSEBUTTONUP && e.type != SDL_MOUSEMOTION) {
+				else if (e.type == SDL_QUIT) {
 					WrappedSdlEvent sdlEvent{};
 					sdlEvent._wrappedEvent = &e;
 					single<EventProcessor>().process(sdlEvent);
 				}
-				else if (e.type == SDL_QUIT) {
+				else if (e.type != SDL_MOUSEBUTTONDOWN && e.type != SDL_MOUSEBUTTONUP && e.type != SDL_MOUSEMOTION) {
 					WrappedSdlEvent sdlEvent{};
 					sdlEvent._wrappedEvent = &e;
 					single<EventProcessor>().process(sdlEvent);
@@ -127,9 +139,9 @@ namespace core {
 			auto cursorPce = PositionChangeEvent{};
 			cursorPce.entity = _mouseCursor;
 			cursorPce.position = pos;
-			_textureRenderSystem->updateDrawPosition(cursorPce);
+			static_cast<RenderableSystem2d*>(_textureRenderSystem)->handleEvent(cursorPce);
 			
-			auto selectedLayer = 0;
+			auto selectedLayer = 10000;
 
 			_interfaceState.currentPosition.setPixel(pos);
 
@@ -141,7 +153,7 @@ namespace core {
 				rectQuery.rect = entitySearchRect;
 				single<EventProcessor>().process(rectQuery);
 				
-				auto selectedPos = Pixel{};
+				auto selectedPos = Pixel{0,0,10000};
 				for (Entity e : rectQuery.entities.values()) {					
 					for (auto& facet : _facets) {					
 
@@ -154,7 +166,7 @@ namespace core {
 								auto entityLayerQuery = EntityLayerQuery{};
 								entityLayerQuery.entity = e;
 								single<EventProcessor>().process(entityLayerQuery);
-								if (entityLayerQuery.found && entityLayerQuery.layerId >= selectedLayer) {
+								if (entityLayerQuery.found && entityLayerQuery.layerId <= selectedLayer) {
 									selectedLayer = entityLayerQuery.layerId;
 
 									auto entityPositionQuery = EntityPositionQuery{};
@@ -162,7 +174,7 @@ namespace core {
 									single<EventProcessor>().process(entityPositionQuery);
 									if (entityPositionQuery.found) {
 										auto entityPos = entityPositionQuery.position.getPixel();
-										if (entityPos.z > selectedPos.z || _interfaceState.pickedUp == nullptr) {										
+										if (entityPos.z <= selectedPos.z || _interfaceState.pickedUp == nullptr) {										
 											_interfaceState.pickedUp = &facet;
 											_interfaceState.pickedUpThisTick = true;
 											_interfaceState.pickedUpPosition.setPixel(entityPos);
@@ -202,22 +214,25 @@ namespace core {
 
 	}
 
-	void Interface::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {
+	bool Interface::handleEvent(FacetPauseEvent& pauseEvent) {
 
 		for (auto& facet : _facets) {
-			if (pauseEvent.entity == facet.of()) {		
-				
-			if (pauseEvent.facetId == -1 || pauseEvent.facetId == facet.id()) {
-				if (pauseEvent.paused) {
-					facet.pause();					
+			if (pauseEvent.entity == facet.of()) {
+
+				if (pauseEvent.facetId == -1 || pauseEvent.facetId == facet.id()) {
+					if (pauseEvent.paused) {
+						facet.pause();
+					}
+					else {
+						facet.resume();
+					}
+					if (pauseEvent.facetId != -1) {
+						return false;
+					}
 				}
-				else {
-					facet.resume();					
-				}				
-			}
-				break;
 			}
 		}
+		return true;
 	}
 
 	void Interface::setCursorTexture(std::string textureName, SDL_Rect sourceRect, Color textureColorMod, Dimension dimensions, Vec2 scale, Pixel offset) {
@@ -237,7 +252,7 @@ namespace core {
 		if (_mouseCursorDef.isSet == false) return;
 		auto existingFacets = _textureRenderSystem->getFacets(_mouseCursor);
 		if (existingFacets.empty()) {
-			_textureRenderSystem->createTextureFacet(_mouseCursor, _mouseState.position.getPixel(), _mouseCursorDef.offset, _mouseCursorDef.dimensions, _mouseCursorDef.scale, _mouseCursorDef.sourceRect, _mouseCursorDef.textureName);
+			_textureRenderSystem->createTextureFacet(_mouseCursor, _mouseState.position.getPixel(), _mouseCursorDef.offset, _mouseCursorDef.scale, _mouseCursorDef.sourceRect, _mouseCursorDef.textureName);
 		}
 		else {
 			auto textureChangeEvent = TextureChangeEvent{};

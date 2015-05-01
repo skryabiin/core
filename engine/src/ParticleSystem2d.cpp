@@ -11,57 +11,9 @@ namespace core {
 		auto& pf = _facets.back();
 		pf.setOf(e);				
 		pf.drawable.facet = &pf;
-		pf.drawable.zIndex = -10;
-		pf.drawable.systemRendered = true;
-		pf.drawable.system = this;
+		pf.drawable.zIndex = -10;		
 		pf.drawable.id = single<Renderer>().createDrawable(pf.drawable);
 		return pf;
-	}
-
-
-	void ParticleSystem2d::handleFacetPauseEvent(FacetPauseEvent& pauseEvent) {		
-
-		for (auto& facet : _facets) {
-			if (facet.of() == pauseEvent.entity) {
-
-				//doing all of the facets for this entity so continue
-				if (pauseEvent.facetId == -1) {
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}
-					continue;
-				}
-
-				//doing just the one facet for this entity so stop
-				else if (pauseEvent.facetId == facet.id()) {
-					if (pauseEvent.paused) {
-						facet.pause();
-						single<Renderer>().pauseDrawable(facet.drawable);
-					}
-					else {
-						facet.resume();
-						single<Renderer>().resumeDrawable(facet.drawable);
-					}					
-					break;
-				}
-
-			}
-		}
-
-	}
-
-
-	void ParticleSystem2d::updateDrawPosition(PositionChangeEvent& positionChange) {
-
-		for (auto it = std::begin(_facets); it != std::end(_facets); ++it) {
-
-			it->particleField->updateDrawPosition(positionChange);
-		}
 	}
 
 	void ParticleSystem2d::updateImpl(RuntimeContext& context) {
@@ -77,13 +29,16 @@ namespace core {
 		static_cast<ParticleFacet*>(facet)->particleField->TEMP_render(renderer);		
 	}
 
+	bool ParticleSystem2d::createImpl() {
+		return RenderableSystem2d::createImpl();
+	}
 
-	InitStatus ParticleSystem2d::initializeImpl() {
+	bool ParticleSystem2d::initializeImpl() {
 
 		return RenderableSystem2d::initializeImpl();
 	}
 
-	InitStatus ParticleSystem2d::resetImpl() {
+	bool ParticleSystem2d::resetImpl() {
 
 		for (auto& facet : _facets) {
 
@@ -95,6 +50,10 @@ namespace core {
 
 		return RenderableSystem2d::resetImpl();
 
+	}
+
+	bool ParticleSystem2d::destroyImpl() {
+		return RenderableSystem2d::destroyImpl();
 	}
 
 	void ParticleSystem2d::destroyFacets(Entity& e) {
