@@ -255,6 +255,7 @@
     <ClInclude Include="src\ShaderManager.hpp" />
     <ClInclude Include="src\ShaderProgram.hpp" />
     <ClInclude Include="src\Sound.hpp" />
+    <ClInclude Include="src\SPSCQueue.hpp" />
     <ClInclude Include="src\System.hpp" />
     <ClInclude Include="src\Templates.hpp" />
     <ClInclude Include="src\TextContentChangeEvent.hpp" />

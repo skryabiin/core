@@ -3,6 +3,8 @@ Scenes.first = {}
 function Scenes.first.init()
 	--set this up for the sequence loop
 
+    Renderer.setBackgroundColor({64,0,0,255})
+
 	Console.info("In first scene")
 
 	Core.createSystem("BasicPositionSystem2d", "MenuPositions")

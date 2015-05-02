@@ -88,6 +88,8 @@ public:
 
 	int getMinZIndex(int layerId) const;
 
+	void setBackgroundColor(Color& color);
+
 	void handleDebugEvent(DebugEvent& debugEvent);
 
 	SDL_Renderer* sdlRenderer();	
@@ -103,6 +105,8 @@ public:
 	static int hideWindow_bind(LuaState& lua);
 
 	static int showWindow_bind(LuaState& lua);
+
+	static int setBackgroundColor_bind(LuaState& lua);
 
 	void hideWindow();
 
@@ -141,7 +145,6 @@ private:
 	bool _renderMultithreaded;
 	SDL_SpinLock _drawableChangePtrLock;
 	SDL_SpinLock _renderThreadLock;
-	SDL_atomic_t _writingFirstQueueFlag;
 
 	void _checkGlDebugLog();
 
@@ -152,26 +155,18 @@ private:
 	bool _writingToFirstQueue;
 	
 	bool _doRenderThread;
-	
+
+
 	std::vector<DrawableChange>* _drawableChanges;
 	std::vector<DrawableChange> _drawableChanges1;
-	std::vector<DrawableChange> _drawableChanges2;
-
-	/*
-template <typename Drawable_type>
-void drawImpl(Drawable_type* drawableAspect, RuntimeContext& context) {
-	drawTexture(drawableAspect->getDrawable(), context);
-    }
-
-	*/
-	
-	
+	std::vector<DrawableChange> _drawableChanges2;		
 
 	int _thisDrawableId;	
 
 	std::vector<RenderLayer> _layers;
 
 	Color _backgroundColor;
+	bool _changeBackgroundColorFlag;
 
 	SDL_Window* _sdlWindow;
 	bool _windowShown;

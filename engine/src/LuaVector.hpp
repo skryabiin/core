@@ -142,7 +142,7 @@ namespace core {
 		}
 
 		Color getColor() const {
-			return Color{ _values[0], _values[1], _values[2], _values[3] };
+			return Color{ _values[0] / 255.0f, _values[1] / 255.0f, _values[2] / 255.0f, _values[3] / 255.0f };
 		}
 
 		void setColor(Color& c) {

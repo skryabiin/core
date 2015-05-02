@@ -22,6 +22,15 @@ require "lua/loadassets"
 Assets.load()
 
 
+local cursorTexture = {
+			source = {0, 0, 24, 32},
+			dimensions = {24, 32},
+			textureName = "cursor_brown",			
+			scale = {1, 1},
+			offset = {0, -32},			
+			textureColorMod = {100,255,255,100}
+		}
+        
 
 
 Core.setNextScene(Scenes.title)
@@ -31,6 +40,8 @@ while not doQuit do
 	Console.info("Entering main loop.")
 	
 	Core.init()
+
+    Interface.setCursorTexture(cursorTexture)
 
 	Core.transitionScene()
 	

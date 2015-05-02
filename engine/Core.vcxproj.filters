@@ -666,6 +666,9 @@
     <ClInclude Include="src\EventRegistry.hpp">
       <Filter>Source\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\SPSCQueue.hpp">
+      <Filter>Source\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="bin\lua\sounds\button-3.wav">

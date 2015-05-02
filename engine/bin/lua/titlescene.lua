@@ -33,6 +33,7 @@ end
 
 function Scenes.title.init()
 
+    Renderer.setBackgroundColor({255,0,255,255})
 
 	Console.info("In title scene")
 

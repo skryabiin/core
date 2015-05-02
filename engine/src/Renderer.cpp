@@ -71,6 +71,7 @@ namespace core {
 		lua.bindFunction("getMinZIndex_bind", Renderer::getMinZIndex_bind);
 		lua.bindFunction("hideWindow_bind", Renderer::hideWindow_bind);
 		lua.bindFunction("showWindow_bind", Renderer::showWindow_bind);
+		lua.bindFunction("setBackgroundColor_bind", Renderer::setBackgroundColor_bind);
 
 		_writingToFirstQueue = true;
 		_drawableChanges = &_drawableChanges1;
@@ -115,29 +116,17 @@ namespace core {
 
 		SDL_AtomicLock(&_renderThreadLock);
 		SDL_AtomicLock(&_drawableChangePtrLock);		
-		if (SDL_AtomicGet(&_writingFirstQueueFlag) > 0) {
-			int x = 0;
-		}
 		for (auto& layer : _layers) {
 			layer.reset();
 			layer.destroy();
-			if (SDL_AtomicGet(&_writingFirstQueueFlag) > 0) {
-				int x = 0;
-			}
 		}
 
 		_layers.clear();
-		if (SDL_AtomicGet(&_writingFirstQueueFlag) > 0) {
-			int x = 0;
-		}
+
 		_drawableChanges1.clear();
-		if (SDL_AtomicGet(&_writingFirstQueueFlag) > 0) {
-			int x = 0;
-		}
+
 		_drawableChanges2.clear();
-		if (SDL_AtomicGet(&_writingFirstQueueFlag) > 0) {
-			int x = 0;
-		}		
+	
 		SDL_AtomicUnlock(&_drawableChangePtrLock);
 		SDL_AtomicUnlock(&_renderThreadLock);		
 		
@@ -397,18 +386,14 @@ void Renderer::render() {
 	}
 	start();
 	
-	SDL_AtomicLock(&_renderThreadLock);
-	SDL_AtomicIncRef(&_writingFirstQueueFlag);
+	SDL_AtomicLock(&_renderThreadLock);	
 	for (auto& layer : _layers) {
 		if (layer.isPaused()) continue;
 		for (auto& drawable : layer.drawables) {
 			if (drawable.disabled) continue;
-			_draw(drawable);
-			
-
+			_draw(drawable);		
 		}
-	}
-	SDL_AtomicDecRef(&_writingFirstQueueFlag);
+	}	
 	SDL_AtomicUnlock(&_renderThreadLock);
 	end();
 	_checkGlDebugLog();
@@ -541,9 +526,14 @@ void Renderer::_processDrawableChanges() {
 
 	
 	SDL_AtomicLock(&_drawableChangePtrLock);
+
+	if (_changeBackgroundColorFlag) {
+		glClearColor(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
+		_changeBackgroundColorFlag = false;
+	}
+
 	auto currentChangeQueue = (_writingToFirstQueue) ? &_drawableChanges2 : &_drawableChanges1;	
 	
-
 
 	for (auto& dc : *currentChangeQueue) {
 		if (dc.operation == DrawableChange::Operation::CREATE) {
@@ -713,8 +703,24 @@ void Renderer::_addDrawableChange(DrawableChange& dc) {
 	}
 }
 
+void Renderer::setBackgroundColor(Color& color) {
+
+	SDL_AtomicLock(&_drawableChangePtrLock);
+	_backgroundColor = color;
+	_changeBackgroundColorFlag = true;
+	SDL_AtomicUnlock(&_drawableChangePtrLock);
+
+}
 
 
+int Renderer::setBackgroundColor_bind(LuaState& lua) {
+
+	auto color = LuaColor{};
+	color.fromLua(lua);
+	single<Renderer>().setBackgroundColor(color.getColor());
+	return 0;
+
+}
 
 int Renderer::getMinZIndex(int layerId) const {
 

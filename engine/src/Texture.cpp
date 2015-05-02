@@ -60,7 +60,7 @@ namespace core {
 		SDL_FreeSurface(_sdlSurface);
 
 		_sdlSurface = nullptr;		
-		info("Unloaded texture '", _name, "' with source path '", _fileSource, "\n");	
+		info("Unloaded texture '", _name, "' with source path '", _fileSource);	
 		return true;
 	}
 

@@ -1,6 +1,72 @@
-﻿Build started 5/1/2015 6:55:28 PM.
+﻿Build started 5/1/2015 10:13:02 PM.
      1>Project "C:\code\core\engine\Core.vcxproj" on node 2 (Build target(s)).
-     1>Link:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Animation.cpp src\AnimationChangeEvent.cpp src\AnimationSystem2d.cpp src\BasicPositionSystem2d.cpp src\Camera2d.cpp src\ColorChangeEvent.cpp src\ColorModulationEvent.cpp src\Console.cpp src\Core.cpp src\DimensionChangeEvent.cpp src\EntitiesInRectQuery.cpp src\EntityLayerQuery.cpp src\EntityPositionQuery.cpp src\EventProcessor.cpp src\EventRegistry.cpp src\FacetDimensionQuery.cpp src\FacetPauseEvent.cpp src\Font.cpp src\Interface.cpp src\LinearParticleField.cpp src\LuaFunction.cpp src\LuaState.cpp src\LuaTable.cpp src\MouseEvent.cpp src\OffsetChangeEvent.cpp src\OrientationChangeEvent.cpp src\ParticleSystem2d.cpp src\PhysicsSystem.cpp src\PositionChangeEvent.cpp src\PrimitiveRenderSystem2d.cpp src\RenderableSystem2d.cpp src\RenderedTextToken.cpp src\Renderer.cpp src\ResourceManager.cpp src\ScaleChangeEvent.cpp src\ShaderManager.cpp src\ShaderProgram.cpp src\System.cpp src\TextContentChangeEvent.cpp src\TextRenderSystem2d.cpp src\Texture.cpp src\TextureChangeEvent.cpp src\TextureRenderSystem2d.cpp src\VertexArrayObject.cpp src\World.cpp src\main.cpp
+         Renderer.cpp
+     1>c:\code\core\engine\src\particlesystem2d.hpp(41): warning C4250: 'core::ParticleSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         Generating Code...
+         Compiling...
+         main.cpp
+         World.cpp
+     1>c:\code\core\engine\src\animationsystem2d.hpp(56): warning C4250: 'core::AnimationSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         TextureRenderSystem2d.cpp
+         TextureChangeEvent.cpp
+         TextRenderSystem2d.cpp
+         TextContentChangeEvent.cpp
+         ShaderManager.cpp
+         ScaleChangeEvent.cpp
+         ResourceManager.cpp
+         RenderableSystem2d.cpp
+         PrimitiveRenderSystem2d.cpp
+         PositionChangeEvent.cpp
+         PhysicsSystem.cpp
+         ParticleSystem2d.cpp
+     1>c:\code\core\engine\src\particlesystem2d.hpp(41): warning C4250: 'core::ParticleSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         OrientationChangeEvent.cpp
+         OffsetChangeEvent.cpp
+         LuaFunction.cpp
+         LinearParticleField.cpp
+         Interface.cpp
+         Font.cpp
+         Generating Code...
+         Compiling...
+         FacetPauseEvent.cpp
+         FacetDimensionQuery.cpp
+         EventRegistry.cpp
+         EventProcessor.cpp
+         EntityPositionQuery.cpp
+         EntityLayerQuery.cpp
+         EntitiesInRectQuery.cpp
+         DimensionChangeEvent.cpp
+         Core.cpp
+     1>c:\code\core\engine\src\animationsystem2d.hpp(56): warning C4250: 'core::AnimationSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+     1>c:\code\core\engine\src\particlesystem2d.hpp(41): warning C4250: 'core::ParticleSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         Console.cpp
+         ColorChangeEvent.cpp
+         Camera2d.cpp
+         BasicPositionSystem2d.cpp
+         AnimationSystem2d.cpp
+     1>c:\code\core\engine\src\animationsystem2d.hpp(56): warning C4250: 'core::AnimationSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(40) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         AnimationChangeEvent.cpp
+         Animation.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         VertexArrayObject.cpp
+         Texture.cpp
+         System.cpp
+         ShaderProgram.cpp
+         RenderedTextToken.cpp
+         MouseEvent.cpp
+         LuaTable.cpp
+         LuaState.cpp
+         ColorModulationEvent.cpp
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 obj\AccelerationChangeEvent.obj
          obj\Animation.obj
          obj\AnimationChangeEvent.obj
@@ -61,4 +127,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.54
+Time Elapsed 00:01:19.87
