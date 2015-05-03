@@ -23,7 +23,7 @@ namespace core {
 		return true;
 	}
 
-	bool Font::resetImpl() {		
+	bool Font::resetImpl() {	
 		return true;
 	}
 

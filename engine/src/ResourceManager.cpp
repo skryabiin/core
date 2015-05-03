@@ -88,7 +88,7 @@ namespace core {
 	}
 
 	bool ResourceManager::resetImpl() {
-		/*
+		
 		for (auto& texture : _loadedTextures) {
 			texture.second.get()->reset();
 		}
@@ -109,7 +109,7 @@ namespace core {
 		for (auto& map : _loadedMaps) {
 			map.second.reset();
 		}
-		*/
+		
 		//TODO reset everything
 		return true;
 	}

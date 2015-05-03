@@ -32,13 +32,14 @@ namespace core {
 		for (auto& facet : _textFacets) {
 			single<Renderer>().destroyDrawable(facet.drawable);
 		}
-		_textFacets.clear();
-		_renderedTextTokens.clear();
+
 		
 		return RenderableSystem2d::resetImpl();
 	}
 
 	bool TextRenderSystem2d::destroyImpl() {
+		_textFacets.clear();
+		_renderedTextTokens.clear();
 		return RenderableSystem2d::destroyImpl();
 	}
 	

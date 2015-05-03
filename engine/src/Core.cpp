@@ -287,7 +287,7 @@ namespace core {
 	bool Core::resetImpl() {
 		for (auto system : _systems) {
 			system->reset();
-			system->destroy();
+
 
 		}
 		info("Resetting renderer.");
@@ -297,6 +297,7 @@ namespace core {
 		_updateableSystems.clear();
 
 		for (auto system : _systems) {
+			system->destroy();
 			delete system;
 		}		
 		_systems.clear();
