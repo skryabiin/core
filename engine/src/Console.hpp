@@ -55,7 +55,9 @@ namespace core {
 		bool initializeImpl();
 		bool resetImpl();
 		bool destroyImpl();
-		
+
+		void doHardQuit(std::string msg);
+
 		template <typename ... Args>
 		void log(int debugLevel, Args&& ... args) {
 			if (_debugSettings.verbosityLevel < debugLevel) return;
@@ -63,22 +65,22 @@ namespace core {
 			auto ss = std::ostringstream{};
 
 			switch (debugLevel) {
-			case -1:  //fatal errors accompany app shutdown, and are always displayed
+			case 0:  //fatal errors accompany app shutdown, and are always displayed
 				ss << "[fatal] ";
 				break;
-			case 0:  //notices are always displayed
+			case 1:  //notices are always displayed
 				ss << "[notice] ";
 				break;
-			case 1: //errors that do not necessarily indicate an app shutdown
+			case 2: //errors that do not necessarily indicate an app shutdown
 				ss << "[error] ";
 				break;
-			case 2: //warnings
+			case 3: //warnings
 				ss << "[warn] ";
 				break;
-			case 3: //helpful information
+			case 4: //helpful information
 				ss << "[info] ";
 				break;
-			case 4: //all your "here" output lines
+			case 5: //all your "here" output lines
 				ss << "[dbug] ";
 				break;
 			}
@@ -87,6 +89,7 @@ namespace core {
 			ss.flush(); 
 			log(ss.str());
 			addNewLogMessage(ss.str());
+			if (debugLevel == 0) doHardQuit(ss.str());
 
 		}
 
@@ -97,6 +100,8 @@ namespace core {
 		bool isRunning();
 
 		bool getNewLogMessages(std::vector<std::string>& msgBuf);
+
+		
 
 		void addNewLogMessage(std::string msg);
 
@@ -183,32 +188,32 @@ namespace core {
 
 	template <typename ... Args>
 	inline void debug(Args&& ...args) {
-		single<Console>().log(4, args...);
+		single<Console>().log(5, args...);
 	}
 
 	template <typename ... Args>
 	inline void info(Args&& ...args) {
-		single<Console>().log(3, args...);
+		single<Console>().log(4, args...);
 	}
 	
 	template <typename ... Args>
 	inline void warn(Args&& ...args) {
-		single<Console>().log(2, args...);
+		single<Console>().log(3, args...);
 	}
 	
 	template <typename ... Args>
 	inline void error(Args&& ...args) {
-		single<Console>().log(1, args...);
+		single<Console>().log(2, args...);
 	}
 
 	template <typename ... Args>
 	inline void notice(Args&& ...args) {
-		single<Console>().log(0, args...);
+		single<Console>().log(1, args...);
 	}
 
 	template <typename ... Args>
 	inline void fatal(Args&& ...args) {
-		single<Console>().log(-1, args...);
+		single<Console>().log(0, args...);
 	}
 
 } //end namespace core

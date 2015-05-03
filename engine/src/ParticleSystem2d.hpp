@@ -16,6 +16,7 @@ namespace core {
 
 		virtual void updateImpl(RuntimeContext& context) override;
 
+		using RenderableSystem2d::handleEvent;
 
 		virtual bool createImpl() override;
 

@@ -70,6 +70,8 @@ namespace core {
 		void resumeImpl();
 
 		void doQuit(std::string msg);
+
+		void doHardQuit(std::string msg);
 		
 		template <typename Facet_type>
 		std::vector<Facet_type*> getFacetsByType(Entity e) {
@@ -164,9 +166,7 @@ namespace core {
 
 
 		//flag for whether to continue the main loop
-		bool _gogogo;
-
-
+		bool _gogogo;		
 
 		//the runtime context that gets passed to update methods
 		RuntimeContext _runtimeContext;

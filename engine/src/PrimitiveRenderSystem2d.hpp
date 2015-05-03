@@ -17,6 +17,8 @@ namespace core {
 		virtual bool destroyImpl() override;
 		virtual void handleColorChange(ColorChangeEvent& colorChangeEvent);
 
+		using RenderableSystem2d::handleEvent;
+
 		void createRectangleFacet(Entity& e, Pixel& offset, SDL_Rect& rect, Color& color, bool filled);
 
 		void updateRectangleFacet(Pixel& offset, SDL_Rect& rect, Color& color, bool filled);

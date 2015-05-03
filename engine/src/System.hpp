@@ -25,6 +25,8 @@ namespace core {
 		virtual void pauseImpl() {};
 		virtual void resumeImpl() {};		
 
+		virtual bool handleEvent(FacetPauseEvent& e) = 0;
+
 		virtual std::vector<Facet*> getFacets(Entity& e) {
 
 			auto out = std::vector<Facet*>{};

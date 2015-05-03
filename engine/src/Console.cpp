@@ -89,6 +89,10 @@ namespace core {
 		return true;
 	}
 
+
+	void Console::doHardQuit(std::string msg) {
+		single<Core>().doHardQuit(msg);
+	}
 	std::string Console::getLogFilePath() {
 		return _logFilePath;
 	}
@@ -175,6 +179,14 @@ namespace core {
 		notice("Starting Core at ", getTimestamp());
 
 		int verbosity = lua("Config")["verbosityLevel"];
+		if (verbosity < 0) {
+			warn("Verbosity set to invalid value '", verbosity, "' (valid values are 0-5). Defaulting to 0.");
+			verbosity = 0;
+		}
+		else if (verbosity > 5) {
+			warn("Verbosity set to invalid value '", verbosity, "' (valid values are 0-5). Defaulting to 5.");
+			verbosity = 5;
+		}
 		notice("Verbosity =  ", verbosity);
 
 		single<Console>().setVerbosityLevel(verbosity);

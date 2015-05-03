@@ -38,6 +38,8 @@ namespace core {
 
 		bool destroyImpl();
 
+		void doHardQuit(std::string msg);
+
 		std::string printStack();
 
 		void printTable(int index, std::ostringstream& ss, int indent);

@@ -11,9 +11,9 @@ function Scenes.first.init()
 	Core.createSystem("TextureRenderSystem2d", "MenuTextures", 1)
 	Core.createSystem("TextRenderSystem2d", "MenuText", 1)
 		
-	currentPositionSystemPtr = Core.createSystem("BasicPositionSystem2d", "Positions")
-	currentTextureRenderSystemPtr = Core.createSystem("TextureRenderSystem2d", "Textures", 2)
-	currentTextRenderSystemPtr = Core.createSystem("TextRenderSystem2d", "Text", 2)	
+	Core.createSystem("BasicPositionSystem2d", "Positions")
+	Core.createSystem("TextureRenderSystem2d", "Textures", 2)
+	Core.createSystem("TextRenderSystem2d", "Text", 2)	
     local cursorTexture = {
 			source = {0, 0, 24, 32},
 			dimensions = {24, 32},

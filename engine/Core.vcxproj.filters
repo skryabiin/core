@@ -112,9 +112,6 @@
     <ClCompile Include="src\EventProcessor.cpp">
       <Filter>Source\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\FacetPauseEvent.cpp">
-      <Filter>Source\Events</Filter>
-    </ClCompile>
     <ClCompile Include="src\Font.cpp">
       <Filter>Source\Resources</Filter>
     </ClCompile>
@@ -241,6 +238,12 @@
     <ClCompile Include="src\AccelerationChangeEvent.cpp">
       <Filter>Source\Events\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Interpolation.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FacetPauseEvent.cpp">
+      <Filter>Source\Events\Dynamic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\shaders\basic.glfs">
@@ -355,6 +358,9 @@
     <None Include="bin\lua-core\config-default.lua">
       <Filter>Lua-Core</Filter>
     </None>
+    <None Include="bin\lua-core\constants.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Config.hpp">
@@ -421,9 +427,6 @@
       <Filter>Source\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Event.hpp">
-      <Filter>Source\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FacetPauseEvent.hpp">
       <Filter>Source\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\FragmentShader.hpp">
@@ -668,6 +671,12 @@
     </ClInclude>
     <ClInclude Include="src\SPSCQueue.hpp">
       <Filter>Source\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpolation.hpp">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacetPauseEvent.hpp">
+      <Filter>Source\Events\Dynamic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

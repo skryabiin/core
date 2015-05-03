@@ -15,6 +15,11 @@ namespace core {
 		lua_close(_L);
 	}
 
+	void LuaState::doHardQuit(std::string error) {
+		pushStack(error);
+		lua_error(_L);
+	}
+
 	bool LuaState::createImpl(bool openStandardLibraries) {
 
 

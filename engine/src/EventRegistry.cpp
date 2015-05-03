@@ -26,6 +26,7 @@
 #include "FacetDimensionQuery.hpp"
 #include "ObjectCollisionQuery.hpp"
 #include "DebugEvent.hpp"
+#include "FacetPauseEvent.hpp"
 
 
 namespace core {
@@ -62,5 +63,7 @@ namespace core {
 	EventRegistration<FacetDimensionQuery> FacetDimensionQueryReg{};
 	//EventRegistration<ObjectCollisionQuery> ObjectCollisionQueryReg{};
 	//EventRegistration<DebugEvent> DebugEventReg{};
+	EventRegistration<FacetPauseEvent> FacetPauseEventReg{};
+
 
 } //end namespace core

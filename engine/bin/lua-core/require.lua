@@ -1,3 +1,4 @@
+require "lua-core/constants"
 require "lua-core/config-default"
 require "lua-core/util"
 require "lua-core/renderer"

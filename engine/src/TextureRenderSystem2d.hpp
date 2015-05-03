@@ -20,7 +20,7 @@ namespace core {
 
 		TextureRenderSystem2d();
 
-		
+		using RenderableSystem2d::handleEvent;
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 

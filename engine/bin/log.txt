@@ -1,7 +1,3 @@
-[notice] ----------------------------------------------------
-[notice] Starting Core at Fri May 01 22:15:17 2015
-
-[notice] Verbosity =  4
 [info] Initializing Core...
 [info] Creating event processor...
 [info] Initializing SDL events...
@@ -30,111 +26,8 @@
 [info] sprites.lua(16),load: Loading sprites...
 [info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
 [info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
-[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
 [info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
-[info] particles.lua(7),load: Loading particle effects...
-[info] arbor.lua(40): Entering main loop.
-[info] Initializing framework for scene...
-[dbug] Shader id is : 2
-[info] titlescene.lua(38),init: In title scene
-[info] Creating text facet for entity 4
-[dbug] Shader id is : 3
-[info] Creating text facet for entity 5
-[dbug] Shader id is : 5
-[dbug] Shader id is : 6
-[info] Creating text facet for entity 6
-[info] arbor.lua(53): main loop response is Transitioning to first scene
-[info] Core system reset complete.
-[info] arbor.lua(40): Entering main loop.
-[info] Initializing framework for scene...
-[info] firstscene.lua(6),init: In first scene
-[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
-[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextFacet_bind'
-[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
-[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextFacet_bind'
-[info] Creating text facet for entity 9
-[info] Creating text facet for entity 11
-[info] Creating text facet for entity 12
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[info] interface.lua(7),onClick: clicked on entity 8, facet 38
-[info] arbor.lua(53): main loop response is Transitioning to title scene
-[info] Core system reset complete.
-[info] arbor.lua(40): Entering main loop.
-[info] Initializing framework for scene...
-[info] titlescene.lua(38),init: In title scene
-[warn] Overwriting registered lua bound function 'addPositionFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextureFacet_bind'
-[warn] Overwriting registered lua bound function 'addCameraFollowFacet_bind'
-[warn] Overwriting registered lua bound function 'addTextFacet_bind'
-[info] Creating text facet for entity 14
-[info] Creating text facet for entity 15
-[info] Creating text facet for entity 16
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[info] arbor.lua(53): main loop response is Quit
-[info] Core system reset complete.
-[notice] Stopping Core at Fri May 01 22:15:29 2015
-
-[notice] Reason: Quit
-[info] Unloaded texture 'renderedText-9' with source path '
-[info] Unloaded texture 'renderedText-8' with source path '
-[info] Unloaded texture 'renderedText-7' with source path '
-[info] Unloaded texture 'renderedText-6' with source path '
-[info] Unloaded texture 'renderedText-5' with source path '
-[info] Unloaded texture 'renderedText-4' with source path '
-[info] Unloaded texture 'renderedText-3' with source path '
-[info] Unloaded texture 'renderedText-2' with source path '
-[info] Unloaded texture 'renderedText-1' with source path '
-[info] Unloaded texture 'redBox' with source path './lua/sprites/red_box.png
-[info] Unloaded texture 'cursor_brown' with source path './lua/sprites/cursor_brown.png
-[info] Unloaded texture 'blueBalls' with source path './lua/sprites/AUAlogowithRibbon.png
-[info] Core system destroy complete.
-[notice] ----------------------------------------------------
-[notice] Starting Core at Fri May 01 22:16:14 2015
-
-[notice] Verbosity =  4
-[info] Initializing Core...
-[info] Creating event processor...
-[info] Initializing SDL events...
-[info] Initializing SDL timer...
-[info] Creating console...
-[warn] Overwriting registered lua bound function 'setDebug_bind'
-[info] Creating interface...
-[info] Creating ResourceManager:
-[info] Initializing SDL_image...
-[info] Initializing SDL_ttf...
-[info] Initializing SDL_audio...
-[info] Initializing SDL_mixer...
-[info] Registering lua functions...
-[info] Creating Renderer:
-[info] Initializing SDL window...
-[info] Creating SDL window 'Arbor' size 1024x768
-[info] Renderer multithreaded mode enabled.
-[info] OpenGL version: 3.1.10428 Compatibility Profile/Debug Context
-[info] AMD debug output extension is available.
-[info] fonts.lua(20),load: Loading fonts...
-[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, default size 15
-[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, default size 30
-[info] sounds.lua(10),load: Loading sounds...
-[info] sounds.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
-[info] sounds.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
-[info] sprites.lua(16),load: Loading sprites...
-[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
 [info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
-[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
-[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
 [info] particles.lua(7),load: Loading particle effects...
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -147,6 +40,7 @@
 [dbug] Shader id is : 5
 [dbug] Shader id is : 6
 [info] arbor.lua(53): main loop response is Transitioning to first scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -162,11 +56,9 @@
 [info] Creating text facet for entity 9
 [info] Creating text facet for entity 11
 [info] Creating text facet for entity 12
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
+[info] interface.lua(7),onClick: clicked on entity 8, facet 38
 [info] arbor.lua(53): main loop response is Transitioning to title scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -178,14 +70,8 @@
 [info] Creating text facet for entity 14
 [info] Creating text facet for entity 15
 [info] Creating text facet for entity 16
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
 [info] arbor.lua(53): main loop response is Transitioning to first scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -201,11 +87,9 @@
 [info] Creating text facet for entity 19
 [info] Creating text facet for entity 21
 [info] Creating text facet for entity 22
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
+[info] interface.lua(7),onClick: clicked on entity 18, facet 94
 [info] arbor.lua(53): main loop response is Transitioning to title scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -217,14 +101,8 @@
 [info] Creating text facet for entity 24
 [info] Creating text facet for entity 25
 [info] Creating text facet for entity 26
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
 [info] arbor.lua(53): main loop response is Transitioning to first scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -240,17 +118,9 @@
 [info] Creating text facet for entity 29
 [info] Creating text facet for entity 31
 [info] Creating text facet for entity 32
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[info] interface.lua(7),onClick: clicked on entity 28, facet 150
-[info] interface.lua(7),onClick: clicked on entity 28, facet 150
-[info] interface.lua(7),onClick: clicked on entity 28, facet 150
-[info] interface.lua(7),onClick: clicked on entity 28, facet 150
-[info] interface.lua(7),onClick: clicked on entity 28, facet 150
 [info] interface.lua(7),onClick: clicked on entity 28, facet 150
 [info] arbor.lua(53): main loop response is Transitioning to title scene
+[info] Resetting renderer.
 [info] Core system reset complete.
 [info] arbor.lua(40): Entering main loop.
 [info] Initializing framework for scene...
@@ -262,16 +132,10 @@
 [info] Creating text facet for entity 34
 [info] Creating text facet for entity 35
 [info] Creating text facet for entity 36
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
-[warn] Attempting to destroy a non-existent drawable.
 [info] arbor.lua(53): main loop response is Quit
+[info] Resetting renderer.
 [info] Core system reset complete.
-[notice] Stopping Core at Fri May 01 22:16:36 2015
+[notice] Stopping Core at Sun May 03 00:38:17 2015
 
 [notice] Reason: Quit
 [info] Unloaded texture 'renderedText-9' with source path '

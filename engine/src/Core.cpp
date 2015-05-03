@@ -59,7 +59,7 @@ namespace core {
 		_lua.bindFunction("reset_bind", Core::reset_bind);
 		_lua.bindFunction("destroy_bind", Core::destroy_bind);
 
-		_coreConfig.maxUpdatesPerSecond = _lua("Config")["maxUpdatesPerSecond"];
+		_coreConfig.maxUpdatesPerSecond = _lua("PerformanceConfig")["maxUpdatesPerSecond"];
 
 		return true;
 	}
@@ -68,18 +68,36 @@ namespace core {
 
 		info("Initializing framework for scene...");
 
-		if (single<EventProcessor>().initialize() == InitStatus::INIT_FAILED) return false;
+		if (single<EventProcessor>().initialize() == InitStatus::INIT_FAILED) {
+			error("Event processor initialization failed.");
+			return false;
+		}
 
-		if (single<Console>().initialize() == InitStatus::INIT_FAILED) return false;
+		if (single<Console>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Console initialization failed.");
+			return false;
+		}
 
-		if (single<Interface>().initialize() == InitStatus::INIT_FAILED) return false;
 
-		if (single<ResourceManager>().initialize() == InitStatus::INIT_FAILED) return false;
 
-		if (single<ShaderManager>().initialize() == InitStatus::INIT_FAILED) return false;
+		if (single<ResourceManager>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Resource manager initialization failed.");
+			return false;
+		}
 
-		if (single<Renderer>().initialize() == InitStatus::INIT_FAILED) return false;
+		if (single<ShaderManager>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Shader manager initialization failed.");
+			return false;
+		}
 
+		if (single<Renderer>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Renderer initialization failed.");
+			return false;
+		}
+		if (single<Interface>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Interface initialization failed.");
+			return false;
+		}
 
 		return true;
 	}
@@ -98,8 +116,6 @@ namespace core {
 		
 
 		_gogogo = true;		
-
-		update();
 
 		single<Renderer>().showWindow();
 
@@ -216,6 +232,15 @@ namespace core {
 		single<Core>()._returnString = msg;
 	}
 
+	void Core::doHardQuit(std::string msg) {
+		std::string windowTitle = _lua("Config")["title"];
+		auto title = "Fatal Error in " + windowTitle;
+		single<Renderer>().hideWindow();
+		single<Renderer>().pause();
+		single<Core>().pause();
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.c_str(), msg.c_str(), NULL);
+		single<Core>().doQuit("Fatal");
+	}
 
 	int Core::doQuit_bind(LuaState& lua) {
 
@@ -260,21 +285,27 @@ namespace core {
 	}
 
 	bool Core::resetImpl() {
-		single<Renderer>().reset();
-		_renderableSystems2d.clear();
-		_updateableSystems.clear();
 		for (auto system : _systems) {
 			system->reset();
 			system->destroy();
-			delete system;
+
 		}
+		info("Resetting renderer.");
+		single<Renderer>().reset();
+
+		_renderableSystems2d.clear();
+		_updateableSystems.clear();
+
+		for (auto system : _systems) {
+			delete system;
+		}		
 		_systems.clear();
 
 		single<Interface>().reset();
 
 		single<ResourceManager>().reset();
 
-		single<ShaderManager>().reset();
+		//single<ShaderManager>().reset();
 
 		single<Console>().reset();
 

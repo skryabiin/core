@@ -45,10 +45,7 @@ namespace core {
 		_luaFilters.clear();
 
 		
-		for (auto topic : _topics) {
-			delete topic;
-		}
-		_topics.clear();
+
 		
 		//todo?
 		return true;
@@ -56,6 +53,10 @@ namespace core {
 	}
 
 	bool EventProcessor::destroyImpl() {
+		for (auto topic : _topics) {
+			delete topic;
+		}
+		_topics.clear();
 		return true;
 	}
 

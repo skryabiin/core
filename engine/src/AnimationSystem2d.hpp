@@ -17,6 +17,7 @@ namespace core {
 
 
 
+	#pragma warning( disable : 4250)
 
 	struct ColorStateChange;
 
@@ -32,7 +33,9 @@ namespace core {
 
 		virtual void updateImpl(RuntimeContext& context) override;		
 
+
 		bool handleEvent(AnimationChangeEvent& animationChange);		
+		using RenderableSystem2d::handleEvent;
 
 		virtual void renderFacet(SDL_Renderer* renderer, Facet* facet) {};
 		

@@ -96,6 +96,7 @@
     <ClCompile Include="src\FacetPauseEvent.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Interface.cpp" />
+    <ClCompile Include="src\Interpolation.cpp" />
     <ClCompile Include="src\LinearParticleField.cpp" />
     <ClCompile Include="src\LuaCursor.cpp" />
     <ClCompile Include="src\LuaFunction.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <None Include="bin\lua-core\blank-scene.lua" />
     <None Include="bin\lua-core\config-default.lua" />
+    <None Include="bin\lua-core\constants.lua" />
     <None Include="bin\lua-core\core.lua" />
     <None Include="bin\lua-core\deepcopy.lua" />
     <None Include="bin\lua-core\facet.lua" />
@@ -209,6 +211,7 @@
     <ClInclude Include="src\IndexBufferObject.hpp" />
     <ClInclude Include="src\Interface.hpp" />
     <ClInclude Include="src\InterfaceFacet.hpp" />
+    <ClInclude Include="src\Interpolation.hpp" />
     <ClInclude Include="src\KeyboardEvent.hpp" />
     <ClInclude Include="src\LinearParticleField.hpp" />
     <ClInclude Include="src\LuaCursor.hpp" />

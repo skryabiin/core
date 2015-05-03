@@ -78,6 +78,7 @@ namespace core {
 				rect.h = roundFloat((rect.h / oldScale.y) * newScale.y);
 				vfacet->drawable.targetRect = rect;
 				vfacet->scale = newScale;
+				single<Renderer>().updateDrawable(vfacet->drawable);
 				if (scaleChange.facetId != -1) return false;
 			}
 		}

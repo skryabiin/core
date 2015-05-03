@@ -112,8 +112,15 @@ namespace core {
 		SDL_Color Message::getColor(std::string text) {
 
 			auto severity = text.substr(0, 5);
-
-			if (!severity.compare("[warn")) {
+			if (!severity.compare("[fata")) {
+				auto consoleFatalColor = SDL_Color{};
+				consoleFatalColor.a = 0xFF;
+				consoleFatalColor.b = 0xFF;
+				consoleFatalColor.g = 0xFF;
+				consoleFatalColor.r = 0xFF;
+				return consoleFatalColor;
+			}
+			else if (!severity.compare("[warn")) {
 
 				auto consoleWarnColor = SDL_Color{};
 				consoleWarnColor.a = 0xFF;

@@ -40,6 +40,7 @@
 #include "FragmentShader.hpp"
 #include "ShaderProgram.hpp"
 #include "VertexArrayObject.hpp"
+#include "SPSCQueue.hpp"
 
 namespace core {
 
@@ -48,7 +49,7 @@ struct TextureFacet;
 
 
 class Renderer : public updateable<Renderer, void, RuntimeContext>, public initializable<Renderer, void, void, void, void>, public pausable<Renderer> {
-
+	friend class Core;
 public:
 
 	Renderer() : _backgroundColor{ 0.0f, 0.0f, 0.0f, 1.0f }, _debugShowTextureBounds{ false }, _thisDrawableId{ 0 } {
@@ -98,7 +99,6 @@ public:
 
 	~Renderer();
 	
-	LinearParticleField* TEMP_particleTest;
 
 	static int getMinZIndex_bind(LuaState& lua);
 
@@ -143,6 +143,7 @@ private:
 	void _drawPoly(GLfloat* v, unsigned numPoints, Color& color, ColorTransform& colorTransform, bool filled);
 
 	bool _renderMultithreaded;
+	bool TEMP_justReset;
 	SDL_SpinLock _drawableChangePtrLock;
 	SDL_SpinLock _renderThreadLock;
 
@@ -153,13 +154,18 @@ private:
 	void _addDrawableChange(DrawableChange& dc);
 
 	bool _writingToFirstQueue;
-	
+	int _maxPendingQueueDepth;
 	bool _doRenderThread;
 
+	SPSCQueue<DrawableChange>* _drawableChangeQueue1;
+	SPSCQueue<DrawableChange>* _drawableChangeQueue2;
 
-	std::vector<DrawableChange>* _drawableChanges;
-	std::vector<DrawableChange> _drawableChanges1;
-	std::vector<DrawableChange> _drawableChanges2;		
+	SPSCQueue<DrawableChange>** _drawableChanges;
+	SPSCQueue<DrawableChange>** _drawablePending;
+
+	//std::vector<DrawableChange>* _drawableChanges;
+	//std::vector<DrawableChange> _drawableChanges1;
+	//std::vector<DrawableChange> _drawableChanges2;		
 
 	int _thisDrawableId;	
 

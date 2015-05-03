@@ -23,7 +23,7 @@ namespace core {
 
 		TextFacet& createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Vec2 scale, Color color, std::string text);
 
-
+		using RenderableSystem2d::handleEvent;
 		bool handleEvent(ColorChangeEvent& colorChangeEvent);
 
 		bool handleEvent(TextContentChangeEvent& textContentChange);

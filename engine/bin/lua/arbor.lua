@@ -56,7 +56,7 @@ while not doQuit do
 	Core.reset()
 	
 	--if the user is trying to close the window, quit now
-	if mainSequenceResponse == "AppClosed"  or mainSequenceResponse == "Quit" then
+	if mainSequenceResponse == "AppClosed"  or mainSequenceResponse == "Quit" or mainSequenceResponse == "Fatal" then
 		Renderer.hideWindow()
 		doQuit = true
 	end

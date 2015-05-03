@@ -21,8 +21,9 @@ namespace core {
 
 		auto& lua = single<Core>().lua();
 		std::string title = lua("Config")["title"];
-		_maxFramesPerSecond = lua("Config")["maxFramesPerSecond"];
-		_renderMultithreaded = lua("Config")["renderMultithreaded"];
+		_maxFramesPerSecond = lua("PerformanceConfig")["maxFramesPerSecond"];
+		_renderMultithreaded = lua("PerformanceConfig")["renderMultithreaded"];
+		_maxPendingQueueDepth = lua("PerformanceConfig")["maxWaitFreeQueueDepth"];
 		int winw = lua("Config")["window"][1];
 		int winh = lua("Config")["window"][2];				
 		_windowShown = false;
@@ -74,25 +75,141 @@ namespace core {
 		lua.bindFunction("setBackgroundColor_bind", Renderer::setBackgroundColor_bind);
 
 		_writingToFirstQueue = true;
-		_drawableChanges = &_drawableChanges1;
+		_drawableChangeQueue1 = new SPSCQueue<DrawableChange>{};
+		_drawableChangeQueue2 = new SPSCQueue<DrawableChange>{};
+
 
 		_doRenderThread = true;
 
 		SDL_ShowCursor(0);
 
 
-		if (_renderMultithreaded) { 
-			SDL_AtomicLock(&_renderThreadLock);
-
+		if (_renderMultithreaded) { 		
+			pause();
 			_renderThread = SDL_CreateThread(Renderer::renderThread, "renderThread", NULL);
 
 		}
 
 		return true;
 
+	}
 
+	int Renderer::renderThread(void* data) {
+
+
+
+		auto& renderer = unsynchronized<Renderer>();
+
+		renderer.multithreadRender();
+		return 0;
+	}
+
+
+	bool Renderer::_initGlObjects() {
+		_didInitGlObjects = true;
+		SDL_GL_MakeCurrent(_sdlWindow, _sdlGlContext);
+
+		glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
+
+		_depthTestFunction = GL_LESS;
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glDepthFunc(GL_ALWAYS);
+
+		_drawColor.reserve(4);
+		_textureVertices.reserve(8);
+		_drawVertices.reserve(8);
+
+		auto checkStep = true;
+		_drawShaderProgram.create();
+		auto inits = _drawShaderProgram.initialize();
+
+		_defaultDrawVertexShader = single<ShaderManager>().getVertexShader("shape2d");
+		_currentDrawVertexShader = _defaultDrawVertexShader;
+		_drawShaderProgram.setVertexShader(_defaultDrawVertexShader);
+
+		_defaultDrawFragmentShader = single<ShaderManager>().getFragmentShader("shape2d");
+		_currentDrawFragmentShader = _defaultDrawFragmentShader;
+		_drawShaderProgram.setFragmentShader(_defaultDrawFragmentShader);
+		checkStep = _drawShaderProgram.link();
+		if (!checkStep) return false;
+
+		_renderShaderProgram.create();
+		inits = _renderShaderProgram.initialize();
+		if (inits != InitStatus::INIT_TRUE) {
+			return false;
+		}
+		_defaultRenderVertexShader = single<ShaderManager>().getVertexShader("textureRender2d");
+		_renderShaderProgram.setVertexShader(_defaultRenderVertexShader);
+		_defaultRenderFragmentShader = single<ShaderManager>().getFragmentShader("textureRender2d");
+		_renderShaderProgram.setFragmentShader(_defaultRenderFragmentShader);
+		checkStep = _renderShaderProgram.link();
+		if (!checkStep) return false;
+		_textureVao.create();
+		_textureVao.setProgram(&_renderShaderProgram);
+		_textureVbo.create(2);
+		_textureUvbo.create(2);
+		_textureIbo.create(1);
+
+
+		_textureIbo.initialize();
+		_textureUvbo.initialize();
+		_textureVbo.initialize();
+		_textureVao.initialize(false);
+
+
+
+
+
+		_textureVao.bind();
+		_textureVao.enableSetAttributes();
+		GLfloat fakeV[] = {
+			0.0f, 0.0f,
+			0.0f, 0.0f,
+			0.0f, 0.0f,
+			0.0f, 0.0f
+		};
+
+		_textureVbo.bind();
+		_textureVbo.buffer(4, fakeV, GL_DYNAMIC_DRAW);
+
+
+		_textureVao.setVertexArrayAttribute("vertexPos", _textureVbo);
+
+
+		GLushort i[] = {
+			0, 1, 2, 3
+		};
+		_textureIbo.bind();
+		_textureIbo.buffer(4, i);
+		_textureVao.setIndices(_textureIbo);
+
+		GLfloat fakeUV[] = {
+			0.0f, 1.0f,
+			1.0f, 1.0f,
+			1.0f, 0.0f,
+			0.0f, 0.0f
+		};
+
+		_textureUvbo.bind();
+		_textureUvbo.buffer(4, fakeUV, GL_DYNAMIC_DRAW);
+		_textureVao.setVertexArrayAttribute("uvIn", _textureUvbo);
+
+		int samplerId = 0;
+		_textureVao.setUniformVariable<int>("textureSampler", samplerId);
+		_textureVao.setUniformVariableMatrix("colorTransform", _colorMatrix);
+
+		_textureVao.unbind();
+		_textureIbo.unbind();
+		_textureUvbo.unbind();
+		_textureVbo.unbind();
+		_textureVao.disableSetAttributes();
+		return true;
 
 	}
+
 	bool Renderer::isMultithreaded() {
 		return _renderMultithreaded;
 	}
@@ -105,7 +222,13 @@ namespace core {
 		}
 
 
-		SDL_AtomicUnlock(&_renderThreadLock);
+		SDL_AtomicLock(&_drawableChangePtrLock);
+
+		_drawableChangeQueue1->clear();
+		_drawableChangeQueue2->clear();
+
+		SDL_AtomicUnlock(&_drawableChangePtrLock);
+		resume();
 		if (!_renderMultithreaded && !_didInitGlObjects) {
 			_initGlObjects();
 		}
@@ -113,8 +236,7 @@ namespace core {
 	}
 
 	bool Renderer::resetImpl() {
-
-		SDL_AtomicLock(&_renderThreadLock);
+		pause();		
 		SDL_AtomicLock(&_drawableChangePtrLock);		
 		for (auto& layer : _layers) {
 			layer.reset();
@@ -123,13 +245,12 @@ namespace core {
 
 		_layers.clear();
 
-		_drawableChanges1.clear();
-
-		_drawableChanges2.clear();
-	
-		SDL_AtomicUnlock(&_drawableChangePtrLock);
-		SDL_AtomicUnlock(&_renderThreadLock);		
+		_drawableChangeQueue1->clear();
+		_drawableChangeQueue2->clear();		
 		
+
+		SDL_AtomicUnlock(&_drawableChangePtrLock);	
+
 		//_checkGlDebugLog();
 		return true;
 	}
@@ -137,10 +258,156 @@ namespace core {
 	bool Renderer::destroyImpl() {
 
 		_doRenderThread = false;
+		SDL_AtomicUnlock(&_renderThreadLock);
 		SDL_WaitThread(_renderThread,NULL);		
+
+		delete _drawableChangeQueue1;
+		delete _drawableChangeQueue2;
 		SDL_DestroyWindow(_sdlWindow);
 		return true;
 	}
+
+
+
+void Renderer::pauseImpl() {
+	SDL_AtomicLock(&_renderThreadLock);	
+}
+
+void Renderer::resumeImpl() {
+	SDL_AtomicUnlock(&_renderThreadLock);
+}
+
+
+void Renderer::multithreadRender() {
+	SDL_AtomicLock(&_renderThreadLock);
+	SDL_AtomicUnlock(&_renderThreadLock);
+	if (!_initGlObjects()) {
+		fatal("Could not initialize gl objects in render thread.  Quitting.");
+	}
+
+
+	int diff = 0;
+	Uint32 lastTick = SDL_GetTicks();
+	Uint32 ticks = 0;
+	bool tickMinimumMet = false;
+
+	while (_doRenderThread) {
+
+		_processDrawableChanges();
+		ticks = SDL_GetTicks();
+		diff = ticks - lastTick;
+		if (diff < 1000 / _maxFramesPerSecond || _paused) {
+			SDL_Delay(1);
+			continue;
+		}
+		render();
+	}
+}
+
+
+
+void Renderer::render() {
+	
+	if (!_renderMultithreaded) {
+		_processDrawableChanges();
+	}
+	start();
+	
+	SDL_AtomicLock(&_renderThreadLock);	
+
+	if (!_renderThread && _renderMultithreaded) return;
+	for (auto& layer : _layers) {
+		if (layer.isPaused()) continue;
+		for (auto& drawable : layer.drawables) {
+			if (!drawable.texture->name().compare("blueBalls")) {
+				int x = 0;
+			}
+			if (drawable.disabled) continue;
+			_checkGlDebugLog();
+			_draw(drawable);
+			_checkGlDebugLog();
+		}
+	}	
+	SDL_AtomicUnlock(&_renderThreadLock);
+	end();
+
+
+}
+
+
+void Renderer::_addDrawableChange(DrawableChange& dc) {
+
+	auto currentPendingQueue = (_writingToFirstQueue) ? &_drawableChangeQueue1 : &_drawableChangeQueue2;
+	(*currentPendingQueue)->enqueue(dc);
+}
+void Renderer::updateImpl(RuntimeContext& context) {
+
+	auto pendingChangeQueue = (_writingToFirstQueue) ? &_drawableChangeQueue1 : &_drawableChangeQueue2;
+
+	int pendingChangeQueueDepth = (*pendingChangeQueue)->queueDepth();
+
+	//don't need to switch if there are no changes in the write queue
+	if (pendingChangeQueueDepth == 0) return;
+
+	auto currentChangeQueue = (_writingToFirstQueue) ? &_drawableChangeQueue2 : &_drawableChangeQueue1;
+	if ((*currentChangeQueue)->queueDepth() > 0) {
+
+		//check write queue depth.  If this is lower than the threshhold, we will continue with the same writing queue
+		//hoping the render thread catches up without having to wait
+		
+		if ( pendingChangeQueueDepth > _maxPendingQueueDepth) {
+			warn("Drawable read queue is not empty, and write queue has exceeded ", _maxPendingQueueDepth, " (currently ", pendingChangeQueueDepth, ")");
+			while ((*currentChangeQueue)->queueDepth() > 0) {
+				//wait for other queue to drain;
+			}
+			SDL_AtomicLock(&_drawableChangePtrLock);
+			_writingToFirstQueue = !_writingToFirstQueue;
+			SDL_AtomicUnlock(&_drawableChangePtrLock);
+		}
+	}
+	else {
+		SDL_AtomicLock(&_drawableChangePtrLock);
+		_writingToFirstQueue = !_writingToFirstQueue;
+		SDL_AtomicUnlock(&_drawableChangePtrLock);
+	}
+}
+
+void Renderer::_processDrawableChanges() {
+
+	SDL_AtomicLock(&_drawableChangePtrLock);
+
+	if (_changeBackgroundColorFlag) {
+		glClearColor(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
+		_changeBackgroundColorFlag = false;
+	}
+
+	auto currentChangeQueue = (_writingToFirstQueue) ? &_drawableChangeQueue2 : &_drawableChangeQueue1;	
+	
+	DrawableChange dc;	
+	while ((*currentChangeQueue)->dequeue(dc)) {
+
+		if (dc.operation == DrawableChange::Operation::CREATE) {
+			_processCreateDrawable(dc);
+		}
+		if (dc.operation == DrawableChange::Operation::UPDATE) {
+			_processUpdateDrawable(dc);
+		}
+		else if (dc.operation == DrawableChange::Operation::DESTROY) {
+			_processDestroyDrawable(dc);
+		}
+		else if (dc.operation == DrawableChange::Operation::PAUSE) {
+			_processPauseDrawable(dc);
+		}
+		else if (dc.operation == DrawableChange::Operation::RESUME) {
+			_processResumeDrawable(dc);
+		}		
+	}
+	//currentChangeQueue->clear();
+
+	SDL_AtomicUnlock(&_drawableChangePtrLock);
+
+
+}
 
 
 void Renderer::handleDebugEvent(DebugEvent& debugEvent) {
@@ -154,18 +421,14 @@ void Renderer::pauseDrawable(const Drawable& d) {
 	auto dc = DrawableChange{};
 	dc.drawable = d;
 	dc.operation = DrawableChange::Operation::PAUSE;
-	SDL_AtomicLock(&_drawableChangePtrLock);
-	_drawableChanges->push_back(dc);
-	SDL_AtomicUnlock(&_drawableChangePtrLock);
+	_addDrawableChange(dc);
 }
 
 void Renderer::resumeDrawable(Drawable& d) {
 	auto dc = DrawableChange{};
 	dc.drawable = d;
 	dc.operation = DrawableChange::Operation::RESUME;
-	SDL_AtomicLock(&_drawableChangePtrLock);
-	_drawableChanges->push_back(dc);
-	SDL_AtomicUnlock(&_drawableChangePtrLock);
+	_addDrawableChange(dc);
 }
 
 
@@ -174,14 +437,14 @@ void Renderer::_checkGlDebugLog()
 {
 	unsigned int count = 10; // max. num. of messages that will be read from the log
 	int bufsize = 2048;
-	
+
 	unsigned int* types = new unsigned int[count];
 	unsigned int* ids = new unsigned int[count];
 	unsigned int* severities = new unsigned int[count];
 	int* lengths = new int[count];
 
 	char* messageLog = new char[bufsize];
-	
+
 	unsigned int retVal = glGetDebugMessageLogAMD(count, bufsize, types, severities, ids,
 		lengths, messageLog);
 	if (retVal > 0)
@@ -191,7 +454,9 @@ void Renderer::_checkGlDebugLog()
 		{
 			switch (severities[i]) {
 			case GL_DEBUG_SEVERITY_HIGH_AMD:
+				SDL_AtomicUnlock(&_renderThreadLock);
 				fatal("OpenGL fatal - (type: ", types[i], ") (id: ", ids[i], ") ", &messageLog[pos]);
+				_renderThread = false;
 				break;
 			case GL_DEBUG_SEVERITY_MEDIUM_AMD:
 				error("OpenGL error - (type: ", types[i], ") (id: ", ids[i], ") ", &messageLog[pos]);
@@ -228,179 +493,11 @@ void Renderer::start() {
 }
 
 
-void Renderer::end() {	
+void Renderer::end() {
 	SDL_GL_SwapWindow(_sdlWindow);
 }
 
-void Renderer::pauseImpl() {
-}
-
-void Renderer::resumeImpl() {
-}
-
-int Renderer::renderThread(void* data) {
-
-
-
-	auto& renderer = unsynchronized<Renderer>();	
-
-	renderer.multithreadRender();
-	return 0;
-}
-
-void Renderer::multithreadRender() {
-	SDL_AtomicLock(&_renderThreadLock);
-	SDL_AtomicUnlock(&_renderThreadLock);
-	if (!_initGlObjects()) {
-		fatal("Could not initialize gl objects in render thread.  Quitting.");
-	}
-
-
-	int diff = 0;
-	Uint32 lastTick = SDL_GetTicks();
-	Uint32 ticks = 0;
-	bool tickMinimumMet = false;
-
-	while (_doRenderThread) {
-
-		_processDrawableChanges();
-		ticks = SDL_GetTicks();
-		diff = ticks - lastTick;
-		if (diff < 1000 / _maxFramesPerSecond || _paused) {
-			SDL_Delay(1);
-			continue;
-		}
-		render();
-	}
-}
-
-bool Renderer::_initGlObjects() {
-	_didInitGlObjects = true;
-	SDL_GL_MakeCurrent(_sdlWindow, _sdlGlContext);
-
-	glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
-
-	_depthTestFunction = GL_LESS;
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glDepthFunc(GL_ALWAYS);
-
-	_drawColor.reserve(4);
-	_textureVertices.reserve(8);
-	_drawVertices.reserve(8);
-
-	auto checkStep = true;
-	_drawShaderProgram.create();
-	auto inits = _drawShaderProgram.initialize();
-
-	_defaultDrawVertexShader = single<ShaderManager>().getVertexShader("shape2d");
-	_currentDrawVertexShader = _defaultDrawVertexShader;
-	_drawShaderProgram.setVertexShader(_defaultDrawVertexShader);
-
-	_defaultDrawFragmentShader = single<ShaderManager>().getFragmentShader("shape2d");
-	_currentDrawFragmentShader = _defaultDrawFragmentShader;
-	_drawShaderProgram.setFragmentShader(_defaultDrawFragmentShader);
-	checkStep = _drawShaderProgram.link();
-	if (!checkStep) return false;
-
-	_renderShaderProgram.create();
-	inits = _renderShaderProgram.initialize();
-	if (inits != InitStatus::INIT_TRUE) {
-		return false;
-	}
-	_defaultRenderVertexShader = single<ShaderManager>().getVertexShader("textureRender2d");
-	_renderShaderProgram.setVertexShader(_defaultRenderVertexShader);
-	_defaultRenderFragmentShader = single<ShaderManager>().getFragmentShader("textureRender2d");
-	_renderShaderProgram.setFragmentShader(_defaultRenderFragmentShader);
-	checkStep = _renderShaderProgram.link();
-	if (!checkStep) return false;
-	_textureVao.create();
-	_textureVao.setProgram(&_renderShaderProgram);
-	_textureVbo.create(2);
-	_textureUvbo.create(2);
-	_textureIbo.create(1);
-
-
-	_textureIbo.initialize();
-	_textureUvbo.initialize();
-	_textureVbo.initialize();
-	_textureVao.initialize(false);
-
-
-
-
-
-	_textureVao.bind();
-	_textureVao.enableSetAttributes();
-	GLfloat fakeV[] = {
-		0.0f, 0.0f,
-		0.0f, 0.0f,
-		0.0f, 0.0f,
-		0.0f, 0.0f
-	};
-
-	_textureVbo.bind();
-	_textureVbo.buffer(4, fakeV, GL_DYNAMIC_DRAW);
-
-
-	_textureVao.setVertexArrayAttribute("vertexPos", _textureVbo);
-
-
-	GLushort i[] = {
-		0, 1, 2, 3
-	};
-	_textureIbo.bind();
-	_textureIbo.buffer(4, i);
-	_textureVao.setIndices(_textureIbo);
-
-	GLfloat fakeUV[] = {
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		1.0f, 0.0f,
-		0.0f, 0.0f
-	};
-
-	_textureUvbo.bind();
-	_textureUvbo.buffer(4, fakeUV, GL_DYNAMIC_DRAW);
-	_textureVao.setVertexArrayAttribute("uvIn", _textureUvbo);
-
-	int samplerId = 0;
-	_textureVao.setUniformVariable<int>("textureSampler", samplerId);
-	_textureVao.setUniformVariableMatrix("colorTransform", _colorMatrix);
-
-	_textureVao.unbind();
-	_textureIbo.unbind();
-	_textureUvbo.unbind();
-	_textureVbo.unbind();
-	_textureVao.disableSetAttributes();
-	return true;
-
-}
-
-void Renderer::render() {
-	
-	if (!_renderMultithreaded) {
-		_processDrawableChanges();
-	}
-	start();
-	
-	SDL_AtomicLock(&_renderThreadLock);	
-	for (auto& layer : _layers) {
-		if (layer.isPaused()) continue;
-		for (auto& drawable : layer.drawables) {
-			if (drawable.disabled) continue;
-			_draw(drawable);		
-		}
-	}	
-	SDL_AtomicUnlock(&_renderThreadLock);
-	end();
-	_checkGlDebugLog();
-
-}
-
-void Renderer::_draw(Drawable& d) {	
+void Renderer::_draw(Drawable& d) {
 	switch (d.drawableType) {
 	case Drawable::DrawableType::RECTANGLE:
 		_drawPoly(d);
@@ -509,52 +606,6 @@ void Renderer::_drawTexture(Drawable& d) {
 	_textureVbo.unbind();
 	_textureUvbo.unbind();
 	_textureVao.disableSetAttributes();
-
-
-}
-
-void Renderer::updateImpl(RuntimeContext& context) {
-
-
-	SDL_AtomicLock(&_drawableChangePtrLock);	
-	_writingToFirstQueue = !_writingToFirstQueue;	
-	SDL_AtomicUnlock(&_drawableChangePtrLock);
-}
-
-void Renderer::_processDrawableChanges() {
-
-
-	
-	SDL_AtomicLock(&_drawableChangePtrLock);
-
-	if (_changeBackgroundColorFlag) {
-		glClearColor(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
-		_changeBackgroundColorFlag = false;
-	}
-
-	auto currentChangeQueue = (_writingToFirstQueue) ? &_drawableChanges2 : &_drawableChanges1;	
-	
-
-	for (auto& dc : *currentChangeQueue) {
-		if (dc.operation == DrawableChange::Operation::CREATE) {
-			_processCreateDrawable(dc);
-		}
-		if (dc.operation == DrawableChange::Operation::UPDATE) {
-			_processUpdateDrawable(dc);
-		}
-		else if (dc.operation == DrawableChange::Operation::DESTROY) {
-			_processDestroyDrawable(dc);
-		}
-		else if (dc.operation == DrawableChange::Operation::PAUSE) {
-			_processPauseDrawable(dc);
-		}
-		else if (dc.operation == DrawableChange::Operation::RESUME) {
-			_processResumeDrawable(dc);
-		}
-	}	
-	currentChangeQueue->clear();
-
-	SDL_AtomicUnlock(&_drawableChangePtrLock);
 
 
 }
@@ -694,14 +745,7 @@ int Renderer::createDrawable(Drawable& d) {
 	return d.id;
 }
 
-void Renderer::_addDrawableChange(DrawableChange& dc) {
-	if (_writingToFirstQueue) {
-		_drawableChanges1.push_back(dc); 
-	}
-	else {
-		_drawableChanges2.push_back(dc);
-	}
-}
+
 
 void Renderer::setBackgroundColor(Color& color) {
 

@@ -93,6 +93,8 @@ function TextureFacet:setScale(scale)
             facetId = self:getId()
         }
         EventProcessor.process(scaleChange)
+    else
+        debug("Setting scale for non-core facet")
     end
 end
 
@@ -106,7 +108,7 @@ end
 
 
 function TextureFacet:createFacetInCore()
-	if self:isCoreFacet() == false then
+	if not self:isCoreFacet() then
 		local facet = {
 			source = self:getTextureCoordinates(),	
 			textureName = self:getTextureName(),
