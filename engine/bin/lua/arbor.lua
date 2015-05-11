@@ -18,6 +18,7 @@ require "lua/menus"
 require "lua/firstscene"
 require "lua/titlescene"
 require "lua/loadassets"
+require "lua/rainbow-scene"
 
 Assets.load()
 
@@ -33,16 +34,19 @@ local cursorTexture = {
         
 
 
-Core.setNextScene(Scenes.title)
+Core.setNextScene(Scenes.rainbow)
 	
 while not doQuit do
 	
 	Console.info("Entering main loop.")
 	
 	Core.init()
-
+    
+    Interface.useTextureCursor()
     Interface.setCursorTexture(cursorTexture)
+    Interface.showCursor()
 
+    
 	Core.transitionScene()
 	
 	local mainSequenceResponse = Core.run()	

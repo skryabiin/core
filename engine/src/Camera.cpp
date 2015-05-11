@@ -2,26 +2,95 @@
 #include "gtc/matrix_transform.hpp"
 #include "gtx/transform.hpp"
 #include "gtx/rotate_vector.hpp"
+#include "Core.hpp"
 
 namespace core {
 
 	Camera::Camera() {
+
+	}
+
+	bool Camera::createImpl() {
+		return true;
+	}
+	bool Camera::initializeImpl() {
+
+		auto& lua = single<Core>().lua();
+		_worldScale = Vec2{ lua("Config")["camera"]["scale"][1], lua("Config")["camera"]["scale"][2] };
+
+		_windowWidth = lua("Config")["window"]["dimensions"][1];
+		_windowHeight = lua("Config")["window"]["dimensions"][2];
+		_worldCenterPosition.x = lua("Config")["camera"]["centerWorldPoint"][1];
+		_worldCenterPosition.y = lua("Config")["camera"]["centerWorldPoint"][2];
+		_viewportRect.w = _windowWidth;
+		_viewportRect.h = _windowHeight;
+
 		_view = glm::mat4();
-		_projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-		_fov = 75.0f;
-		_aspectRatio = 4.0f / 3.0f;
-		_minVisionRange = 10.0f;
+		_projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -11.0f, 11.0f);
+		_viewProjection = _projection * _view;
+		_fov = 95.0f;
+		_aspectRatio = 1.0;
+		_minVisionRange = 0.0f;
 		_maxVisionRange = 100.0f;
 		_theta = 0;
 		_phi = 0;
-		_position = glm::vec3(0);
+		_position = glm::vec3(0.0f,0.0f, 0.0f);
+
+		_target = glm::vec3(0.0f, 0.0f, -1.0f);
+		//_recalculateProjection();
+		lockOnTarget();
+		disengageTarget();
+
+		return true;
+
 	}
+	bool Camera::resetImpl() {
+		return true;
+	}
+	bool Camera::destroyImpl() {
+		return true;
+	}
+
+
 
 	void Camera::_recalculateView() {
 
 		_recalculateViewProjection();
 	}
 
+	void Camera::positionRect(Rect& rect) {
+
+	}
+
+	void Camera::getVertices(Rect& rect, std::vector<GLfloat>& values) {
+		auto rectAligned = Rect{};
+		//align things to the world center
+		rectAligned.x = rect.x - _worldCenterPosition.x;
+		rectAligned.y = rect.y - _worldCenterPosition.y;
+		
+		//now scale to gl coordinates
+		rectAligned.x = rectAligned.x / (_windowWidth / 2.0f);
+		rectAligned.y = rectAligned.y / (_windowHeight / 2.0f);
+		rectAligned.w = rect.w / (_windowWidth / 2.0f);
+		rectAligned.h = rect.h / (_windowHeight / 2.0f);
+
+		//now map out coordinates
+		GLfloat x1 = rectAligned.x;
+		GLfloat x2 = rectAligned.x + rectAligned.w;
+		GLfloat y1 = rectAligned.y;
+		GLfloat y2 = rectAligned.y + rectAligned.h;
+
+		values.clear();
+		values.push_back(x1);
+		values.push_back(y1);
+		values.push_back(x2);
+		values.push_back(y1);
+		values.push_back(x2);
+		values.push_back(y2);
+		values.push_back(x1);
+		values.push_back(y2);
+
+	}
 
 	//apparently glm is in radians even though GLM_FORCE_RADIANS is not defined
 	void Camera::_recalculateProjection() {

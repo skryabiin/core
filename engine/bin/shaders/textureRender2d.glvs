@@ -3,9 +3,12 @@
 	out vec2 uvPassed; 
 	in vec2 uvIn; 
 	in vec2 vertexPos;
+	uniform mat4 mvp;
 
 
 	void main() { 
-		gl_Position = vec4( vertexPos.x, vertexPos.y, 0, 1); 
+		vec4 v = vec4( vertexPos.x, vertexPos.y, -1, 1); 
+		gl_Position = mvp * v;
+		//gl_Position = v;
 		uvPassed = uvIn;
 	}

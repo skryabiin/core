@@ -10,13 +10,13 @@ namespace core {
 
 
 	
-	class ParticleFieldBase : public updateable<ParticleFieldBase, bool, int>{
+	class ParticleFieldBase : public updateable<ParticleFieldBase, bool, void>{
 
 	public:
 
 		virtual void reset(unsigned numParticles) = 0;
 
-		virtual bool updateImpl(int dt) = 0;
+		virtual bool updateImpl(float dt) = 0;
 		
 		virtual void handlePositionChange(PositionChangeEvent& e) {};
 
@@ -39,7 +39,7 @@ namespace core {
 			_fillFunction(this);
 		}
 
-		virtual bool updateImpl(int dt) override {
+		virtual bool updateImpl(float dt) override {
 			
 			auto particleIsActive = true;
 			for (auto it = std::begin(_particles); it != std::end(_particles); ++it) {

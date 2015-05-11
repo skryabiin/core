@@ -2,13 +2,25 @@
 #define CORE_CAMERA_HPP
 
 #include "glm.hpp"
+#include <GL/glew.h>
+#include "Templates.hpp"
+#include "Geometry.hpp"
 
 namespace core {
 
 
-	class Camera {
+	class Camera : public initializable<Camera, void, void, void, void> {
 	public:
 		Camera();
+
+		bool createImpl();
+		bool initializeImpl();
+		bool resetImpl();
+		bool destroyImpl();
+
+		void positionRect(Rect& rect);
+
+		void getVertices(Rect& rect, std::vector<GLfloat>& values);
 
 		void lockOnTarget();
 
@@ -62,6 +74,7 @@ namespace core {
 
 		const glm::mat4& getViewProjection() const;
 
+		void setOrthoProjection(float minx, float maxx, float miny, float maxy);
 
 	private:
 
@@ -87,6 +100,13 @@ namespace core {
 		void _recalculateView();
 		void _recalculateProjection();
 		void _recalculateViewProjection();
+
+		Point _worldCenterPosition;
+		Vec2 _worldScale;
+		int _windowHeight;
+		int _windowWidth;
+		Rect _viewportRect;
+
 
 	};
 

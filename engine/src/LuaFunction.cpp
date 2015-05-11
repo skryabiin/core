@@ -4,7 +4,13 @@
 
 namespace core {
 
-	void LuaFunction::cleanup() {
-		single<Core>().lua().removeReference(_callbackRef);
+	LuaFunction::LuaFunction() : _callbackRef{ LUA_REFNIL } {};
+
+	LuaFunction::~LuaFunction() {
+		//single<Core>().lua().removeReference(_callbackRef);
+	}
+
+	int LuaFunction::getCallbackRef() {
+		return _callbackRef;
 	}
 }

@@ -17,10 +17,16 @@ namespace core {
 		void pauseImpl();
 		void resumeImpl();
 
+		short minZIndex() const;
+		Drawable* addDrawable(Drawable& d);		
+		void destroyDrawable(int facetId);
+
 		ColorTransform colorTransform;
 		short layerId;
 		std::vector<Drawable> drawables;
-		short minZIndex;
+		
+
+
 	};
 
 

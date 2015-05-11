@@ -34,30 +34,14 @@ namespace core {
 			return false;
 		}
 
-		info("Initializing SDL_audio...");
-
-		if (SDL_Init(SDL_INIT_AUDIO) < 0)  {
-			error("Error initializing SDL audio: ", SDL_GetError());
-			return false;
-		}
-
-		info("Initializing SDL_mixer...");
-
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-			error("Error initializing SDL_mixer: ", Mix_GetError());
-			return false;
-		}
-
 		info("Registering lua functions...");
 
 		//register lua functions
 		auto& lua = single<Core>().lua();
-		lua.bindFunction("loadFont_bind", loadFont_bind);
-		lua.bindFunction("loadSound_bind", loadSound_bind);
+		lua.bindFunction("loadFont_bind", loadFont_bind);		
 		lua.bindFunction("loadTexture_bind", loadTexture_bind);
 		lua.bindFunction("loadAnimationSet_bind", loadAnimationSet_bind);
-		lua.bindFunction("loadMap_bind", loadMap_bind);
-		lua.bindFunction("playSound_bind", playSound_bind);
+		lua.bindFunction("loadMap_bind", loadMap_bind);		
 		lua.bindFunction("loadParticleEffect_bind", loadParticleEffect_bind);
 
 		return true;
@@ -73,13 +57,6 @@ namespace core {
 		}
 
 
-		for (auto& sound : _loadedSounds) {
-			sound.second.get()->initialize();
-		}
-
-		for (auto& music : _loadedMusic) {
-			music.second.get()->initialize();
-		}
 
 		for (auto& map : _loadedMaps) {
 			map.second.initialize();
@@ -97,15 +74,6 @@ namespace core {
 			font.second.get()->reset();
 		}
 
-
-		for (auto& sound : _loadedSounds) {
-			sound.second.get()->reset();
-		}
-		
-		for (auto& music : _loadedMusic) {
-			music.second.get()->reset();
-		}
-		
 		for (auto& map : _loadedMaps) {
 			map.second.reset();
 		}
@@ -128,16 +96,6 @@ namespace core {
 		}
 		_loadedFonts.clear();
 
-		for (auto& sound : _loadedSounds) {
-			sound.second.get()->destroy();
-		}
-
-		_loadedSounds.clear();
-
-		for (auto& music : _loadedMusic) {
-			music.second.get()->destroy();
-		}
-		_loadedMusic.clear();
 
 		for (auto& map : _loadedMaps) {
 			map.second.destroy();
@@ -229,42 +187,6 @@ namespace core {
 	}
 
 
-	void ResourceManager::addSound(std::unique_ptr<Sound> sound) {
-		_loadedSounds.insert(std::pair<std::string, std::unique_ptr<Sound>>(sound->name(),std::move(sound)));
-
-	}
-
-	void ResourceManager::addMusic(std::unique_ptr<Music> music) {
-		_loadedMusic.insert(std::pair<std::string, std::unique_ptr<Music>>(music->name(), std::move(music)));
-	}
-
-
-	Sound* ResourceManager::getSound(std::string name) {
-		auto& it = _loadedSounds.find(name);
-
-		if (it == std::end(_loadedSounds)) {
-			warn("Sound ", name, " not found!");
-			return nullptr;
-		}
-		else {
-			return it->second.get();
-		}
-	}
-
-	Music* ResourceManager::getMusic(std::string name) {
-
-		auto& it = _loadedMusic.find(name);
-
-		if (it == std::end(_loadedMusic)) {
-			warn("Music '", name, "' not found!");
-			return nullptr;
-		}
-		else {
-			return it->second.get();
-		}
-
-	}
-
 	void ResourceManager::addMap(Map map) {
 		map.create();
 		map.initialize();
@@ -310,37 +232,6 @@ namespace core {
 
 		if (b) single<ResourceManager>().setDefaultFont(f->name());
 
-		return 0;
-	}
-
-	int ResourceManager::loadSound_bind(LuaState& lua) {
-
-		auto s = new Sound{};
-
-		s->setName(lua.pullStack<std::string>(1));
-		s->setSoundFilePath(lua.pullStack<std::string>(2));
-		if (lua.pullStack<bool>(3)) {
-			s->create();
-			s->initialize();
-		}
-
-		single<ResourceManager>().addSound(std::unique_ptr<Sound>(s));
-
-		return 0;
-	}
-
-	int ResourceManager::playSound_bind(LuaState& lua) {
-
-		auto soundName = lua.pullStack<std::string>(1);
-		
-		auto sound = single<ResourceManager>().getSound(soundName);
-		if (sound != nullptr) {
-			sound->play();		
-		}
-		return 0;
-	}
-
-	int ResourceManager::loadMusic_bind(LuaState& lua) {
 		return 0;
 	}
 

@@ -17,7 +17,12 @@ namespace core {
 
 		Pixel offset;
 
-		Drawable drawable;
+		Pixel position;
+
+		Dimension dimensions;
+		
+
+
 
 	};
 

@@ -40,7 +40,7 @@ function Core.destroyEntity(entityId)
 end
 
 function Core.update(dt)	
-	Core.dt = dt
+	Core.dt = dt    
 	Core.scene.update(dt)
 end
 
@@ -99,8 +99,7 @@ function Entity:create(o)
 	self.__index = self
 	Core.createEntity(o)
 	o.children = {}	
-	o.facets = {}
-	o.facets.interface = InterfaceFacet:new(o)
+	o.facets = {}	
 	o.positionFacetHandled = false
 	return o	
 end

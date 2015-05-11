@@ -242,10 +242,10 @@ namespace core {
 				while (std::getline(_logFile, thisLine)) {
 					if (thisLine[0] == '[' && thisMessage.compare("")) {
 						addMessage(thisMessage);
-						thisMessage = thisLine + '\n';
+						thisMessage = thisLine;
 					}
 					else {
-						thisMessage = thisMessage + thisLine + '\n';
+						thisMessage = thisMessage + thisLine;
 						addMessage(thisMessage);
 						thisMessage = "";
 					}
@@ -356,6 +356,7 @@ namespace core {
 
 	void DebugConsole::addMessage(std::string text) {
 
+		text = (!text.compare("")) ? " " : text;
 		_messages.emplace_back();
 		_messages.back().init(text, _ttfConsoleFont, _sdlRenderer);
 

@@ -97,10 +97,29 @@ namespace core {
 
 	public:
 
-		Return_type update(Context_type& context) {
-			return static_cast<T*>(this)->updateImpl(context);
+		updateable() : _elapsed{ 0 } {};
+
+		template <typename Context_type>
+		Return_type update(float dt, Context_type& context) {
+			_elapsed += dt;
+			return static_cast<T*>(this)->updateImpl(dt, context);
 		}
 
+		Return_type update(float dt) {
+			_elapsed += dt;
+			return static_cast<T*>(this)->updateImpl(dt);
+		}
+
+		void resetElapsed() {
+			_elapsed = 0;
+		}
+
+		float getElapsed() {
+			return _elapsed;
+		}
+
+	private:
+		float _elapsed;
 	};
 
 

@@ -15,14 +15,19 @@ namespace core {
 		virtual bool initializeImpl() override;
 		virtual bool resetImpl() override;		
 		virtual bool destroyImpl() override;
-		virtual void handleColorChange(ColorChangeEvent& colorChangeEvent);
+
+		bool handleColorChange(ColorChangeEvent& colorChangeEvent);
+
+		virtual void updateDrawablePosition(VisualFacet* vfacet);
 
 		using RenderableSystem2d::handleEvent;
 
-		void createRectangleFacet(Entity& e, Pixel& offset, SDL_Rect& rect, Color& color, bool filled);
+		void createRectangleFacet(Entity& e, Pixel& position, Pixel& offset, Dimension& dimensions, Color& color, bool filled);
 
 		void updateRectangleFacet(Pixel& offset, SDL_Rect& rect, Color& color, bool filled);
 		
+		virtual void destroyFacets(Entity& e);
+
 		virtual ~PrimitiveRenderSystem2d() {};
 
 	private:

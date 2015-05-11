@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>
+
 #include "lua.hpp"
 #include "Templates.hpp"
 #include "Geometry.hpp"
@@ -65,13 +65,7 @@ namespace core {
 
 		Map getMap(std::string mapName);
 
-		void addSound(std::unique_ptr<Sound> sound);
 
-		void addMusic(std::unique_ptr<Music> music);
-
-		Sound* getSound(std::string name);
-
-		Music* getMusic(std::string name);
 
 		void addParticleEffect(LinearParticleDef& def);
 
@@ -81,9 +75,6 @@ namespace core {
 
 		static int loadFont_bind(LuaState& lua);
 
-		static int loadSound_bind(LuaState& lua);
-
-		static int loadMusic_bind(LuaState& lua);
 
 		static int loadAnimationSet_bind(LuaState& lua);
 
@@ -91,7 +82,7 @@ namespace core {
 
 		static int loadMap_bind(LuaState& lua);
 
-		static int playSound_bind(LuaState& lua);
+
 
 		static int loadParticleEffect_bind(LuaState& lua);
 
@@ -104,9 +95,7 @@ namespace core {
 
 		std::map<std::string, std::unique_ptr<Font>> _loadedFonts;
 
-		std::map<std::string, std::unique_ptr<Sound>> _loadedSounds;
 
-		std::map<std::string, std::unique_ptr<Music>> _loadedMusic;
 
 		std::map<std::string, Map> _loadedMaps;
 

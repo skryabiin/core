@@ -3,8 +3,47 @@ Interface = {
 	functions = {}
 }
 
+function Interface.setCursorTexture(cursorTexture)
+	setCursorTexture_bind(cursorTexture)
+end
+function Interface.getKeyStates()
+    return getKeyStates_bind()
+end
+
+function Interface.getGamepadStates()
+    return getGamepadStates_bind()
+end
+
+function Interface.showCursor()
+    showCursor_bind()
+end
+
+function Interface.hideCursor()
+    hideCursor_bind()
+end
+
+function Interface.useSystemCursor()
+    useSystemCursor_bind()
+end
+
+function Interface.useTextureCursor()
+    useTextureCursor_bind()
+end
+
+function Interface.functions.basicOnHover(self, interfaceState)
+    Console.debug("Hovering on entity " , self:getOf():getId() , ", facet ", self:getId())
+end
+
+function Interface.functions.basicOffHover(self, interfaceState)
+    Console.debug("Done hovering on entity ", self:getOf():getId(), ", facet ", self:getId())
+end
+
 function Interface.functions.basicOnClick(self, interfaceState)
-	Console.info("clicked on entity " .. self:getOf():getId() .. ", facet " .. self:getId())
+	Console.debug("clicked on entity " , self:getOf():getId() , ", facet " , self:getId())
+end
+
+function Interface.functions.basicOffClick(self, interfaceState)
+    Console.debug("click released on entity " , self:getOf():getId() , ", facet " , self:getId())
 end
 
 function Interface.functions.basicDragMove(self, interfaceState)
@@ -65,9 +104,6 @@ function Interface.functions.alphaFun(self, interfaceState)
 	end
 end
 
-function Interface.setCursorTexture(cursorTexture)
-	setCursorTexture_bind(cursorTexture)
-end
 
 
 function Interface.dragComposite(self, interfaceState)

@@ -19,9 +19,6 @@
     <Filter Include="Source\Math">
       <UniqueIdentifier>{ff02b40f-a234-46b3-b4c7-3f5a060a03a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Menus">
-      <UniqueIdentifier>{ef638ed0-4244-4cc0-a2a0-57b729ce8f90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Particles">
       <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
     </Filter>
@@ -79,6 +76,18 @@
     </Filter>
     <Filter Include="Source\Events\Dynamic">
       <UniqueIdentifier>{d74590d7-6e19-4f80-8075-be7290e31064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Transitions">
+      <UniqueIdentifier>{c7812b0e-5d7d-44a9-a8d5-dccd930fc3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Transitions\Graphics">
+      <UniqueIdentifier>{79ce4b84-e9d2-4907-b9c8-6acd0fce5961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Audio">
+      <UniqueIdentifier>{e6c4277a-3927-4746-9e68-aacb3591fc6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events\Audio">
+      <UniqueIdentifier>{27ce18db-c137-4bcb-b5e5-744da44e618f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +253,33 @@
     <ClCompile Include="src\FacetPauseEvent.cpp">
       <Filter>Source\Events\Dynamic</Filter>
     </ClCompile>
+    <ClCompile Include="src\TransitionManager.cpp">
+      <Filter>Source\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FadeTransition.cpp">
+      <Filter>Source\Transitions\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransitionRegistry.cpp">
+      <Filter>Source\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RendererFadeTransition.cpp">
+      <Filter>Source\Transitions\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioManager.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlaySoundEvent.cpp">
+      <Filter>Source\Events\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BasicAudioSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sound.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VolumeChangeEvent.cpp">
+      <Filter>Source\Events\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\shaders\basic.glfs">
@@ -331,9 +367,6 @@
     <None Include="bin\lua-core\shaders.lua">
       <Filter>Lua-Core</Filter>
     </None>
-    <None Include="bin\lua-core\sounds.lua">
-      <Filter>Lua-Core</Filter>
-    </None>
     <None Include="bin\lua-core\sprites.lua">
       <Filter>Lua-Core</Filter>
     </None>
@@ -359,6 +392,18 @@
       <Filter>Lua-Core</Filter>
     </None>
     <None Include="bin\lua-core\constants.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua\rainbow-scene.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\lua-core\transitions.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\audio.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\audio-facet.lua">
       <Filter>Lua-Core</Filter>
     </None>
   </ItemGroup>
@@ -513,9 +558,6 @@
     <ClInclude Include="src\Map.hpp">
       <Filter>Source\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Music.hpp">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="src\Resource.hpp">
       <Filter>Source\Resources</Filter>
     </ClInclude>
@@ -569,9 +611,6 @@
     </ClInclude>
     <ClInclude Include="src\SDLUtil.hpp">
       <Filter>Source\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sound.hpp">
-      <Filter>Source\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.hpp">
       <Filter>Source\Resources</Filter>
@@ -678,6 +717,45 @@
     <ClInclude Include="src\FacetPauseEvent.hpp">
       <Filter>Source\Events\Dynamic</Filter>
     </ClInclude>
+    <ClInclude Include="src\TransitionManager.hpp">
+      <Filter>Source\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transition.hpp">
+      <Filter>Source\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TransitionRegistry.hpp">
+      <Filter>Source\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FadeTransition.hpp">
+      <Filter>Source\Transitions\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RendererFadeTransition.hpp">
+      <Filter>Source\Transitions\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioManager.hpp">
+      <Filter>Source\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Music.hpp">
+      <Filter>Source\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sound.hpp">
+      <Filter>Source\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlaySoundEvent.hpp">
+      <Filter>Source\Events\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BasicAudioSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioFacet.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VolumeChangeEvent.hpp">
+      <Filter>Source\Events\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawableChange.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="bin\lua\sounds\button-3.wav">
@@ -714,6 +792,9 @@
     </Image>
     <Image Include="bin\lua\maps\tilesets\Palette2.png">
       <Filter>Resources\Tilesets</Filter>
+    </Image>
+    <Image Include="bin\lua\sprites\6807326-rainbow.jpg">
+      <Filter>Resources\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

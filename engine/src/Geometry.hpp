@@ -200,30 +200,7 @@ namespace core {
 	}
 
 
-	struct Point {
-		float x, y;
-
-		Point() : x{0.0f}, y{0.0f} {};
-		Point(float xx, float yy) : x{ xx }, y{ yy } {};
-
-		Point translate(const Vec2 &move) {
-			x += move.x;
-			y += move.y;
-			return *this;
-		}
-
-		float dist(const Point& other) const {
-			return distance(x, y, other.x, other.y);
-		}
-
-		bool operator ==(const Point other) const {
-
-			return (fabs(x - other.x) < FLOAT_EPSILON && fabs(y - other.y) < FLOAT_EPSILON);
-
-		}
-
-
-	};
+	
 
 	struct Dimension {
 		int w, h;
@@ -313,6 +290,96 @@ namespace core {
 
 	};
 
+
+	struct Point {
+		float x, y, z;
+
+		Point() : x{ 0.0f }, y{ 0.0f } {};
+		Point(float xx, float yy) : x{ xx }, y{ yy }, z{ 0.0f } {};
+		Point(float xx, float yy, float zz) : x{ xx }, y{ yy }, z{ zz } {};
+
+		Point(const Pixel pixel) {
+			x = pixel.x;
+			y = pixel.y;
+			z = pixel.z;
+		}
+		Point translate(const Vec2 &move) {
+			x += move.x;
+			y += move.y;
+			return *this;
+		}
+
+
+		Point operator*(float scalar) const {
+			return Point{ x * scalar, y * scalar, z * scalar };
+		}
+
+
+		Point operator +(const Point other) const {
+			return Point{ x + other.x, y + other.y, z + other.z };
+		}
+
+		Point operator -(const Point other) const {
+			return Point{ x - other.x, y - other.y, z - other.z };
+		}
+
+		void operator +=(const Point other) {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+		}
+
+		void operator -=(const Point other) {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+		}
+
+
+		float dist2d(const Point& other) const {
+			return distance(x, y, other.x, other.y);
+		}
+
+		float dist(const Point& other) const {
+			return distance(x, y, z, other.x, other.y, other.z);
+		}
+
+		bool operator ==(const Point other) const {
+			return (fabs(x - other.x) < FLOAT_EPSILON && fabs(y - other.y) < FLOAT_EPSILON) && fabs(z - other.z);
+		}
+
+		bool operator !=(const Point other) const {
+			return !(*this == other);
+		}
+
+
+
+	};
+
+
+	struct Rect {
+
+		float x, y, w, h;
+
+		Rect() : x{ 0.0f }, y{ 0.0f }, w{ 0.0f }, h{ 0.0f } {}
+		Rect(float xx, float yy, float ww, float hh) : x{ xx }, y{ yy }, w{ ww }, h{ hh } {}
+		Rect(Point p) : x{ p.x }, y{ p.y }, w{ 0.0f }, h{ 0.0f } {}		
+
+		Rect operator *(const Vec2 scale) const {
+			auto out = Rect{ x, y, w * scale.x, h * scale.y };
+		}
+
+		Point center() const {
+			return Point{ x + 0.5f * w, y + 0.5f * h, 0.0f};
+		}
+
+		bool intersects(const Rect& other) const {
+			bool xaxis = inRangeSorted(x, x + w, other.x, other.x + other.w);
+			if (!xaxis) return false;
+			return inRangeSorted(y, y + h, other.y, other.y + other.h);
+		}
+
+	};
 
 	inline std::string print(Pixel& p) {
 		std::ostringstream ss;

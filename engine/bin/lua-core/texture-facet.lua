@@ -1,9 +1,13 @@
 	
 TextureFacet = Facet:new()
 
-function TextureFacet:new(entity, o)
-	o = o or {}
-	return self:create(entity, o)
+function TextureFacet:new(entity, systemName, textureName, o)
+	o = o or {}    
+	o = self:create(entity, systemName, o)    
+    if textureName then    
+        o:setTextureName(textureName)
+    end    
+    return o
 end
 
 function TextureFacet:getType()
@@ -15,8 +19,12 @@ function TextureFacet:isRenderableFacet()
 end
 
 function TextureFacet:setTextureName(textureName)
-	self.name = textureName	
-    self:setTexture()
+	self.name = textureName	    
+    if (not self:isCoreFacet()) and self:getSystemName() then
+        self:createFacetInCore()
+    else
+        self:setTexture()
+    end
 end
 
 function TextureFacet:setTextureCoordinates(sourceRect)
@@ -65,8 +73,6 @@ end
 
 function TextureFacet:scaleToEntity()
 
-     
-
     if self:isCoreFacet() then
         local dimensions = self.of:getDimensions()         
         local myDimensions = self:getDimensions()
@@ -97,6 +103,7 @@ function TextureFacet:setScale(scale)
         debug("Setting scale for non-core facet")
     end
 end
+   
 
 function TextureFacet:getScale()
 	return self.scale or {1,1}
@@ -117,8 +124,7 @@ function TextureFacet:createFacetInCore()
 			offset = self:getOffset()
 		}		
 		self.id = addTextureFacet_bind(self.systemName, self.of:getId(), facet)
-		
-		self:setIsCoreFacet(true)
+				
 	end
 	
 end

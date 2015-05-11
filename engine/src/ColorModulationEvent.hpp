@@ -10,10 +10,12 @@ namespace core {
 	struct ColorModulationEvent : public Event<ColorModulationEvent> {
 
 		ColorModulationEvent();
-
+		
 		Entity entity;
-		LuaVector<float, 16> matrix;
+		LuaColorTransform matrix;
 		int facetId;
+		int systemId;
+		ColorTransform transform;
 
 		static std::string getEventTypeNameImpl();
 

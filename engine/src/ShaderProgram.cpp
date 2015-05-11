@@ -37,31 +37,6 @@ namespace core {
 		return true;
 	}
 
-	bool ShaderProgram::drawElements(GLuint& vertexBufferObject, GLuint& indexBufferObject, GLenum mode, GLsizei count) {
-
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
-		
-		glDrawElements(mode, count, GL_UNSIGNED_INT, NULL);
-
-		info("In ShaderProgram::drawElements, error code " , glGetError());
-
-		return true;
-
-	}
-
-	void ShaderProgram::setVertexArrayAttribute(std::string name, GLuint buffer, int dimension, GLenum type, GLenum normalized) {
-		if (_isVAenabled) {
-			auto& va = _vertexAttributes[name.c_str()]; 
-			glBindBuffer(GL_VERTEX_ARRAY, buffer);
-
-			glVertexAttribPointer(va.index, dimension, type, normalized, 0, NULL);
-
-			glBindBuffer(GL_VERTEX_ARRAY, NULL);
-
-		}
-	}
-
 	bool ShaderProgram::link() {
 		if (getInitializedStatus() != InitStatus::INIT_TRUE) {
 			error("Attempting to link program ", _programId, " before init.");
@@ -155,31 +130,11 @@ namespace core {
 		}
 
 		glUseProgram(_programId);	
-
-		return enableVertexArrayAttributes();
-		
-	}
-
-	bool ShaderProgram::enableVertexArrayAttributes() {
-
-		for (auto& vertexAttr : _vertexAttributes) {
-			glEnableVertexAttribArray(vertexAttr.second.index);			
-		}
-		_isVAenabled = true;
 		return true;
 	}
 
-	bool ShaderProgram::disableVertexArrayAttributes() {
-		if (_vertexAttributes.size() > 0) {
-			for (auto& vertexAttr : _vertexAttributes) {
-				glDisableVertexAttribArray(vertexAttr.second.index);
-			}
-		}
-		_isVAenabled = false;
-		return true;
-	}
-	bool ShaderProgram::unbindImpl() {
-		disableVertexArrayAttributes();
+	
+	bool ShaderProgram::unbindImpl() {		
 		glUseProgram(NULL);
 		return true;
 	}

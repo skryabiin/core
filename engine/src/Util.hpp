@@ -15,11 +15,14 @@ namespace core {
 
 		struct tm newtime;
 		__time32_t aclock;
-		char buffer[32];		
+		char buffer[26];		
 		_time32(&aclock);   // Get time in seconds.
 		_localtime32_s(&newtime, &aclock);   // Convert time to struct tm form.
-		asctime_s(buffer, 32, &newtime);
-		return std::string{ buffer };
+		asctime_s(buffer, 26, &newtime);
+		char bufferNoLineFeed[25];
+		std::memcpy(bufferNoLineFeed, buffer, 24);
+		bufferNoLineFeed[24] = '\0';
+		return std::string{ bufferNoLineFeed };
 	}
 
 	inline void hexToRgb(std::string hexString, GLfloat& r, GLfloat& g, GLfloat& b) {

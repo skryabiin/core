@@ -6,7 +6,7 @@ Assets = {}
 function Assets.load() 
 	
 	Fonts.load(Assets.fonts)
-	Sounds.load(Assets.sounds)
+	Audio.load(Assets.sounds)
 	--Maps.load(Assets.maps)
 	Sprites.load(Assets.sprites)
 	ParticleEffects.load(Assets.particleEffects)
@@ -40,9 +40,12 @@ Assets.vertexShaders = {
 		path = "./shaders/textureRender2d.glvs",
 		attributes = {
 			"vertexPos",
-			"uvIn"
+			"uvIn",
+
 		},
-		uniforms = {}
+		uniforms = {
+           "mvp"
+        }
 	}
 }
 
@@ -105,13 +108,13 @@ Assets.particleEffects = {
 Assets.fonts = {
 	{
 		default = true,
-		defaultSize = 15,
+		renderedSize = 15,
 		name="RobotoCondensed-Regular",
 		path="./lua/fonts/RobotoCondensed-Regular.ttf"
 	},
 	{ 
 		default = false,
-		defaultSize = 30,
+		renderedSize = 30,
 		name = "PixelBerry",			
 		path = "./lua/fonts/pixel_berry.ttf"
 	}
@@ -137,6 +140,12 @@ Assets.maps = {
 
 	
 Assets.sprites = {
+
+    rainbow = {
+        name = "rainbow",
+        path = "./lua/sprites/6807326-rainbow.jpg"
+    },
+
 	redBox = { 
 		name = "redBox",
 		path = "./lua/sprites/red_box.png"

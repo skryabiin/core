@@ -12,7 +12,7 @@
 #include "ColorModulationEvent.hpp"
 #include  "ScaleChangeEvent.hpp"
 #include "SDL.h"
-
+#include "VisualFacet.hpp"
 
 namespace core {
 
@@ -39,22 +39,25 @@ namespace core {
 
 		bool handleEvent(FacetPauseEvent& pauseEvent);
 
-		bool handleEvent(ScaleChangeEvent& scaleChange);		
+		bool handleEvent(EntityLayerQuery& entityLayerQuery);
+
+		bool handleEvent(ColorModulationEvent& colorModulationEvent);
+
+
+		virtual bool handleEvent(ScaleChangeEvent& scaleChange);		
 
 		virtual bool handleEvent(PositionChangeEvent& positionChange);
 
-		bool handleEvent(EntityLayerQuery& entityLayerQuery);
-
-		bool handleEvent(OffsetChangeEvent& offsetChangeEvent);
-
-		bool handleEvent(ColorModulationEvent& colorModulationEvent);
+		virtual bool handleEvent(OffsetChangeEvent& offsetChangeEvent);
+		
+		virtual void updateDrawablePosition(VisualFacet* vfacet) = 0;
 
 		//this is expensive
 		void snapCameraToEntity();
 
 		void snapCameraToCoordinates(float x, float y);
 
-		Camera2d* getCamera();
+		Camera* getCamera();
 
 		static int createFacet_bind(LuaState& lua);
 
@@ -67,7 +70,7 @@ namespace core {
 		int _drawableLayerId;
 
 		CameraFollowFacet _cameraFollow;
-		Camera2d _camera;
+		Camera _camera;
 
 
 	};

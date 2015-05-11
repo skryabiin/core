@@ -31,6 +31,7 @@ namespace core {
 		int keyScancodePause;
 		int buttonPause;
 		int maxUpdatesPerSecond;
+		bool debugMemory;
 	};
 
 	class RenderableSystem2d;
@@ -101,6 +102,10 @@ namespace core {
 			return nullptr;
 
 		}
+
+		long getSystemIdByName(std::string systemName);
+
+		std::string getSystemNameById(long id);
 
 		//lua bindings				
 
@@ -182,7 +187,7 @@ namespace core {
 		//the next id to be assigned (will be incremented before assignment)
 		int _nextEntityId;
 
-		
+		LuaFunction _luaUpdateFunction;
 
 		//system lists
 		//these systems are called each round with the runtime context
@@ -192,6 +197,9 @@ namespace core {
 		//these systems are called during the render phase
 		std::vector<RenderableSystem2d*> _renderableSystems2d;
 
+
+		int _frames;
+		float _elapsed;
 
 		//these systems interact in other ways
 		std::vector<System*> _systems;

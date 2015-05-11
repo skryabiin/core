@@ -51,7 +51,7 @@ namespace core {
 	});
 
 		setUpdateFunction(
-			[&](ParticleField<BasicParticle>* lpf, BasicParticle& p, int dt)->bool {
+			[&](ParticleField<BasicParticle>* lpf, BasicParticle& p, float dt)->bool {
 			if (p.initialDelay > 0) {
 				p.initialDelay -= dt;
 				return true;

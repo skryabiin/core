@@ -29,6 +29,7 @@
 #include "RuntimeContext.hpp"
 #include "Texture.hpp"
 #include "Drawable.hpp"
+#include "DrawableChange.hpp"
 #include "Event.hpp"
 #include "Console.hpp"
 #include "DebugEvent.hpp"
@@ -66,24 +67,15 @@ public:
 
 	void resumeImpl();
 
-	void updateImpl(RuntimeContext& context);
-
-
-	void pauseDrawable(const Drawable& d);
-
-	void resumeDrawable(Drawable& d);
+	void updateImpl(float dt, RuntimeContext& context);
 
 	void setDepthTestFunction(GLenum test);
 	
 	void render();		
 
-
-
-	int createDrawable(Drawable& d);
+	void applyDrawableChange(DrawableChange& dc);
 	
 	static int renderThread(void* data);
-
-	void updateDrawable(Drawable& d);
 
 	void destroyDrawable(Drawable& d);
 
@@ -99,6 +91,9 @@ public:
 
 	~Renderer();
 	
+	void setGlobalColorModulation(ColorTransform& transform);
+	
+	ColorTransform getGlobalColorModulation();
 
 	static int getMinZIndex_bind(LuaState& lua);
 
@@ -107,6 +102,12 @@ public:
 	static int showWindow_bind(LuaState& lua);
 
 	static int setBackgroundColor_bind(LuaState& lua);
+
+	static int fadeWindow_bind(LuaState& lua);
+
+	static int setGlobalColorModulation_bind(LuaState& lua);
+
+	static int getGlobalColorModulation_bind(LuaState& lua);
 
 	void hideWindow();
 
@@ -125,13 +126,23 @@ private:
 	SDL_Thread* _renderThread;
 
 	void _processDrawableChanges();	
-	void _processPauseDrawable(DrawableChange& dc);
-	void _processResumeDrawable(DrawableChange& dc);
-	void _processCreateDrawable(DrawableChange& dc);
-	void _processUpdateDrawable(DrawableChange& dc);
-	void _processDestroyDrawable(DrawableChange& dc);
 
-	Drawable* _getDrawable(int id, int layerId);
+	Drawable* _createDrawable(int facetId, short layerId, short zIndex);
+
+	void _createTextureDrawable(Drawable* d, DrawableChange& dc);
+	void _createPrimitiveDrawable(Drawable* d, DrawableChange& dc);
+	void _changeDrawableColor(Drawable* d, DrawableChange& dc);
+	void _changeDrawableColorTransform(Drawable* d, DrawableChange& dc);
+	void _changeDrawableTexture(Drawable* d, DrawableChange& dc);
+	void _pauseDrawable(Drawable* d, DrawableChange& dc);
+	void _changeDrawableZIndex(Drawable* d, DrawableChange& dc);
+	void _destroyDrawable(Drawable* d, DrawableChange& dc);
+	void _changeTexturePosition(Drawable* d, DrawableChange& dc);
+	void _changePrimitivePosition(Drawable* d, DrawableChange& dc);
+
+
+	Drawable* _getDrawable(int facetId, short layerId);
+
 	void _draw(Drawable& d);
 
 	void _drawTexture(Drawable& d);
@@ -143,7 +154,7 @@ private:
 	void _drawPoly(GLfloat* v, unsigned numPoints, Color& color, ColorTransform& colorTransform, bool filled);
 
 	bool _renderMultithreaded;
-	bool TEMP_justReset;
+
 	SDL_SpinLock _drawableChangePtrLock;
 	SDL_SpinLock _renderThreadLock;
 
@@ -191,35 +202,24 @@ private:
 
 	SDL_SpinLock _drawablesLock;
 
-	GLuint _vertexBuffer;
-	GLuint _indexBuffer;
 
-	VertexArrayObject _textureVao;
 	VertexBufferObject<GLfloat> _textureVbo;
-	IndexBufferObject _textureIbo;
-	VertexBufferObject<GLfloat> _textureUvbo;
+	
 
-	ColorTransform _colorMatrix;
+	ColorTransform _colorTransform;
+	ColorTransform _tempColorTransform;
+	bool _changeColorTransform;
 
 	std::vector<GLfloat> _drawColor;
 	std::vector<GLfloat> _textureVertices;
 	std::vector<GLfloat> _drawVertices;
 
-	VertexShader *_defaultRenderVertexShader;
-	FragmentShader *_defaultRenderFragmentShader;
-
-	VertexShader* _defaultDrawVertexShader;
-	FragmentShader* _defaultDrawFragmentShader;
-
-	VertexShader* _currentDrawVertexShader;
-	FragmentShader* _currentDrawFragmentShader;
-
-	ShaderProgram _renderShaderProgram;
-	ShaderProgram _drawShaderProgram;
 
 	GLint _vertexPosVarLoc;
 
 	SDL_Rect _windowRect;
+
+	bool _debugOpenGl;
 
 };
 

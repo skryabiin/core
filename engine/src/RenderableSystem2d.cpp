@@ -10,6 +10,7 @@ namespace core {
 			return false;
 		}
 		return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;
+		return true;
 	}
 
 	bool RenderableSystem2d::initializeImpl() {
@@ -17,10 +18,11 @@ namespace core {
 		this->System::initializeImpl();
 
 		return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
+		return true;
 	}
 
 	bool RenderableSystem2d::resetImpl() {
-		//_camera.reset();
+		_camera.reset();
 		return System::resetImpl();
 	}
 
@@ -30,7 +32,7 @@ namespace core {
 	}
 
 	void RenderableSystem2d::snapCameraToCoordinates(float x, float y) {
-		_camera.setWorldCenterPosition(Point{ x, y });
+		//_camera.setWorldCenterPosition(Point{ x, y });
 
 	}
 
@@ -42,7 +44,7 @@ namespace core {
 			auto x = pf->p.x + 0.5f * pf->dim.w;
 			auto y = pf->p.y + 0.5f * pf->dim.h;
 
-			_camera.setWorldCenterPosition(Point{ x, y });
+			//_camera.setWorldCenterPosition(Point{ x, y });
 		}
 	}
 
@@ -56,7 +58,7 @@ namespace core {
 		return _drawableLayerId;
 	}
 
-	Camera2d* RenderableSystem2d::getCamera() {
+	Camera* RenderableSystem2d::getCamera() {
 		return &_camera;
 	}
 
@@ -72,13 +74,8 @@ namespace core {
 			if (facet->id() == scaleChange.facetId || scaleChange.facetId == -1) {
 				auto newScale = scaleChange.scale.getVec2();
 				auto vfacet = static_cast<VisualFacet*>(facet);
-				auto oldScale = vfacet->scale;
-				auto rect = vfacet->drawable.targetRect;
-				rect.w = roundFloat((rect.w / oldScale.x) * newScale.x);
-				rect.h = roundFloat((rect.h / oldScale.y) * newScale.y);
-				vfacet->drawable.targetRect = rect;
-				vfacet->scale = newScale;
-				single<Renderer>().updateDrawable(vfacet->drawable);
+				vfacet->scale = scaleChange.scale.getVec2();
+				updateDrawablePosition(vfacet);
 				if (scaleChange.facetId != -1) return false;
 			}
 		}
@@ -112,21 +109,38 @@ namespace core {
 
 			if (pauseEvent.facetId == -1 || facet->id() == pauseEvent.facetId) {
 				auto vfacet = static_cast<VisualFacet*>(facet);
+				auto dc = DrawableChange{};
+				dc.operation = DrawableChange::Operation::PAUSE;
+				dc.facetId = facet->id();
+				dc.layerId = _drawableLayerId;
+				dc.paused = pauseEvent.paused;
 				if (pauseEvent.paused) {					
-					vfacet->pause();
-					single<Renderer>().pauseDrawable(vfacet->drawable);
+					vfacet->pause();					
 				}
 				else {
-					vfacet->resume();
-					single<Renderer>().resumeDrawable(vfacet->drawable);
+					vfacet->resume();					
 				}
+				single<Renderer>().applyDrawableChange(dc);
 				if (facet->id() == pauseEvent.facetId) return false;
 			}
 		}
 		return true;
 	}
 
+	bool RenderableSystem2d::handleEvent(OffsetChangeEvent& offsetChangeEvent) {
+		auto facets = getFacets(offsetChangeEvent.entity);
+		for (auto& facet : facets) {
+			if (offsetChangeEvent.facetId == -1 || offsetChangeEvent.facetId == facet->id()) {
+				
+				auto vfacet = static_cast<VisualFacet*>(facet);
+				vfacet->offset = offsetChangeEvent.offset.getPixel();
+				updateDrawablePosition(vfacet);
 
+				if (offsetChangeEvent.facetId != -1) return false;
+			}
+		}
+		return true;
+	}
 
 	bool RenderableSystem2d::handleEvent(PositionChangeEvent& positionChange) {
 
@@ -136,47 +150,23 @@ namespace core {
 			auto vfacet = static_cast<VisualFacet*>(facet);
 			auto p = positionChange.position.getPixel();
 			if (positionChange.relative) {
-				vfacet->drawable.targetRect.x += p.x;
-				vfacet->drawable.targetRect.y += p.y;
-				vfacet->drawable.zIndex += p.z;
+				vfacet->position += p;				
 			}
 			else {
-				vfacet->drawable.targetRect.x = p.x + vfacet->offset.x;
-				vfacet->drawable.targetRect.y = p.y + vfacet->offset.y;
-				vfacet->drawable.zIndex = p.z + vfacet->offset.z;
+				vfacet->position = p;
 			}
 			if (_cameraFollow.of() == positionChange.entity && !_cameraFollow.isPaused()) {
-				auto x = vfacet->drawable.targetRect.x + vfacet->drawable.targetRect.w * 0.5f;
-				auto y = vfacet->drawable.targetRect.y + vfacet->drawable.targetRect.h * 0.5f;
+				auto x = vfacet->position.x + vfacet->offset.x + vfacet->dimensions.w * vfacet->scale.x * 0.5f;
+				auto y = vfacet->position.y + vfacet->offset.y + vfacet->dimensions.h * vfacet->scale.y * 0.5f;
 				snapCameraToCoordinates(x, y);
 			}
 
-			single<Renderer>().updateDrawable(vfacet->drawable);
-			return true;
-	
+			updateDrawablePosition(vfacet);				
 		}
 		return true;
 	}
 
-	bool RenderableSystem2d::handleEvent(OffsetChangeEvent& offsetChangeEvent) {
-		auto facets = getFacets(offsetChangeEvent.entity);
-		for (auto& facet : facets) {
-			if (offsetChangeEvent.facetId == -1 || offsetChangeEvent.facetId == facet->id()) {
-				auto offset = offsetChangeEvent.offset.getPixel();
-				auto vfacet = static_cast<VisualFacet*>(facet);
-				auto currentOffset = vfacet->offset;
-				auto rect = vfacet->drawable.targetRect;
-				rect.x = rect.x - currentOffset.x + offset.x;
-				rect.y = rect.y - currentOffset.y + offset.y;
-				vfacet->drawable.targetRect = rect;
-				vfacet->drawable.zIndex = vfacet->drawable.zIndex - currentOffset.z + offset.z;
-				vfacet->offset = offset;
-				single<Renderer>().updateDrawable(vfacet->drawable);
-				if (offsetChangeEvent.facetId != -1) return false;
-			}
-		}
-		return true;
-	}
+	
 
 	bool RenderableSystem2d::handleEvent(ColorModulationEvent& colorModulationEvent) {
 
@@ -184,11 +174,12 @@ namespace core {
 		for (auto facet : facets) {
 			if (colorModulationEvent.facetId == -1 || colorModulationEvent.facetId == facet->id()) {
 				auto& valList = colorModulationEvent.matrix;
-				auto& d = (static_cast<VisualFacet*>(facet))->drawable;
-				for (int i = 0; i < 4; ++i) {
-					d.colorTransform.setChannel(i, valList[i * 4], valList[i * 4 + 1], valList[i * 4 + 2], valList[i * 4 + 3]);
-				}
-				single<Renderer>().updateDrawable(d);
+				auto dc = DrawableChange{};
+				dc.facetId = facet->id();
+				dc.layerId = _drawableLayerId;
+				dc.operation = DrawableChange::Operation::CHANGE_COLOR_TRANSFORM;
+				dc.colorTransform = colorModulationEvent.transform;
+				single<Renderer>().applyDrawableChange(dc);
 				if (colorModulationEvent.facetId != -1) return false;
 			}
 		}

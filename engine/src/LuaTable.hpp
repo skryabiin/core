@@ -32,6 +32,9 @@ namespace core {
 			int x = 0;
 		}
 
+		bool isNil(int key);
+
+		bool isNil(const char* key);
 
 
 		template <typename var_type>

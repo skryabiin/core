@@ -95,7 +95,7 @@ namespace core {
 		virtual bool resetImpl() override;
 		virtual bool destroyImpl() override;
 
-		void updateImpl(RuntimeContext& context);
+		void updateImpl(float dt, RuntimeContext& context);
 
 		PhysicsFacet& createPhysicsFacet(Entity& e, bool fixed);
 

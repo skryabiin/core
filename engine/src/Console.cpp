@@ -42,7 +42,7 @@ namespace core {
 	Console::Console() : basicIos(&_buffer), basicOutStream(&_buffer), singleton<Console>(), _debug{ false }, _consoleOut{ true }, _running{ true }, _consoleLogLock{ 0 }, _lastMsgPolled{ 0 } {
 
 		if (_debugOutProc == NULL) {
-			_logFilePath = single<Core>().lua()("Config")["logFile"];
+			_logFilePath = single<Core>().lua()("Config")["logging"]["logFile"];
 			_debugOutProc = SDL_CreateThread(consoleWriteProc, "DebugOutput", (void*)NULL);
 		}
 
@@ -57,10 +57,7 @@ namespace core {
 		lua.bindFunction("info_bind", Console::info_bind);
 		lua.bindFunction("warn_bind", Console::warn_bind);
 		lua.bindFunction("error_bind", Console::error_bind);
-		lua.bindFunction("doCommand_bind", Console::doCommand_bind);
-
-		//TODO remove this in favor of a better scheme
-		_keyToggle = lua("Config")["keyDebugToggle"];
+		lua.bindFunction("doCommand_bind", Console::doCommand_bind);		
 
 		return true;
 
@@ -178,7 +175,7 @@ namespace core {
 		notice("----------------------------------------------------");
 		notice("Starting Core at ", getTimestamp());
 
-		int verbosity = lua("Config")["verbosityLevel"];
+		int verbosity = lua("Config")["logging"]["verbosityLevel"];
 		if (verbosity < 0) {
 			warn("Verbosity set to invalid value '", verbosity, "' (valid values are 0-5). Defaulting to 0.");
 			verbosity = 0;

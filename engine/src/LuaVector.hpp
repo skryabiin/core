@@ -44,10 +44,32 @@ namespace core {
 	};
 
 
+	struct LuaColorTransform : public LuaVector<float, 16> {
+		LuaColorTransform() {};
+
+		LuaColorTransform(ColorTransform& c) {
+			setColorTransform(c);
+		}
+
+		LuaColorTransform(LuaState& state) {
+			static_cast<LuaTable>(*this) = state;
+		}
+
+		ColorTransform getColorTransform() const {
+			return ColorTransform{ &_values[0] };
+		}
+
+		void setColorTransform(ColorTransform& p) {
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					_values[i * 4 + j] = p[j][i];
+				}
+			}
+		}
+
+	};
+
 	struct LuaPixel : public LuaVector<int, 3> {
-
-	public:
-
 
 		LuaPixel() {};
 

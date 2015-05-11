@@ -38,6 +38,8 @@ namespace core {
 
 		void setDefaultFont(Font* font);
 
+		virtual void updateDrawablePosition(VisualFacet* vfacet);
+
 		bool handleEvent(FacetDimensionQuery& e);
 
 		bool handleEvent(TextureChangeEvent& e);

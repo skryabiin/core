@@ -21,9 +21,12 @@ namespace core {
 
 		//void updateTextFacet(TextFacet& facet, std::string fontName, Pixel position, Pixel offset, Color color, std::string text);
 
-		TextFacet& createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Vec2 scale, Color color, std::string text);
+		TextFacet& createTextFacet(Entity& e, std::string fontName,  Pixel position, Pixel offset, Vec2 scale, Color color, std::string text);
 
 		using RenderableSystem2d::handleEvent;
+
+		virtual void updateDrawablePosition(VisualFacet* vfacet);
+
 		bool handleEvent(ColorChangeEvent& colorChangeEvent);
 
 		bool handleEvent(TextContentChangeEvent& textContentChange);

@@ -5,7 +5,8 @@
 #include "Entity.hpp"
 #include "Facet.hpp"
 #include "Texture.hpp"
-#include "Camera2d.hpp"
+#include "Camera.hpp"
+#include "VertexArrayObject.hpp"
 
 namespace core {
 
@@ -28,20 +29,21 @@ namespace core {
 
 			texture = nullptr;
 		}
+		
 
 		Texture* texture;
 		SDL_Rect sourceRect;
-		SDL_Rect targetRect;
+		Rect targetRect;
 
-		int layerId;
+		short layerId;
 		
-		int zIndex;
+		short zIndex;
 		double angle;		
 
 		bool disabled; 
-		Camera2d* camera;
+		Camera* camera;
 
-		int id;
+		int facetId;
 		
 		Facet* facet;
 
@@ -49,28 +51,18 @@ namespace core {
 
 		Color color;
 
-		std::vector<Pixel> vertices;
+		std::vector<Point> vertices;
 		int radius;
 		bool filled;
+
+		ShaderProgram* program;
+		VertexArrayObject vao;
+		VertexBufferObject<GLfloat> uvbo;
+		VertexBufferObject<GLfloat> vbo;
 
 		DrawableType drawableType;
 	};
 
-	struct DrawableChange {
-
-		enum class Operation {
-
-			CREATE,
-			UPDATE,
-			DESTROY,
-			PAUSE,
-			RESUME
-		};
-
-		Operation operation;		
-		Drawable drawable;
-
-	};	
 
 } //end namespace core
 

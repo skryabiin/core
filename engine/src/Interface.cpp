@@ -27,9 +27,16 @@ namespace core {
 		auto& lua = single<Core>().lua();
 		lua.bindFunction("getMouseState_bind", Interface::getMouseState_bind);
 		lua.bindFunction("setCursorTexture_bind", Interface::setCursorTexture_bind);
+		lua.bindFunction("createInterfaceFacet_bind", Interface::createInterfaceFacet_bind);
 		lua.bindFunction("updateInterfaceFacet_bind", Interface::updateInterfaceFacet_bind);
 		lua.bindFunction("getKeyStates_bind", Interface::getKeyStates_bind);
 		lua.bindFunction("getGamepadStates_bind", Interface::getGamepadStates_bind);
+		lua.bindFunction("showCursor_bind", Interface::showCursor_bind);			
+		lua.bindFunction("hideCursor_bind", Interface::hideCursor_bind);
+		lua.bindFunction("useSystemCursor_bind", Interface::useSystemCursor_bind);
+		lua.bindFunction("useTextureCursor_bind", Interface::useTextureCursor_bind);
+		
+		_usingSystemCursor = true;
 
 		return true;
 
@@ -52,6 +59,24 @@ namespace core {
 		_mouseCursor = single<Core>().createEntity();
 		setCursorTextureFromDef();
 
+		_primitiveRenderSystem = new PrimitiveRenderSystem2d{};
+		_primitiveRenderSystem->setName("InterfacePrimitives");
+		single<Core>().addSystem(_primitiveRenderSystem);
+		single<Core>().includeRenderableSystem2d(_primitiveRenderSystem);
+		_primitiveRenderSystem->create();
+		_primitiveRenderSystem->initialize();
+		_primitiveRenderSystem->setDrawableLayerId(0);
+		auto offset = Pixel{ 0, 0, 1 };
+		auto rect = SDL_Rect();
+		rect.x = 10;
+		rect.y = 20;
+		rect.w = 20;
+		rect.h = 40;
+		auto color = Color{ 0.0f, 1.0f, 1.0f, 1.0f };
+		auto position = Pixel{10,20};		
+		auto dimension = Dimension{ 20, 40 };
+		//_primitiveRenderSystem->createRectangleFacet(_mouseCursor, position, offset, dimension, color, false);
+
 		return true;
 	}
 
@@ -59,6 +84,8 @@ namespace core {
 		
 		_facets.clear();
 		_facets.shrink_to_fit();
+		_textureRenderSystem = nullptr;
+		_primitiveRenderSystem = nullptr;
 		return this->System::resetImpl();		
 	}
 
@@ -108,7 +135,7 @@ namespace core {
 
 
 
-	void Interface::updateImpl(RuntimeContext& runtimeContext) {
+	void Interface::updateImpl(float dt, RuntimeContext& runtimeContext) {
 
 		pollSdlEvents();
 		updateMouseState();
@@ -118,15 +145,12 @@ namespace core {
 	}
 
 
-
-
-
 	void Interface::updateMouseState() {
 
 		auto pos = Pixel{};
 		auto keyStates = SDL_GetMouseState(&pos.x, &pos.y);
 		auto& lua = single<Core>().lua();
-		int winHeight = lua("Config")["window"][2];
+		int winHeight = lua("Config")["window"]["dimensions"][2];
 		pos.y = winHeight - pos.y - 1;
 		if (!(_mouseState.position.getPixel() == pos) || _mouseState.keyStates != keyStates) {
 			_mouseState.delta[0] = _mouseState.position[0] - pos.x;
@@ -140,79 +164,144 @@ namespace core {
 			cursorPce.entity = _mouseCursor;
 			cursorPce.position = pos;
 			static_cast<RenderableSystem2d*>(_textureRenderSystem)->handleEvent(cursorPce);
-			
-			auto selectedLayer = 10000;
+
+
 
 			_interfaceState.currentPosition.setPixel(pos);
+			_interfaceState.pickedUpThisTick = false;
 
-			//if the mouse was clicked this tick, check to see if there is something to pick up
-			if (_mouseState.mdown && !_mouseState.mdownOld) {
-				_interfaceState.clickPosition.setPixel(pos);
-				auto entitySearchRect = SDL_Rect{ pos.x, pos.y , pos.x + 1, pos.y + 1};
-				auto rectQuery = EntitiesInRectQuery{};
-				rectQuery.rect = entitySearchRect;
-				single<EventProcessor>().process(rectQuery);
-				
-				auto selectedPos = Pixel{0,0,10000};
-				for (Entity e : rectQuery.entities.values()) {					
-					for (auto& facet : _facets) {					
+			//if something was already picked up
+			if (_interfaceState.pickedUp != nullptr) {
 
-						if (facet.of() == e && !facet.isPaused()) {
-							if (facet.clickable) {
-								single<Core>().lua().call(facet.onClick, _interfaceState);
-							}
-							if (facet.draggable) {
+				//if the mouse is held down, don't do anything except drag
+				if (_mouseState.mdown && _mouseState.mdownOld) {
+					//if it's draggable, do so
+					if (_interfaceState.pickedUp->draggable) {
+						lua.call(_interfaceState.pickedUp->onDrag, _interfaceState);
+					}
+					return;
+				}
 
-								auto entityLayerQuery = EntityLayerQuery{};
-								entityLayerQuery.entity = e;
-								single<EventProcessor>().process(entityLayerQuery);
-								if (entityLayerQuery.found && entityLayerQuery.layerId <= selectedLayer) {
-									selectedLayer = entityLayerQuery.layerId;
+				//if the mouse was released, let it go and call 'offClick'
+				if (!_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp->clickable) {
+					lua.call(_interfaceState.pickedUp->offClick, _interfaceState);
+					_interfaceState.pickedUp = nullptr;
+				}
+			}			
 
-									auto entityPositionQuery = EntityPositionQuery{};
-									entityPositionQuery.entity = e;
-									single<EventProcessor>().process(entityPositionQuery);
-									if (entityPositionQuery.found) {
-										auto entityPos = entityPositionQuery.position.getPixel();
-										if (entityPos.z <= selectedPos.z || _interfaceState.pickedUp == nullptr) {										
-											_interfaceState.pickedUp = &facet;
-											_interfaceState.pickedUpThisTick = true;
-											_interfaceState.pickedUpPosition.setPixel(entityPos);
-											selectedPos = entityPos;
-										}
-									}
-								}
+			//these will be updated as the results are parsed
+			auto selectedLayer = 10000;
+			auto selectedPos = Pixel{ 0, 0, 10000 };
+			InterfaceFacet* topFacetUnderCursor = nullptr;
+
+			//check for any facets underneath the cursor
+			for (auto& facet : _facets) {
+				//if this entity has an interface facet that is not paused
+				if (facet.isPaused()) continue;
+
+				//if the entity is under the cursor
+				if (inRect(pos.x, pos.y, facet.position.x, facet.position.y, facet.position.x + facet.dimensions.w, facet.position.y + facet.dimensions.h)) {
+
+					//we need to check the layer to see if this is on top
+					auto entityLayerQuery = EntityLayerQuery{};
+					entityLayerQuery.entity = facet.of();
+					single<EventProcessor>().process(entityLayerQuery);
+
+					if (entityLayerQuery.found) {
+						//if the entity is in a closer than the previous selected layer
+						if (entityLayerQuery.found && entityLayerQuery.layerId < selectedLayer) {
+							selectedLayer = entityLayerQuery.layerId;
+							selectedPos = facet.position;
+							topFacetUnderCursor = &facet;
+							
+						}
+						//else if it in the same layer, check the z positions
+						else if (entityLayerQuery.layerId == selectedLayer) {
+							if (facet.position.z <= selectedPos.z) {
+								topFacetUnderCursor = &facet;
+								selectedPos = facet.position;
 							}
 						}
 					}
 				}
 			}
-			
-			if (_interfaceState.pickedUpThisTick) {
-				single<Core>().lua().call(_interfaceState.pickedUp->onDrag, _interfaceState);
-				_interfaceState.pickedUpThisTick = false;
-			}
 
-			//if there is an entity picked up and mouse1 is still down, move it with the cursor
-			if (_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp != nullptr) {			
-				single<Core>().lua().call(_interfaceState.pickedUp->onDrag, _interfaceState);
-				/*
-				auto pce = PositionChangeEvent{};
-				pce.entity = _interfaceState.pickedUp;
-				pce.position = _interfaceState.selectedPosition;
-				single<EventProcessor>().process(pce);
-				*/
-				
-			}
+			//if there's an entity under the cursor
+			if (topFacetUnderCursor != nullptr) {
 
-			//if there's something picked up and mouse1 is up, release the entity
-			else if (!_mouseState.mdown && _interfaceState.pickedUp != nullptr) {
-				_interfaceState.pickedUp = nullptr;						
-			}
+				//if the mouse is clicked, pick up the entity
+				if (_mouseState.mdown && !_mouseState.mdownOld && topFacetUnderCursor->clickable) {
+					_interfaceState.clickPosition.setPixel(pos);
+					_interfaceState.pickedUp = topFacetUnderCursor;
+					_interfaceState.pickedUpThisTick = true;
+					_interfaceState.pickedUpPosition.setPixel(selectedPos);
 
+					if (_interfaceState.hovering != nullptr) {
+						lua.call(_interfaceState.hovering->offHover, _interfaceState);
+						_interfaceState.hovering = nullptr;
+					}
+					lua.call(_interfaceState.pickedUp->onClick, _interfaceState);
+					if (_interfaceState.pickedUp->draggable) {
+						lua.call(_interfaceState.pickedUp->onDrag, _interfaceState);
+					}
+				}
+
+				//if the mouse isn't clicked, hover over the entity
+				else if (!_mouseState.mdown && topFacetUnderCursor->hoverable) {
+
+					bool newHover = false;
+					if (_interfaceState.hovering == nullptr) {
+						newHover = true;
+					}
+					else if (*_interfaceState.hovering != *topFacetUnderCursor) {
+						lua.call(_interfaceState.hovering->offHover, _interfaceState);
+						newHover = true;
+					}
+
+					if (newHover) {
+						_interfaceState.hovering = topFacetUnderCursor;
+						lua.call(_interfaceState.hovering->onHover, _interfaceState);
+					}
+				}
+			}
+			//if there are no entities under the cursor
+			else {
+				//if the cursor was previously hovering over an entity, stop hovering
+				if (_interfaceState.hovering != nullptr) {
+					lua.call(_interfaceState.hovering->offHover, _interfaceState);
+					_interfaceState.hovering = nullptr;
+				}
+			}
 		}
-
 	}
+
+
+	bool Interface::handleEvent(PositionChangeEvent& positionChangeEvent) {
+		for (auto& facet : _facets) {
+			if (facet.of() == positionChangeEvent.entity) {
+				if (positionChangeEvent.relative) {
+					facet.position = facet.position + positionChangeEvent.position.getPixel();
+				}
+				else {
+					facet.position = positionChangeEvent.position.getPixel();
+				}
+				return true;
+			}
+		}
+		return true;
+	}
+
+	bool Interface::handleEvent(DimensionChangeEvent& dimensionChangeEvent) {
+
+		for (auto& facet : _facets) {
+			if (facet.of() == dimensionChangeEvent.entity) {
+				facet.dimensions = dimensionChangeEvent.dimensions.getDimension();
+				return true;
+			}
+		}
+		return true;
+	}
+
 
 	bool Interface::handleEvent(FacetPauseEvent& pauseEvent) {
 
@@ -293,29 +382,40 @@ namespace core {
 
 	}
 
-	InterfaceFacet* Interface::updateFacet(Entity& e, bool draggable, bool hoverable, bool clickable, LuaFunction onClick, LuaFunction onDrag) {		
+	InterfaceFacet* Interface::createFacet(Entity& e, Pixel& position, Dimension& dimensions, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {
+		auto facet = InterfaceFacet{};
+		facet.setOf(e);	
+		facet.position = position;
+		facet.dimensions = dimensions;
+		facet.draggable = draggable;
+		facet.hoverable = hoverable;
+		facet.clickable = clickable;
+		facet.onClick = onClick;
+		facet.offClick = offClick;
+		facet.onHover = onHover;
+		facet.offHover = offHover;
+		facet.onDrag = onDrag;
+		_facets.push_back(facet);
+		return &(_facets.back());
+	}
+
+	void Interface::updateFacet(int facetId, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {		
 
 		InterfaceFacet* facetToUpdate = nullptr;
 		for (auto& facet : _facets) {
 
-			if (facet.of() == e) {
-				facetToUpdate = &facet;
+			if (facet.id() == facetId) {
+				facet.draggable = draggable;
+				facet.hoverable = hoverable;
+				facet.clickable = clickable;
+				facet.onClick = onClick;
+				facet.offClick = offClick;
+				facet.onHover = onHover;
+				facet.offHover = offHover;
+				facet.onDrag = onDrag;
 				break;
 			}
-		}
-
-		if (facetToUpdate == nullptr) {
-			auto facet = InterfaceFacet{};
-			facet.setOf(e);
-			_facets.push_back(facet);
-			facetToUpdate = &(_facets.back());
-		}
-		facetToUpdate->draggable = draggable;
-		facetToUpdate->hoverable = hoverable;
-		facetToUpdate->clickable = clickable;		
-		facetToUpdate->onClick = onClick;
-		facetToUpdate->onDrag = onDrag;
-		return facetToUpdate;
+		}		
 	}
 	 
 	void Interface::checkGamepadStatus() {
@@ -338,9 +438,8 @@ namespace core {
 		}
 	}
 
-
 	int Interface::updateInterfaceFacet_bind(LuaState& lua) {
-		Entity e = lua.pullStack<int>(1);
+		int facetId = lua.pullStack<int>(1);
 
 		bool draggable = lua["draggable"];
 		bool hoverable = lua["hoverable"];
@@ -350,12 +449,51 @@ namespace core {
 			onClick = lua["onClick"];
 		}
 
+		LuaFunction offClick = LuaFunction{};
+		if (clickable) {
+			offClick = lua["offClick"];
+		}
+
+		LuaFunction onHover = LuaFunction{};
+		if (hoverable) {
+			onHover = lua["onHover"];
+		}
+
+		LuaFunction offHover = LuaFunction{};
+		if (hoverable) {
+			offHover = lua["offHover"];
+		}
+
 		LuaFunction onDrag = LuaFunction{};
 		if (draggable) {
 			onDrag = lua["onDrag"];
 		}
 
-		auto facet = single<Interface>().updateFacet(e, draggable, hoverable, clickable, onClick, onDrag);
+		single<Interface>().updateFacet(facetId, draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
+
+		return 0;
+
+	}
+
+	int Interface::createInterfaceFacet_bind(LuaState& lua) {
+		Entity e = lua.pullStack<int>(1);
+
+		LuaPixel position = lua["position"];
+		LuaDimension dimensions = lua["dimensions"];
+
+
+		bool draggable = lua["draggable"];
+		bool hoverable = lua["hoverable"];
+		bool clickable = lua["clickable"];
+		LuaFunction onClick = lua["onClick"];	
+		LuaFunction offClick = offClick = lua["offClick"];
+		LuaFunction onHover = onHover = lua["onHover"];
+		LuaFunction offHover = lua["offHover"];
+		LuaFunction onDrag = onDrag = lua["onDrag"];
+
+
+
+		auto facet = single<Interface>().createFacet(e, position.getPixel(), dimensions.getDimension(), draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
 
 		lua.pushStack(facet->id());
 
@@ -372,6 +510,74 @@ namespace core {
 		return 0;
 	}
 
+
+	void Interface::useSystemCursor() {
+		_usingSystemCursor = true;
+		showHideTextureCursor(false);
+		showHideSystemCursor(true);		
+	}
+
+	void Interface::useTextureCursor() {
+		_usingSystemCursor = false;
+		showHideSystemCursor(false);
+		showHideTextureCursor(true);
+	}
+
+	void Interface::showHideTextureCursor(bool show) {
+		auto facetQuery = _textureRenderSystem->getFacets(_mouseCursor);
+		if (!facetQuery.empty()) {
+			if (show) {
+				facetQuery[0]->resume();
+			}
+			else {
+				facetQuery[0]->pause();
+			}
+		}
+	}
+
+	void Interface::showHideSystemCursor(bool show) {
+		SDL_ShowCursor((show) ? 1 : 0);
+	}
+
+	void Interface::showCursor() {
+		if (_usingSystemCursor) {
+			showHideSystemCursor(true);
+		}
+		else {
+			showHideTextureCursor(true);
+		}
+	}
+
+	void Interface::hideCursor() {
+
+		if (_usingSystemCursor) {
+			showHideSystemCursor(false);
+		}
+		else {
+			showHideTextureCursor(false);
+		}
+	}
+
+
+	int Interface::showCursor_bind(LuaState& lua) {
+		single<Interface>().showCursor();
+		return 0;
+	}
+
+	int Interface::hideCursor_bind(LuaState& lua) {
+		single<Interface>().hideCursor();
+		return 0;
+	}
+
+	int Interface::useSystemCursor_bind(LuaState& lua) {
+		single<Interface>().useSystemCursor();
+		return 0;
+	}
+
+	int Interface::useTextureCursor_bind(LuaState& lua) {
+		single<Interface>().useTextureCursor();
+		return 0;
+	}
 
 	std::vector<Facet*> Interface::getFacets(Entity& e) {
 		auto out = std::vector<Facet*>{};

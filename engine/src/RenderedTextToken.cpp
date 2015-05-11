@@ -26,6 +26,7 @@ namespace core {
 		_font = font;
 	}
 
+
 	void RenderedTextToken::setTextColor(Color c) {
 		_textColor = c;
 		_hasChanged = true;

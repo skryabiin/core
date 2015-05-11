@@ -3,31 +3,32 @@
 namespace core {
 
 
-	Interpolation::Interpolation(float* target_) : elapsedTotal{ 0 }, target{ target_ } {
-
+	Interpolation::Interpolation(float duration_) {
+		duration = duration_;
 	}
 
-	bool Interpolation::update(float dt) {
-		elapsedTotal += dt;
-		lastValue = function(elapsedTotal);
-		*target = lastValue.value;
-		return lastValue.done;
+
+	InterpolationValue Interpolation::getValue(float elapsed) {
+		return function(elapsed);
 	}
 
-	LinearInterpolation::LinearInterpolation(float* target_, float begin_, float end_, float duration_) : Interpolation{ target_ } {		
-		lastValue.value = begin_;
+
+	LinearInterpolation::LinearInterpolation(float duration_) : Interpolation(duration_) {
+		
 
 		function = [=](float elapsedTotal) -> InterpolationValue {
 			auto out = InterpolationValue{};
 			if (elapsedTotal >= duration_) {
-				elapsedTotal = duration_;
+				out.value = 1;
 				out.done = true;
+				return out;							
 			}
-			out.value = (end_ - begin_) * (elapsedTotal / duration_) + begin_;
+			out.value = elapsedTotal / duration_;
 			return out;
 		};
 
 	}
+
 
 
 } //end namespace core

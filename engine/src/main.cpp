@@ -17,7 +17,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
 	// create the application instance
 	auto& lua = single<Core>().lua();
@@ -25,8 +24,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	//lua.runFile(lua("Config")["mainLuaFile"]);
 	lua.runFile(lpCmdLine);
 
+	single<Console>().reset();
+	single<Console>().destroy();
 
-	//_CrtDumpMemoryLeaks();
+	bool debugMemory = lua("Config")["system"]["debugMemory"];
+	if (debugMemory) {
+		_CrtDumpMemoryLeaks();
+	}
 	return 0;
 
 }

@@ -5,11 +5,14 @@
 #include "AnimationSystem2d.hpp"
 #include "TextureRenderSystem2d.hpp"
 #include "TextRenderSystem2d.hpp"
+#include "BasicAudioSystem.hpp"
 #include "LinearParticleField.hpp"
 #include "ParticleSystem2d.hpp"
 #include "Interface.hpp"
 #include "BasicPositionSystem2d.hpp"
 #include "ShaderManager.hpp"
+#include "TransitionManager.hpp"
+#include "AudioManager.hpp"
 
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -35,19 +38,53 @@ namespace core {
 	}
 
 	bool Core::createImpl() {
-		info("Initializing Core...");
+		notice("---------------------------------------------");
+		notice("Initializing Core at ", getTimestamp());
 
-		if (single<EventProcessor>().create() == InitStatus::CREATE_FAILED) return false;
+		_coreConfig.debugMemory = _lua("Config")["system"]["debugMemory"];
+		if (_coreConfig.debugMemory) {
+			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+		}
 
-		if (single<Console>().create() == InitStatus::CREATE_FAILED) return false;
+		if (single<EventProcessor>().create() == InitStatus::CREATE_FAILED) {
+			error("Event processor creation failed.");
+			return false;
+		}
 
-		if (single<Interface>().create() == InitStatus::CREATE_FAILED) return false;
+		if (single<Console>().create() == InitStatus::CREATE_FAILED) {
+			error("Event processor creation failed.");
+			return false;
+		}
 
-		if (single<ResourceManager>().create() == InitStatus::CREATE_FAILED) return false;
+		if (single<Interface>().create() == InitStatus::CREATE_FAILED) {
+			error("Interface creation failed.");
+			return false;
+		}
 
-		if (single<Renderer>().create() == InitStatus::CREATE_FAILED) return false;
+		if (single<ResourceManager>().create() == InitStatus::CREATE_FAILED) {
+			error("Resource manager creation failed.");
+			return false;
+		}
 
-		if (single<ShaderManager>().create() == InitStatus::CREATE_FAILED) return false;
+		if (single<AudioManager>().create() == InitStatus::CREATE_FAILED) {
+			error("Audio manager creation failed.");
+			return false;
+		}
+
+		if (single<Renderer>().create() == InitStatus::CREATE_FAILED) {
+			error("Renderer creation failed.");
+			return false;
+		}
+
+		if (single<ShaderManager>().create() == InitStatus::CREATE_FAILED) {
+			error("Shader manager creation failed.");
+			return false;
+		}
+
+		if (single<TransitionManager>().create() == InitStatus::CREATE_FAILED) {
+			error("Transition manager creation failed.");
+			return false;
+		}
 
 		//this doens't belong here
 		//lua_register(_L, "openMap_bind", World::openMap_bind);
@@ -59,7 +96,9 @@ namespace core {
 		_lua.bindFunction("reset_bind", Core::reset_bind);
 		_lua.bindFunction("destroy_bind", Core::destroy_bind);
 
-		_coreConfig.maxUpdatesPerSecond = _lua("PerformanceConfig")["maxUpdatesPerSecond"];
+		_coreConfig.maxUpdatesPerSecond = _lua("Config")["system"]["maxUpdatesPerSecond"];
+
+		_luaUpdateFunction = _lua("Core")["update"];
 
 		return true;
 	}
@@ -78,15 +117,23 @@ namespace core {
 			return false;
 		}
 
-
-
 		if (single<ResourceManager>().initialize() == InitStatus::INIT_FAILED)  {
 			error("Resource manager initialization failed.");
 			return false;
 		}
 
+		if (single<AudioManager>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Audio manager initialization failed.");
+			return false;
+		}
+
 		if (single<ShaderManager>().initialize() == InitStatus::INIT_FAILED)  {
 			error("Shader manager initialization failed.");
+			return false;
+		}
+
+		if (single<TransitionManager>().initialize() == InitStatus::INIT_FAILED)  {
+			error("Transition manager initialization failed.");
 			return false;
 		}
 
@@ -105,6 +152,9 @@ namespace core {
 	
 
 	int Core::run() {
+
+		_frames = 0;
+		_elapsed = 0;
 
 		auto multithreaded = single<Renderer>().isMultithreaded();
 
@@ -129,7 +179,7 @@ namespace core {
 			}
 
 			
-			single<Interface>().update(_runtimeContext);
+
 
 			update();		
 
@@ -153,18 +203,27 @@ namespace core {
 
 		int diff = ticks - _lastTick;
 
+		
 		if (diff < 1000 / _coreConfig.maxUpdatesPerSecond) {
-			SDL_Delay(5);
+			SDL_Delay(1);
 			return false;
 		}
-		else {
-			//console() << "Losing framerate. This update is " << diff << " ticks\n";
-		}
-
+		
+		//TODO make this an actually useful feature
+		/*
+		_frames++;
+		_elapsed += diff;
+		*/
 		_runtimeContext.dt = ticks - _lastTick;
 
+		/*
+		if (_frames % 100 == 0) {
+			float fps = (_frames * 1000) / (_elapsed);
+			debug("diff: ", diff);
+		}
+		*/
 #ifdef DEBUG_CORE
-
+		//a sane update duration in case we're debugging
 		_runtimeContext.dt = (_runtimeContext.dt > 200) ? 17 : _runtimeContext.dt;
 #endif
 
@@ -195,19 +254,25 @@ namespace core {
 
 
 	void Core::update() {
+		
+		auto floatdt = (float)_runtimeContext.dt;
+
+		single<Interface>().update(floatdt, _runtimeContext);
 
 		if (_paused) return;
 
+		single<TransitionManager>().update(floatdt, _runtimeContext);
+
 		for (auto system : _updateableSystems) {
 			if (!system->isPaused()) {
-				system->update(_runtimeContext);
+				system->update(floatdt, _runtimeContext);
 			}
 		}
 
-		_lua.call(_lua("Core")["update"], _runtimeContext.dt);
+		_lua.call(_luaUpdateFunction, _runtimeContext.dt);
 
 
-		single<Renderer>().update(_runtimeContext);
+		single<Renderer>().update(floatdt, _runtimeContext);
 	}
 
 	void Core::render() {
@@ -227,13 +292,30 @@ namespace core {
 		*/
 	}
 
+	long Core::getSystemIdByName(std::string systemName) {
+
+		for (auto system : _systems) {
+			if (!system->name().compare(systemName)) {
+				return system->id();
+			}
+		}
+		return -1;
+	}
+	std::string Core::getSystemNameById(long id) {
+		for (auto system : _systems) {
+			if (system->id() == id) {
+				return system->name();
+			}
+		}
+		return "Not found";
+	}
 	void Core::doQuit(std::string msg) {
 		single<Core>()._gogogo = false;
 		single<Core>()._returnString = msg;
 	}
 
 	void Core::doHardQuit(std::string msg) {
-		std::string windowTitle = _lua("Config")["title"];
+		std::string windowTitle = _lua("Config")["window"]["title"];
 		auto title = "Fatal Error in " + windowTitle;
 		single<Renderer>().hideWindow();
 		single<Renderer>().pause();
@@ -289,8 +371,7 @@ namespace core {
 			system->reset();
 
 
-		}
-		info("Resetting renderer.");
+		}		
 		single<Renderer>().reset();
 
 		_renderableSystems2d.clear();
@@ -301,10 +382,15 @@ namespace core {
 			delete system;
 		}		
 		_systems.clear();
+		
+
+		single<TransitionManager>().reset();
 
 		single<Interface>().reset();
 
 		single<ResourceManager>().reset();
+
+		single<AudioManager>().reset();
 
 		//single<ShaderManager>().reset();
 
@@ -317,17 +403,21 @@ namespace core {
 	}
 
 	bool Core::destroyImpl() {
-		notice("Stopping Core at ", getTimestamp());
-		notice("Reason: ", _returnString.c_str());
+		notice("Stopping Core with message: ", _returnString.c_str());		
+
+
+		single<TransitionManager>().destroy();
 
 		single<Renderer>().destroy();
 		single<Interface>().destroy();
 
 		single<ResourceManager>().destroy();
+		single<AudioManager>().destroy();
 		single<ShaderManager>().destroy();
+		
 
 
-		info("Core system destroy complete.");
+		notice("Core system destroy complete at ", getTimestamp());
 		single<Console>().destroy();
 		single<EventProcessor>().destroy();
 		SDL_Quit();
@@ -459,6 +549,15 @@ namespace core {
 			particles->create();
 			particles->initialize();
 			lua.bindFunction("addParticleFacet_bind", ParticleSystem2d::createFacet_bind);
+		}
+		else if (!systemType.compare("BasicAudioSystem")) {
+			auto audio = new BasicAudioSystem{};
+			audio->setName(systemName);
+			single<Core>().addSystem(audio);
+			audio->create();
+			audio->initialize();
+			lua.bindFunction("addAudioFacet_bind", BasicAudioSystem::createFacet_bind);
+			lua.bindFunction("updateAudioFacet_bind", BasicAudioSystem::updateFacet_bind);
 		}
 		
 		

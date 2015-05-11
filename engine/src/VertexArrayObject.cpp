@@ -2,71 +2,93 @@
 
 namespace core {
 
-	bool VertexArrayObject::createImpl() {
-		return true;
+
+	VertexArrayObject::VertexArrayObject() {
+
 	}
 
-	bool VertexArrayObject::initializeImpl(bool autoBindMode) {
-		_autoBindMode = autoBindMode;
-		glGenVertexArrays(1, &_id);
+	VertexArrayObject::~VertexArrayObject() {
+	}
 
-		return true;
+	bool VertexArrayObject::createImpl() {
+		return (_indices.create(1) == InitStatus::CREATE_TRUE);
+	}
+
+	bool VertexArrayObject::initializeImpl() {		
+		glGenVertexArrays(1, &_id);
+		return (_indices.initialize() == InitStatus::INIT_TRUE);
 	}
 
 	bool VertexArrayObject::resetImpl() {
 		if (!unbind()) return false;
 
 		glDeleteVertexArrays(1, &_id);
-		return true;
-
+		return (_indices.reset() == InitStatus::CREATE_TRUE);
 	}
 
 	bool VertexArrayObject::destroyImpl() {
-		return true;
+		return (_indices.destroy() == InitStatus::CREATE_FALSE);
 	}
 
 	bool VertexArrayObject::bindImpl() {	
 
 		glBindVertexArray(_id);
+		
+		if (!_program->bind()) return false;
+		if (!_indices.bind()) return false;
 
-		return _program->bind();
+		return enableVertexArrayAttributes();
 
 	}
 
-	void VertexArrayObject::draw(GLenum mode) {
-		if (_autoBindMode) bind();
-		glDrawElements(mode, _indices->getNumVertices(), GL_UNSIGNED_SHORT, NULL);
+	void VertexArrayObject::draw(GLenum mode) {		
+		glDrawElements(mode, _indices.getNumVertices(), GL_UNSIGNED_SHORT, NULL);		
 		//glDrawArrays(mode, 0, 12 * 3);
-
-		if (_autoBindMode) unbind();
 	}
 
+
+	bool VertexArrayObject::setIndices(IndexBufferObject& ibo)  {		
+		_indices = ibo;
+		if (!_indices.isBound() && isBound()) {
+			_indices.bind();
+		}
+		return true;
+	}
 
 	bool VertexArrayObject::setProgram(ShaderProgram* program) {
 		_program = program;
 		return true;
 	}
-	bool VertexArrayObject::enableSetAttributes() {
-		if (_autoBindMode) bind();
-		_program->enableVertexArrayAttributes();
+
+	bool VertexArrayObject::enableVertexArrayAttributes() {
+
+		for (auto& vertexAttr : _program->_vertexAttributes) {
+			glEnableVertexAttribArray(vertexAttr.second.index);
+		}
+		_isVAenabled = true;
 		return true;
 	}
 
-	bool VertexArrayObject::disableSetAttributes() {
-		_program->disableVertexArrayAttributes();
-		if (_autoBindMode) unbind();
+	bool VertexArrayObject::disableVertexArrayAttributes() {		
+		for (auto& vertexAttr : _program->_vertexAttributes) {
+			glDisableVertexAttribArray(vertexAttr.second.index);
+		}		
+		_isVAenabled = false;
 		return true;
 	}
+
 	bool VertexArrayObject::unbindImpl() {	
-		bool out = true;
 		glBindVertexArray(NULL);
 
-		if (!_program->unbind()) {
-			out = false;
-		}
+		if (!_program->unbind()) return false;
+		if (!_indices.unbind()) return false;
 
+		return disableVertexArrayAttributes();
 
-		return out;
+	}
+
+	IndexBufferObject& VertexArrayObject::indices() {
+		return _indices;
 	}
 
 }

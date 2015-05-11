@@ -1,8 +1,8 @@
 TextFacet = Facet:new()
 
-function TextFacet:new(entity, o)
+function TextFacet:new(entity, systemName, o)
 	o = o or {}
-	return self:create(entity, o)
+	return self:create(entity, systemName, o)
 end
 
 function TextFacet:getType()
@@ -19,7 +19,9 @@ end
 
 function TextFacet:setText(text)
 	self.text = text
-	if self:isCoreFacet() then	
+    if (not self:isCoreFacet()) and self:getSystemName() then
+        self:createFacetInCore()
+    elseif self:isCoreFacet() then	
 		local textContentChange = {
 			typeName = "TextContentChangeEvent",
 			entityId = self.of:getId(),			
@@ -111,7 +113,7 @@ end
 function TextFacet:createFacetInCore()
 	if not self:isCoreFacet() then
 		local textFacet = {
-			position = self.of:getPosition(),
+			position = self:getOf():getPosition(),
 			offset = self:getOffset(),
             scale = self:getScale(),
 			font = self:getFont(),
@@ -119,8 +121,7 @@ function TextFacet:createFacetInCore()
 			color = self:getColor()
 		}
 			
-		self.id = addTextFacet_bind(self.systemName, self.of:getId(), textFacet)		
-		self:setIsCoreFacet(true)
+		self.id = addTextFacet_bind(self.systemName, self.of:getId(), textFacet)				
 	end
 end
 		

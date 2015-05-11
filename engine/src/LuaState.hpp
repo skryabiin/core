@@ -15,7 +15,6 @@ namespace core {
 
 	typedef int(*BoundFunction)(LuaState&);
 
-
 	class LuaState : public initializable<LuaState, bool, void, void, bool> {
 		friend class LuaTable;
 	public:
@@ -82,10 +81,17 @@ namespace core {
 
 
 
+		bool isNil(int index) {
+			return lua_isnil(_L, index);
+		}
+
+
 		template<typename T>
 		T pullStack(int index) {
 
 		}
+
+		
 
 		template<>
 		int pullStack(int index) {
@@ -225,32 +231,43 @@ namespace core {
 		}
 
 		
-		void call(LuaFunction& f) {
+		void call(LuaFunction& f) { 
+			if (f.getCallbackRef() == LUA_REFNIL) {
+				_logNullRefWarning();
+				return;
+			}
 			clearStack();
 			retrieveReference(f._callbackRef);
-			lua_pcall(_L, 0, LUA_MULTRET, 0);
+			checkCallStatus(lua_pcall(_L, 0, LUA_MULTRET, 0));
 		}
 		
 		template<typename ...Args>
 		void call(LuaFunction& f, Args&&... args) {
-
+			if (f.getCallbackRef() == LUA_REFNIL) {
+				_logNullRefWarning();
+				return;
+			}
 			clearStack();
 			retrieveReference(f._callbackRef);
 			auto numArgs = 0;
 			callRec(numArgs, args...);
-			lua_pcall(_L, numArgs, LUA_MULTRET, 0);
+			checkCallStatus(lua_pcall(_L, numArgs, LUA_MULTRET, 0));
 
 		}
 
 		template<typename ...Args>
 		void call(int callbackRef, Args&... args) {
-
+			if (callbackRef == LUA_REFNIL) {
+				_logNullRefWarning();
+				return;
+			}
 			//clear the stack for this
 			clearStack();
 			retrieveReference(callbackRef);
 			auto numArgs = 0;
 			callRec(numArgs, args...);
-			lua_pcall(_L, numArgs, LUA_MULTRET, 0);
+			checkCallStatus(lua_pcall(_L, numArgs, LUA_MULTRET, 0));
+
 
 		}
 
@@ -272,6 +289,10 @@ namespace core {
 		operator LuaFunction();
 
 	private:
+
+		void _logNullRefWarning();
+
+		static int atPanic(lua_State* L);
 
 		void addStackAdditions(int n);
 

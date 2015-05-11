@@ -33,17 +33,21 @@ Interface.setCursorTexture(cursorTexture)
 	testEntity:addBasicPosition("Positions")
 	testEntity:setDimensions({64,64})		
 	testEntity:setPosition({300,300,0})
-	testEntity.facets.texture = TextureFacet:new(testEntity)
-	testEntity.facets.texture:setSystemName("Textures")
-	testEntity.facets.texture:setTextureName("redBox")
-	testEntity.facets.texture:setTextureCoordinates({0,0,32,32})
-	--testEntity.facets.texture:setScale({2,1})
-	testEntity.facets.texture:setOffset({0,0})
-	testEntity.facets.texture:createFacetInCore()
-    testEntity.facets.texture:scaleToEntity()
+	testEntity.facets.texture = TextureFacet:new(testEntity, "Textures", "redBox")
+	testEntity.facets.texture:scaleToEntity()
 	testEntity.facets.interface:setDraggable(true)
-	testEntity.facets.interface:setHoverable(false)
 	testEntity.facets.interface:setClickable(true)
+    testEntity.facets.interface:setOnClick(
+        function(self, interfaceState)
+            local colorModEvent = {
+                typeName = "ColorModulationEvent",
+                entityId = self:getOf():getParent():getId(),
+                facetId = -1,
+                matrix = {0,1,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,1}
+                }
+            EventProcessor.process(colorModEvent)
+        end
+    )
 
 	return testEntity
 	end

@@ -58,6 +58,7 @@
       <AdditionalLibraryDirectories>..\lib\glew-1.12.0\lib\Release\Win32;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\lib\x86;..\lib\SDL2-2.0.3\lib\x86;..\lib\SDL2_ttf-2.0.12\lib\x86;..\lib\SDL2_image-2.0.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glut32.lib;SDL2_mixer.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +80,8 @@
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\AnimationChangeEvent.cpp" />
     <ClCompile Include="src\AnimationSystem2d.cpp" />
+    <ClCompile Include="src\AudioManager.cpp" />
+    <ClCompile Include="src\BasicAudioSystem.cpp" />
     <ClCompile Include="src\BasicPositionSystem2d.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Camera2d.cpp" />
@@ -94,6 +97,7 @@
     <ClCompile Include="src\EventRegistry.cpp" />
     <ClCompile Include="src\FacetDimensionQuery.cpp" />
     <ClCompile Include="src\FacetPauseEvent.cpp" />
+    <ClCompile Include="src\FadeTransition.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\Interpolation.cpp" />
@@ -111,26 +115,33 @@
     <ClCompile Include="src\OrientationChangeEvent.cpp" />
     <ClCompile Include="src\ParticleSystem2d.cpp" />
     <ClCompile Include="src\PhysicsSystem.cpp" />
+    <ClCompile Include="src\PlaySoundEvent.cpp" />
     <ClCompile Include="src\PositionChangeEvent.cpp" />
     <ClCompile Include="src\PrimitiveRenderSystem2d.cpp" />
     <ClCompile Include="src\RenderableSystem2d.cpp" />
     <ClCompile Include="src\RenderedTextToken.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\RendererFadeTransition.cpp" />
     <ClCompile Include="src\RenderLayer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\ScaleChangeEvent.cpp" />
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\System.cpp" />
     <ClCompile Include="src\TextContentChangeEvent.cpp" />
     <ClCompile Include="src\TextRenderSystem2d.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureChangeEvent.cpp" />
     <ClCompile Include="src\TextureRenderSystem2d.cpp" />
+    <ClCompile Include="src\TransitionManager.cpp" />
+    <ClCompile Include="src\TransitionRegistry.cpp" />
     <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\VolumeChangeEvent.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\lua-core\audio-facet.lua" />
     <None Include="bin\lua-core\blank-scene.lua" />
     <None Include="bin\lua-core\config-default.lua" />
     <None Include="bin\lua-core\constants.lua" />
@@ -150,10 +161,11 @@
     <None Include="bin\lua-core\require.lua" />
     <None Include="bin\lua-core\sdl.lua" />
     <None Include="bin\lua-core\shaders.lua" />
-    <None Include="bin\lua-core\sounds.lua" />
+    <None Include="bin\lua-core\audio.lua" />
     <None Include="bin\lua-core\sprites.lua" />
     <None Include="bin\lua-core\text-facet.lua" />
     <None Include="bin\lua-core\texture-facet.lua" />
+    <None Include="bin\lua-core\transitions.lua" />
     <None Include="bin\lua-core\util.lua" />
     <None Include="bin\lua-core\world.lua" />
     <None Include="bin\lua\arbor.lua" />
@@ -162,6 +174,7 @@
     <None Include="bin\lua\loadassets.lua" />
     <None Include="bin\lua\maps\level1\Level.tmx" />
     <None Include="bin\lua\menus.lua" />
+    <None Include="bin\lua\rainbow-scene.lua" />
     <None Include="bin\lua\titlescene.lua" />
     <None Include="bin\shaders\basic.glfs" />
     <None Include="bin\shaders\basic.glvs" />
@@ -179,6 +192,9 @@
     <ClInclude Include="src\AnimationFrame.hpp" />
     <ClInclude Include="src\AnimationSet.hpp" />
     <ClInclude Include="src\AnimationSystem2d.hpp" />
+    <ClInclude Include="src\AudioFacet.hpp" />
+    <ClInclude Include="src\AudioManager.hpp" />
+    <ClInclude Include="src\BasicAudioSystem.hpp" />
     <ClInclude Include="src\BasicPositionSystem2d.hpp" />
     <ClInclude Include="src\BufferObject.hpp" />
     <ClInclude Include="src\BufferObjectBase.hpp" />
@@ -195,6 +211,7 @@
     <ClInclude Include="src\DebugEvent.hpp" />
     <ClInclude Include="src\DimensionChangeEvent.hpp" />
     <ClInclude Include="src\Drawable.hpp" />
+    <ClInclude Include="src\DrawableChange.hpp" />
     <ClInclude Include="src\EntitiesInRectQuery.hpp" />
     <ClInclude Include="src\Entity.hpp" />
     <ClInclude Include="src\EntityLayerQuery.hpp" />
@@ -204,6 +221,7 @@
     <ClInclude Include="src\Facet.hpp" />
     <ClInclude Include="src\FacetDimensionQuery.hpp" />
     <ClInclude Include="src\FacetPauseEvent.hpp" />
+    <ClInclude Include="src\FadeTransition.hpp" />
     <ClInclude Include="src\Font.hpp" />
     <ClInclude Include="src\FragmentShader.hpp" />
     <ClInclude Include="src\GamepadEvent.hpp" />
@@ -240,6 +258,7 @@
     <ClInclude Include="src\ParticleSystem2d.hpp" />
     <ClInclude Include="src\PhysicsFacet.hpp" />
     <ClInclude Include="src\PhysicsSystem.hpp" />
+    <ClInclude Include="src\PlaySoundEvent.hpp" />
     <ClInclude Include="src\PositionChangeEvent.hpp" />
     <ClInclude Include="src\PositionFacet.hpp" />
     <ClInclude Include="src\PrimitiveFacet.hpp" />
@@ -247,6 +266,7 @@
     <ClInclude Include="src\RenderableSystem2d.hpp" />
     <ClInclude Include="src\RenderedTextToken.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
+    <ClInclude Include="src\RendererFadeTransition.hpp" />
     <ClInclude Include="src\RenderLayer.hpp" />
     <ClInclude Include="src\Resource.hpp" />
     <ClInclude Include="src\ResourceManager.hpp" />
@@ -269,6 +289,9 @@
     <ClInclude Include="src\TextureFacet.hpp" />
     <ClInclude Include="src\TextureRenderSystem2d.hpp" />
     <ClInclude Include="src\TimedEvent.hpp" />
+    <ClInclude Include="src\Transition.hpp" />
+    <ClInclude Include="src\TransitionManager.hpp" />
+    <ClInclude Include="src\TransitionRegistry.hpp" />
     <ClInclude Include="src\UpdateableSystem.hpp" />
     <ClInclude Include="src\Util.hpp" />
     <ClInclude Include="src\VelocityChangeEvent.hpp" />
@@ -276,6 +299,7 @@
     <ClInclude Include="src\VertexBufferObject.hpp" />
     <ClInclude Include="src\VertexShader.hpp" />
     <ClInclude Include="src\VisualFacet.hpp" />
+    <ClInclude Include="src\VolumeChangeEvent.hpp" />
     <ClInclude Include="src\World.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +318,7 @@
     <Image Include="bin\lua\maps\tilesets\guy.png" />
     <Image Include="bin\lua\maps\tilesets\littlebot.png" />
     <Image Include="bin\lua\maps\tilesets\Palette2.png" />
+    <Image Include="bin\lua\sprites\6807326-rainbow.jpg" />
     <Image Include="bin\lua\sprites\AUAlogowithRibbon.png" />
     <Image Include="bin\lua\sprites\brobot\littlebot.png" />
     <Image Include="bin\lua\sprites\cursor.jpg" />

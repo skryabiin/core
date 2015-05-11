@@ -60,6 +60,9 @@ namespace core {
 		void process(EVENT_TYPE& e);
 
 		template <typename EVENT_TYPE>
+		void processTransitionEvent(EVENT_TYPE& e, bool force);
+
+		template <typename EVENT_TYPE>
 		void registerListener(EventListener<EVENT_TYPE>* listener);
 
 		template <typename EVENT_TYPE>
@@ -171,6 +174,11 @@ namespace core {
 		}
 		});
 		*/
+	}
+
+	template <typename EVENT_TYPE>
+	void EventProcessor::processTransitionEvent(EVENT_TYPE& e, bool force) {
+		process(e);
 	}
 
 	template <typename EVENT_TYPE>

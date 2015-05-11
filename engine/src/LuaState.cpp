@@ -20,10 +20,17 @@ namespace core {
 		lua_error(_L);
 	}
 
+	int LuaState::atPanic(lua_State* L) {
+		auto msg =  std::string{ lua_tostring(L, -1) };
+		fatal("Lua panic: ", msg);
+		return 0;
+	}
+
 	bool LuaState::createImpl(bool openStandardLibraries) {
 
 
 		_L = luaL_newstate();
+		lua_atpanic(_L, LuaState::atPanic);
 		if (_L == nullptr) {
 			_lastError = "Could not initialize lua state.";
 			error(_lastError);
@@ -215,8 +222,8 @@ namespace core {
 					error("Error running lua script: ", _lastError);
 				}
 				else {
-					std::ofstream logFile;					
-					std::string logFileName = (*this)("Config")["logFile"];
+					std::ofstream logFile;
+					std::string logFileName = (*this)("Config")["logging"]["logFile"];
 					logFile.open(logFileName, std::ios::out | std::ios::app);
 					logFile << "[error] Error running lua script: " << _lastError << '\n';
 					logFile.flush();
@@ -274,6 +281,10 @@ namespace core {
 		auto boundFunction = static_cast<BoundFunction>(lua_touserdata(L, lua_upvalueindex(2)));
 
 		return boundFunction(*state);		
+	}
+
+	void LuaState::_logNullRefWarning() {
+		warn("Attempting to call a null lua reference.");
 	}
 
 	void LuaState::bindFunction(std::string name, BoundFunction fun) {

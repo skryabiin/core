@@ -16,7 +16,8 @@ namespace core {
 			setDeclaredTypeInfo(&typeid(*this));
 		}
 		
-
+		Texture* texture;
+		SDL_Rect textureCoordinates;
 	};
 
 

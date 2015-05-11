@@ -1,8 +1,8 @@
 PrimitiveFacet = Facet:new()
 
-function PrimitiveFacet:new(entity, o)
+function PrimitiveFacet:new(entity, systemName, o)
 	o = o or {}
-	return self:create(entity, o)
+	return self:create(entity, systemName, o)
 end
 
 function PrimitiveFacet:getType()
@@ -74,8 +74,7 @@ function PrimitiveFacet:createFacetInCore()
 			color = self:getColor()
 		}
 			
-		self.id = addPrimitiveFacet_bind(self.systemName, self.of:getId(), primitiveFacet)		
-		self:setIsCoreFacet(true)
+		self.id = addPrimitiveFacet_bind(self.systemName, self.of:getId(), primitiveFacet)				
 	end
 end
 		

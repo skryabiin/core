@@ -25,10 +25,14 @@ namespace core {
 	}
 
 	//TODO these have to do the right thing
-	bool AnimationSystem2d::resetImpl() {		
+	bool AnimationSystem2d::resetImpl() {
 
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
+		dc.layerId = _drawableLayerId;
 		for (auto& facet : _animationFacets) {
-			single<Renderer>().destroyDrawable(facet.drawable);
+			dc.facetId = facet.id();
+			single<Renderer>().applyDrawableChange(dc);
 		}
 
 		_movingAnimations.clear();
@@ -41,6 +45,10 @@ namespace core {
 
 	bool AnimationSystem2d::destroyImpl() {
 		return RenderableSystem2d::destroyImpl();
+	}
+
+	void AnimationSystem2d::updateDrawablePosition(VisualFacet* vfacet) {
+
 	}
 
 	bool AnimationSystem2d::handleEvent(AnimationChangeEvent& animationChange) {
@@ -118,7 +126,7 @@ namespace core {
 
 	}
 
-	void AnimationSystem2d::updateImpl(RuntimeContext& context) {
+	void AnimationSystem2d::updateImpl(float dt, RuntimeContext& context) {
 
 		for (auto& facet : _animationFacets) {
 			if (facet.isPaused()) continue;
@@ -126,7 +134,7 @@ namespace core {
 			if (didChangeFrames || facet.startedAnimation) {				
 
 				facet.drawable.sourceRect = facet.currentAnimation.frames[facet.currentAnimation.currentFrameIndex].frame;
-				single<Renderer>().updateDrawable(facet.drawable);
+				//single<Renderer>().updateDrawable(facet.drawable);
 				facet.startedAnimation = false;
 			}
 		}
@@ -141,9 +149,15 @@ namespace core {
 			_movingAnimations.erase(movingIt);
 		}
 
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
+		dc.layerId = _drawableLayerId;
+
 		for (auto it = std::begin(_animationFacets); it != std::end(_animationFacets); ++it) {
 			if (it->of() == e) {
-				single<Renderer>().destroyDrawable(it->drawable);
+				
+				dc.facetId = it->id();
+				single<Renderer>().applyDrawableChange(dc);				
 				it = _animationFacets.erase(it);
 				break;
 			}
@@ -196,7 +210,7 @@ namespace core {
 			facet.drawable.targetRect.x = position[0] + facet.offset.x;
 			facet.drawable.targetRect.y = position[1] + facet.offset.y - facet.drawable.targetRect.h;
 			facet.drawable.zIndex = position[2];
-			facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
+			//facet.drawable.id = single<Renderer>().createDrawable(facet.drawable);
 
 			lua.pushStack(facet.id());
 		}

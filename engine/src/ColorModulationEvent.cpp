@@ -20,6 +20,7 @@ namespace core {
 
 		auto cme = ColorModulationEvent{};
 		cme.fromLua(lua);
+		cme.transform = cme.matrix.getColorTransform();
 		single<EventProcessor>().process(cme);
 		return false;
 

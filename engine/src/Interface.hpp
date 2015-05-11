@@ -7,7 +7,9 @@
 #include "TextureRenderSystem2d.hpp"
 #include "InterfaceFacet.hpp"
 #include "UpdateableSystem.hpp"
-
+#include "PositionChangeEvent.hpp"
+#include "DimensionChangeEvent.hpp"
+#include "PrimitiveRenderSystem2d.hpp"
 
 namespace core {
 
@@ -39,12 +41,14 @@ namespace core {
 		LuaPixel clickPosition;
 		LuaPixel currentPosition;
 		LuaPixel pickedUpPosition;
+		InterfaceFacet* hovering;
+		InterfaceFacet* clicked;
 		bool pickedUpThisTick;
 		int selectedLayerId;
 
 	};
 
-	class Interface : public UpdateableSystem, public singleton<Interface>{
+	class Interface : public UpdateableSystem, public singleton<Interface>, public EventListener<PositionChangeEvent>, public EventListener<DimensionChangeEvent> {
 
 	public:
 
@@ -56,7 +60,7 @@ namespace core {
 		virtual bool resetImpl() override;
 		virtual bool destroyImpl() override;
 
-		void updateImpl(RuntimeContext& runtimeContext);
+		void updateImpl(float dt, RuntimeContext& runtimeContext);
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 
@@ -76,17 +80,45 @@ namespace core {
 
 		bool handleEvent(FacetPauseEvent& pauseEvent);
 
+		bool handleEvent(PositionChangeEvent& positionChangeEvent);
+		
+		bool handleEvent(DimensionChangeEvent& dimensionChangeEvent);
+
 		void checkGamepadStatus();
 
+		void showHideTextureCursor(bool show);
+
+		void showHideSystemCursor(bool show);
+
+		void useSystemCursor();
+
+		void useTextureCursor();
+
+		void showCursor();
+
+		void hideCursor();
+
 		static int setCursorTexture_bind(LuaState& lua);		
+
+		static int createInterfaceFacet_bind(LuaState& lua);
 
 		static int updateInterfaceFacet_bind(LuaState& lua);
 
 		static int getKeyStates_bind(LuaState& lua);
 
 		static int getGamepadStates_bind(LuaState& lua);
+
+		static int showCursor_bind(LuaState& lua);
+
+		static int hideCursor_bind(LuaState& lua);
+
+		static int useSystemCursor_bind(LuaState& lua); 
 		
-		InterfaceFacet* updateFacet(Entity& e, bool draggable, bool hoverable, bool clickable, LuaFunction onClick, LuaFunction onDrag);
+		static int useTextureCursor_bind(LuaState& lua);
+
+		void updateFacet(int facetId, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
+
+		InterfaceFacet* createFacet(Entity& e, Pixel& position, Dimension& dimensions, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
 
 	private:
 
@@ -96,6 +128,8 @@ namespace core {
 		MouseCursorDef _mouseCursorDef;
 
 		TextureRenderSystem2d* _textureRenderSystem;
+
+		PrimitiveRenderSystem2d* _primitiveRenderSystem;
 
 		InterfaceState _interfaceState;
 
@@ -107,6 +141,7 @@ namespace core {
 
 		std::vector<InterfaceFacet> _facets;
 
+		bool _usingSystemCursor;
 
 	};
 

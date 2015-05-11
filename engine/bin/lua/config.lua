@@ -1,2 +1,2 @@
-Config.title = "Arbor"
+Config.window.title = "Arbor"
 

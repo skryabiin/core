@@ -5,7 +5,7 @@
 #include "Resource.hpp"
 #include "Templates.hpp"
 #include "Console.hpp"
-
+#include <SDL_mixer.h>
 
 namespace core {
 
@@ -15,66 +15,28 @@ namespace core {
 
 	public:
 
-		Sound() : _duration{ 0 }, _soundFilePath{ "" } {
+		Sound();
 
-			_sdlSound = nullptr;
+		std::string soundFilePath() const;
 
-		}
+		void setSoundFilePath(std::string soundFile);
 
-		std::string soundFilePath() const {
-			return _soundFilePath;
-		}
+		int duration() const;
 
-		void setSoundFilePath(std::string soundFile) {
-			_soundFilePath = soundFile;
-		}
+		void resumeImpl();
+		void pauseImpl();
 
-		int duration() const {
-			return _duration;
-		}
+		int play();
 
-		void resumeImpl() {
-			play();
-		}
+		void setVolumeLevel(int volume);
 
-		void PauseImpl() {
+		bool createImpl();
+	
+		bool initializeImpl();
 
-		}
+		bool resetImpl();
 
-		void play() {
-			Mix_PlayChannel(-1, _sdlSound, 0);
-		}
-
-		void setVolumeLevel(int volume) {
-			Mix_VolumeChunk(_sdlSound, volume);
-
-		}
-
-		bool createImpl() override {
-			_sdlSound = Mix_LoadWAV(_soundFilePath.c_str());
-			if (_sdlSound == nullptr) {
-				warn("Could not load sound '", _name, "' at ", _soundFilePath, ": ", SDL_GetError());
-				return false;
-			}
-
-			return true;
-
-		}
-
-		bool initializeImpl() override {
-			setVolumeLevel(10);
-			return true;
-		}
-
-		bool resetImpl() override {
-			return true;
-		}
-
-		bool destroyImpl() override {
-			Mix_FreeChunk(_sdlSound);
-			_sdlSound = nullptr;
-			return false;
-		}
+		bool destroyImpl();
 
 		virtual ~Sound() {
 			reset();

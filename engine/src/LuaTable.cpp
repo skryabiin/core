@@ -82,6 +82,14 @@ namespace core {
 			return indexOpOverload(valuesKey);
 		}
 
+		bool LuaTable::isNil(int key) {
+			return intKeys.find(key) == intKeys.end();				
+		}
+
+		bool LuaTable::isNil(const char* key) {
+			return stringKeys.find(key) == stringKeys.end();							
+		}
+
 		LuaTable::operator long() const {
 			return *(static_cast<long*>(value));
 		}

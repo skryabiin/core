@@ -12,16 +12,20 @@ namespace core {
 		pf.setOf(e);				
 		pf.drawable.facet = &pf;
 		pf.drawable.zIndex = -10;		
-		pf.drawable.id = single<Renderer>().createDrawable(pf.drawable);
+		//pf.drawable.id = single<Renderer>().createDrawable(pf.drawable);
 		return pf;
 	}
 
-	void ParticleSystem2d::updateImpl(RuntimeContext& context) {
+	void ParticleSystem2d::updateImpl(float dt, RuntimeContext& context) {
 
 		for (auto it = std::begin(_facets); it != std::end(_facets); ++it) {
 			if (it->isPaused()) continue;
 			it->particleField->update(context.dt);
 		}
+
+	}
+
+	void ParticleSystem2d::updateDrawablePosition(VisualFacet* vfacet) {
 
 	}
 
@@ -40,9 +44,12 @@ namespace core {
 
 	bool ParticleSystem2d::resetImpl() {
 
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
+		dc.layerId = _drawableLayerId;
 		for (auto& facet : _facets) {
-
-			single<Renderer>().destroyDrawable(facet.drawable);
+			dc.facetId = facet.id();
+			single<Renderer>().applyDrawableChange(dc);
 		}
 
 		_facets.clear();
@@ -57,15 +64,7 @@ namespace core {
 	}
 
 	void ParticleSystem2d::destroyFacets(Entity& e) {
-		for (auto it = std::begin(_facets); it != std::end(_facets); ++it) {
 
-			if (it->of() == e) {
-				_facets.erase(it);
-				--it;
-
-			}
-
-		}
 
 	}
 

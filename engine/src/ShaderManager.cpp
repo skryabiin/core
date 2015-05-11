@@ -17,6 +17,17 @@ namespace core {
 
 	bool ShaderManager::initializeImpl() {
 
+		for (auto& shader : _vertexShaders) {
+			shader.second.get()->initialize();
+		}
+
+		for (auto& shader : _fragmentShaders) {
+			shader.second.get()->initialize();
+		}
+
+		for (auto& sp : _shaderPrograms) {
+			sp.second.get()->initialize();
+		}
 		return true;
 	}
 
@@ -73,7 +84,8 @@ namespace core {
 		if (it != _shaderPrograms.end()) {
 			_shaderPrograms.erase(it);
 		}
-
+		program->create();
+		if (getInitializedStatus() == InitStatus::INIT_TRUE) program->initialize();
 		_shaderPrograms[name] = std::unique_ptr<ShaderProgram>(program);
 		return _shaderPrograms[name].get();
 

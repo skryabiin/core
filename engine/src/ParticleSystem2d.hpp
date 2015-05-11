@@ -4,6 +4,7 @@
 #include "UpdateableSystem.hpp"
 #include "RenderableSystem2d.hpp"
 #include "ParticleFacet.hpp"
+#include "VisualFacet.hpp"
 
 namespace core {
 
@@ -14,7 +15,7 @@ namespace core {
 
 		ParticleFacet& createParticleFacet(Entity& e);		
 
-		virtual void updateImpl(RuntimeContext& context) override;
+		virtual void updateImpl(float dt, RuntimeContext& context) override;
 
 		using RenderableSystem2d::handleEvent;
 
@@ -27,6 +28,8 @@ namespace core {
 		virtual bool destroyImpl() override;
 
 		virtual void destroyFacets(Entity& e) override;
+
+		virtual void updateDrawablePosition(VisualFacet* vfacet);
 
 		void renderFacet(SDL_Renderer* renderer, Facet* facet);
 

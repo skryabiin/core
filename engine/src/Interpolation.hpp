@@ -5,33 +5,31 @@
 
 namespace core {
 
-	
 	struct InterpolationValue {
 
 		InterpolationValue() : value{ 0 }, done{ false } {};
+
 		float value;
 		bool done;
 	};
-	
+
+
 	struct Interpolation{
 
-		Interpolation(float* target_);
 
-		bool update(float dt);
+		Interpolation(float duration_);
 
-		InterpolationValue lastValue;
+		std::function<InterpolationValue(float)> function;		
 
-		float elapsedTotal;
+		float duration;
 
-		float* target;
+		InterpolationValue getValue(float elapsed);
 
-		std::function<InterpolationValue(float)> function;
-		
 	};
 
 	struct LinearInterpolation : public Interpolation {
 
-		LinearInterpolation(float* target_, float begin_, float end_, float duration_);
+		LinearInterpolation(float duration_);
 	};
 
 } //end namespace core

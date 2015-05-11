@@ -14,7 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6E2A418-8508-4948-9B69-CCF075E336D3}"
 	ProjectSection(SolutionItems) = preProject
 		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TmxParser", "lib\TmxParser\TmxParser.vcxproj", "{798FC53D-6DA5-4634-8C4E-1CA2368F27EA}"
@@ -46,5 +45,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

@@ -10,6 +10,7 @@
 #include "AnimationChangeEvent.hpp"
 #include "PositionChangeEvent.hpp"
 #include "RenderableSystem2d.hpp"
+#include "VisualFacet.hpp"
 
 namespace core {
 
@@ -31,8 +32,9 @@ namespace core {
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 
-		virtual void updateImpl(RuntimeContext& context) override;		
+		virtual void updateImpl(float dt, RuntimeContext& context) override;		
 
+		virtual void updateDrawablePosition(VisualFacet* vfacet);
 
 		bool handleEvent(AnimationChangeEvent& animationChange);		
 		using RenderableSystem2d::handleEvent;

@@ -18,15 +18,25 @@ namespace core {
 
 		
 		bool bindImpl() {
-			glBindBuffer(BUFFER_TYPE, _buffer);
-			return true;
+			if (getInitializedStatus() == InitStatus::INIT_TRUE) {
+				glBindBuffer(BUFFER_TYPE, _buffer);
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 
 
 		bool unbindImpl() {
-			glBindBuffer(BUFFER_TYPE, NULL);
-			return true;
+			if (getInitializedStatus() == InitStatus::INIT_TRUE) {
+				glBindBuffer(BUFFER_TYPE, NULL);
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 

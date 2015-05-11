@@ -24,6 +24,12 @@ namespace core {
 		return start + (rand() % (end - start));
 	}
 
+	template <typename T>
+	inline T bounded(const T& value, const T& lowerBound, const T& upperBound) {
+		if (value < lowerBound) return lowerBound;
+		if (value > upperBound) return upperBound;
+		return value;
+	}
 
 	inline void setBit1(unsigned& arr, int at) {
 		arr |= (1 << at);
@@ -57,10 +63,23 @@ namespace core {
 
 	}
 
+	inline bool inRangeSorted(const float& i, const float& j, const float& k, const float &l) {
+		return (l < i || k > j) ? 0 : 1;
+	}
+
+	inline bool inRange(const float& i, const float& j, const float& k, const float& l) {
+		return inRangeSorted((i <= j) ? i : j, (i <= j) ? j : i, (k <= l) ? k : l, (k <= l) ? l : k);
+
+	}
+
 	inline unsigned inRange(float& i, float& j, float& k) {
 		return (i <= j) ? ((k >= i && k <= j) ? 1 : 0) : ((k >= j && k <= i) ? 1 : 0);
 	}
 
+
+	inline bool inRect(int x, int y, int rx, int ry, int rx2, int ry2) {		
+		return ((inRange(rx, rx2, x)) & (inRange(ry, ry2, y))) == 1;
+	}
 
 	inline std::string printBits(unsigned number) {
 		std::ostringstream ss;
@@ -135,6 +154,10 @@ namespace core {
 
 	inline float distance(float x1, float y1, float x2, float y2) {
 		return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+	}
+
+	inline float distance(float x1, float y1, float z1, float x2, float y2, float z2) {
+		return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2) + pow(z2 - x1, 2));
 	}
 
 	inline bool floatCmp(float x1, float x2) {

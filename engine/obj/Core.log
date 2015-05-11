@@ -1,15 +1,16 @@
-﻿Build started 5/3/2015 12:49:09 AM.
+﻿Build started 5/10/2015 10:39:35 PM.
      1>Project "C:\code\core\engine\Core.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Core.cpp src\TextRenderSystem2d.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\TextRenderSystem2d.cpp
          TextRenderSystem2d.cpp
-         Core.cpp
-         Generating Code...
+     1>c:\code\core\engine\src\textrendersystem2d.cpp(33): warning C4715: 'core::TextRenderSystem2d::initializeImpl' : not all control paths return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 obj\AccelerationChangeEvent.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 /PROFILE obj\AccelerationChangeEvent.obj
          obj\Animation.obj
          obj\AnimationChangeEvent.obj
          obj\AnimationSystem2d.obj
+         obj\AudioManager.obj
+         obj\BasicAudioSystem.obj
          obj\BasicPositionSystem2d.obj
          obj\Camera.obj
          obj\Camera2d.obj
@@ -25,6 +26,7 @@
          obj\EventRegistry.obj
          obj\FacetDimensionQuery.obj
          obj\FacetPauseEvent.obj
+         obj\FadeTransition.obj
          obj\Font.obj
          obj\Interface.obj
          obj\Interpolation.obj
@@ -42,29 +44,37 @@
          obj\OrientationChangeEvent.obj
          obj\ParticleSystem2d.obj
          obj\PhysicsSystem.obj
+         obj\PlaySoundEvent.obj
          obj\PositionChangeEvent.obj
          obj\PrimitiveRenderSystem2d.obj
          obj\RenderableSystem2d.obj
          obj\RenderedTextToken.obj
          obj\Renderer.obj
+         obj\RendererFadeTransition.obj
          obj\RenderLayer.obj
          obj\ResourceManager.obj
          obj\ScaleChangeEvent.obj
          obj\ShaderManager.obj
          obj\ShaderProgram.obj
+         obj\Sound.obj
          obj\System.obj
          obj\TextContentChangeEvent.obj
          obj\TextRenderSystem2d.obj
          obj\Texture.obj
          obj\TextureChangeEvent.obj
          obj\TextureRenderSystem2d.obj
+         obj\TransitionManager.obj
+         obj\TransitionRegistry.obj
          obj\VertexArrayObject.obj
+         obj\VolumeChangeEvent.obj
          obj\World.obj
          C:\code\core\lib\Lua5.2.2.lib
          C:\code\core\lib\TmxParserd.lib
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
+     1>AccelerationChangeEvent.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
          Core.vcxproj -> C:\code\core\engine\bin\Core.exe
      1>Done Building Project "C:\code\core\engine\Core.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:06.30
+Time Elapsed 00:00:04.13

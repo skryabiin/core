@@ -41,22 +41,23 @@ namespace core {
 
 		*/
 
-		bool Camera2d::positionPoints(std::vector<Pixel>& pixels, std::vector<GLfloat>& vertices);
+		bool Camera2d::positionPoints(std::vector<Point>& points, std::vector<GLfloat>& vertices);
 
-		bool Camera2d::positionRect(SDL_Rect& rect, std::vector<GLfloat>& vertices);
+		bool Camera2d::positionRect(Rect& rect, std::vector<GLfloat>& vertices);
 
 
 		void positionRect(SDL_Rect& rect);
 
 		void positionRect(SimpleRect<int>& rect, Vec2& scale);
 
+
 	private:
-		SDL_Rect _bufferRect;
+		Rect _bufferRect;
 		Point _worldCenterPosition;
 		Vec2 _worldScale;	
 		int _windowHeight;
 		int _windowWidth;
-		SDL_Rect _viewportRect;
+		Rect _viewportRect;
 	};
 
 

@@ -9,7 +9,11 @@ namespace core {
 
 	public:
 
-		void cleanup();
+		LuaFunction();
+
+		~LuaFunction();
+
+		int getCallbackRef();
 
 	private:
 

@@ -7,6 +7,7 @@
 #include "Event.hpp"
 #include "Drawable.hpp"
 #include "ParticleSystem2d.hpp"
+#include "RendererFadeTransition.hpp"
 
 namespace core {
 	bool Renderer::createImpl() {
@@ -20,33 +21,53 @@ namespace core {
 
 
 		auto& lua = single<Core>().lua();
-		std::string title = lua("Config")["title"];
-		_maxFramesPerSecond = lua("PerformanceConfig")["maxFramesPerSecond"];
-		_renderMultithreaded = lua("PerformanceConfig")["renderMultithreaded"];
-		_maxPendingQueueDepth = lua("PerformanceConfig")["maxWaitFreeQueueDepth"];
-		int winw = lua("Config")["window"][1];
-		int winh = lua("Config")["window"][2];				
+
+		_debugOpenGl = lua("Config")["graphics"]["debugOpenGl"];
+
+
+
+		std::string title = lua("Config")["window"]["title"];
+
+
+		int winw = lua("Config")["window"]["dimensions"][1];
+		int winh = lua("Config")["window"]["dimensions"][2];
+		
+
+		bool borderless = lua("Config")["window"]["borderless"];
+		bool fullscreen = lua("Config")["window"]["fullscreen"];
+		bool centered = lua("Config")["window"]["centered"];
+		bool resizable = lua("Config")["window"]["resizable"];
+		bool grabMouse = lua("Config")["window"]["grabMouse"];
+
+		int winx = (centered) ? SDL_WINDOWPOS_CENTERED : lua("Config")["window"]["position"][1];
+		int winy = (centered) ? SDL_WINDOWPOS_CENTERED : lua("Config")["window"]["position"][2];
+
+		
 		_windowShown = false;
 		info("Creating SDL window '", title, "' size ", winw, "x", winh);
 
-		if (_renderMultithreaded) {
-			info("Renderer multithreaded mode enabled.");
-		}
-		else {
-			info("Renderer multithreaded mode disabled.");
-		}
+		
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+		if (_debugOpenGl) {
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+		}
 
-		_sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, winw, winh, SDL_WINDOW_HIDDEN | SDL_WINDOW_OPENGL);
+		auto flags = SDL_WINDOW_HIDDEN | SDL_WINDOW_OPENGL;
 
+		flags = (borderless) ? flags | SDL_WINDOW_BORDERLESS : flags;
+		flags = (fullscreen) ? flags | SDL_WINDOW_FULLSCREEN : flags;
+		flags = (resizable) ? flags | SDL_WINDOW_RESIZABLE : flags;
+		
+		_sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, winw, winh, flags);
 
-		_screenRect = SDL_Rect{ 0, 0, 1024, 768 };
+		if (grabMouse) SDL_SetWindowGrab(_sdlWindow, SDL_TRUE);
+
+		_screenRect = SDL_Rect{ 0, 0, winw, winh };
 		if (_sdlWindow == NULL) {
 			error("Error on SDL_CreateWindow: ", SDL_GetError());
 			return false;
@@ -65,7 +86,7 @@ namespace core {
 			return false;
 		}
 
-		if (glDebugMessageCallbackAMD != NULL) {
+		if (_debugOpenGl && glDebugMessageCallbackAMD != NULL) {
 			info("AMD debug output extension is available.");
 		}
 
@@ -73,6 +94,7 @@ namespace core {
 		lua.bindFunction("hideWindow_bind", Renderer::hideWindow_bind);
 		lua.bindFunction("showWindow_bind", Renderer::showWindow_bind);
 		lua.bindFunction("setBackgroundColor_bind", Renderer::setBackgroundColor_bind);
+		lua.bindFunction("setGlobalColorModulation_bind", Renderer::setGlobalColorModulation_bind);
 
 		_writingToFirstQueue = true;
 		_drawableChangeQueue1 = new SPSCQueue<DrawableChange>{};
@@ -83,6 +105,16 @@ namespace core {
 
 		SDL_ShowCursor(0);
 
+		_maxFramesPerSecond = lua("Config")["graphics"]["maxFramesPerSecond"];
+		_renderMultithreaded = lua("Config")["graphics"]["renderMultithreaded"];
+		_maxPendingQueueDepth = lua("Config")["graphics"]["maxWaitFreeQueueDepth"];
+
+		if (_renderMultithreaded) {
+			info("Renderer multithreaded mode enabled.");
+		}
+		else {
+			info("Renderer multithreaded mode disabled.");
+		}
 
 		if (_renderMultithreaded) { 		
 			pause();
@@ -109,7 +141,7 @@ namespace core {
 		_didInitGlObjects = true;
 		SDL_GL_MakeCurrent(_sdlWindow, _sdlGlContext);
 
-		glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		_depthTestFunction = GL_LESS;
 
@@ -122,49 +154,18 @@ namespace core {
 		_textureVertices.reserve(8);
 		_drawVertices.reserve(8);
 
-		auto checkStep = true;
-		_drawShaderProgram.create();
-		auto inits = _drawShaderProgram.initialize();
-
-		_defaultDrawVertexShader = single<ShaderManager>().getVertexShader("shape2d");
-		_currentDrawVertexShader = _defaultDrawVertexShader;
-		_drawShaderProgram.setVertexShader(_defaultDrawVertexShader);
-
-		_defaultDrawFragmentShader = single<ShaderManager>().getFragmentShader("shape2d");
-		_currentDrawFragmentShader = _defaultDrawFragmentShader;
-		_drawShaderProgram.setFragmentShader(_defaultDrawFragmentShader);
-		checkStep = _drawShaderProgram.link();
+		auto checkStep = true;		
+		
+		auto drawShaderProgram = single<ShaderManager>().createShaderProgram("shape2d", "shape2d", "shape2d");
+		checkStep = drawShaderProgram->link();
 		if (!checkStep) return false;
 
-		_renderShaderProgram.create();
-		inits = _renderShaderProgram.initialize();
-		if (inits != InitStatus::INIT_TRUE) {
-			return false;
-		}
-		_defaultRenderVertexShader = single<ShaderManager>().getVertexShader("textureRender2d");
-		_renderShaderProgram.setVertexShader(_defaultRenderVertexShader);
-		_defaultRenderFragmentShader = single<ShaderManager>().getFragmentShader("textureRender2d");
-		_renderShaderProgram.setFragmentShader(_defaultRenderFragmentShader);
-		checkStep = _renderShaderProgram.link();
+		auto renderShaderProgram = single<ShaderManager>().createShaderProgram("textureRender2d", "textureRender2d", "textureRender2d");
+		checkStep = renderShaderProgram->link();
 		if (!checkStep) return false;
-		_textureVao.create();
-		_textureVao.setProgram(&_renderShaderProgram);
 		_textureVbo.create(2);
-		_textureUvbo.create(2);
-		_textureIbo.create(1);
-
-
-		_textureIbo.initialize();
-		_textureUvbo.initialize();
 		_textureVbo.initialize();
-		_textureVao.initialize(false);
-
-
-
-
-
-		_textureVao.bind();
-		_textureVao.enableSetAttributes();
+		
 		GLfloat fakeV[] = {
 			0.0f, 0.0f,
 			0.0f, 0.0f,
@@ -173,39 +174,9 @@ namespace core {
 		};
 
 		_textureVbo.bind();
-		_textureVbo.buffer(4, fakeV, GL_DYNAMIC_DRAW);
-
-
-		_textureVao.setVertexArrayAttribute("vertexPos", _textureVbo);
-
-
-		GLushort i[] = {
-			0, 1, 2, 3
-		};
-		_textureIbo.bind();
-		_textureIbo.buffer(4, i);
-		_textureVao.setIndices(_textureIbo);
-
-		GLfloat fakeUV[] = {
-			0.0f, 1.0f,
-			1.0f, 1.0f,
-			1.0f, 0.0f,
-			0.0f, 0.0f
-		};
-
-		_textureUvbo.bind();
-		_textureUvbo.buffer(4, fakeUV, GL_DYNAMIC_DRAW);
-		_textureVao.setVertexArrayAttribute("uvIn", _textureUvbo);
-
-		int samplerId = 0;
-		_textureVao.setUniformVariable<int>("textureSampler", samplerId);
-		_textureVao.setUniformVariableMatrix("colorTransform", _colorMatrix);
-
-		_textureVao.unbind();
-		_textureIbo.unbind();
-		_textureUvbo.unbind();
+		_textureVbo.buffer(4, fakeV, GL_DYNAMIC_DRAW);		
 		_textureVbo.unbind();
-		_textureVao.disableSetAttributes();
+
 		return true;
 
 	}
@@ -319,13 +290,11 @@ void Renderer::render() {
 	for (auto& layer : _layers) {
 		if (layer.isPaused()) continue;
 		for (auto& drawable : layer.drawables) {
-			if (!drawable.texture->name().compare("blueBalls")) {
-				int x = 0;
-			}
 			if (drawable.disabled) continue;
-			_checkGlDebugLog();
 			_draw(drawable);
-			_checkGlDebugLog();
+			if (_debugOpenGl) {
+				_checkGlDebugLog();
+			}
 		}
 	}	
 	SDL_AtomicUnlock(&_renderThreadLock);
@@ -340,7 +309,7 @@ void Renderer::_addDrawableChange(DrawableChange& dc) {
 	auto currentPendingQueue = (_writingToFirstQueue) ? &_drawableChangeQueue1 : &_drawableChangeQueue2;
 	(*currentPendingQueue)->enqueue(dc);
 }
-void Renderer::updateImpl(RuntimeContext& context) {
+void Renderer::updateImpl(float dt, RuntimeContext& context) {
 
 	auto pendingChangeQueue = (_writingToFirstQueue) ? &_drawableChangeQueue1 : &_drawableChangeQueue2;
 
@@ -372,35 +341,68 @@ void Renderer::updateImpl(RuntimeContext& context) {
 	}
 }
 
+
+void Renderer::applyDrawableChange(DrawableChange& dc) {
+	auto currentPendingQueue = (_writingToFirstQueue) ? &_drawableChangeQueue1 : &_drawableChangeQueue2;
+	(*currentPendingQueue)->enqueue(dc);
+
+}
+
 void Renderer::_processDrawableChanges() {
 
 	SDL_AtomicLock(&_drawableChangePtrLock);
 
-	if (_changeBackgroundColorFlag) {
-		glClearColor(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
-		_changeBackgroundColorFlag = false;
+	if (_changeColorTransform) {
+		_colorTransform = _tempColorTransform;
+		_changeColorTransform = false;		
+		_changeBackgroundColorFlag = true;
 	}
 
+	if (_changeBackgroundColorFlag) {
+		auto background = _colorTransform * _backgroundColor;
+		glClearColor(background.r, background.g, background.b, background.a);
+		_changeBackgroundColorFlag = false;
+	}
 	auto currentChangeQueue = (_writingToFirstQueue) ? &_drawableChangeQueue2 : &_drawableChangeQueue1;	
 	
 	DrawableChange dc;	
 	while ((*currentChangeQueue)->dequeue(dc)) {
 
-		if (dc.operation == DrawableChange::Operation::CREATE) {
-			_processCreateDrawable(dc);
+		if (dc.operation == DrawableChange::Operation::CREATE_TEXTURE_DRAWABLE) {
+			auto d = _createDrawable(dc.facetId, dc.layerId, dc.zIndex);
+			_createTextureDrawable(d, dc);
+			continue;
 		}
-		if (dc.operation == DrawableChange::Operation::UPDATE) {
-			_processUpdateDrawable(dc);
+		else if (dc.operation == DrawableChange::Operation::CREATE_PRIMITIVE_DRAWABLE) {
+			auto d = _createDrawable(dc.facetId, dc.layerId, dc.zIndex);
+			_createPrimitiveDrawable(d, dc);
+			continue;
 		}
-		else if (dc.operation == DrawableChange::Operation::DESTROY) {
-			_processDestroyDrawable(dc);
+
+		auto d = _getDrawable(dc.facetId, dc.layerId);
+		switch (dc.operation) {
+		case DrawableChange::Operation::PAUSE:		
+			_pauseDrawable(d, dc);
+			break;
+		case DrawableChange::Operation::DESTROY_DRAWABLE:			
+			_destroyDrawable(d, dc);
+			break;
+		case DrawableChange::Operation::CHANGE_COLOR:		
+			_changeDrawableColor(d, dc);
+			break;
+		case DrawableChange::Operation::CHANGE_COLOR_TRANSFORM:			
+			_changeDrawableColorTransform(d, dc);
+			break;
+		case DrawableChange::Operation::CHANGE_TEXTURE:			
+			_changeDrawableTexture(d, dc);
+			break;
+		case DrawableChange::Operation::CHANGE_PRIMITIVE_POSITION:			
+			_changePrimitivePosition(d, dc);
+			break;
+		case DrawableChange::Operation::CHANGE_TEXTURE_POSITION:		
+			_changeTexturePosition(d, dc);
+			break;
 		}
-		else if (dc.operation == DrawableChange::Operation::PAUSE) {
-			_processPauseDrawable(dc);
-		}
-		else if (dc.operation == DrawableChange::Operation::RESUME) {
-			_processResumeDrawable(dc);
-		}		
 	}
 	//currentChangeQueue->clear();
 
@@ -416,22 +418,215 @@ void Renderer::handleDebugEvent(DebugEvent& debugEvent) {
 }
 
 
-void Renderer::pauseDrawable(const Drawable& d) {
+Drawable* Renderer::_createDrawable(int facetId, short layerId, short zIndex) {
 
-	auto dc = DrawableChange{};
-	dc.drawable = d;
-	dc.operation = DrawableChange::Operation::PAUSE;
-	_addDrawableChange(dc);
+	auto d = Drawable{};
+	d.facetId = facetId;
+	d.layerId = layerId;
+	d.zIndex = zIndex;
+
+	for (auto& layer : _layers) {
+		if (layer.layerId == layerId) {
+			return layer.addDrawable(d);
+		}
+	}
+
+	auto rl = RenderLayer{};
+	rl.create(layerId);
+	rl.initialize();	
+	auto insIt = std::begin(_layers);
+	for (auto it = std::begin(_layers); it != std::end(_layers); ++it) {
+		if (rl.layerId > it->layerId) {
+			insIt = it;
+			break;
+		}
+	}
+	insIt = _layers.insert(insIt, rl);
+	return insIt->addDrawable(d);
 }
 
-void Renderer::resumeDrawable(Drawable& d) {
-	auto dc = DrawableChange{};
-	dc.drawable = d;
-	dc.operation = DrawableChange::Operation::RESUME;
-	_addDrawableChange(dc);
+
+void Renderer::_createTextureDrawable(Drawable* d, DrawableChange& dc) {
+
+	d->layerId = dc.layerId;
+	d->facetId = dc.facetId;
+	d->camera = dc.camera;
+	d->colorTransform = dc.colorTransform;
+	d->zIndex = dc.zIndex;
+	d->texture = dc.texture;
+	d->targetRect = dc.targetRect;
+	d->drawableType = Drawable::DrawableType::TEXTURE;
+	d->sourceRect = dc.textureCoordinates;
+	auto renderShaderProgram = single<ShaderManager>().getShaderProgram(dc.shaderProgramName);
+
+
+	auto& vao = d->vao;
+	vao.create();
+	vao.initialize();
+	vao.setProgram(renderShaderProgram);
+	vao.bind();
+
+
+	GLushort i[] = {
+		0, 1, 2, 3
+	};
+	vao.indices().buffer(4, i);
+
+	auto textureDim = d->texture->surfaceTrueDimensions();
+
+	GLfloat uv[] = { dc.textureCoordinates.x, dc.textureCoordinates.y + dc.textureCoordinates.h,
+		dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y + dc.textureCoordinates.h,
+		dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y,
+		dc.textureCoordinates.x, dc.textureCoordinates.y };
+
+
+	uv[0] = uv[0] / (1.0 * textureDim.w);
+	uv[1] = uv[1] / (1.0 * textureDim.h);
+	uv[2] = uv[2] / (1.0 * textureDim.w);
+	uv[3] = uv[3] / (1.0 * textureDim.h);
+	uv[4] = uv[4] / (1.0 * textureDim.w);
+	uv[5] = uv[5] / (1.0 * textureDim.h);
+	uv[6] = uv[6] / (1.0 * textureDim.w);
+	uv[7] = uv[7] / (1.0 * textureDim.h);
+	d->uvbo.create(2);
+	d->uvbo.initialize();
+	d->uvbo.bind();
+	d->uvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
+	vao.setVertexArrayAttribute("uvIn", d->uvbo);
+
+	d->vbo.create(2);
+	d->vbo.initialize();
+	d->vbo.bind();
+	auto vertexValues = std::vector<GLfloat>{};
+	d->camera->getVertices(d->targetRect, vertexValues);
+	d->vbo.buffer(vertexValues);	
+	vao.setVertexArrayAttribute("vertexPos", d->vbo);
+	vao.setUniformVariableMatrix("mvp", d->camera->getViewProjection());
+
+	vao.unbind();
+	d->uvbo.unbind();
+	d->vbo.unbind();
+
+}
+void Renderer::_createPrimitiveDrawable(Drawable* d, DrawableChange& dc) {
+
+	d->layerId = dc.layerId;
+	d->facetId = dc.facetId;
+	d->camera = dc.camera;
+	d->colorTransform = dc.colorTransform;
+	d->color = dc.color;
+	d->zIndex = dc.zIndex;
+	d->drawableType = Drawable::DrawableType::POLYGON;
+	d->vertices = dc.vertices;
+	auto shaderProgram = single<ShaderManager>().getShaderProgram(dc.shaderProgramName);
+
+	auto& vao = d->vao;
+	vao.create();
+	vao.initialize();
+	vao.setProgram(shaderProgram);
+	vao.bind();
+
+	auto indices = std::vector<GLushort>{};
+	for (GLushort i = 0; i < 4; i++) {
+		indices.push_back(i);
+	}
+	vao.indices().buffer(4, &indices[0]);
+	vao.unbind();
+}
+void Renderer::_changeDrawableColor(Drawable* d, DrawableChange& dc) {
+
+	d->color = dc.color;
+	d->filled = dc.filled;
+}
+void Renderer::_changeDrawableColorTransform(Drawable* d, DrawableChange& dc) {
+
+	d->colorTransform = dc.colorTransform;
+}
+
+void Renderer::_changeDrawableTexture(Drawable* d, DrawableChange& dc) {
+
+
+	d->texture = dc.texture;
+	auto& vao = d->vao;
+	vao.bind();
+
+	auto textureDim = d->texture->surfaceTrueDimensions();
+
+	GLfloat uv[] = { dc.textureCoordinates.x, dc.textureCoordinates.y + dc.textureCoordinates.h,
+		dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y + dc.textureCoordinates.h,
+		dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y,
+		dc.textureCoordinates.x, dc.textureCoordinates.y };
+
+
+	uv[0] = uv[0] / (1.0 * textureDim.w);
+	uv[1] = uv[1] / (1.0 * textureDim.h);
+	uv[2] = uv[2] / (1.0 * textureDim.w);
+	uv[3] = uv[3] / (1.0 * textureDim.h);
+	uv[4] = uv[4] / (1.0 * textureDim.w);
+	uv[5] = uv[5] / (1.0 * textureDim.h);
+	uv[6] = uv[6] / (1.0 * textureDim.w);
+	uv[7] = uv[7] / (1.0 * textureDim.h);
+	d->uvbo.bind();
+	d->uvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
+	vao.setVertexArrayAttribute("uvIn", d->uvbo);
+	vao.unbind();
+	d->uvbo.unbind();
+}
+
+void Renderer::_changeTexturePosition(Drawable* d, DrawableChange& dc) {
+	d->targetRect = dc.targetRect;
+	d->vao.bind();
+	d->vbo.bind();
+	auto vertexValues = std::vector<GLfloat>{};
+	d->camera->getVertices(d->targetRect, vertexValues);
+	d->vbo.buffer(vertexValues);
+	d->vao.setVertexArrayAttribute("vertexPos", d->vbo);
+	d->vao.unbind();
+	d->vbo.unbind();
+	if (d->zIndex != dc.zIndex) {
+		_changeDrawableZIndex(d, dc);
+	}
+}
+
+void Renderer::_changePrimitivePosition(Drawable* d, DrawableChange& dc) {
+	d->vertices = dc.vertices;
+	if (d->zIndex != dc.zIndex) {
+		_changeDrawableZIndex(d, dc);
+	}
+}
+
+void Renderer::_pauseDrawable(Drawable* d, DrawableChange& dc) {
+	
+	d->disabled = dc.paused;
+
+}
+void Renderer::_changeDrawableZIndex(Drawable* d, DrawableChange& dc) {
+	
+	auto newDrawable = *d;
+	newDrawable.zIndex = dc.zIndex;
+	for (auto dlit = std::begin(_layers); dlit != std::end(_layers); ++dlit) {
+		if (dlit->layerId == dc.layerId) {
+			dlit->destroyDrawable(d->facetId);
+			dlit->addDrawable(newDrawable);
+
+		}
+	}
 }
 
 
+void Renderer::_destroyDrawable(Drawable* d, DrawableChange& dc) {
+	d->vao.reset();
+	d->vao.destroy();
+	d->uvbo.reset();
+	d->uvbo.destroy();
+	for (auto dlit = std::begin(_layers); dlit != std::end(_layers); ++dlit) {
+		if (dlit->layerId == dc.layerId) {
+			dlit->destroyDrawable(d->facetId);
+			return;
+		}
+	}
+	warn("Attempting to destroy a non-existent drawable.");
+}
 
 void Renderer::_checkGlDebugLog()
 {
@@ -457,6 +652,12 @@ void Renderer::_checkGlDebugLog()
 				SDL_AtomicUnlock(&_renderThreadLock);
 				fatal("OpenGL fatal - (type: ", types[i], ") (id: ", ids[i], ") ", &messageLog[pos]);
 				_renderThread = false;
+				delete[] types;
+				delete[] ids;
+				delete[] severities;
+				delete[] lengths;
+				delete[] messageLog;
+				return;
 				break;
 			case GL_DEBUG_SEVERITY_MEDIUM_AMD:
 				error("OpenGL error - (type: ", types[i], ") (id: ", ids[i], ") ", &messageLog[pos]);
@@ -499,7 +700,7 @@ void Renderer::end() {
 
 void Renderer::_draw(Drawable& d) {
 	switch (d.drawableType) {
-	case Drawable::DrawableType::RECTANGLE:
+	case Drawable::DrawableType::POLYGON:
 		_drawPoly(d);
 		break;
 	case Drawable::DrawableType::TEXTURE:
@@ -509,113 +710,58 @@ void Renderer::_draw(Drawable& d) {
 }
 
 void Renderer::_drawPoly(Drawable& d) {
-	if (d.camera->positionPoints(d.vertices, _drawVertices)) {
-		_drawPoly(&_drawVertices[0], d.vertices.size(), d.color, d.colorTransform, d.filled);
-	}
+	//if (!d.camera->positionPoints(d.vertices, _drawVertices)) return;	
+	
+	d.vao.bind();
+
+	//_textureVbo.bind();
+	//_textureVbo.buffer(d.vertices.size(), &_drawVertices[0]);
+
+	//d.vao.setVertexArrayAttribute("vertexPos", _textureVbo);
+	d.vao.setUniformVariableMatrix("colorTransform", _colorTransform.transform);
+	d.vao.setUniformVariableArray("drawColor", (glm::vec4)d.color);
+
+	d.vao.draw((d.filled) ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
+	
+	d.vao.unbind();
+	_textureVbo.unbind();
 }
-
-void Renderer::_drawPoly(GLfloat* v, unsigned numPoints, Color& color, ColorTransform& colorTransform, bool filled) {
-
-	_drawShaderProgram.bind();
-	auto vbo = VertexBufferObject<GLfloat>{};
-
-	vbo.create(2);
-	vbo.initialize();
-	vbo.bind();
-
-	vbo.buffer(numPoints, v);
-
-	_drawShaderProgram.setVertexArrayAttribute("vertexPos", vbo);
-
-	vbo.unbind();
-
-	std::vector<GLushort> indices;
-	for (unsigned short i = 0; i < numPoints; ++i) {
-		indices.push_back(GLushort(i));
-	}
-
-	//generate index data
-	auto ibo = IndexBufferObject{};
-	ibo.create(1);
-	ibo.initialize();
-	ibo.bind();
-
-	ibo.buffer(indices);
-
-	ibo.unbind();
-
-	_drawShaderProgram.setUniformVariableArray("drawColor", (glm::vec4)color);
-	_drawShaderProgram.setUniformVariableMatrix("colorMatrix", (glm::mat4)colorTransform);
-	GLenum mode = (filled) ? GL_TRIANGLE_FAN : GL_LINE_LOOP;
-
-	_drawShaderProgram.drawElements(vbo, ibo, mode);
-
-	_drawShaderProgram.unbind();
-	ibo.unbind();
-	vbo.unbind();
-	ibo.reset();
-	ibo.destroy();
-	vbo.reset();
-	vbo.destroy();
-}
-
 
 void Renderer::_drawTexture(Drawable& d) {
 
-	bool onScreen = d.camera->positionRect(d.targetRect, _textureVertices);
-	if (!onScreen) return;
+	//if (!d.camera->positionRect(d.targetRect, _textureVertices)) return;	
 	//will have to be more preicse for rotation
 
-	auto textureDim = d.texture->surfaceTrueDimensions();
-	_textureVao.bind();
+	d.vao.bind();
 
-	GLfloat uv[] = { d.sourceRect.x, d.sourceRect.y + d.sourceRect.h,
-		d.sourceRect.x + d.sourceRect.w, d.sourceRect.y + d.sourceRect.h,
-		d.sourceRect.x + d.sourceRect.w, d.sourceRect.y,
-		d.sourceRect.x, d.sourceRect.y };
+	//_textureVbo.bind();
+	//d.camera->getVertices(d.targetRect, _textureVertices);
+	//_textureVbo.buffer(4, &_textureVertices[0], GL_DYNAMIC_DRAW);
 
+	//d.vao.setVertexArrayAttribute("vertexPos", _textureVbo);	
 
-	uv[0] = uv[0] / (1.0 * textureDim.w);
-	uv[1] = uv[1] / (1.0 * textureDim.h);
-	uv[2] = uv[2] / (1.0 * textureDim.w);
-	uv[3] = uv[3] / (1.0 * textureDim.h);
-	uv[4] = uv[4] / (1.0 * textureDim.w);
-	uv[5] = uv[5] / (1.0 * textureDim.h);
-	uv[6] = uv[6] / (1.0 * textureDim.w);
-	uv[7] = uv[7] / (1.0 * textureDim.h);
-
-	_textureUvbo.bind();
-	_textureUvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
-	_textureVao.setVertexArrayAttribute("uvIn", _textureUvbo);
-	_textureUvbo.unbind();
-
-
-	_textureVbo.bind();
-	_textureVbo.buffer(4, &_textureVertices[0], GL_DYNAMIC_DRAW);
-	_textureVao.setVertexArrayAttribute("vertexPos", _textureVbo);
-
-	auto colorMatrix = _colorMatrix * d.colorTransform;
-	_textureVao.setUniformVariableMatrix("colorTransform", colorMatrix.transform);
+	auto finalColorTransform = d.colorTransform * _colorTransform;
+	d.vao.setUniformVariableMatrix("colorTransform", finalColorTransform.transform);
+	int samplerId = 0;
+	d.vao.setUniformVariable<int>("textureSampler", samplerId);
+	auto mvp = d.camera->getViewProjection();
+	d.vao.setUniformVariableMatrix("mvp", mvp);
 	glActiveTexture(GL_TEXTURE0);
-
 	glBindTexture(GL_TEXTURE_2D, d.texture->getGlTextureId());
+	d.vao.draw(GL_TRIANGLE_FAN);	
 
-
-	_textureVao.draw(GL_TRIANGLE_FAN);
-	_textureVao.unbind();
+	d.vao.unbind();
 	_textureVbo.unbind();
-	_textureUvbo.unbind();
-	_textureVao.disableSetAttributes();
-
+	
 
 }
 
 
-Drawable* Renderer::_getDrawable(int id, int layerId) {
+Drawable* Renderer::_getDrawable(int facetId, short layerId) {
 	for (auto& layer : _layers) {
 		if (layerId == layer.layerId || layerId == -1) {
 			for (auto &drawable : layer.drawables) {
-				if (drawable.id == id) {
+				if (drawable.facetId == facetId) {
 					return &drawable;
 				}
 			}
@@ -624,126 +770,6 @@ Drawable* Renderer::_getDrawable(int id, int layerId) {
 	return nullptr;
 }
 
-void Renderer::_processPauseDrawable(DrawableChange& dc) {	
-	int id = dc.drawable.id;
-	auto drawable = _getDrawable(id, -1);
-	drawable->disabled = true;
-}
-void Renderer::_processResumeDrawable(DrawableChange& dc) {
-	int id = dc.drawable.id;
-	auto drawable = _getDrawable(id, -1);
-	drawable->disabled = false;
-}
-
-
-void Renderer::_processCreateDrawable(DrawableChange& dc) {
-
-	for (auto& layer : _layers) {
-		if (layer.layerId == dc.drawable.layerId) {
-			auto insIt = std::end(layer.drawables);
-
-			bool newMinZ = true;
-			for (auto it = std::begin(layer.drawables); it != std::end(layer.drawables); ++it) {
-				if (dc.drawable.zIndex > it->zIndex) {
-					insIt = it;
-					newMinZ = false;
-					break;
-				}
-			}
-			auto out = layer.drawables.insert(insIt, dc.drawable);
-
-			if (newMinZ) {
-				layer.minZIndex = dc.drawable.zIndex;
-			}
-			return;
-		}
-	}
-
-	auto rl = RenderLayer{};
-	rl.create(dc.drawable.layerId);	
-	rl.initialize();
-	rl.minZIndex = dc.drawable.zIndex;
-	rl.drawables.push_back(dc.drawable);
-	auto insIt = std::begin(_layers);
-	for (auto it = std::begin(_layers); it != std::end(_layers); ++it) {
-		if (rl.layerId > it->layerId) {
-			insIt = it;
-			break;
-		}
-	}
-	_layers.insert(insIt, rl);
-	
-}
-
-void Renderer::_processUpdateDrawable(DrawableChange& dc) {
-
-	bool updatedZIndex = false;
-	int newZIndex = 0;
-	int oldZIndex = 0;
-
-	auto& d = dc.drawable;
-	for (auto& layer : _layers) {
-		if (layer.layerId == d.layerId) {
-			for (auto it = std::begin(layer.drawables); it != std::end(layer.drawables); ++it) {
-				if (it->id == d.id) {
-					d.disabled = it->disabled;
-					if (d.zIndex != it->zIndex) {
-						updatedZIndex = true;
-						layer.drawables.erase(it);
-					}
-					else {
-						*it = d;
-					}
-					break;
-				}
-			}
-			if (updatedZIndex) {
-
-				auto insIt = std::end(layer.drawables);
-
-				bool newMinZ = true;
-
-				for (auto it2 = std::begin(layer.drawables); it2 != std::end(layer.drawables); ++it2) {
-					if (d.zIndex > it2->zIndex) {
-						insIt = it2;
-						newMinZ = false;
-						break;						
-					}
-
-				}
-
-				layer.drawables.insert(insIt, d);
-				if (newMinZ) {
-					layer.minZIndex = d.zIndex;
-				}
-				return;
-			}
-		}
-
-	}
-
-}
-void Renderer::_processDestroyDrawable(DrawableChange& dc) {
-	for (auto dlit = std::begin(_layers); dlit != std::end(_layers); ++dlit) {				
-		for (auto it = std::begin(dlit->drawables); it != std::end(dlit->drawables); ++it) {
-			if (it->id == dc.drawable.id) {
-				dlit->drawables.erase(it);				
-				return;
-			}
-		}
-	}
-	warn("Attempting to destroy a non-existent drawable.");
-}
-
-int Renderer::createDrawable(Drawable& d) {
-
-	d.id = ++_thisDrawableId;
-	DrawableChange dc = DrawableChange{};
-	dc.operation = DrawableChange::Operation::CREATE;
-	dc.drawable = d;
-	_addDrawableChange(dc);
-	return d.id;
-}
 
 
 
@@ -770,7 +796,7 @@ int Renderer::getMinZIndex(int layerId) const {
 
 	for (auto& layer : _layers) {
 		if (layer.layerId == layerId) {
-			return layer.minZIndex;
+			return layer.minZIndex();
 		}
 	}
 	
@@ -778,20 +804,46 @@ int Renderer::getMinZIndex(int layerId) const {
 	return 0;
 }
 
-void Renderer::updateDrawable(Drawable& d) {
-
-	auto dc = DrawableChange{};
-	dc.drawable = d;
-	dc.operation = DrawableChange::Operation::UPDATE;
-
-	_addDrawableChange(dc);
+void Renderer::setGlobalColorModulation(ColorTransform& transform) {
+	SDL_AtomicLock(&_drawableChangePtrLock);
+	_tempColorTransform = transform;
+	_changeColorTransform = true;
+	SDL_AtomicUnlock(&_drawableChangePtrLock);
 }
 
-void Renderer::destroyDrawable(Drawable& d) {
-	auto dc = DrawableChange{};
-	dc.drawable = d;
-	dc.operation = DrawableChange::Operation::DESTROY;
-	_addDrawableChange(dc);
+int Renderer::fadeWindow_bind(LuaState& lua) {
+
+	float duration = lua.pullStack<float>();
+	auto luaColorMod = LuaColorTransform(lua);
+	LuaFunction lf = lua.pullStack<LuaFunction>();
+
+	auto fader = RendererFadeTransition::createFromLua(lua);
+
+
+	return 0;
+}
+
+ColorTransform Renderer::getGlobalColorModulation() {
+	return (_changeColorTransform) ? _tempColorTransform : _colorTransform;
+}
+
+int Renderer::getGlobalColorModulation_bind(LuaState& lua) {
+
+	auto colorTransform = LuaColorTransform{};
+	colorTransform.setColorTransform(single<Renderer>().getGlobalColorModulation());
+
+	lua.pushStack(colorTransform);
+	return 1;
+
+}
+
+int Renderer::setGlobalColorModulation_bind(LuaState& lua) {
+
+	auto luaColorMod = LuaColorTransform(lua);
+
+	single<Renderer>().setGlobalColorModulation(luaColorMod.getColorTransform());
+
+	return 0;
 }
 
 int Renderer::hideWindow_bind(LuaState& lua) {

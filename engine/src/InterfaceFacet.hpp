@@ -17,7 +17,12 @@ namespace core {
 		bool clickable;
 		int layerId;
 		LuaFunction onClick;
-		LuaFunction onDrag;
+		LuaFunction offClick;
+		LuaFunction onHover;
+		LuaFunction offHover;
+		LuaFunction onDrag;		
+		Pixel position;
+		Dimension dimensions;
 
 	};
 

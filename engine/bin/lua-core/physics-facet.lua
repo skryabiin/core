@@ -1,8 +1,9 @@
 PhysicsFacet = Facet:new()
 	
-function PhysicsFacet:new(entity, o)
+function PhysicsFacet:new(entity, systemName, o)
 	o = o or {}	
-	return self:create(entity, o)
+	o = self:create(entity, systemName, o)
+    return o;
 end
 	
 function PhysicsFacet:getType()
@@ -100,8 +101,7 @@ function PhysicsFacet:createFacetInCore()
 		if self.of == nil then
 			Console.debug("self.of is nil in physics facet")
 		end
-		self.id = addPhysicsFacet_bind(self.systemName, self.of:getId(), facet)
-		self:setIsCoreFacet(true)
+		self.id = addPhysicsFacet_bind(self.systemName, self.of:getId(), facet)		
 	end
 end
 

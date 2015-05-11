@@ -113,10 +113,10 @@ namespace core {
 			transform = matrix;
 		}
 
-		ColorTransform(GLfloat* matrix) {
+		ColorTransform(const GLfloat* matrix) {
 			for (int i = 0; i < 4; ++i) {
 				for (int j = 0; j < 4; ++j) {
-					transform[i][j] = matrix[i * 4 + j];
+					transform[j][i] = matrix[i * 4 + j];
 				}
 			}
 		}
@@ -129,6 +129,24 @@ namespace core {
 
 		operator glm::mat4() {
 			return transform;
+		}
+
+		ColorTransform operator+(const ColorTransform& other) {
+			auto out = ColorTransform{};
+			out.transform = this->transform + other.transform;
+			return out;
+		}
+
+		ColorTransform operator-(const ColorTransform& other) {
+			auto out = ColorTransform{};
+			out.transform = this->transform - other.transform;
+			return out;
+		}
+
+		ColorTransform operator*(float scalar) {
+			auto out = ColorTransform{};
+			out.transform = this->transform * scalar;
+			return out;
 		}
 
 		Color operator*(const Color& color) {

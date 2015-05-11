@@ -28,9 +28,8 @@ namespace core {
 
 		for (auto& facet : _textureFacets) {
 			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {
-
-				SDL_Rect dim = facet.drawable.targetRect;
-				facetDimensionQuery.dimensions.setDimension(Dimension{ dim.w, dim.h });
+				
+				facetDimensionQuery.dimensions.setDimension(Dimension( facet.dimensions.w * facet.scale.x, facet.dimensions.h * facet.scale.y ));
 				facetDimensionQuery.found = true;
 				return false;
 			}
@@ -40,19 +39,40 @@ namespace core {
 
 	TextureFacet& TextureRenderSystem2d::updateTexture(TextureChangeEvent& e) {
 		for (auto& facet : _textureFacets) {
-			if (facet.of() == e.entity && facet.id() == e.facetId) {				
-				facet.drawable.texture = single<ResourceManager>().getTexture(e.textureName);
-				facet.drawable.sourceRect = e.sourceTextureRect.getRect();
-				auto targetRect = facet.drawable.targetRect;
-				facet.drawable.targetRect = SDL_Rect{ targetRect.x + facet.offset.x, targetRect.y + facet.offset.y, roundFloat(facet.drawable.sourceRect.w * facet.scale.x), roundFloat(facet.drawable.sourceRect.h * facet.scale.y) };
+			if (facet.of() == e.entity && facet.id() == e.facetId) {
+				facet.textureCoordinates = e.sourceTextureRect.getRect();
+				facet.texture = single<ResourceManager>().getTexture(e.textureName);
+				auto dc = DrawableChange{};
+				dc.operation = DrawableChange::Operation::CHANGE_TEXTURE;				
+				dc.facetId = facet.id();
+				dc.layerId = _drawableLayerId;
+				dc.textureCoordinates = facet.textureCoordinates;
+				dc.texture = facet.texture;
+				single<Renderer>().applyDrawableChange(dc);
 				return facet;
-				single<Renderer>().updateDrawable(facet.drawable);
+				
 			}
 		}
 		return _nullFacet;
 	}
 
+	void TextureRenderSystem2d::updateDrawablePosition(VisualFacet* vfacet) {
+		auto tfacet = static_cast<TextureFacet*>(vfacet);
+		auto& offset = vfacet->offset;
+		auto& position = vfacet->position;
+		auto& scale = vfacet->scale;
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::CHANGE_TEXTURE_POSITION;
+		dc.facetId = vfacet->id();
+		dc.layerId = _drawableLayerId;
+		dc.zIndex = vfacet->position.z + offset.z;
+		dc.targetRect.x = float(position.x + offset.x);
+		dc.targetRect.y = float(position.y + offset.y);
+		dc.targetRect.w = tfacet->textureCoordinates.w * scale.x;
+		dc.targetRect.h = tfacet->textureCoordinates.h * scale.y;
 
+		single<Renderer>().applyDrawableChange(dc);
+	}
 
 	std::vector<Facet*> TextureRenderSystem2d::getFacets(Entity& e) {
 
@@ -77,24 +97,31 @@ namespace core {
 		auto facet = TextureFacet{};
 		facet.setOf(e);
 
+		facet.position = position;
 		facet.scale = scale;
 		facet.offset = offset;
+				
+		facet.texture = single<ResourceManager>().getTexture(textureName);
+		source = (source.h == 0 || source.w == 0) ? facet.texture->dimensions() : source;
+		facet.dimensions.w = source.w;
+		facet.dimensions.h = source.h;
+		facet.textureCoordinates = source;
 
-		auto& drawable = facet.drawable;	
-		drawable.drawableType = Drawable::DrawableType::TEXTURE;
-		drawable.camera = getCamera();
-		drawable.layerId = _drawableLayerId;
-		drawable.texture = single<ResourceManager>().getTexture(textureName);
-		source = (source.h == 0 || source.w == 0) ? drawable.texture->dimensions() : source;
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::CREATE_TEXTURE_DRAWABLE;
+		dc.facetId = facet.id();
+		dc.layerId = _drawableLayerId;
+		dc.zIndex = position.z + offset.z;
 
-		drawable.targetRect = SDL_Rect{ position.x + offset.x, position.y + offset.y, roundFloat(source.w * scale.x), roundFloat(source.h * scale.y) };
-
-		
-
-		drawable.sourceRect = source;
-
-		drawable.zIndex = position.z + offset.z;
-		drawable.id = single<Renderer>().createDrawable(drawable);
+		dc.camera = &_camera;
+		dc.texture = facet.texture;
+		dc.textureCoordinates = facet.textureCoordinates;				
+		dc.targetRect.x = position.x + offset.x;
+		dc.targetRect.y = position.y + offset.y;
+		dc.targetRect.w = roundFloat(source.w * scale.x);
+		dc.targetRect.h = roundFloat(source.h * scale.y);
+		dc.shaderProgramName = "textureRender2d";
+		single<Renderer>().applyDrawableChange(dc);
 
 		_textureFacets.push_back(std::move(facet));
 		return _textureFacets.back();
@@ -116,8 +143,12 @@ namespace core {
 	
 		_movingTextures.clear();
 
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
+		dc.layerId = _drawableLayerId;
 		for (auto& facet : _textureFacets) {
-			single<Renderer>().destroyDrawable(facet.drawable);
+			dc.facetId = facet.id();
+			single<Renderer>().applyDrawableChange(dc);
 		}
 
 		_textureFacets.clear();
@@ -140,7 +171,12 @@ namespace core {
 		for (auto it = std::begin(_textureFacets); it != std::end(_textureFacets); ++it) {
 
 			if (it->of() == entity) {
-				single<Renderer>().destroyDrawable(it->drawable);
+				auto dc = DrawableChange{};
+				dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
+				dc.facetId = it->id();
+				dc.layerId = _drawableLayerId;
+
+				single<Renderer>().applyDrawableChange(dc);
 				it = _textureFacets.erase(it);
 				return;
 			}

@@ -4,8 +4,8 @@ Fonts = {}
 
 
 function Fonts.loadFont(v)
-Console.info("Loading font: '", v.name, "', ", v.path, ", default size ", v.defaultSize)
-	loadFont_bind(v.name, v.path, v.defaultSize, v.default, true)
+Console.info("Loading font: '", v.name, "', ", v.path, ", size ", v.renderedSize)
+	loadFont_bind(v.name, v.path, v.renderedSize, v.default, true)
 end
 
 function Fonts.getDefaultFont()

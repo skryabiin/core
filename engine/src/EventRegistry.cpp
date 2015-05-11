@@ -27,7 +27,8 @@
 #include "ObjectCollisionQuery.hpp"
 #include "DebugEvent.hpp"
 #include "FacetPauseEvent.hpp"
-
+#include "PlaySoundEvent.hpp"
+#include "VolumeChangeEvent.hpp"
 
 namespace core {
 
@@ -64,6 +65,6 @@ namespace core {
 	//EventRegistration<ObjectCollisionQuery> ObjectCollisionQueryReg{};
 	//EventRegistration<DebugEvent> DebugEventReg{};
 	EventRegistration<FacetPauseEvent> FacetPauseEventReg{};
-
-
+	EventRegistration<PlaySoundEvent> PlaySoundEventReg{};
+	EventRegistration<VolumeChangeEvent> VolumeChangeEventReg{};
 } //end namespace core

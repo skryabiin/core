@@ -14,12 +14,12 @@ namespace core {
 
 	bool Camera2d::initializeImpl() {
 		auto& lua = single<Core>().lua();
-		_worldScale = Vec2{ lua("Config")["scale"][1], lua("Config")["scale"][2] };
+		_worldScale = Vec2{ lua("Config")["camera"]["scale"][1], lua("Config")["camera"]["scale"][2] };
 
-		_windowWidth = lua("Config")["window"][1];
-		_windowHeight = lua("Config")["window"][2];
-		_worldCenterPosition.x = _windowWidth / 2;
-		_worldCenterPosition.y = _windowHeight / 2;
+		_windowWidth = lua("Config")["window"]["dimensions"][1];
+		_windowHeight = lua("Config")["window"]["dimensions"][2];
+		_worldCenterPosition.x = lua("Config")["camera"]["centerWorldPoint"][1];
+		_worldCenterPosition.y = lua("Config")["camera"]["centerWorldPoint"][2];
 		_viewportRect.w = _windowWidth;
 		_viewportRect.h = _windowHeight;
 		return true;
@@ -50,51 +50,26 @@ namespace core {
 		return _worldScale;
 	}
 
-	/*
-	bool Camera::positionDrawable(Drawable& drawable, SimpleRect<int>& rectified) {
-	
-		
-		int x1 = (_windowWidth / 2) - roundFloat(_worldScale.x * (_worldCenterPosition.x - (drawable.targetRect.x1 * drawable.scale.x)));
-		int y1 = (_windowHeight / 2) + roundFloat(_worldScale.y * (_worldCenterPosition.y - (drawable.targetRect.y1 * drawable.scale.x)));
 
-		int x2 = x1 + roundFloat(_worldScale.x * (drawable.targetRect.width() * drawable.scale.x));
-		int y2 = y1 - roundFloat(_worldScale.y * (drawable.targetRect.height() * drawable.scale.y));
-
-		if (x1 > x2) std::swap(x1, x2);
-		if (y1 > y2) std::swap(y1, y2);
-		rectified.x1 = x1;
-		rectified.y1 = y1;
-		rectified.x2 = x2;
-		rectified.y2 = y2;		
-
-		bool inWindow = (x2 > 0 || y2 > 0 || x1 < _windowWidth || y1 < _windowHeight);
-		return inWindow;
-
-	}
-	*/
-
-	bool Camera2d::positionPoints(std::vector<Pixel>& pixels, std::vector<GLfloat>& vertices) {
-		bool onScreen = true;
-		auto aligned = Pixel{};
-		for (auto& pixel : pixels) {
-			/*
-			aligned.x = (_windowWidth / 2) - (_worldCenterPosition.x - pixel.x);
-			aligned.y = (_windowHeight / 2) - (_worldCenterPosition.y - pixel.y);
-			*/
+	bool Camera2d::positionPoints(std::vector<Point>& points, std::vector<GLfloat>& vertices) {
+		bool onScreen = true;		
+		vertices.clear();
+		for (auto& point : points) {
+			
 			//TODO check on screen
-			vertices.push_back((GLfloat(_windowWidth / 2.0) - GLfloat(_worldCenterPosition.x - pixel.x)) / GLfloat(_windowWidth / 2.0));
-			vertices.push_back((GLfloat(_windowHeight / 2.0) - GLfloat(_worldCenterPosition.y - pixel.y)) / GLfloat(_windowHeight / 2.0));
+			vertices.push_back((GLfloat(_windowWidth / 2.0) - GLfloat(_worldCenterPosition.x - point.x)) / GLfloat(_windowWidth / 2.0));
+			vertices.push_back((GLfloat(_windowHeight / 2.0) - GLfloat(_worldCenterPosition.y - point.y)) / GLfloat(_windowHeight / 2.0));
 		}
 		return true;
 
 	}
 
-	bool Camera2d::positionRect(SDL_Rect& rect, std::vector<GLfloat>& vertices) {
+	bool Camera2d::positionRect(Rect& rect, std::vector<GLfloat>& vertices) {
 		_bufferRect.x = (_windowWidth / 2) - (_worldCenterPosition.x - rect.x);
 		_bufferRect.y = (_windowHeight / 2) - (_worldCenterPosition.y - rect.y);
 		_bufferRect.w = rect.w;
 		_bufferRect.h = rect.h;
-		if (!SDL_HasIntersection(&_bufferRect, &_viewportRect)) {
+		if (!_bufferRect.intersects(_viewportRect)) {
 			return false;
 		}
 

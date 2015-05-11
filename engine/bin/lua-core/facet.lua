@@ -3,18 +3,21 @@ Facet = {}
 
 
 
-function Facet:create(entity, o)
+function Facet:create(entity, systemName, o)
 	o = o or {}
 	setmetatable(o, self)
 	self.__index = self	
 	if entity then
 		o.of = entity		
 	end
+    if systemName then
+        o:setSystemName(systemName)
+    end
 	return o
 end
 
-function Facet:new(entity, o)
-	return Facet:create(entity, o)
+function Facet:new(entity, systemName, o)
+	return Facet:create(entity, systemName, o)
 end
 
 function Facet:getId()
@@ -88,13 +91,9 @@ end
 function Facet:getOf()
 	return self.of
 end
-
-function Facet:setIsCoreFacet(isCoreFacet)
-	self.CoreFacet = isCoreFacet or false
-end
 	
 function Facet:isCoreFacet()
-	return self.CoreFacet or false
+	return self:getId() ~= -1
 end
 
 function Facet:createFacetInCore()

@@ -19,7 +19,7 @@ namespace core {
 
 		Texture* texture();
 
-		void setFont(Font* font);
+		void setFont(Font* font);		
 
 		void setTextColor(Color c);
 
@@ -36,7 +36,7 @@ namespace core {
 		void renderAgain();
 		bool _hasChanged;
 		std::string _text;
-		Font* _font;
+		Font* _font;		
 		Texture* _texture;
 		Color _textColor;
 	};

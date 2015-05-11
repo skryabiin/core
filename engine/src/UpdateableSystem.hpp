@@ -12,7 +12,7 @@ namespace core {
 
 	public:
 
-		virtual void updateImpl(RuntimeContext& context) = 0;
+		virtual void updateImpl(float dt, RuntimeContext& context) = 0;
 
 		virtual ~UpdateableSystem() {};
 	};
