@@ -62,35 +62,7 @@ namespace core {
 
 	}
 
-	void Camera::getVertices(Rect& rect, std::vector<GLfloat>& values) {
-		auto rectAligned = Rect{};
-		//align things to the world center
-		rectAligned.x = rect.x - _worldCenterPosition.x;
-		rectAligned.y = rect.y - _worldCenterPosition.y;
-		
-		//now scale to gl coordinates
-		rectAligned.x = rectAligned.x / (_windowWidth / 2.0f);
-		rectAligned.y = rectAligned.y / (_windowHeight / 2.0f);
-		rectAligned.w = rect.w / (_windowWidth / 2.0f);
-		rectAligned.h = rect.h / (_windowHeight / 2.0f);
-
-		//now map out coordinates
-		GLfloat x1 = rectAligned.x;
-		GLfloat x2 = rectAligned.x + rectAligned.w;
-		GLfloat y1 = rectAligned.y;
-		GLfloat y2 = rectAligned.y + rectAligned.h;
-
-		values.clear();
-		values.push_back(x1);
-		values.push_back(y1);
-		values.push_back(x2);
-		values.push_back(y1);
-		values.push_back(x2);
-		values.push_back(y2);
-		values.push_back(x1);
-		values.push_back(y2);
-
-	}
+	
 
 	//apparently glm is in radians even though GLM_FORCE_RADIANS is not defined
 	void Camera::_recalculateProjection() {
@@ -100,8 +72,11 @@ namespace core {
 
 
 	void Camera::_recalculateViewProjection() {
+
+		SDL_AtomicLock(&_cameraLock);
 		_viewProjection = _projection * _view;
 		_isChanged = true;
+		SDL_AtomicUnlock(&_cameraLock);
 	}
 
 	void Camera::resetIsChanged() {
@@ -136,37 +111,42 @@ namespace core {
 		}
 	}
 
+	void Camera::setPosition(const Pixel& pos) {
 
+		float x = pos.x / (_windowWidth / 2.0f);
+		float y = pos.y / (_windowHeight / 2.0f);
+
+		_position = glm::vec3{ x, y, _position[2] };
+	}
 	void Camera::pitch(const float& theta) {		
 		_lockOn = false;
-		_view = glm::rotate(theta, glm::vec3(1, 0, 0)) * _view;
+		_view = glm::rotate(theta * glm::pi<float>() / 180.0f, glm::vec3(1, 0, 0)) * _view;
 		_recalculateViewProjection();
 	}
 
 	void Camera::yaw(const float& phi) {		
 		_lockOn = false;		
-		_view = glm::rotate(phi, glm::vec3(0, 1, 0)) * _view;		
+		_view = glm::rotate(phi * glm::pi<float>() / 180.0f, glm::vec3(0, 1, 0)) * _view;
 		_recalculateViewProjection();
 	}
 
 	void Camera::roll(const float& psi) {
 		_lockOn = false;
-		_view = glm::rotate(psi, glm::vec3(0, 0, 1)) * _view;
+		_view = glm::rotate(psi * glm::pi<float>() / 180.0f, glm::vec3(0, 0, 1)) * _view;
 		_recalculateViewProjection();
 	}
 
 	void Camera::moveOut(const float& delta) {
-		translate(delta * getOut());
+		translate(-delta * getOut());
 	}
 
 	void Camera::moveRight(const float& delta) {
-		translate(delta * getRight());
+		translate(-delta * getRight());
 	}
 
 	void Camera::moveUp(const float& delta) {
-		translate(delta * getUp());
-	}
-
+		translate(-delta * getUp());
+	}	
 
 	glm::vec3 Camera::getPosition() const {
 		return _position;
@@ -216,8 +196,15 @@ namespace core {
 	}
 
 
-	const glm::mat4& Camera::getViewProjection() const {
+	const glm::mat4& Camera::getViewProjection() const{
 		return _viewProjection;
+	}
+
+	glm::mat4 Camera::getViewProjectionLocked() {
+		SDL_AtomicLock(&_cameraLock);
+		glm::mat4 vp = _viewProjection;
+		SDL_AtomicUnlock(&_cameraLock);
+		return vp;
 	}
 
 	float Camera::getFovDegrees() const {
@@ -234,6 +221,51 @@ namespace core {
 
 	float Camera::getMaxVisionRange() const {
 		return _maxVisionRange;
+	}
+
+
+	Pixel Camera::alignPoint(const Pixel p) {
+		auto aligned = glm::vec4{0.0f,0.0f,0.0f,1.0f};
+		//align things to the world center and scale to GL coordinates
+		aligned.x = (p.x - _worldCenterPosition.x) / (_windowWidth / 2.0f);
+		aligned.y = (p.y - _worldCenterPosition.y) / (_windowHeight / 2.0f);
+
+		aligned = aligned * _viewProjection;
+		auto out = Pixel{};
+
+		out.x = roundFloat(aligned.x * (_windowWidth / 2.0f) + _worldCenterPosition.x);
+		out.y = roundFloat(aligned.y * (_windowHeight / 2.0f) + _worldCenterPosition.y);
+		return out;
+	}
+
+	void Camera::getVertices(Rect& rect, std::vector<GLfloat>& values) {
+		auto rectAligned = Rect{};
+		//align things to the world center
+		rectAligned.x = rect.x - _worldCenterPosition.x;
+		rectAligned.y = rect.y - _worldCenterPosition.y;
+
+		//now scale to gl coordinates
+		rectAligned.x = rectAligned.x / (_windowWidth / 2.0f);
+		rectAligned.y = rectAligned.y / (_windowHeight / 2.0f);
+		rectAligned.w = rect.w / (_windowWidth / 2.0f);
+		rectAligned.h = rect.h / (_windowHeight / 2.0f);
+
+		//now map out coordinates
+		GLfloat x1 = rectAligned.x;
+		GLfloat x2 = rectAligned.x + rectAligned.w;
+		GLfloat y1 = rectAligned.y;
+		GLfloat y2 = rectAligned.y + rectAligned.h;
+
+		values.clear();
+		values.push_back(x1);
+		values.push_back(y1);
+		values.push_back(x2);
+		values.push_back(y1);
+		values.push_back(x2);
+		values.push_back(y2);
+		values.push_back(x1);
+		values.push_back(y2);
+
 	}
 
 }

@@ -22,9 +22,6 @@
     <Filter Include="Source\Particles">
       <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Resources">
-      <UniqueIdentifier>{eea02a1c-bc37-4ddc-a7b2-abbe2a1a49ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Systems">
       <UniqueIdentifier>{bc630133-5c4a-47b9-bb55-4782c031f1f8}</UniqueIdentifier>
     </Filter>
@@ -89,6 +86,12 @@
     <Filter Include="Source\Events\Audio">
       <UniqueIdentifier>{27ce18db-c137-4bcb-b5e5-744da44e618f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\World">
+      <UniqueIdentifier>{514afa72-8ddf-4304-a0f7-148d49c5508d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Textures">
+      <UniqueIdentifier>{eea02a1c-bc37-4ddc-a7b2-abbe2a1a49ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Console.cpp">
@@ -103,12 +106,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera2d.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\AnimationSystem2d.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
@@ -116,13 +113,13 @@
       <Filter>Source\Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\Animation.cpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClCompile>
     <ClCompile Include="src\EventProcessor.cpp">
       <Filter>Source\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\Font.cpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticleSystem2d.cpp">
       <Filter>Source\Systems</Filter>
@@ -137,9 +134,6 @@
       <Filter>Source\Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\TextureRenderSystem2d.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\System.cpp">
@@ -166,14 +160,8 @@
     <ClCompile Include="src\LuaTable.cpp">
       <Filter>Source\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\Map.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ResourceManager.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderedTextToken.cpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClCompile>
     <ClCompile Include="src\ShaderManager.cpp">
       <Filter>Source\Graphics</Filter>
@@ -188,7 +176,7 @@
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClCompile>
     <ClCompile Include="src\EntitiesInRectQuery.cpp">
       <Filter>Source\Events\Queries</Filter>
@@ -279,6 +267,21 @@
     </ClCompile>
     <ClCompile Include="src\VolumeChangeEvent.cpp">
       <Filter>Source\Events\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera2d.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Map.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureManager.cpp">
+      <Filter>Source\Textures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,12 +441,6 @@
     <ClInclude Include="src\BufferObject.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Camera.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera2d.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\CameraFollowFacet.hpp">
       <Filter>Source\Facets</Filter>
     </ClInclude>
@@ -454,13 +451,13 @@
       <Filter>Source\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\Animation.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\AnimationFrame.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\AnimationSet.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\AnimationFacet.hpp">
       <Filter>Source\Facets</Filter>
@@ -484,7 +481,7 @@
       <Filter>Source\Facets</Filter>
     </ClInclude>
     <ClInclude Include="src\Font.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\IndexBufferObject.hpp">
       <Filter>Source\Graphics</Filter>
@@ -514,9 +511,6 @@
       <Filter>Source\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\UpdateableSystem.hpp">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\World.hpp">
       <Filter>Source\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\System.hpp">
@@ -555,17 +549,11 @@
     <ClInclude Include="src\LuaVector.hpp">
       <Filter>Source\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="src\Map.hpp">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="src\Resource.hpp">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ResourceManager.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderedTextToken.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\ShaderManager.hpp">
       <Filter>Source\Graphics</Filter>
@@ -613,7 +601,7 @@
       <Filter>Source\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.hpp">
-      <Filter>Source\Resources</Filter>
+      <Filter>Source\Textures</Filter>
     </ClInclude>
     <ClInclude Include="src\AccelerationChangeEvent.hpp">
       <Filter>Source\Events\Physics</Filter>
@@ -755,6 +743,21 @@
     </ClInclude>
     <ClInclude Include="src\DrawableChange.hpp">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World.hpp">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera2d.hpp">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.hpp">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Map.hpp">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureManager.hpp">
+      <Filter>Source\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

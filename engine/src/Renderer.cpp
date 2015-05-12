@@ -278,7 +278,7 @@ void Renderer::multithreadRender() {
 
 
 void Renderer::render() {
-	
+		
 	if (!_renderMultithreaded) {
 		_processDrawableChanges();
 	}
@@ -744,7 +744,7 @@ void Renderer::_drawTexture(Drawable& d) {
 	d.vao.setUniformVariableMatrix("colorTransform", finalColorTransform.transform);
 	int samplerId = 0;
 	d.vao.setUniformVariable<int>("textureSampler", samplerId);
-	auto mvp = d.camera->getViewProjection();
+	auto mvp = d.camera->getViewProjectionLocked();
 	d.vao.setUniformVariableMatrix("mvp", mvp);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, d.texture->getGlTextureId());

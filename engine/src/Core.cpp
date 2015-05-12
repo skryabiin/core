@@ -13,6 +13,7 @@
 #include "ShaderManager.hpp"
 #include "TransitionManager.hpp"
 #include "AudioManager.hpp"
+#include "PhysicsSystem.hpp"
 
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -61,7 +62,7 @@ namespace core {
 			return false;
 		}
 
-		if (single<ResourceManager>().create() == InitStatus::CREATE_FAILED) {
+		if (single<TextureManager>().create() == InitStatus::CREATE_FAILED) {
 			error("Resource manager creation failed.");
 			return false;
 		}
@@ -85,6 +86,11 @@ namespace core {
 			error("Transition manager creation failed.");
 			return false;
 		}
+
+		if (single<World>().create() == InitStatus::CREATE_FAILED) {
+			error("World creation failed.");
+		}
+		
 
 		//this doens't belong here
 		//lua_register(_L, "openMap_bind", World::openMap_bind);
@@ -117,7 +123,7 @@ namespace core {
 			return false;
 		}
 
-		if (single<ResourceManager>().initialize() == InitStatus::INIT_FAILED)  {
+		if (single<TextureManager>().initialize() == InitStatus::INIT_FAILED)  {
 			error("Resource manager initialization failed.");
 			return false;
 		}
@@ -144,6 +150,10 @@ namespace core {
 		if (single<Interface>().initialize() == InitStatus::INIT_FAILED)  {
 			error("Interface initialization failed.");
 			return false;
+		}
+
+		if (single<World>().initialize() == InitStatus::INIT_FAILED) {
+			error("World initialization failed.");
 		}
 
 		return true;
@@ -273,6 +283,8 @@ namespace core {
 
 
 		single<Renderer>().update(floatdt, _runtimeContext);
+
+		single<World>().camera()->roll(floatdt * 20.0f / 1000.0f);
 	}
 
 	void Core::render() {
@@ -388,7 +400,7 @@ namespace core {
 
 		single<Interface>().reset();
 
-		single<ResourceManager>().reset();
+		single<TextureManager>().reset();
 
 		single<AudioManager>().reset();
 
@@ -411,7 +423,7 @@ namespace core {
 		single<Renderer>().destroy();
 		single<Interface>().destroy();
 
-		single<ResourceManager>().destroy();
+		single<TextureManager>().destroy();
 		single<AudioManager>().destroy();
 		single<ShaderManager>().destroy();
 		
@@ -465,17 +477,8 @@ namespace core {
 		std::string systemType = lua.pullStack<std::string>(1);
 		std::string systemName = lua.pullStack<std::string>(2);
 
-		if (!systemType.compare("WorldSystem")) {
-			auto world = new World{};
-			world->setName(systemName);
-			single<Core>().addSystem(world);	
-			world->create();
-			world->initialize();
-			lua.bindFunction("openMap_bind", World::openMap_bind);
-			lua.pushStackPointer(world);
-			return 1;
-		}
-		else if (!systemType.compare("BasicPositionSystem2d")) {
+		
+		if (!systemType.compare("BasicPositionSystem2d")) {
 			auto positions = new BasicPositionSystem2d{};
 			positions->setName(systemName);
 			single<Core>().addSystem(positions);

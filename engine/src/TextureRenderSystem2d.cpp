@@ -41,7 +41,7 @@ namespace core {
 		for (auto& facet : _textureFacets) {
 			if (facet.of() == e.entity && facet.id() == e.facetId) {
 				facet.textureCoordinates = e.sourceTextureRect.getRect();
-				facet.texture = single<ResourceManager>().getTexture(e.textureName);
+				facet.texture = single<TextureManager>().getTexture(e.textureName);
 				auto dc = DrawableChange{};
 				dc.operation = DrawableChange::Operation::CHANGE_TEXTURE;				
 				dc.facetId = facet.id();
@@ -101,7 +101,7 @@ namespace core {
 		facet.scale = scale;
 		facet.offset = offset;
 				
-		facet.texture = single<ResourceManager>().getTexture(textureName);
+		facet.texture = single<TextureManager>().getTexture(textureName);
 		source = (source.h == 0 || source.w == 0) ? facet.texture->dimensions() : source;
 		facet.dimensions.w = source.w;
 		facet.dimensions.h = source.h;
@@ -113,7 +113,7 @@ namespace core {
 		dc.layerId = _drawableLayerId;
 		dc.zIndex = position.z + offset.z;
 
-		dc.camera = &_camera;
+		dc.camera = _camera;
 		dc.texture = facet.texture;
 		dc.textureCoordinates = facet.textureCoordinates;				
 		dc.targetRect.x = position.x + offset.x;
@@ -135,7 +135,9 @@ namespace core {
 	bool TextureRenderSystem2d::initializeImpl() {
 
 
-		return RenderableSystem2d::initializeImpl();
+		if(!RenderableSystem2d::initializeImpl()) return false;
+
+		return true;
 	}
 
 

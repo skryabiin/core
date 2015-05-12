@@ -2,6 +2,7 @@
 #include "PhysicsFacet.hpp"
 #include "Core.hpp"
 #include "VisualFacet.hpp"
+#include "World.hpp"
 
 namespace core {
 
@@ -9,7 +10,8 @@ namespace core {
 		if (!this->System::createImpl()) {
 			return false;
 		}
-		return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;
+		//return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;
+		_camera = single<World>().camera();
 		return true;
 	}
 
@@ -17,17 +19,17 @@ namespace core {
 
 		this->System::initializeImpl();
 
-		return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
+		//return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
 		return true;
 	}
 
 	bool RenderableSystem2d::resetImpl() {
-		_camera.reset();
+		//_camera.reset();
 		return System::resetImpl();
 	}
 
 	bool RenderableSystem2d::destroyImpl() {
-		_camera.destroy();
+		//_camera.destroy();
 		return System::destroyImpl();
 	}
 
@@ -48,7 +50,9 @@ namespace core {
 		}
 	}
 
-
+	void RenderableSystem2d::setCamera(Camera* camera) {
+		_camera = camera;
+	}
 
 	void RenderableSystem2d::setDrawableLayerId(int drawableLayerId) {
 		_drawableLayerId = drawableLayerId;
@@ -58,8 +62,8 @@ namespace core {
 		return _drawableLayerId;
 	}
 
-	Camera* RenderableSystem2d::getCamera() {
-		return &_camera;
+	Camera* RenderableSystem2d::camera() {
+		return _camera;
 	}
 
 	CameraFollowFacet& RenderableSystem2d::createCameraFollowFacet(Entity& e) {

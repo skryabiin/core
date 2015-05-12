@@ -80,7 +80,7 @@ namespace core {
 
 		auto lpf = new LinearParticleField{};
 
-		auto def = single<ResourceManager>().getParticleEffect(defName);
+		auto def = single<TextureManager>().getParticleEffect(defName);
 
 		lpf->init(numParticlesStart, numParticlesMax, def);
 		lpf->reset(numParticlesStart);

@@ -1,6 +1,6 @@
 #include "Font.hpp"
 #include "RenderedTextToken.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 #include "Renderer.hpp"
 #include "SDLUtil.hpp"
 #include "Util.hpp"
@@ -64,7 +64,7 @@ namespace core {
 		texture->create();
 		texture->initialize();
 		if (token->_texture == nullptr) {
-			token->_texture = singleton<ResourceManager>::instance().addTexture(std::unique_ptr<Texture>(texture));
+			token->_texture = singleton<TextureManager>::instance().addTexture(std::unique_ptr<Texture>(texture));
 		}
 	}
 

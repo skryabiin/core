@@ -1,5 +1,5 @@
 #include "RenderedTextToken.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 #include "Font.hpp"
 
 namespace core {
@@ -14,7 +14,7 @@ namespace core {
 	}
 	RenderedTextToken::~RenderedTextToken() {
 		if (_texture != nullptr) {
-			single<ResourceManager>().removeTexture(_texture->name());
+			single<TextureManager>().removeTexture(_texture->name());
 		}
 	}
 

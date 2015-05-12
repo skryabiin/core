@@ -1,84 +1,39 @@
-//
-//  World.h
-//  CollisionTests
-//
-//  Created by Jared Lynem on 10/28/13.
-//
-//
+#ifndef CORE_WORLD_HPP
+#define CORE_WORLD_HPP
 
-#ifndef __CollisionTests__World__
-#define __CollisionTests__World__
-
-#include <iostream>
-#include <vector>
-#include <memory>
-
-#include "Tmx.h"
-
+#include <map>
 #include "Templates.hpp"
-#include "System.hpp"
-#include "PhysicsSystem.hpp"
-#include "Event.hpp"
-#include "Resource.hpp"
-#include "LuaTable.hpp"
-#include "LuaMap.hpp"
+#include "Map.hpp"
+#include "LuaState.hpp"
+#include "Camera.hpp"
 
 namespace core {
 
 
-
-
-	struct LuaTile : public LuaTable {
-
-		LuaTile() {
-			lua_reg("position", &position);
-			lua_reg("dimensions", &dimensions);
-			lua_reg("sourceTextureRect", &sourceTextureRect);
-			lua_reg("textureName", &textureName);
-			lua_reg("tileProperties", &tileProperties);
-			lua_reg("isObject", &isObject);
-		}
-
-		LuaPixel position;
-		LuaDimension dimensions;
-		LuaRect sourceTextureRect;
-		std::string textureName;
-		LuaMap tileProperties;
-		bool isObject;
-	};
-
-
-	class World : public System {
+	class World : public singleton<World>, public initializable<World, void, void, void, void> {
 
 	public:
 
-		bool init();
+		bool createImpl();
+		bool initializeImpl();
+		bool resetImpl();
+		bool destroyImpl();
 
-		void openMap(std::string mapName, int callbackRef);
+		void addMap(Map map);
+
+		Map getMap(std::string mapName);
 
 
-		virtual bool createImpl() override;
+		static int loadMap_bind(LuaState& lua);
 
-		virtual bool initializeImpl() override;
-
-		virtual bool resetImpl() override;	
-
-		virtual bool destroyImpl() override;
-		
-		static int openMap_bind(LuaState& lua);
-		
-		virtual void destroyFacets(Entity& entity) override {};
-
-		bool handleEvent(FacetPauseEvent& pauseEvent) { return true; };
-
-		virtual ~World() {};
+		Camera* camera();
 
 	private:
 
-		void doLuaTileCallback(LuaState& lua, LuaTile& t, int callbackRef);
 
+		Camera _camera;
 
-		Tmx::Map _map;
+		std::map<std::string, Map> _loadedMaps;
 
 
 
@@ -87,4 +42,4 @@ namespace core {
 
 } //end namespace core
 
-#endif /* defined(__CollisionTests__World__) */
+#endif

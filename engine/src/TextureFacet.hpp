@@ -4,7 +4,7 @@
 
 #include "VisualFacet.hpp"
 #include "Geometry.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 #include "Drawable.hpp"
 
 namespace core {

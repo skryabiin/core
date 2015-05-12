@@ -10,7 +10,7 @@
 #include "Templates.hpp"
 #include "Config.hpp"
 #include "Event.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 #include "RuntimeContext.hpp"
 #include "Entity.hpp"
 

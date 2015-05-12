@@ -1,7 +1,7 @@
 #include "Animation.hpp"
 #include "Renderer.hpp"
 #include "Entity.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 
 namespace core {
 

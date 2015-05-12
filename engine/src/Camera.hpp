@@ -9,7 +9,7 @@
 namespace core {
 
 
-	class Camera : public initializable<Camera, void, void, void, void> {
+	class Camera :public equal_comparable<Camera>, public initializable<Camera, void, void, void, void> {
 	public:
 		Camera();
 
@@ -74,7 +74,13 @@ namespace core {
 
 		const glm::mat4& getViewProjection() const;
 
+		glm::mat4 getViewProjectionLocked();
+
 		void setOrthoProjection(float minx, float maxx, float miny, float maxy);
+
+		Pixel alignPoint(Pixel p);		
+
+		void setPosition(const Pixel& p);
 
 	private:
 
@@ -107,7 +113,7 @@ namespace core {
 		int _windowWidth;
 		Rect _viewportRect;
 
-
+		SDL_SpinLock _cameraLock;
 	};
 
 

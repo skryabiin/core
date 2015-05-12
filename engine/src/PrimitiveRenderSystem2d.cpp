@@ -94,7 +94,7 @@ namespace core {
 		dc.vertices.push_back(Pixel{ position.x + offset.x + dimensions.w, position.y + offset.y });
 		dc.vertices.push_back(Pixel{ position.x + offset.x + dimensions.w, position.y + offset.y + dimensions.h });
 		dc.vertices.push_back(Pixel{ position.x + offset.x, position.y + offset.y + dimensions.h });
-		dc.camera = &_camera;
+		dc.camera = _camera;
 		dc.shaderProgramName = "shape2d";
 		single<Renderer>().applyDrawableChange(dc);
 		_facets.push_back(std::move(facet));

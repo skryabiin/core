@@ -81,7 +81,7 @@ Config.graphics.maxFramesPerSecond = 100
 --
 --Generally "true" will result in better performance,
 --But may make debugging more difficult
-Config.graphics.renderMultithreaded = true
+Config.graphics.renderMultithreaded = false
 
 --The depth that the main thread will allow the current
 --drawable update writing queue to reach before waiting 

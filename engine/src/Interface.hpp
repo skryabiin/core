@@ -30,17 +30,23 @@ namespace core {
 
 		InterfaceState() : pickedUpThisTick{ false }, selectedLayerId{ -1 } {
 			pickedUp = nullptr;
-			lua_reg("clickPosition", &clickPosition);
-			lua_reg("currentPosition", &currentPosition);
 			lua_reg("pickedUpThisTick", &pickedUpThisTick);
 			lua_reg("selectedLayerId", &selectedLayerId);
+			lua_reg("clickPosition", &clickPosition);
+			lua_reg("currentPosition", &currentPosition);
 			lua_reg("pickedUpPosition", &pickedUpPosition);
+			lua_reg("rawClickPosition", &rawClickPosition);
+			lua_reg("rawCurrentPosition", &rawCurrentPosition);
+			lua_reg("rawPickedUpPosition", &rawPickedUpPosition);
 		}
 		
 		InterfaceFacet* pickedUp;		
 		LuaPixel clickPosition;
 		LuaPixel currentPosition;
 		LuaPixel pickedUpPosition;
+		LuaPixel rawClickPosition;
+		LuaPixel rawCurrentPosition;
+		LuaPixel rawPickedUpPosition;
 		InterfaceFacet* hovering;
 		InterfaceFacet* clicked;
 		bool pickedUpThisTick;
@@ -118,7 +124,9 @@ namespace core {
 
 		void updateFacet(int facetId, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
 
-		InterfaceFacet* createFacet(Entity& e, Pixel& position, Dimension& dimensions, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
+		InterfaceFacet* createFacet(Entity& e, Pixel& position, Dimension& dimensions, Camera* cameraContext, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);		
+
+		Camera* camera();
 
 	private:
 
@@ -140,6 +148,8 @@ namespace core {
 		Entity _mouseCursor;
 
 		std::vector<InterfaceFacet> _facets;
+
+		Camera _camera;
 
 		bool _usingSystemCursor;
 

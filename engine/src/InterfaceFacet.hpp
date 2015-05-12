@@ -23,6 +23,7 @@ namespace core {
 		LuaFunction onDrag;		
 		Pixel position;
 		Dimension dimensions;
+		Camera* camera;
 
 	};
 

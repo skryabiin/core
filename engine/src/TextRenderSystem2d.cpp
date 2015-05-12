@@ -26,6 +26,7 @@ namespace core {
 
 		if (!RenderableSystem2d::initializeImpl()) return false;
 
+		return true;
 	}
 
 	bool TextRenderSystem2d::resetImpl() {
@@ -100,9 +101,9 @@ namespace core {
 		facet.position = position;		
 		facet.textContent = text;		
 		if (!fontName.compare("default")) {
-			single<ResourceManager>().getDefaultFont();
+			single<TextureManager>().getDefaultFont();
 		} else {
-			facet.font = single<ResourceManager>().getFont(fontName);
+			facet.font = single<TextureManager>().getFont(fontName);
 		}
 
 		auto rtt = facet.font->getRenderedTextToken();
@@ -116,7 +117,7 @@ namespace core {
 		dc.facetId = facet.id();
 		dc.layerId = _drawableLayerId;
 		dc.zIndex = position.z + offset.z;
-		dc.camera = &_camera;
+		dc.camera = _camera;
 		dc.texture = facet.renderedTextToken->texture();
 		dc.textureCoordinates = dc.texture->dimensions();
 		dc.targetRect.x = position.x + offset.x;

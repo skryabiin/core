@@ -8,6 +8,7 @@
 #include "EntityLayerQuery.hpp"
 #include "KeyboardEvent.hpp"
 #include "GamepadEvent.hpp"
+#include "World.hpp"
 
 namespace core {
 
@@ -38,6 +39,7 @@ namespace core {
 		
 		_usingSystemCursor = true;
 
+		_camera.create();
 		return true;
 
 	}
@@ -47,7 +49,7 @@ namespace core {
 		this->System::initializeImpl();
 
 
-
+		_camera.initialize();
 
 		_textureRenderSystem = new TextureRenderSystem2d{};
 		_textureRenderSystem->setName("InterfaceTextures");
@@ -56,6 +58,7 @@ namespace core {
 		_textureRenderSystem->create();
 		_textureRenderSystem->initialize();
 		_textureRenderSystem->setDrawableLayerId(0);
+		_textureRenderSystem->setCamera(&_camera);
 		_mouseCursor = single<Core>().createEntity();
 		setCursorTextureFromDef();
 
@@ -76,7 +79,7 @@ namespace core {
 		auto position = Pixel{10,20};		
 		auto dimension = Dimension{ 20, 40 };
 		//_primitiveRenderSystem->createRectangleFacet(_mouseCursor, position, offset, dimension, color, false);
-
+		
 		return true;
 	}
 
@@ -86,11 +89,13 @@ namespace core {
 		_facets.shrink_to_fit();
 		_textureRenderSystem = nullptr;
 		_primitiveRenderSystem = nullptr;
+
+		_camera.reset();
 		return this->System::resetImpl();		
 	}
 
 	bool Interface::destroyImpl() {
-		
+		_camera.destroy();
 		return this->System::destroyImpl();
 	}
 	//poll sdl for interface events
@@ -144,6 +149,10 @@ namespace core {
 
 	}
 
+	Camera* Interface::camera() {
+		return &_camera;
+	}
+
 
 	void Interface::updateMouseState() {
 
@@ -167,7 +176,7 @@ namespace core {
 
 
 
-			_interfaceState.currentPosition.setPixel(pos);
+			_interfaceState.rawCurrentPosition.setPixel(pos);
 			_interfaceState.pickedUpThisTick = false;
 
 			//if something was already picked up
@@ -177,13 +186,16 @@ namespace core {
 				if (_mouseState.mdown && _mouseState.mdownOld) {
 					//if it's draggable, do so
 					if (_interfaceState.pickedUp->draggable) {
+						_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));						
 						lua.call(_interfaceState.pickedUp->onDrag, _interfaceState);
+						_interfaceState.currentPosition.setPixel(pos);
 					}
 					return;
 				}
 
 				//if the mouse was released, let it go and call 'offClick'
-				if (!_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp->clickable) {
+				if (!_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp->clickable) {					
+					_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));
 					lua.call(_interfaceState.pickedUp->offClick, _interfaceState);
 					_interfaceState.pickedUp = nullptr;
 				}
@@ -193,14 +205,17 @@ namespace core {
 			auto selectedLayer = 10000;
 			auto selectedPos = Pixel{ 0, 0, 10000 };
 			InterfaceFacet* topFacetUnderCursor = nullptr;
-
+			
 			//check for any facets underneath the cursor
 			for (auto& facet : _facets) {
 				//if this entity has an interface facet that is not paused
 				if (facet.isPaused()) continue;
-
+				auto aligned = facet.camera->alignPoint(pos);
+				if (_mouseState.mdown) {
+					debug("Aligned cursor position: ", aligned.x, ", ", aligned.y);
+				}
 				//if the entity is under the cursor
-				if (inRect(pos.x, pos.y, facet.position.x, facet.position.y, facet.position.x + facet.dimensions.w, facet.position.y + facet.dimensions.h)) {
+				if (inRect(aligned.x, aligned.y, facet.position.x, facet.position.y, facet.position.x + facet.dimensions.w, facet.position.y + facet.dimensions.h)) {
 
 					//we need to check the layer to see if this is on top
 					auto entityLayerQuery = EntityLayerQuery{};
@@ -231,16 +246,20 @@ namespace core {
 
 				//if the mouse is clicked, pick up the entity
 				if (_mouseState.mdown && !_mouseState.mdownOld && topFacetUnderCursor->clickable) {
+					
 					_interfaceState.clickPosition.setPixel(pos);
 					_interfaceState.pickedUp = topFacetUnderCursor;
+					_interfaceState.clickPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));					
+					_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));
 					_interfaceState.pickedUpThisTick = true;
 					_interfaceState.pickedUpPosition.setPixel(selectedPos);
 
-					if (_interfaceState.hovering != nullptr) {
+					if (_interfaceState.hovering != nullptr) {							
 						lua.call(_interfaceState.hovering->offHover, _interfaceState);
 						_interfaceState.hovering = nullptr;
 					}
 					lua.call(_interfaceState.pickedUp->onClick, _interfaceState);
+
 					if (_interfaceState.pickedUp->draggable) {
 						lua.call(_interfaceState.pickedUp->onDrag, _interfaceState);
 					}
@@ -382,7 +401,7 @@ namespace core {
 
 	}
 
-	InterfaceFacet* Interface::createFacet(Entity& e, Pixel& position, Dimension& dimensions, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {
+	InterfaceFacet* Interface::createFacet(Entity& e, Pixel& position, Dimension& dimensions, Camera* cameraContext, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {
 		auto facet = InterfaceFacet{};
 		facet.setOf(e);	
 		facet.position = position;
@@ -395,6 +414,7 @@ namespace core {
 		facet.onHover = onHover;
 		facet.offHover = offHover;
 		facet.onDrag = onDrag;
+		facet.camera = cameraContext;
 		_facets.push_back(facet);
 		return &(_facets.back());
 	}
@@ -482,6 +502,23 @@ namespace core {
 		LuaDimension dimensions = lua["dimensions"];
 
 
+		/*
+		std::string cameraName = lua["camera"];
+
+
+		Camera* cameraContext;
+		if (!cameraName.compare("world")) {
+			cameraContext = single<World>().camera();
+		}
+		else if (!cameraName.compare("interface")) {
+			cameraContext = single<Interface>().camera();
+		}
+		else {
+			auto renderableSystem = single<Core>().getSystemByName<RenderableSystem2d>(cameraName);
+			cameraContext = renderableSystem->camera();
+		} */
+
+
 		bool draggable = lua["draggable"];
 		bool hoverable = lua["hoverable"];
 		bool clickable = lua["clickable"];
@@ -493,7 +530,7 @@ namespace core {
 
 
 
-		auto facet = single<Interface>().createFacet(e, position.getPixel(), dimensions.getDimension(), draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
+		auto facet = single<Interface>().createFacet(e, position.getPixel(), dimensions.getDimension(), single<World>().camera(), draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
 
 		lua.pushStack(facet->id());
 

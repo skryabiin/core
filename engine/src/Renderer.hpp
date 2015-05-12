@@ -23,7 +23,7 @@
 #include "Templates.hpp"
 #include "Config.hpp"
 #include "Math.hpp"
-#include "ResourceManager.hpp"
+#include "TextureManager.hpp"
 #include "Animation.hpp"
 #include "Camera2d.hpp"
 #include "RuntimeContext.hpp"

@@ -57,7 +57,9 @@ namespace core {
 
 		void snapCameraToCoordinates(float x, float y);
 
-		Camera* getCamera();
+		void setCamera(Camera* camera);
+
+		Camera* camera();
 
 		static int createFacet_bind(LuaState& lua);
 
@@ -70,7 +72,7 @@ namespace core {
 		int _drawableLayerId;
 
 		CameraFollowFacet _cameraFollow;
-		Camera _camera;
+		Camera* _camera;
 
 
 	};

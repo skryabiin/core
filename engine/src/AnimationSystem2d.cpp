@@ -191,7 +191,7 @@ namespace core {
 			std::string animationSetName = lua["animationSetName"];
 			
 			auto& facet = system->createAnimationFacet(entity);
-			auto animationSet = single<ResourceManager>().getAnimationSet(animationSetName);
+			auto animationSet = single<TextureManager>().getAnimationSet(animationSetName);
 
 			facet.animationSet = animationSet;
 
@@ -199,7 +199,7 @@ namespace core {
 
 			facet.offset = offset.getPixel();
 
-			facet.drawable.camera = system->getCamera();
+			facet.drawable.camera = system->camera();
 
 			facet.drawable.texture = facet.currentAnimation.texture;
 
