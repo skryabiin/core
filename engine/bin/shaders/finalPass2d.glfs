@@ -1,0 +1,10 @@
+#version 140
+
+	in vec2 uvPassed;
+	out vec4 fragmentColor; 
+	uniform sampler2D textureSampler;
+	uniform mat4 globalTransform;
+
+	void main() {
+		fragmentColor = globalTransform * texture(textureSampler, uvPassed); 
+	}

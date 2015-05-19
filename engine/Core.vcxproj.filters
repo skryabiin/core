@@ -283,6 +283,9 @@
     <ClCompile Include="src\TextureManager.cpp">
       <Filter>Source\Textures</Filter>
     </ClCompile>
+    <ClCompile Include="src\FrameBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\shaders\basic.glfs">
@@ -408,6 +411,30 @@
     </None>
     <None Include="bin\lua-core\audio-facet.lua">
       <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\basic-audio-system.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\text-render-system-2d.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\texture-render-system-2d.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\basic-position-system-2d.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\system.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua\map-test-scene.lua">
+      <Filter>Lua</Filter>
+    </None>
+    <None Include="bin\shaders\finalPass2d.glfs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\shaders\finalPass2d.glvs">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -758,6 +785,12 @@
     </ClInclude>
     <ClInclude Include="src\TextureManager.hpp">
       <Filter>Source\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacetVector.hpp">
+      <Filter>Source\Facets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBuffer.hpp">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

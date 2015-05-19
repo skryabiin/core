@@ -31,6 +31,7 @@ namespace core {
 		_lua.bindFunction("create_bind", Core::create_bind);
 		_lua.bindFunction("setDebug_bind", Console::setDebug_bind);
 		_lua.bindFunction("createEntity_bind", Core::createEntity_bind);
+		_lua.bindFunction("createSystem_bind", Core::createSystem_bind);
 		_lua.bindFunction("doQuit_bind", Core::doQuit_bind);
 	}
 
@@ -98,7 +99,7 @@ namespace core {
 		_lua.bindFunction("run_bind", Core::run_bind);
 		_lua.bindFunction("init_bind", Core::init_bind);		
 		_lua.bindFunction("destroyEntity_bind", Core::destroyEntity_bind);
-		_lua.bindFunction("createSystem_bind", Core::createSystem_bind);
+
 		_lua.bindFunction("reset_bind", Core::reset_bind);
 		_lua.bindFunction("destroy_bind", Core::destroy_bind);
 
@@ -284,7 +285,7 @@ namespace core {
 
 		single<Renderer>().update(floatdt, _runtimeContext);
 
-		single<World>().camera()->roll(floatdt * 20.0f / 1000.0f);
+		//single<World>().camera()->roll(floatdt * 20.0f / 1000.0f);
 	}
 
 	void Core::render() {

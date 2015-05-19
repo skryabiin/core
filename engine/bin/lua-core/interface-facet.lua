@@ -4,18 +4,14 @@ InterfaceFacet = Facet:new()
 
 function InterfaceFacet:new(entity, o)
 	o = o or {}
-	return self:create(entity, "Interface", o)
+	return self:create(entity, Interface, o)
 end
 
-function InterfaceFacet:getType()
+function InterfaceFacet:type()
 	return "InterfaceFacet"
 end
 
-function InterfaceFacet:getSystemName()
-	return "Interface"
-end
-
-function InterfaceFacet:setSystemName(systemName)
+function InterfaceFacet:setSystem(system)
 	--do nothing
 end
 
@@ -46,12 +42,12 @@ function InterfaceFacet:setClickable(clickable)
 end
 
 function InterfaceFacet:doOnClick(interfaceState)
-	self.onClick(interfaceState)
+	self._onClick(interfaceState)
 end
 
 function InterfaceFacet:setOnClick(onClick)	
 		local myself = self
-		self.onClick = function(interfaceState)			
+		self._onClick = function(interfaceState)			
 			onClick(myself, interfaceState)
 		end
 		self:updateFacetInCore()	
@@ -59,30 +55,30 @@ end
 
 function InterfaceFacet:setOffClick(offClick)
         local myself = self 
-        self.offClick = function(interfaceState)
+        self._offClick = function(interfaceState)
             offClick(myself, interfaceState)
         end
         self:updateFacetInCore()
 end
 
-function InterfaceFacet:getOnClick()
-	if not self.onClick then
+function InterfaceFacet:onClick()
+	if not self._onClick then
         local myself = self
-        self.onClick = function(interfaceState)
+        self._onClick = function(interfaceState)
             Interface.functions.basicOnClick(myself, interfaceState)
         end 		
 	end
-	return self.onClick
+	return self._onClick
 end
 
-function InterfaceFacet:getOffClick()
-    if not self.offClick then
+function InterfaceFacet:offClick()
+    if not self._offClick then
         local myself = self
-        self.offClick = function(interfaceState)
+        self._offClick = function(interfaceState)
             Interface.functions.basicOffClick(myself, interfaceState)
         end 
     end
-    return self.offClick
+    return self._offClick
 end
 
 
@@ -95,26 +91,26 @@ end
 
 function InterfaceFacet:setOnDrag(onDrag)
 	local myself = self
-	self.onDrag = function(interfaceState)
+	self._onDrag = function(interfaceState)
 		onDrag(myself, interfaceState)
 	end	
 	self:updateFacetInCore()
 
 end
 
-function InterfaceFacet:getOnDrag(onDrag)
-	if not self.onDrag then
+function InterfaceFacet:onDrag(onDrag)
+	if not self._onDrag then
         local myself = self
-        self.onDrag = function(interfaceState)
+        self._onDrag = function(interfaceState)
             Interface.functions.basicOnDrag(myself, interfaceState)
         end 		
 	end
-	return self.onDrag
+	return self._onDrag
 end
 
 function InterfaceFacet:setOnHover(onHover)
 	local myself = self
-	self.onHover = function(interfaceState)
+	self._onHover = function(interfaceState)
 		onHover(myself, interfaceState)
 	end	
 	self:updateFacetInCore()
@@ -122,58 +118,58 @@ end
 
 function InterfaceFacet:setOffHover(offHover)
 	local myself = self
-	self.offHover = function(interfaceState)
+	self._offHover = function(interfaceState)
 		offHover(myself, interfaceState)
 	end	    
 	self:updateFacetInCore()
 end
 
 
-function InterfaceFacet:getOnHover()
-    if not self.onHover then
+function InterfaceFacet:onHover()
+    if not self._onHover then
         local myself = self
-        self.onHover = function(interfaceState)
+        self._onHover = function(interfaceState)
             Interface.functions.basicOnHover(myself, interfaceState)
         end 
     end
-    return self.onHover
+    return self._onHover
 end
 
-function InterfaceFacet:getOffHover()
-    if not self.offHover then
+function InterfaceFacet:offHover()
+    if not self._offHover then
         local myself = self
-        self.offHover = function(interfaceState)
+        self._offHover = function(interfaceState)
             Interface.functions.basicOffHover(myself, interfaceState)
         end        
     end
-    return self.offHover
+    return self._offHover
 end
 
 function InterfaceFacet:createFacetInCore()
-   local facetDef = {   position = self:getOf():getPosition(),
-                        dimensions = self:getOf():getDimensions(),
+   local facetDef = {   position = self:of():position(),
+                        dimensions = self:of():dimensions(),
                         draggable = self:isDraggable(),
 					    clickable = self:isClickable(),
 					    hoverable = self:isHoverable(),
-					    onClick = self:getOnClick(),
-                        offClick = self:getOffClick(),
-                        onHover = self:getOnHover(),
-                        offHover = self:getOffHover(),	
-    				    onDrag = self:getOnDrag()}
-    self.id = createInterfaceFacet_bind(self.of:getId(), facetDef)    
+					    onClick = self:onClick(),
+                        offClick = self:offClick(),
+                        onHover = self:onHover(),
+                        offHover = self:offHover(),	
+    				    onDrag = self:onDrag()}
+    self._id = createInterfaceFacet_bind(self:of():id(), facetDef)    
 end
 
 function InterfaceFacet:updateFacetInCore()
-    if self:getId() ~= -1 then        
+    if self:id() ~= -1 then        
 	    local facetDef = {  draggable = self:isDraggable(),
 					        clickable = self:isClickable(),
 					        hoverable = self:isHoverable(),
-					        onClick = self:getOnClick(),
-                            offClick = self:getOffClick(),
-                            onHover = self:getOnHover(),
-                            offHover = self:getOffHover(),
-					        onDrag = self:getOnDrag()}
-	    updateInterfaceFacet_bind(self:getId(), facetDef)
+					        onClick = self:onClick(),
+                            offClick = self:offClick(),
+                            onHover = self:onHover(),
+                            offHover = self:offHover(),
+					        onDrag = self:onDrag()}
+	    updateInterfaceFacet_bind(self:id(), facetDef)
     else         
         self:createFacetInCore()
     end

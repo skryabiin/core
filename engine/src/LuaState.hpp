@@ -75,6 +75,8 @@ namespace core {
 
 		void setTable();
 
+		int length();
+
 		void popStack(int count);
 
 		void popStack();

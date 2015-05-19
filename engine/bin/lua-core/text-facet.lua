@@ -1,11 +1,11 @@
 TextFacet = Facet:new()
 
-function TextFacet:new(entity, systemName, o)
+function TextFacet:new(entity, system, o)
 	o = o or {}
-	return self:create(entity, systemName, o)
+	return self:create(entity, system, o)
 end
 
-function TextFacet:getType()
+function TextFacet:type()
 	return "TextFacet"
 end
 
@@ -13,37 +13,37 @@ function TextFacet:isRenderableFacet()
 	return true
 end
 
-function TextFacet:getText()
-	return self.text or ""
+function TextFacet:text()
+	return self._text or ""
 end
 
 function TextFacet:setText(text)
-	self.text = text
-    if (not self:isCoreFacet()) and self:getSystemName() then
+	self._text = text
+    if (not self:isCoreFacet()) and self:system() then
         self:createFacetInCore()
     elseif self:isCoreFacet() then	
 		local textContentChange = {
 			typeName = "TextContentChangeEvent",
-			entityId = self.of:getId(),			
-			font = self:getFont(),
-			textContent = self:getText(),
-			facetId = self:getId()
+			entityId = self:of():id(),			
+			font = self:font(),
+			textContent = self:text(),
+			facetId = self:id()
 		}		
 		EventProcessor.process(textContentChange)
 	end
 end
 	
-function TextFacet:getOffset()
-	return self.offset or {0,0}
+function TextFacet:offset()
+	return self._offset or {0,0}
 end
 	
 	
 function TextFacet:setOffset(offset)
-	self.offset = offset
+	self._offset = offset
 	if self:isCoreFacet() then	
 		local offsetChange = {
 			typeName = "OffsetChangeEvent",
-			entityId = self.of:getId(),
+			entityId = self:of():id(),
 			offset = offset
 		}
 		EventProcessor.process(offsetChange)	
@@ -52,9 +52,9 @@ end
 
 function TextFacet:scaleToEntity()
     if self:isCoreFacet() then
-        local dimensions = self.of:getDimensions()
-        local myDimensions = self:getDimensions()
-        local scale = self:getScale()
+        local dimensions = self:of():dimensions()
+        local myDimensions = self:dimensions()
+        local scale = self:scale()
         local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }
         self:setScale(scale)
     else 
@@ -63,49 +63,49 @@ function TextFacet:scaleToEntity()
 end
 
 function TextFacet:setScale(scale)
-	self.scale = scale
+	self._scale = scale
     if self:isCoreFacet() then
         local scaleChange = {
             typeName = "ScaleChangeEvent",
-            entityId = self.offset:getId(),
-            scale = self:getScale(),
-            facetId = self:getId()
+            entityId = self:of():id(),
+            scale = self:scale(),
+            facetId = self:id()
         }
         EventProcessor.process(scaleChange)
     end
 end
 
-function TextFacet:getScale()
-	return self.scale or {1,1}
+function TextFacet:scale()
+	return self._scale or {1,1}
 end
 
-function TextFacet:getColor()
-	return self.color or {255,255,255,255}
+function TextFacet:color()
+	return self._color or {1,1,1,1}
 end
 
 function TextFacet:setColor(color)
-	self.color = color
+	self._color = color
     if self:isCoreFacet() then	
 		local colorChange = {
 			typeName = "ColorChangeEvent",
-			entityId = self.of:getId(),            
-            color = self:getColor(),
-            facetId = self:getId()
+			entityId = self:of():id(),            
+            color = self:color(),
+            facetId = self:id()
 		}
 		EventProcessor.process(colorChange)	
 	end
 end
 
 function TextFacet:setFont(font)
-	self.font = font
-	self:setText(self.text)
+	self._font = font
+	self:setText(self._text)
 end
 
-function TextFacet:getFont()
-	if self.font then		
-		return self.font
+function TextFacet:font()
+	if self._font then		
+		return self._font
 	else
-		local defaultFont = Fonts.getDefaultFont()
+		local defaultFont = Fonts.defaultFont()
 		return defaultFont.name
 	end
 end
@@ -113,15 +113,15 @@ end
 function TextFacet:createFacetInCore()
 	if not self:isCoreFacet() then
 		local textFacet = {
-			position = self:getOf():getPosition(),
-			offset = self:getOffset(),
-            scale = self:getScale(),
-			font = self:getFont(),
-			text = self:getText(),
-			color = self:getColor()
+			position = self:of():position(),
+			offset = self:offset(),
+            scale = self:scale(),
+			font = self:font(),
+			text = self:text(),
+			color = self:color()
 		}
 			
-		self.id = addTextFacet_bind(self.systemName, self.of:getId(), textFacet)				
+		self._id = addTextFacet_bind(self:system():name(), self:of():id(), textFacet)				
 	end
 end
 		

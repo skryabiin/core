@@ -6,7 +6,7 @@ function Maps.parseMapObject()
 end
 	
 function Maps.loadMap(map)
-	Console.info("Loading map: '", map.name, "', ", map.path)
+	Console.info("Adding map: '", map.name, "', ", map.path)
 	loadMap_bind(map)
 end
 

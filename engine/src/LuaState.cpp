@@ -386,6 +386,14 @@ namespace core {
 		return *this;
 	}
 
+	int LuaState::length() {
+		lua_len(_L, -1);
+		int len = pullStack<int>();
+		addStackAdditions(1);
+		popStackAdditions();		
+		return len;
+	}
+
 	void LuaState::foreachKey(std::function<void(std::string, LuaState&)> fun) {
 		pushStack();
 		while (lua_next(_L, -2) != 0) {

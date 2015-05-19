@@ -8,6 +8,7 @@
 #include "TimedEvent.hpp"
 #include "LuaState.hpp"
 #include "EventRegistry.hpp"
+
 namespace core {
 
 	EventProcessor::EventProcessor() {
@@ -30,10 +31,10 @@ namespace core {
 
 		lua.bindFunction("addEventFilter_bind", EventProcessor::addEventFilter_bind);
 		lua.bindFunction("removeEventFilter_bind", EventProcessor::removeEventFilter_bind);
-		lua.bindFunction("processEvent_bind", EventProcessor::processEvent_bind);		
+		lua.bindFunction("processEvent_bind", EventProcessor::processEvent_bind);
 		return true;
 	}
-	
+
 
 
 	bool EventProcessor::initializeImpl() {
@@ -44,9 +45,9 @@ namespace core {
 
 		_luaFilters.clear();
 
-		
 
-		
+
+
 		//todo?
 		return true;
 
@@ -58,6 +59,16 @@ namespace core {
 		}
 		_topics.clear();
 		return true;
+	}
+
+	void EventProcessor::processForLua(std::string eventTypeName, LuaTable event) {
+		auto& lua = single<Core>().lua();
+		std::for_each(std::begin(_luaFilters), std::end(_luaFilters),
+			[&](LuaEventFilter& filter) {
+			if (!eventTypeName.compare(filter.eventTypeName)) {
+				lua.call(filter.callback, event);							
+			}
+		});
 	}
 
 	int EventProcessor::removeEventFilter_bind(LuaState& lua) {

@@ -7,7 +7,7 @@
 #include "TextureFacet.hpp"
 #include "TextureChangeEvent.hpp"
 #include "FacetDimensionQuery.hpp"
-
+#include "FacetVector.hpp"
 
 namespace core {
 
@@ -24,7 +24,7 @@ namespace core {
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 
-		TextureFacet& createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName);
+		TextureFacet* createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName);
 
 		virtual bool createImpl() override;
 
@@ -42,9 +42,7 @@ namespace core {
 
 		bool handleEvent(FacetDimensionQuery& e);
 
-		bool handleEvent(TextureChangeEvent& e);
-
-		TextureFacet& updateTexture(TextureChangeEvent& e);		
+		bool handleEvent(TextureChangeEvent& e);				
 
 		static int createFacet_bind(LuaState& lua);
 
@@ -52,9 +50,9 @@ namespace core {
 
 	private:
 
-		TextureFacet _nullFacet;
+		TextureFacet _nullFacet;		
 
-		std::vector<TextureFacet> _textureFacets;
+		FacetVector<TextureFacet> _facets;
 
 		std::map<Entity, TextureFacet*> _movingTextures;
 

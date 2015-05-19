@@ -6,6 +6,7 @@
 #include "TextContentChangeEvent.hpp"
 #include "Core.hpp"
 #include "OffsetChangeEvent.hpp"
+#include "Interface.hpp"
 
 namespace core {
 
@@ -18,14 +19,15 @@ namespace core {
 	}
 
 	bool TextRenderSystem2d::createImpl() {
+		if (_facets.create(20) != InitStatus::CREATE_TRUE) return false;
 		return RenderableSystem2d::createImpl();
 	}
 
 	bool TextRenderSystem2d::initializeImpl() {
 	
-
+		if (_facets.initialize(2) != InitStatus::INIT_TRUE) return false;
 		if (!RenderableSystem2d::initializeImpl()) return false;
-
+		_camera = single<Interface>().camera();
 		return true;
 	}
 
@@ -34,19 +36,20 @@ namespace core {
 		auto dc = DrawableChange{};
 		dc.layerId = _drawableLayerId;
 		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
-
-		for (auto& facet : _textFacets) {
-			dc.facetId = facet.id();
+		auto deleteTextTokens = [&dc](TextFacet* facet)->void{
+			dc.facetId = facet->id();
 			single<Renderer>().applyDrawableChange(dc);
-		}
+			delete facet->renderedTextToken;
+		};
+
+		bool facetVectorDestroyStatus = (_facets.reset() == InitStatus::CREATE_TRUE);
 		
-		return RenderableSystem2d::resetImpl();
+		return RenderableSystem2d::resetImpl() && facetVectorDestroyStatus;
 	}
 
 	bool TextRenderSystem2d::destroyImpl() {
-		_textFacets.clear();
-		_renderedTextTokens.clear();
-		return RenderableSystem2d::destroyImpl();
+		bool facetVectorDestroyStatus = (_facets.destroy() == InitStatus::CREATE_FALSE);		
+		return RenderableSystem2d::destroyImpl() && facetVectorDestroyStatus;
 	}
 	
 
@@ -77,20 +80,12 @@ namespace core {
 
 
 
-	std::vector<Facet*> TextRenderSystem2d::getFacets(Entity& e) {
-
-		auto out = std::vector<Facet*>{};
-
-		for (auto& facet : _textFacets) {
-			if (facet.of() == e) {
-				out.push_back(&facet);
-			}
-		}
-		return out;
+	std::vector<Facet*> TextRenderSystem2d::getFacets(Entity& e) {		
+		return _facets.getBaseFacets(e);
 	}
 
 	
-	TextFacet& TextRenderSystem2d::createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Vec2 scale, Color color, std::string text) {
+	TextFacet* TextRenderSystem2d::createTextFacet(Entity& e, std::string fontName, Pixel position, Pixel offset, Vec2 scale, Color color, std::string text) {
 
 
 		auto facet = TextFacet{};
@@ -99,17 +94,11 @@ namespace core {
 		facet.color = color;
 		facet.scale = scale;
 		facet.position = position;		
-		facet.textContent = text;		
-		if (!fontName.compare("default")) {
-			single<TextureManager>().getDefaultFont();
-		} else {
-			facet.font = single<TextureManager>().getFont(fontName);
-		}
+		facet.textContent = text;				
+		facet.font = (!fontName.compare("default")) ? single<TextureManager>().getDefaultFont() : single<TextureManager>().getFont(fontName);
 
-		auto rtt = facet.font->getRenderedTextToken();
-		rtt->setText(text);
-		facet.renderedTextToken = rtt.get();
-		_renderedTextTokens.push_back(std::move(rtt));
+		facet.renderedTextToken= facet.font->getRenderedTextToken();
+		facet.renderedTextToken->setText(text);
 		facet.dimensions.w = facet.renderedTextToken->texture()->dimensions().w;
 		facet.dimensions.h = facet.renderedTextToken->texture()->dimensions().h;
 		auto dc = DrawableChange{};
@@ -127,34 +116,34 @@ namespace core {
 		dc.shaderProgramName = "textureRender2d";
 		single<Renderer>().applyDrawableChange(dc);
 
-
-		_textFacets.push_back(std::move(facet));
-		return _textFacets.back();
+		return _facets.addFacet(facet);
 	}
 
 
 	bool TextRenderSystem2d::handleEvent(FacetDimensionQuery& facetDimensionQuery) {
-
-		for (auto& facet : _textFacets) {
-			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {				
-				facetDimensionQuery.dimensions.setDimension(Dimension(facet.dimensions.w * facet.scale.x, facet.dimensions.h * facet.scale.y));
-				facetDimensionQuery.found = true;
-				return false;
-			}
+		long& facetId = facetDimensionQuery.facetId;
+		auto facet = _facets[facetId];
+		if (facet == nullptr) {
+			return true;
 		}
-		return true;
+		else {
+			facetDimensionQuery.dimensions.setDimension(Dimension(facet->dimensions.w * facet->scale.x, facet->dimensions.h * facet->scale.y));
+			facetDimensionQuery.found = true;
+			return false;
+		}		
 	}
 
 
 	bool TextRenderSystem2d::handleEvent(TextContentChangeEvent& textContentChange) {
 
-		for (auto& facet : _textFacets) {
-			if (facet.of() == textContentChange.entity && facet.id() == textContentChange.facetId) {
-				setText(facet, textContentChange.font, textContentChange.textContent);
-				return false;
-			}
-		}
-		return true;
+		int& facetId = textContentChange.facetId;
+		auto facet = _facets[facetId];
+		if (facet == nullptr) {
+			return true;
+		} else {
+		 	setText(facet, textContentChange.font, textContentChange.textContent);
+			return false;			
+		}		
 	}
 
 	void TextRenderSystem2d::destroyFacets(Entity& entity) {
@@ -163,65 +152,52 @@ namespace core {
 
 		auto dc = DrawableChange{};
 		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
-		dc.layerId = _drawableLayerId;
+		dc.layerId = _drawableLayerId;		
 
-		for (auto it = std::begin(_textFacets); it != std::end(_textFacets); ++it) {
-			if (it->of() == entity) {
-				renderedToken = it->renderedTextToken;
-				dc.facetId = it->id();
+		_facets.forEach([&entity, &dc](TextFacet* facet)->void{
+			if (facet->of() == entity) {
+				delete facet->renderedTextToken;
+				dc.facetId = facet->id();
 				single<Renderer>().applyDrawableChange(dc);
-				_textFacets.erase(it);
-				break;
 			}
-		}
-
-		if (renderedToken != nullptr) {
-
-			for (auto it = std::begin(_renderedTextTokens); it != std::end(_renderedTextTokens); ++it) {
-
-				if (it->get() == renderedToken) {
-					_renderedTextTokens.erase(it);
-					return;
-				}
-
-			}
-		}
+		});
+		
+		_facets.removeFacets(entity);
 	}
 
+	//TODO do i need the rendered text token generation?
+	void TextRenderSystem2d::setText(TextFacet* facet, std::string font ,std::string text) {
+		facet->textContent = text;
 
-	void TextRenderSystem2d::setText(TextFacet& facet, std::string font ,std::string text) {
-		facet.textContent = text;
-
-		if (facet.renderedTextToken == nullptr) {
+		if (facet->renderedTextToken == nullptr) {
 			Font* font = nullptr;
-			if (facet.font != nullptr) {
-				font = facet.font;
+			if (facet->font != nullptr) {
+				font = facet->font;
 			}
 			else if (_defaultFont != nullptr) {
 				font = _defaultFont;
 			}
 			if (font != nullptr) {
-				auto rtt = font->getRenderedTextToken();
-				rtt->setText(text);
-				facet.renderedTextToken = rtt.get();
-				_renderedTextTokens.push_back(std::move(rtt));
+				
+				facet->renderedTextToken = font->getRenderedTextToken();
+				facet->renderedTextToken->setText(text);				
 			}
 		}
 		else {
-			facet.renderedTextToken->setText(text);
+			facet->renderedTextToken->setText(text);
 		}
 
 		
 		auto dc = DrawableChange{};
 		dc.operation = DrawableChange::Operation::CHANGE_TEXTURE;
-		dc.facetId = facet.id();
+		dc.facetId = facet->id();
 		dc.layerId = _drawableLayerId;
-		dc.texture = facet.renderedTextToken->texture();
-		dc.textureCoordinates = facet.renderedTextToken->texture()->dimensions();
-		facet.dimensions.w = dc.textureCoordinates.w;
-		facet.dimensions.h = dc.textureCoordinates.h;
+		dc.texture = facet->renderedTextToken->texture();
+		dc.textureCoordinates = facet->renderedTextToken->texture()->dimensions();
+		facet->dimensions.w = dc.textureCoordinates.w;
+		facet->dimensions.h = dc.textureCoordinates.h;
 		single<Renderer>().applyDrawableChange(dc);
-		updateDrawablePosition(&facet);
+		updateDrawablePosition(facet);
 	}
 
 
@@ -254,8 +230,8 @@ namespace core {
 		
 			LuaVec2 scale = lua["scale"];
 
-			auto& newFacet = system->createTextFacet(entity, fontName,position.getPixel(), offset.getPixel(), scale.getVec2(), color.getColor(), text);
-			lua.pushStack(newFacet.id());
+			auto newFacet = system->createTextFacet(entity, fontName,position.getPixel(), offset.getPixel(), scale.getVec2(), color.getColor(), text);
+			lua.pushStack(newFacet->id());
 		}
 		else {
 			lua.pushStack(-1L);

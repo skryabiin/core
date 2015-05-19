@@ -57,7 +57,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\lib\glew-1.12.0\lib\Release\Win32;..\lib\glut-3.7.6-bin;..\lib\SDL2_mixer-2.0.0\lib\x86;..\lib\SDL2-2.0.3\lib\x86;..\lib\SDL2_ttf-2.0.12\lib\x86;..\lib\SDL2_image-2.0.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glut32.lib;SDL2_mixer.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
@@ -99,6 +99,7 @@
     <ClCompile Include="src\FacetPauseEvent.cpp" />
     <ClCompile Include="src\FadeTransition.cpp" />
     <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\Interpolation.cpp" />
     <ClCompile Include="src\LinearParticleField.cpp" />
@@ -142,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\lua-core\audio-facet.lua" />
+    <None Include="bin\lua-core\basic-audio-system.lua" />
+    <None Include="bin\lua-core\basic-position-system-2d.lua" />
     <None Include="bin\lua-core\blank-scene.lua" />
     <None Include="bin\lua-core\config-default.lua" />
     <None Include="bin\lua-core\constants.lua" />
@@ -163,8 +166,11 @@
     <None Include="bin\lua-core\shaders.lua" />
     <None Include="bin\lua-core\audio.lua" />
     <None Include="bin\lua-core\sprites.lua" />
+    <None Include="bin\lua-core\system.lua" />
     <None Include="bin\lua-core\text-facet.lua" />
+    <None Include="bin\lua-core\text-render-system-2d.lua" />
     <None Include="bin\lua-core\texture-facet.lua" />
+    <None Include="bin\lua-core\texture-render-system-2d.lua" />
     <None Include="bin\lua-core\transitions.lua" />
     <None Include="bin\lua-core\util.lua" />
     <None Include="bin\lua-core\world.lua" />
@@ -172,12 +178,15 @@
     <None Include="bin\lua\config.lua" />
     <None Include="bin\lua\firstscene.lua" />
     <None Include="bin\lua\loadassets.lua" />
+    <None Include="bin\lua\map-test-scene.lua" />
     <None Include="bin\lua\maps\level1\Level.tmx" />
     <None Include="bin\lua\menus.lua" />
     <None Include="bin\lua\rainbow-scene.lua" />
     <None Include="bin\lua\titlescene.lua" />
     <None Include="bin\shaders\basic.glfs" />
     <None Include="bin\shaders\basic.glvs" />
+    <None Include="bin\shaders\finalPass2d.glfs" />
+    <None Include="bin\shaders\finalPass2d.glvs" />
     <None Include="bin\shaders\shape2d.glfs" />
     <None Include="bin\shaders\shape2d.glvs" />
     <None Include="bin\shaders\textureRender2d.glfs" />
@@ -221,9 +230,11 @@
     <ClInclude Include="src\Facet.hpp" />
     <ClInclude Include="src\FacetDimensionQuery.hpp" />
     <ClInclude Include="src\FacetPauseEvent.hpp" />
+    <ClInclude Include="src\FacetVector.hpp" />
     <ClInclude Include="src\FadeTransition.hpp" />
     <ClInclude Include="src\Font.hpp" />
     <ClInclude Include="src\FragmentShader.hpp" />
+    <ClInclude Include="src\FrameBuffer.hpp" />
     <ClInclude Include="src\GamepadEvent.hpp" />
     <ClInclude Include="src\Geometry.hpp" />
     <ClInclude Include="src\IndexBufferObject.hpp" />

@@ -3,14 +3,28 @@ Interface = {
 	functions = {}
 }
 
+
+
+function Interface:type()
+    return "Interface"
+end
+
+function Interface:setName(systemName)
+    --do nothing
+end
+
+function Interface:name()
+    return "Interface"
+end
+
 function Interface.setCursorTexture(cursorTexture)
 	setCursorTexture_bind(cursorTexture)
 end
-function Interface.getKeyStates()
+function Interface.keyStates()
     return getKeyStates_bind()
 end
 
-function Interface.getGamepadStates()
+function Interface.gamepadStates()
     return getGamepadStates_bind()
 end
 
@@ -31,30 +45,30 @@ function Interface.useTextureCursor()
 end
 
 function Interface.functions.basicOnHover(self, interfaceState)
-    Console.debug("Hovering on entity " , self:getOf():getId() , ", facet ", self:getId())
+    Console.debug("Hovering on entity " , self:of():id() , ", facet ", self:id())
 end
 
 function Interface.functions.basicOffHover(self, interfaceState)
-    Console.debug("Done hovering on entity ", self:getOf():getId(), ", facet ", self:getId())
+    Console.debug("Done hovering on entity ", self:of():id(), ", facet ", self:id())
 end
 
 function Interface.functions.basicOnClick(self, interfaceState)
-	Console.debug("clicked on entity " , self:getOf():getId() , ", facet " , self:getId())
+	Console.debug("clicked on entity " , self:of():id() , ", facet " , self:id())
 end
 
 function Interface.functions.basicOffClick(self, interfaceState)
-    Console.debug("click released on entity " , self:getOf():getId() , ", facet " , self:getId())
+    Console.debug("click released on entity " ,self:of():id() , ", facet " , self:id())
 end
 
 function Interface.functions.basicDragMove(self, interfaceState)
-	if self:getOf():isPaused() then 
+	if self:of():isPaused() then 
 		return
 	end
 	
 	if interfaceState.pickedUpThisTick then
-		local position = self:getOf():getPosition()
+		local position = self:of():position()
 		self.dragDelta = Util.subtractPositions(position,interfaceState.clickPosition)		
-		local dimensions = self:getOf():getDimensions()		
+		local dimensions = self:of():dimensions()		
 		self.dragDelta[3] = position[3]
 		self.dragDelta[4] = dimensions[1]
 		self.dragDelta[5] = dimensions[2]
@@ -63,10 +77,10 @@ function Interface.functions.basicDragMove(self, interfaceState)
 		newPosition[3] = self.dragDelta[3]		
 		newPosition[1] = Util.bounds(newPosition[1], 0, Config.window[1] - self.dragDelta[4])
 		newPosition[2] = Util.bounds(newPosition[2], 0, Config.window[2] - self.dragDelta[5])
-		self:getOf():setPosition(newPosition)
+		self:of():setPosition(newPosition)
 	end
 	
-	for i, v in pairs(self:getOf():getChildren()) do	
+	for i, v in pairs(self:of():children()) do	
 		local childOnDrag = v.facets.interface:getOnDrag()
 		childOnDrag(interfaceState)
 	end
@@ -78,7 +92,7 @@ function Interface.functions.gridDragMove(self, interfaceState)
 	if interfaceState.pickedUpThisTick then
 		self.dragDelta = Util.subtractPositions(interfaceState.pickedUpPosition,interfaceState.clickPosition)
 		self.dragDelta[3] = interfaceState.pickedUpPosition[3] --just want to keep the current z so don't need too many "get position" calls
-		local dimensions = self:getOf():getDimensions()
+		local dimensions = self:of():dimensions()
 		self.dragDelta[4] = dimensions[1]
 		self.dragDelta[5] = dimensions[2]
 	else 				
@@ -100,7 +114,7 @@ function Interface.functions.alphaFun(self, interfaceState)
 	else
 		self.newAlpha = self.alphaBase - (interfaceState.clickPosition[2] - interfaceState.currentPosition[2])
 		self.newAlpha = Util.bounds(self.newAlpha, 0, 255)
-		self:getOf().facets.background:setColor({255,255,255,self.newAlpha})	
+		self:of().facets.background:setColor({1,1,1,self.newAlpha})	
 	end
 end
 

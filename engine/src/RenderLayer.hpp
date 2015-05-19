@@ -4,6 +4,7 @@
 #include "Templates.hpp"
 #include "Color.hpp"
 #include "Drawable.hpp"
+#include "FrameBuffer.hpp"
 
 namespace core {
 
@@ -25,7 +26,9 @@ namespace core {
 		short layerId;
 		std::vector<Drawable> drawables;
 		
+		Camera* camera;
 
+		FrameBuffer frame;
 
 	};
 

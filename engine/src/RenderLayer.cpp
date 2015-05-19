@@ -1,18 +1,31 @@
 #include "RenderLayer.hpp"
+#include "Renderer.hpp"
 
 namespace core {
 
 	bool RenderLayer::createImpl(short layerId1) {
 		layerId = layerId1;
+		frame.create(single<Renderer>().windowDimensions());
 		return true;
 	}
 
-	bool RenderLayer::initializeImpl() { return true;  }
-	bool RenderLayer::resetImpl() {
-		drawables.clear();
-		return true;
+	bool RenderLayer::initializeImpl() { 
+		
+		if (frame.initialize() != InitStatus::INIT_TRUE) {
+			return false;
+		}
+		return true;  
+	
 	}
-	bool RenderLayer::destroyImpl() { return true;	}
+	bool RenderLayer::resetImpl() {
+		bool check = (frame.reset() != InitStatus::CREATE_TRUE);		
+		drawables.clear();
+		return check;
+	}
+	bool RenderLayer::destroyImpl() { 		
+		bool check = (frame.destroy() != InitStatus::CREATE_FALSE);
+		return check;
+	}
 
 	void RenderLayer::pauseImpl() {}
 	void RenderLayer::resumeImpl() {}

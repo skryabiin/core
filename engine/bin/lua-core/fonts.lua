@@ -8,7 +8,7 @@ Console.info("Loading font: '", v.name, "', ", v.path, ", size ", v.renderedSize
 	loadFont_bind(v.name, v.path, v.renderedSize, v.default, true)
 end
 
-function Fonts.getDefaultFont()
+function Fonts.defaultFont()
 	for i, v in ipairs(Fonts.fonts) do
 		if v.default then
 			return v

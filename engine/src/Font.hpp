@@ -35,7 +35,7 @@ namespace core {
 
 		int fontSize();
 
-		std::unique_ptr<RenderedTextToken> getRenderedTextToken();
+		RenderedTextToken* getRenderedTextToken();
 
 		void renderText(RenderedTextToken* token);
 

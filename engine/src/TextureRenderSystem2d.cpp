@@ -17,44 +17,39 @@ namespace core {
 
 
 	bool TextureRenderSystem2d::handleEvent(TextureChangeEvent& e) {
+		
+		auto facet = _facets.getFacet(e.facetId);
+		if (facet == nullptr) return true;
 
-		updateTexture(e);
-		
-		
-		return true;
+		facet->textureCoordinates = e.sourceTextureRect.getRect();
+		facet->dimensions.w = facet->textureCoordinates.w;
+		facet->dimensions.h = facet->textureCoordinates.h;
+		facet->texture = single<TextureManager>().getTexture(e.textureName);
+		auto dc = DrawableChange{};
+		dc.operation = DrawableChange::Operation::CHANGE_TEXTURE;
+		dc.facetId = facet->id();
+		dc.layerId = _drawableLayerId;
+		dc.textureCoordinates = facet->textureCoordinates;
+		dc.texture = facet->texture;
+		single<Renderer>().applyDrawableChange(dc);
+
+		return false;
 	}
 
 	bool TextureRenderSystem2d::handleEvent(FacetDimensionQuery& facetDimensionQuery) {
 
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == facetDimensionQuery.entity && facet.id() == facetDimensionQuery.facetId) {
-				
-				facetDimensionQuery.dimensions.setDimension(Dimension( facet.dimensions.w * facet.scale.x, facet.dimensions.h * facet.scale.y ));
-				facetDimensionQuery.found = true;
-				return false;
-			}
+		long& facetId = facetDimensionQuery.facetId;
+		auto facet = _facets[facetId];
+		if (facet == nullptr) {
+			return true;
 		}
-		return true;
+		else {
+			facetDimensionQuery.dimensions.setDimension(Dimension(facet->dimensions.w * facet->scale.x, facet->dimensions.h * facet->scale.y));
+			facetDimensionQuery.found = true;
+			return false;
+		}
 	}
 
-	TextureFacet& TextureRenderSystem2d::updateTexture(TextureChangeEvent& e) {
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == e.entity && facet.id() == e.facetId) {
-				facet.textureCoordinates = e.sourceTextureRect.getRect();
-				facet.texture = single<TextureManager>().getTexture(e.textureName);
-				auto dc = DrawableChange{};
-				dc.operation = DrawableChange::Operation::CHANGE_TEXTURE;				
-				dc.facetId = facet.id();
-				dc.layerId = _drawableLayerId;
-				dc.textureCoordinates = facet.textureCoordinates;
-				dc.texture = facet.texture;
-				single<Renderer>().applyDrawableChange(dc);
-				return facet;
-				
-			}
-		}
-		return _nullFacet;
-	}
 
 	void TextureRenderSystem2d::updateDrawablePosition(VisualFacet* vfacet) {
 		auto tfacet = static_cast<TextureFacet*>(vfacet);
@@ -74,25 +69,12 @@ namespace core {
 		single<Renderer>().applyDrawableChange(dc);
 	}
 
-	std::vector<Facet*> TextureRenderSystem2d::getFacets(Entity& e) {
+	std::vector<Facet*> TextureRenderSystem2d::getFacets(Entity& e) {		
 
-		auto out = std::vector<Facet*>{};
-
-		for (auto& facet : _textureFacets) {
-			if (facet.of() == e) {
-				out.push_back(&facet);
-			}
-		}
-
-		if (_cameraFollow.of() == e) {
-			out.push_back(&_cameraFollow);
-		}
-
-		return out;
-
+		return _facets.getBaseFacets(e);
 	}
 
-	TextureFacet& TextureRenderSystem2d::createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName) {
+	TextureFacet* TextureRenderSystem2d::createTextureFacet(Entity& e, Pixel position, Pixel offset, Vec2 scale, SDL_Rect source, std::string textureName) {
 
 		auto facet = TextureFacet{};
 		facet.setOf(e);
@@ -123,18 +105,19 @@ namespace core {
 		dc.shaderProgramName = "textureRender2d";
 		single<Renderer>().applyDrawableChange(dc);
 
-		_textureFacets.push_back(std::move(facet));
-		return _textureFacets.back();
+		return _facets.addFacet(facet);		
 	}
 
 
 	bool TextureRenderSystem2d::createImpl() {
+
+		if (_facets.create(200) != InitStatus::CREATE_TRUE) return false;
 		return RenderableSystem2d::createImpl();
 	}
 
 	bool TextureRenderSystem2d::initializeImpl() {
 
-
+		if (_facets.initialize(2) != InitStatus::INIT_TRUE) return false;
 		if(!RenderableSystem2d::initializeImpl()) return false;
 
 		return true;
@@ -148,42 +131,20 @@ namespace core {
 		auto dc = DrawableChange{};
 		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
 		dc.layerId = _drawableLayerId;
-		for (auto& facet : _textureFacets) {
-			dc.facetId = facet.id();
-			single<Renderer>().applyDrawableChange(dc);
-		}
-
-		_textureFacets.clear();
-		_textureFacets.shrink_to_fit();
+		if(_facets.reset() != InitStatus::CREATE_TRUE) return false;
 
 		return RenderableSystem2d::resetImpl();
 	}
 
 	bool TextureRenderSystem2d::destroyImpl() {
+		if (_facets.destroy() != InitStatus::CREATE_FALSE) return false;
+
 		return RenderableSystem2d::destroyImpl();
 	}
 
 	void TextureRenderSystem2d::destroyFacets(Entity& entity) {
 		
-		auto movingIt = _movingTextures.find(entity);
-		if (movingIt != std::end(_movingTextures)) {
-			_movingTextures.erase(movingIt);
-		}
-
-		for (auto it = std::begin(_textureFacets); it != std::end(_textureFacets); ++it) {
-
-			if (it->of() == entity) {
-				auto dc = DrawableChange{};
-				dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
-				dc.facetId = it->id();
-				dc.layerId = _drawableLayerId;
-
-				single<Renderer>().applyDrawableChange(dc);
-				it = _textureFacets.erase(it);
-				return;
-			}
-
-		}
+		_facets.removeFacets(entity);
 
 	}
 
@@ -206,8 +167,8 @@ namespace core {
 			
 			std::string textureName = lua["textureName"];			
 			
-			auto& newFacet = system->createTextureFacet(entityId, position.getPixel(), offset.getPixel(), scale.getVec2(), source.getRect(), textureName);
-			lua.pushStack(newFacet.id());
+			auto newFacet = system->createTextureFacet(entityId, position.getPixel(), offset.getPixel(), scale.getVec2(), source.getRect(), textureName);
+			lua.pushStack(newFacet->id());
 		}
 		else {
 			lua.pushStack(-1L);

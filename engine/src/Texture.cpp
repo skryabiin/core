@@ -40,9 +40,10 @@ namespace core {
 		//GL_TEXTURE_2D, mipmap index, internal format, w, h, border = 0, format = internal format, data type, data*
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, _sdlSurface->w, _sdlSurface->h, 0, internalFormat, GL_UNSIGNED_BYTE, _sdlSurface->pixels);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glBindTexture(GL_TEXTURE_2D, NULL);
 		return true;
 	}

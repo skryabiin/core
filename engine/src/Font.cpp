@@ -41,10 +41,10 @@ namespace core {
 		return _fontSize;
 	}
 
-	std::unique_ptr<RenderedTextToken> Font::getRenderedTextToken() {
+	RenderedTextToken* Font::getRenderedTextToken() {
 		auto token = new RenderedTextToken{};
 		token->setFont(this);
-		return std::move(std::unique_ptr<RenderedTextToken>(token));
+		return token;
 	}
 
 	void Font::renderText(RenderedTextToken* token) {

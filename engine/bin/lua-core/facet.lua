@@ -3,40 +3,40 @@ Facet = {}
 
 
 
-function Facet:create(entity, systemName, o)
+function Facet:create(entity, system, o)
 	o = o or {}
 	setmetatable(o, self)
 	self.__index = self	
 	if entity then
-		o.of = entity		
+		o._of = entity		
 	end
-    if systemName then
-        o:setSystemName(systemName)
+    if system then
+        o._system = system
     end
 	return o
 end
 
-function Facet:new(entity, systemName, o)
-	return Facet:create(entity, systemName, o)
+function Facet:new(entity, system, o)
+	return Facet:create(entity, system, o)
 end
 
-function Facet:getId()
-	return self.id or -1
+function Facet:id()
+	return self._id or -1
 end
 
 function Facet:isRenderableFacet()
 	return false
 end
 
-function Facet:getType()
+function Facet:type()
 	return "Facet"
 end
 
-function Facet:getDimensions()
+function Facet:dimensions()
 	local dimensionQueryEvent = {
 		typeName = "FacetDimensionQuery",
-		entityId = self:getOf():getId(),
-		facetId = self:getId(),
+		entityId = self:of():id(),
+		facetId = self:id(),
 		dimensions = {0,0},
 		found = false }
     
@@ -44,6 +44,8 @@ function Facet:getDimensions()
 	return dimensionQueryEvent.dimensions
 
 end
+
+
 
 function Facet:isPaused()
 	return self.paused
@@ -63,37 +65,37 @@ end
 
 function Facet:setPaused(paused)
 	Console.info("attempting to pause facet")
-	Console.info("facet is: " .. self:getId())
-	Console.info("entity is: " .. self.of:getId())
+	Console.info("facet is: " .. self:id())
+	Console.info("entity is: " .. self:of():id())
 	local facetPauseEvent = {
 			typeName = "FacetPauseEvent",
-			entityId = self.of:getId(),
+			entityId = self:of():id(),
 			paused = paused,
-			facetId = self:getId()}	
+			facetId = self:id()}	
 	Console.info("facet is: " .. facetPauseEvent.facetId)
 	Console.info("entity is: " .. facetPauseEvent.entityId)			
 	EventProcessor.process(facetPauseEvent)
 	self.paused = paused
 end
 
-function Facet:getSystemName()
-	return self.systemName
+function Facet:system()
+	return self._system
 end
 
-function Facet:setSystemName(systemName)
-	self.systemName = systemName
+function Facet:setSystem(system)
+	self._system = system
 end
 
 function Facet:setOf(entity)
-	self.of = entity
+	self._of = entity
 end
 
-function Facet:getOf()
-	return self.of
+function Facet:of()
+	return self._of
 end
 	
 function Facet:isCoreFacet()
-	return self:getId() ~= -1
+	return self:id() ~= -1
 end
 
 function Facet:createFacetInCore()

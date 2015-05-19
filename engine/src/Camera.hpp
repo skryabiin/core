@@ -13,107 +13,141 @@ namespace core {
 	public:
 		Camera();
 
+		//initializable
+		//-------------
 		bool createImpl();
-		bool initializeImpl();
+
+		bool initializeImpl(); //requires renderer window dimensions defined
+
 		bool resetImpl();
+
 		bool destroyImpl();
-
-		void positionRect(Rect& rect);
-
-		void getVertices(Rect& rect, std::vector<GLfloat>& values);
-
-		void lockOnTarget();
-
-		void setTarget(const glm::vec3& target);
-
-		void disengageTarget();
-
-		void setPosition(const glm::vec3& position);
-
-		void pitch(const float& theta);
-
-		void yaw(const float& phi);
-
-		void roll(const float& psi);
-
-		void translate(const glm::vec3& delta);
-
-		void setFovDegrees(const float& theta);
-
-		void setAspectRatio(const float& ratio);
-
-		void setMinVisionRange(const float& range);
 		
-		void setMaxVisionRange(const float& range);
 
-		void resetIsChanged();
-
-		void moveOut(const float& delta);
-
-		void moveRight(const float& delta);
-
-		void moveUp(const float& delta);
-
-		glm::vec3 getOut() const;
-
-		glm::vec3 getRight() const;
-
-		glm::vec3 getUp() const;
-
-		glm::vec3 getPosition() const;
-
-		float getFovDegrees() const;
-
-		float getAspectRatio() const;
 		
-		float getMinVisionRange() const;
+		//position
+		void setPosition(const Pixel& p); //sets the camera's position absolutely
+		
+		void move(const Vec2& delta);  //moves the camera relatively
 
-		float getMaxVisionRange() const;
+		void setZoom(const Vec2& zoom); //sets the zoom absolutely.  can be used as "stretch" if the x,y components of zoom are not the same
 
-		bool isChanged() const;
+		glm::vec3 getPosition() const;  //returns the camera's position
 
-		const glm::mat4& getViewProjection() const;
 
-		glm::mat4 getViewProjectionLocked();
 
-		void setOrthoProjection(float minx, float maxx, float miny, float maxy);
+		//rotation
+		void pitch(const float& theta); //rotates along x-axis (nod your head "yes")
 
-		Pixel alignPoint(Pixel p);		
+		void yaw(const float& phi); //rotates along z-axis (shake your head "no")
 
-		void setPosition(const Pixel& p);
+		void roll(const float& psi); //do a barrel roll
+
+
+
+		//change tracking
+		void resetIsChanged();		
+
+		bool isChanged() const;  //set if the view/projection matrix has changed
+
+
+
+		//view projection access
+		const glm::mat4& getViewProjection() const;  //returns a reference to the view/projection matrix
+
+		glm::mat4 getViewProjectionLocked(); //returns a copy of the view/projection matrix, obtained during a thread lock
+
+
+
+		//viewport projection
+		bool isInViewportRect(const Rect& rect) const;  //returns true if the rectangle (in world coordinates) is on the screen
+		
+		void worldToLens(Pixel& p) const; //projects a world coordinate to the surface of the camera lens (the screen)
+			
+		void lensToWorld(Pixel& p) const; //projects a point on the surface of the camera lens (the screen) into the world
+
+		void getVertices(Rect& rect, std::vector<GLfloat>& values); //outputs projected world opengl vertices for the supplied rectangle
+
 
 	private:
+		
+		//pixel coordinate alignment
+		void _pixelToGl(const Pixel& p, glm::vec4& glPos) const;
 
-		bool _isChanged;
+		void _glToPixel(const glm::vec4& glPos, Pixel& p) const;
+
+
+
+		//position
+		void _translate(glm::vec3&& delta);  //uses glm::translate
+
+		void _setPosition(const glm::vec3& position); 
+
 		glm::vec3 _position;
 
-		bool _lockOn;
-		glm::vec3 _target;
+		Vec2 _zoom;
+
+		
+
+		//rotation
+		float _theta;
+
+		float _phi;
+
+		float _psi;
+
+
+
+		//axis vectors
+		glm::vec3 _right() const;
+
+		glm::vec3 _up() const;
+
+		glm::vec3 _out() const;
+
+
+		
+		//camera matrices				
+		void _recalculateView();
+		
+		void _recalculateProjection();
+		
+		void _recalculateViewProjection();
+
 		glm::mat4 _view;
+
 		glm::mat4 _projection;
 
 		glm::mat4 _viewProjection;
 
-		glm::vec3 _facing;
+		glm::mat4 _viewProjectionInverse;
 
-		float _theta;
-		float _phi;
-		float _fov;
-		float _aspectRatio;
-		float _minVisionRange;
-		float _maxVisionRange;
 
-		void _recalculateView();
-		void _recalculateProjection();
-		void _recalculateViewProjection();
 
-		Point _worldCenterPosition;
-		Vec2 _worldScale;
-		int _windowHeight;
-		int _windowWidth;
+		//camera projection of screen rectangle
 		Rect _viewportRect;
 
+
+
+		//window dimensions used for calculating ortho
+		Dimension _windowDimensions;
+
+
+
+		//change tracking
+		bool _isChanged;
+	
 		SDL_SpinLock _cameraLock;
+
+
+
+
+
+		
+
+		
+
+		
 	};
 
 

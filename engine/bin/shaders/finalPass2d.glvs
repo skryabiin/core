@@ -1,0 +1,13 @@
+#version 140
+
+	out vec2 uvPassed; 
+	in vec2 vertexPos;
+	in vec2 uvIn; 
+	//uniform mat4 mvp;
+
+	void main() { 
+		vec4 modelVertex = vec4( vertexPos.x, vertexPos.y, 0, 1); 
+		//gl_Position = mvp * modelVertex;
+		gl_Position = modelVertex;
+		uvPassed = uvIn;
+	}

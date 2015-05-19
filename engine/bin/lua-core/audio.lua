@@ -16,6 +16,6 @@ function Audio.setGlobalVolumeLevel(level)
     setGlobalVolumeLevel_bind(level)
 end
 
-function Audio.getGlobalVolmeLevel()
+function Audio.globalVolmeLevel()
     return getGlobalVolmeLevel_bind(level)
 end

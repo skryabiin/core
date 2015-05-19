@@ -2,6 +2,7 @@
 #define CORE_MAP_HPP
 
 #include "Resource.hpp"
+#include <map>
 
 namespace core {
 	 
@@ -19,13 +20,12 @@ namespace core {
 		bool destroyImpl() override;
 
 
-		void setTmxFilePath(std::string tmxFilePath);
+		std::string tmxFilePath;
 
-		std::string tmxFilePath();
+		std::map<std::string, std::string> tilesets;				
 
 	private:
 
-		std::string _tmxFilePath;
 
 	};
 

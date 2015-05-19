@@ -108,6 +108,7 @@ namespace core {
 	VertexShader* ShaderManager::createVertexShader(std::string name, std::string source, std::list<std::string>& attributes, std::list<std::string>& uniforms) {
 
 		auto shader = declareVertexShader(name);
+		shader->setName(name);
 		shader->setSource(source);
 		for (auto& attr : attributes) {
 			shader->declareVertexAttribute(attr);
@@ -138,6 +139,7 @@ namespace core {
 
 		auto shader = declareFragmentShader(name);
 		shader->setSource(source);
+		shader->setName(name);
 		for (auto& uniform : uniforms) {
 			shader->declareUniformVar(uniform);
 		}

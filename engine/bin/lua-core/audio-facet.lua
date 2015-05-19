@@ -1,8 +1,8 @@
 AudioFacet = Facet:new()
 
-function AudioFacet:new(entity, systemName, soundName, volume, o)
+function AudioFacet:new(entity, system, soundName, volume, o)
 	o = o or {}    
-	o = self:create(entity, systemName, o)    
+	o = self:create(entity, system, o)    
     if soundName then    
         o:setSoundName(soundName)
     end    
@@ -12,12 +12,12 @@ function AudioFacet:new(entity, systemName, soundName, volume, o)
     return o
 end
 
-function AudioFacet:getType()
+function AudioFacet:type()
 	return "AudioFacet"
 end
 
 function AudioFacet:setSoundName(soundName)
-    self.soundName = soundName
+    self._soundName = soundName
     if(not self:isCoreFacet()) then
         self:createFacetInCore()
     else
@@ -25,52 +25,52 @@ function AudioFacet:setSoundName(soundName)
     end
 end
 
-function AudioFacet:getSoundName()
-    return self.soundName
+function AudioFacet:soundName()
+    return self._soundName
 end
 
 function AudioFacet:setVolume(volume)
-    if self.volume == volume then
+    if self._volume == volume then
         return
     end
-    self.volume = volume
-    if (not self:isCoreFacet()) and self:getSoundName() then
+    self._volume = volume
+    if (not self:isCoreFacet()) and self:soundName() then
         self:createFacetInCore()
     elseif self:isCoreFacet() then
         local volumeChangeEvent = {
             typeName = "VolumeChangeEvent",
-            entityId = self:getOf():getId(),
-            facetId = self:getId(),
+            entityId = self:of():id(),
+            facetId = self:id(),
             volume = volume}
         EventProcessor.process(volumeChangeEvent)
     end
 end
 
-function AudioFacet:getVolume()
-    return self.volume or 0
+function AudioFacet:volume()
+    return self._volume or 0
 end
 
 function AudioFacet:createFacetInCore()
     local audioFacet = {
-        soundName = self:getSoundName(),
-        volume = self:getVolume()
+        soundName = self:soundName(),
+        volume = self:volume()
     }
-    self.id = addAudioFacet_bind(self.systemName, self:getOf():getId(), audioFacet)
+    self._id = addAudioFacet_bind(self:system():name(), self:of():id(), audioFacet)
 end
 
 function AudioFacet:updateFacetInCore()
     local audioFacet = {       
-        facetId = self:getId(),        
-        soundName = self:getSoundName()
+        facetId = self:id(),        
+        soundName = self:soundName()
     }
-    updateAudioFacet_bind(self.systemName, self:getOf():getId(), audioFacet)
+    updateAudioFacet_bind(self:system():name(), self:of():id(), audioFacet)
 end
 
 function AudioFacet:playSound()
     local playSoundEvent = {
         typeName = "PlaySoundEvent",
-        entityId = self:getOf():getId(),
-        facetId = self:getId()
+        entityId = self:of():id(),
+        facetId = self:id()
         }
     EventProcessor.process(playSoundEvent)  
 end

@@ -44,11 +44,9 @@ Config.logging.verbosityLevel = Constants.VERBOSITY_LEVEL_DEBUG
 
 --default camera settings
 Config.camera = {}
---Default camera center world point
-Config.camera.centerWorldPoint = {512, 384}
 
 --Default camera scaling
-Config.camera.scale = {1.0, 1.0}
+Config.camera.scale = {1.5, 1.5}
 
 
 
@@ -75,13 +73,13 @@ Config.graphics = {}
 --
 --Setting this to a reasonable number reduces load
 --on the GPU
-Config.graphics.maxFramesPerSecond = 100
+Config.graphics.maxFramesPerSecond = 120
 
 --Set this to true to enable multithreaded rendering
 --
 --Generally "true" will result in better performance,
 --But may make debugging more difficult
-Config.graphics.renderMultithreaded = false
+Config.graphics.renderMultithreaded = true
 
 --The depth that the main thread will allow the current
 --drawable update writing queue to reach before waiting 

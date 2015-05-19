@@ -48,6 +48,8 @@ namespace core {
 		Facet* facet;
 
 		ColorTransform colorTransform;
+		ColorTransform finalTransform;
+		bool transformChanged;
 
 		Color color;
 

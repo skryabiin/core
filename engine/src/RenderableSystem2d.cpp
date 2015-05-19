@@ -19,6 +19,7 @@ namespace core {
 
 		this->System::initializeImpl();
 
+		single<Renderer>().createRenderLayer(_drawableLayerId, _camera);
 		//return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
 		return true;
 	}

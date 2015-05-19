@@ -23,13 +23,6 @@ bool Map::destroyImpl() {
 }
 
 
-void Map::setTmxFilePath(std::string tmxFilePath) {
-	_tmxFilePath = tmxFilePath;
-}
-
-std::string Map::tmxFilePath() {
-	return _tmxFilePath;
-}
 
 
 } //end namespace core

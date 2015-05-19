@@ -1,16 +1,16 @@
 	
 TextureFacet = Facet:new()
 
-function TextureFacet:new(entity, systemName, textureName, o)
+function TextureFacet:new(entity, system, textureName, o)
 	o = o or {}    
-	o = self:create(entity, systemName, o)    
+	o = self:create(entity, system, o)    
     if textureName then    
         o:setTextureName(textureName)
     end    
     return o
 end
 
-function TextureFacet:getType()
+function TextureFacet:type()
 	return "TextureFacet"
 end
 
@@ -19,8 +19,8 @@ function TextureFacet:isRenderableFacet()
 end
 
 function TextureFacet:setTextureName(textureName)
-	self.name = textureName	    
-    if (not self:isCoreFacet()) and self:getSystemName() then
+	self._textureName = textureName	    
+    if (not self:isCoreFacet()) and self:system():isAutoCreationEnabled() then
         self:createFacetInCore()
     else
         self:setTexture()
@@ -28,7 +28,7 @@ function TextureFacet:setTextureName(textureName)
 end
 
 function TextureFacet:setTextureCoordinates(sourceRect)
-	self.coordinates = sourceRect
+	self._textureCoordinates = sourceRect
     self:setTexture()
 end
 
@@ -36,36 +36,36 @@ function TextureFacet:setTexture()
     if self:isCoreFacet() then 
         local textureChange = {
             typeName = "TextureChangeEvent",
-            entityId = self.of:getId(),            
-            textureName = self.name,
-            sourceTextureRect = self.coordinates,
-            facetId = self:getId()
+            entityId = self:of():id(),            
+            textureName = self:textureName(),
+            sourceTextureRect = self:textureCoordinates(),
+            facetId = self:id()
         }
         EventProcessor.process(textureChange)
     end
 end
 
 
-function TextureFacet:getTextureName()	
-	return self.name
+function TextureFacet:textureName()	
+	return self._textureName
 end
 
-function TextureFacet:getTextureCoordinates()
-	return self.coordinates or {0,0,0,0}
+function TextureFacet:textureCoordinates()
+	return self._textureCoordinates or {0,0,0,0}
 end
 
-function TextureFacet:getOffset()
-	return self.offset or {0,0}
+function TextureFacet:offset()
+	return self._offset or {0,0}
 end
 	
 function TextureFacet:setOffset(offset)
-	self.offset = offset
+	self._offset = offset
 	if self:isCoreFacet() then	
 		local offsetChange = {
 			typeName = "OffsetChangeEvent",
-			entityId = self.of:getId(),
+			entityId = self:of():id(),
 			offset = offset,
-            facetId = self:getId()
+            facetId = self:id()
 		}
 		EventProcessor.process(offsetChange)	
 	end
@@ -74,14 +74,14 @@ end
 function TextureFacet:scaleToEntity()
 
     if self:isCoreFacet() then
-        local dimensions = self.of:getDimensions()         
-        local myDimensions = self:getDimensions()
-        local scale = self:getScale()
+        local dimensions = self:of():dimensions()         
+        local myDimensions = self:dimensions()
+        local scale = self:scale()
         local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }
         self:setScale(newScale)
-    elseif self.coordinates and self.coordinates[3] ~= 0 and self.coordinates[4] ~= 0 then
-        local dimensions = self.of:getDimensions() 
-        local newScale = {dimensions[1] / self.coordinates[3], dimensions[2] / self.coordinates[3]}
+    elseif self._textureCoordinates and self._textureCoordinates[3] ~= 0 and self._textureCoordinates[4] ~= 0 then
+        local dimensions = self:of():dimensions() 
+        local newScale = {dimensions[1] / self._textureCoordinates[3], dimensions[2] / self._textureCoordinates[3]}
         self:setScale(newScale)
     else
         self:setScale({1,1})
@@ -90,13 +90,13 @@ function TextureFacet:scaleToEntity()
 end
 
 function TextureFacet:setScale(scale)
-	self.scale = scale
+	self._scale = scale
     if self:isCoreFacet() then
         local scaleChange = {
             typeName = "ScaleChangeEvent",
-            entityId = self.of:getId(),
-            scale = self:getScale(),
-            facetId = self:getId()
+            entityId = self:of():id(),
+            scale = self:scale(),
+            facetId = self:id()
         }
         EventProcessor.process(scaleChange)
     else
@@ -105,25 +105,25 @@ function TextureFacet:setScale(scale)
 end
    
 
-function TextureFacet:getScale()
-	return self.scale or {1,1}
+function TextureFacet:scale()
+	return self._scale or {1,1}
 end
 
-function TextureFacet:getColor()
-	return self.color or {255,255,255,255}
+function TextureFacet:color()
+	return self._color or {1,1,1,1}
 end
 
 
 function TextureFacet:createFacetInCore()
 	if not self:isCoreFacet() then
 		local facet = {
-			source = self:getTextureCoordinates(),	
-			textureName = self:getTextureName(),
-			position = self.of:getPosition(),			
-			scale = self:getScale(),
-			offset = self:getOffset()
+			source = self:textureCoordinates(),	
+			textureName = self:textureName(),
+			position = self:of():position(),			
+			scale = self:scale(),
+			offset = self:offset()
 		}		
-		self.id = addTextureFacet_bind(self.systemName, self.of:getId(), facet)
+		self._id = addTextureFacet_bind(self:system():name(), self:of():id(), facet)
 				
 	end
 	

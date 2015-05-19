@@ -7,7 +7,7 @@ function Assets.load()
 	
 	Fonts.load(Assets.fonts)
 	Audio.load(Assets.sounds)
-	--Maps.load(Assets.maps)
+	Maps.load(Assets.maps)
 	Sprites.load(Assets.sprites)
 	ParticleEffects.load(Assets.particleEffects)
 	VertexShaders.load(Assets.vertexShaders)
@@ -40,11 +40,21 @@ Assets.vertexShaders = {
 		path = "./shaders/textureRender2d.glvs",
 		attributes = {
 			"vertexPos",
-			"uvIn",
-
+			"uvIn"
 		},
 		uniforms = {
-           "mvp"
+            "mvp"
+        }
+	},
+    {
+		name = "finalPass2d",
+		path = "./shaders/finalPass2d.glvs",
+		attributes = {
+			"vertexPos",
+			"uvIn"
+		},
+		uniforms = {
+
         }
 	}
 }
@@ -73,7 +83,15 @@ Assets.fragmentShaders = {
 			"textureSampler",
 			"colorTransform"
 		}
-	}
+	},
+    {
+        name="finalPass2d",
+        path="./shaders/finalPass2d.glfs",
+        uniforms = {
+            "textureSampler",
+            "globalTransform"
+        }
+    }
 }
 
 
@@ -132,15 +150,33 @@ Assets.sounds = {
 }
 
 Assets.maps = {
---		{
-	--		name = "Level1",
-	--		path = "./assets/maps/level1/Level.tmx"
-	--	}
-	}
+	{
+		name = "Level1",
+	    tmxFilePath = "./lua/maps/level1/Level.tmx",
+        tilesets = {            
+            {
+                name="palette",
+                spriteName="level1tileset"
+            },
+            {
+                name="guy",
+                spriteName="level1guy"
+            }
+        }
+    }
+}
 
 	
 Assets.sprites = {
 
+    level1guy = {
+        name = "level1guy",
+        path = "./lua/maps/tilesets/guy.png"
+    },
+    level1tileset = {
+        name = "level1tileset",
+        path = "./lua/maps/tilesets/Palette2.png"
+    },
     rainbow = {
         name = "rainbow",
         path = "./lua/sprites/6807326-rainbow.jpg"

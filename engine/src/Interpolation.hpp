@@ -32,5 +32,6 @@ namespace core {
 		LinearInterpolation(float duration_);
 	};
 
+
 } //end namespace core
 #endif

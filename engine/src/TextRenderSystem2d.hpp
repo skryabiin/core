@@ -6,6 +6,7 @@
 #include "TextContentChangeEvent.hpp"
 #include "Entity.hpp"
 #include "FacetDimensionQuery.hpp"
+#include "FacetVector.hpp"
 
 namespace core {
 
@@ -21,7 +22,7 @@ namespace core {
 
 		//void updateTextFacet(TextFacet& facet, std::string fontName, Pixel position, Pixel offset, Color color, std::string text);
 
-		TextFacet& createTextFacet(Entity& e, std::string fontName,  Pixel position, Pixel offset, Vec2 scale, Color color, std::string text);
+		TextFacet* createTextFacet(Entity& e, std::string fontName,  Pixel position, Pixel offset, Vec2 scale, Color color, std::string text);
 
 		using RenderableSystem2d::handleEvent;
 
@@ -43,7 +44,7 @@ namespace core {
 
 		virtual void destroyFacets(Entity& entity) override;
 
-		void setText(TextFacet& facet, std::string text, std::string font);
+		void setText(TextFacet* facet, std::string text, std::string font);
 
 		void setDefaultFont(Font* defaultFont);
 
@@ -55,9 +56,7 @@ namespace core {
 		virtual ~TextRenderSystem2d() {};
 	private:
 
-		std::vector<TextFacet> _textFacets;
-
-		std::vector<std::unique_ptr<RenderedTextToken>> _renderedTextTokens;
+		FacetVector<TextFacet> _facets;		
 
 		Font* _defaultFont;
 

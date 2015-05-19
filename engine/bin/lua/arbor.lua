@@ -8,16 +8,17 @@ require "lua/config"
 --at this point, SDL is initialized, the Config.window is created, etc.
 --------------------------------------
 
-
 --initializes the engine
 Core.create()
-	
+
+Console.debug("After core create")
 
 --set this up for the sequence loop
 require "lua/menus"
-require "lua/firstscene"
-require "lua/titlescene"
+--require "lua/firstscene"
+--require "lua/titlescene"
 require "lua/loadassets"
+require "lua/map-test-scene"
 require "lua/rainbow-scene"
 
 Assets.load()
@@ -34,7 +35,7 @@ local cursorTexture = {
         
 
 
-Core.setNextScene(Scenes.rainbow)
+Core.setNextScene(Scenes.maptest)
 	
 while not doQuit do
 	

@@ -55,10 +55,13 @@ namespace core {
 		_textureRenderSystem->setName("InterfaceTextures");
 		single<Core>().addSystem(_textureRenderSystem);
 		single<Core>().includeRenderableSystem2d(_textureRenderSystem);
-		_textureRenderSystem->create();
-		_textureRenderSystem->initialize();
+
 		_textureRenderSystem->setDrawableLayerId(0);
+		_textureRenderSystem->create();
 		_textureRenderSystem->setCamera(&_camera);
+		_textureRenderSystem->initialize();
+		
+
 		_mouseCursor = single<Core>().createEntity();
 		setCursorTextureFromDef();
 
@@ -186,7 +189,9 @@ namespace core {
 				if (_mouseState.mdown && _mouseState.mdownOld) {
 					//if it's draggable, do so
 					if (_interfaceState.pickedUp->draggable) {
-						_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));						
+						auto p = pos;
+						_interfaceState.pickedUp->camera->lensToWorld(p);
+						_interfaceState.currentPosition.setPixel(p);						
 						lua.call(_interfaceState.pickedUp->onDrag, _interfaceState);
 						_interfaceState.currentPosition.setPixel(pos);
 					}
@@ -194,8 +199,10 @@ namespace core {
 				}
 
 				//if the mouse was released, let it go and call 'offClick'
-				if (!_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp->clickable) {					
-					_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));
+				if (!_mouseState.mdown && _mouseState.mdownOld && _interfaceState.pickedUp->clickable) {
+					auto p = pos;
+					_interfaceState.pickedUp->camera->lensToWorld(p);
+					_interfaceState.currentPosition.setPixel(p);
 					lua.call(_interfaceState.pickedUp->offClick, _interfaceState);
 					_interfaceState.pickedUp = nullptr;
 				}
@@ -210,10 +217,9 @@ namespace core {
 			for (auto& facet : _facets) {
 				//if this entity has an interface facet that is not paused
 				if (facet.isPaused()) continue;
-				auto aligned = facet.camera->alignPoint(pos);
-				if (_mouseState.mdown) {
-					debug("Aligned cursor position: ", aligned.x, ", ", aligned.y);
-				}
+				auto aligned = pos;
+				facet.camera->lensToWorld(aligned);
+				
 				//if the entity is under the cursor
 				if (inRect(aligned.x, aligned.y, facet.position.x, facet.position.y, facet.position.x + facet.dimensions.w, facet.position.y + facet.dimensions.h)) {
 
@@ -223,7 +229,7 @@ namespace core {
 					single<EventProcessor>().process(entityLayerQuery);
 
 					if (entityLayerQuery.found) {
-						//if the entity is in a closer than the previous selected layer
+						//if the entity is in a closer layer than the previous selected layer
 						if (entityLayerQuery.found && entityLayerQuery.layerId < selectedLayer) {
 							selectedLayer = entityLayerQuery.layerId;
 							selectedPos = facet.position;
@@ -249,8 +255,10 @@ namespace core {
 					
 					_interfaceState.clickPosition.setPixel(pos);
 					_interfaceState.pickedUp = topFacetUnderCursor;
-					_interfaceState.clickPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));					
-					_interfaceState.currentPosition.setPixel(_interfaceState.pickedUp->camera->alignPoint(pos));
+					auto p = pos;
+					_interfaceState.pickedUp->camera->lensToWorld(p);
+					_interfaceState.clickPosition.setPixel(p);					
+					_interfaceState.currentPosition.setPixel(p);
 					_interfaceState.pickedUpThisTick = true;
 					_interfaceState.pickedUpPosition.setPixel(selectedPos);
 
@@ -368,7 +376,7 @@ namespace core {
 			textureChangeEvent.sourceTextureRect = LuaRect{ _mouseCursorDef.sourceRect };
 			textureChangeEvent.textureName = _mouseCursorDef.textureName;
 			textureChangeEvent.facetId = 1;
-			_textureRenderSystem->updateTexture(textureChangeEvent);
+			_textureRenderSystem->handleEvent(textureChangeEvent);
 
 		}
 
@@ -573,7 +581,7 @@ namespace core {
 	}
 
 	void Interface::showHideSystemCursor(bool show) {
-		SDL_ShowCursor((show) ? 1 : 0);
+		//SDL_ShowCursor((show) ? 1 : 0);
 	}
 
 	void Interface::showCursor() {

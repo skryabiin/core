@@ -30,7 +30,7 @@ end
 	
 function Core.createEntity(entity)
 		local entityId = createEntity_bind()
-		entity.id = entityId
+		entity._id = entityId
 		Core.entities[entityId] = entity	
 end
 	
@@ -65,11 +65,9 @@ function Core.setNextScene(nextScene)
 end
 
 function Core.createSystem(systemType, systemName, layerId)
-	local passLayerId = layerId
-	if passLayerId == nil then
-		passLayerId = 0
-	end
-		createSystem_bind(systemType, systemName, passLayerId)
+	layerId = layerId or 0
+	
+	createSystem_bind(systemType, systemName, layerId)
 end
 	
 function Core.destroySystem(systemName)
@@ -108,39 +106,39 @@ function Entity:new(o)
 	return Entity:create(o)	
 end
 
-function Entity:addBasicPosition(systemName)
+function Entity:addBasicPosition(system)
 	if not self.positionFacetHandled then
 		local positionFacet = { 
-			position = self:getPosition(),
-			dimensions = self:getDimensions(),
-			orientation = self:getOrientation()
-		}
-		self.positionFacetId = addPositionFacet_bind(systemName, self:getId(), positionFacet)
+			position = self:position(),
+			dimensions = self:dimensions(),
+			orientation = self:orientation()
+		}                
+		self.positionFacetId = addPositionFacet_bind(system:name(), self:id(), positionFacet)        
 		self.positionFacetHandled = true
 	end
 end
 
 
 function Entity:getChildren()
-	return self.children or {}
+	return self._children or {}
 end
 
-function Entity:getParent()
-	return self.parent or {}
+function Entity:parent()
+	return self._parent or {}
 end
 
 function Entity:addChild(child) 
-	self.children[child:getId()] = child
+	self._children[child:id()] = child
 	child:setParent(self)
 end
 
 function Entity:removeChild(child)
-	self.children[child:getId()] = nil
+	self._children[child:id()] = nil
 end
 
 function Entity:setParent(parent)
-	self.parent = parent
-	if parent.children[self:getId()] == nil then
+	self._parent = parent
+	if parent.children[self:id()] == nil then
 		parent:addChild(self)
 	end
 end
@@ -149,7 +147,7 @@ end
 function Entity:setSprite(sprite)
 		local animationChangeEvent = {
 		typeName = "AnimationChangeEvent",
-			entityId = self.id,
+			entityId = self:id(),
 			nextAnimation = spriteName,
 			endImmediate = true
 		}
@@ -157,33 +155,33 @@ function Entity:setSprite(sprite)
 end
 
 
-function Entity:getId()
-	return self.id
+function Entity:id()
+	return self._id
 end
 
 function Entity:setVisualScale(scale)
-		self.scale = scale
+		self._scale = scale
 end
 
 function Entity:setColorMod(color)
-		self.colorMod = color
+		self._colorMod = color
 end
 
 function Entity:setRotation(angle)
-		self.rotation = angle
+		self._rotation = angle
 end
 
 function Entity:setFlip(flipX, flipY)
-		self.flip = self.flip or {}
-		self.flip.x = flipX
-		self.flip.y = flipY
+		self._flip = self._flip or {}
+		self._flip.x = flipX
+		self._flip.y = flipY
 end
 
 
 function Entity:doFullPositionQuery() 
 		local positionQuery = {
 			typeName = "EntityPositionQuery",
-			entityId = self.id,
+			entityId = self:id(),
 			position = {0, 0, 0},
 			dimensions = {0, 0},
 			orientation = {0, 0}
@@ -193,9 +191,9 @@ end
 
 function Entity:setPositionFacetHandled(handled)
 	if not self:isPositionFacetHandled() and handled then
-		local position = self:getPosition()
-		local dimensions = self:getDimensions()
-		local orientation = self:getOrientation()
+		local position = self:position()
+		local dimensions = self:dimensions()
+		local orientation = self:orientation()
 		self.positionFacetHandled = true
 		self:setPosition(position)
 		self:setDimensions(dimensions)
@@ -227,13 +225,13 @@ end
 function Entity:setPaused(paused)
 	local facetPauseEvent = {
 			typeName = "FacetPauseEvent",
-			entityId = self:getId(),
+			entityId = self:id(),
 			paused = paused,
 			facetId = -1}
 	EventProcessor.process(facetPauseEvent)
 	self.paused = paused
 	
-	for i, v in pairs(self:getChildren()) do		
+	for i, v in pairs(self.children) do		
 		v:setPaused(paused)
 	end
 	
@@ -244,26 +242,27 @@ function Entity:setPaused(paused)
 
 end
 
-function Entity:getPosition()
+function Entity:position()
 	if not self:isPositionFacetHandled() then
-		return self.position or {0,0,0}
+		return self._position or {0,0,0}
 	else
 		local query = self:doFullPositionQuery()
+        self._position = query
 		return query.position
 	end
 end
 
-function Entity:getDimensions()
+function Entity:dimensions()
 	if not self:isPositionFacetHandled() then
-		return self.dimensions or {0,0}
+		return self._dimensions or {0,0}
 	else
 		local query = self:doFullPositionQuery()
 		return query.dimensions
 	end
 end
-function Entity:getOrientation()
+function Entity:orientation()
 	if not self:isPositionFacetHandled() then
-		return self.orientation or {1,0}
+		return self._orientation or {1,0}
 	else
 		local query = self:doFullPositionQuery()
 		return query.orientation
@@ -271,48 +270,39 @@ function Entity:getOrientation()
 end
 
 function Entity:setPosition(position)	
-	if not self:isPositionFacetHandled() then
-		self.position = position		
-	else 
-		local positionChangeEvent = {
-			typeName = "PositionChangeEvent",
-			entityId = self.id,
-			position = position,
-			relative = false
-		}
-		EventProcessor.process(positionChangeEvent)
-	end
+	self._position = position	
+	local positionChangeEvent = {
+		typeName = "PositionChangeEvent",
+		entityId = self:id(),
+		position = position,
+		relative = false
+	}
+	EventProcessor.process(positionChangeEvent)
 end
 
-function Entity:setDimensions(dimensions)
-	if not self:isPositionFacetHandled() then
-		self.dimensions = dimensions
-	else 
-		local dimensionChangeEvent = {
-			typeName = "DimensionChangeEvent",
-			entityId = self.id,
-			dimensions = dimensions		
-		}		
-		EventProcessor.process(dimensionChangeEvent)		
-	end
+function Entity:setDimensions(dimensions)	
+	self._dimensions = dimensions	
+	local dimensionChangeEvent = {
+		typeName = "DimensionChangeEvent",
+		entityId = self:id(),
+		dimensions = dimensions		
+	}		
+	EventProcessor.process(dimensionChangeEvent)			
 end
 
-function Entity:setOrientation(orientation)
-	if not self:isPositionFacetHandled() then
-		self.orientation = orientation
-	else		
-		local orientationChangeEvent = {
-			typeName = "OrientationChangeEvent",
-			entityId = self.id,			
-			orientation = orientation	
-		}
-		EventProcessor.process(orientationChangeEvent)
-	end
+function Entity:setOrientation(orientation)	
+	self._orientation = orientation	
+	local orientationChangeEvent = {
+		typeName = "OrientationChangeEvent",
+		entityId = self:id(),			
+		orientation = orientation	
+	}
+	EventProcessor.process(orientationChangeEvent)	
 end
 
-function Entity:addEventFilter(eventType, callbackFunction)
+function Entity:addEventListener(eventType, callbackFunction)
 
-	EventProcessor.addEventFilter(self.id, eventType, callbackFunction)
+	EventProcessor.addEventListener(self.id, eventType, callbackFunction)
 
 end
 
@@ -418,11 +408,11 @@ local textFacet = {
 
 EventProcessor = { }
 
-function EventProcessor.addEventFilter(entityId, eventType, callbackFunction)
+function EventProcessor.addEventListener(entityId, eventType, callbackFunction)
 		return addEventFilter_bind(entityId, eventType, callbackFunction)
 end
 
-function EventProcessor.removeEventFilter(filterId)
+function EventProcessor.removeEventListener(filterId)
 		removeEventFilter_bind(filterId)
 end
 

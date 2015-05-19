@@ -56,6 +56,8 @@ namespace core {
 		bool resetImpl();
 		bool destroyImpl();
 
+		void processForLua(std::string eventTypeName, LuaTable event);
+
 		template <typename EVENT_TYPE>
 		void process(EVENT_TYPE& e);
 
@@ -161,19 +163,8 @@ namespace core {
 				if (!static_cast<EventTopic<EVENT_TYPE>*>(topic)->process(e)) break;
 			}
 		}
-		/*
-		auto luaEventName = e.getEventTypeName();
-		auto& lua = single<Core>().lua();
-		std::for_each(begin(_luaFilters), end(_luaFilters),
-		[&](LuaEventFilter& filter) {
-		if (!luaEventName.compare(filter.eventTypeName)) {
-		if (filter.participant == -1 || e.hasParticipant(filter.participant)) {
-		lua.call(filter.callback, e);
-		info("Doing callback.");
-		}
-		}
-		});
-		*/
+		
+		processForLua(e.getEventTypeName(), e);		
 	}
 
 	template <typename EVENT_TYPE>

@@ -34,14 +34,14 @@ namespace core {
 		virtual bool createImpl() {
 			if (!_source.compare("") && !_fileSource.compare("")) {
 
-				error("Attempting to compile shader ", _shaderId, "  with no source defined.");
+				error("Attempting to compile shader '", _name, "' with no source defined.");
 				return false;
 			}
 
 			if (_fileSource.compare("")) {
 				auto source = SDL_RWFromFile(_fileSource.c_str(), "r");
 				if (source == NULL) {
-					error("Shader source file '", _fileSource, "' not found.");
+					error("Shader shader '", _name, "' source file '", _fileSource, "' not found.");
 					return false;
 				}
 
@@ -88,7 +88,7 @@ namespace core {
 				//Get info log
 				glGetShaderInfoLog(_shaderId, maxLength, &infoLogLength, infoLog);
 					
-				error("Unable to compile shader ", _shaderId, ": ", infoLog);
+				error("Unable to compile shader '", _name, "' (", _shaderId, "): ", infoLog);
 				delete[] infoLog;
 				return false;
 			}

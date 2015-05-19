@@ -13,7 +13,7 @@ function Renderer.setBackgroundColor(color)
 end
 
 
-function Renderer.getGlobalColorModulation()
+function Renderer.globalColorModulation()
     return getGlobalColorModulation_bind()
 end
 
