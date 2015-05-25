@@ -7,6 +7,7 @@
 #include "Core.hpp"
 #include "OffsetChangeEvent.hpp"
 #include "Interface.hpp"
+#include "World.hpp"
 
 namespace core {
 
@@ -27,7 +28,7 @@ namespace core {
 	
 		if (_facets.initialize(2) != InitStatus::INIT_TRUE) return false;
 		if (!RenderableSystem2d::initializeImpl()) return false;
-		_camera = single<Interface>().camera();
+		_camera = single<World>().camera();
 		return true;
 	}
 

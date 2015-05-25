@@ -122,7 +122,7 @@ namespace core {
 		
 		static int useTextureCursor_bind(LuaState& lua);
 
-		void updateFacet(int facetId, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
+		void updateFacet(int facetId, Camera* cameraContext, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);
 
 		InterfaceFacet* createFacet(Entity& e, Pixel& position, Dimension& dimensions, Camera* cameraContext, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag);		
 

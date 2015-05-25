@@ -63,6 +63,8 @@ namespace core {
 
 		static int createFacet_bind(LuaState& lua);
 
+		static int setCamera_bind(LuaState& lua);
+
 		virtual void renderFacet(SDL_Renderer* renderer, Facet* facet) {};
 
 		virtual ~RenderableSystem2d() {}

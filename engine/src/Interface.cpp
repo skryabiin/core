@@ -429,12 +429,13 @@ namespace core {
 		return &(_facets.back());
 	}
 
-	void Interface::updateFacet(int facetId, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {		
+	void Interface::updateFacet(int facetId, Camera* cameraContext, bool draggable, bool hoverable, bool clickable, LuaFunction& onClick, LuaFunction& offClick, LuaFunction& onHover, LuaFunction& offHover, LuaFunction& onDrag) {		
 
 		InterfaceFacet* facetToUpdate = nullptr;
 		for (auto& facet : _facets) {
 
 			if (facet.id() == facetId) {
+				facet.camera = cameraContext;
 				facet.draggable = draggable;
 				facet.hoverable = hoverable;
 				facet.clickable = clickable;
@@ -471,6 +472,16 @@ namespace core {
 	int Interface::updateInterfaceFacet_bind(LuaState& lua) {
 		int facetId = lua.pullStack<int>(1);
 
+		std::string cameraName = lua["camera"];
+		Camera* cameraContext;
+		if (!cameraName.compare("interface")) {
+			cameraContext = single<Interface>().camera();
+		}
+		else {
+			cameraContext = single<World>().camera();
+		}
+
+
 		bool draggable = lua["draggable"];
 		bool hoverable = lua["hoverable"];
 		bool clickable = lua["clickable"];
@@ -499,7 +510,7 @@ namespace core {
 			onDrag = lua["onDrag"];
 		}
 
-		single<Interface>().updateFacet(facetId, draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
+		single<Interface>().updateFacet(facetId, cameraContext, draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
 
 		return 0;
 
@@ -512,21 +523,18 @@ namespace core {
 		LuaDimension dimensions = lua["dimensions"];
 
 
-		/*
+		
 		std::string cameraName = lua["camera"];
 
 
 		Camera* cameraContext;
-		if (!cameraName.compare("world")) {
-			cameraContext = single<World>().camera();
-		}
-		else if (!cameraName.compare("interface")) {
+		if (!cameraName.compare("interface")) {
 			cameraContext = single<Interface>().camera();
 		}
 		else {
-			auto renderableSystem = single<Core>().getSystemByName<RenderableSystem2d>(cameraName);
-			cameraContext = renderableSystem->camera();
-		} */
+			cameraContext = single<World>().camera();
+		}
+
 
 
 		bool draggable = lua["draggable"];
@@ -540,7 +548,7 @@ namespace core {
 
 
 
-		auto facet = single<Interface>().createFacet(e, position.getPixel(), dimensions.getDimension(), single<World>().camera(), draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
+		auto facet = single<Interface>().createFacet(e, position.getPixel(), dimensions.getDimension(), cameraContext, draggable, hoverable, clickable, onClick, offClick, onHover, offHover, onDrag);
 
 		lua.pushStack(facet->id());
 

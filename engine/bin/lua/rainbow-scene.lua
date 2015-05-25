@@ -19,14 +19,14 @@ function Scenes.rainbow.init()
     local rainbowColorMatrix = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1}
 
     --Renderer.setGlobalColorModulation({0,1,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,1})
-
+    World.camera.centerAt({600,384,0})
     Renderer.setBackgroundColor({0,64,0,255})
 
     Scenes.rainbow.keyboardCallbackRef = EventProcessor.addEventListener(-1, "KeyboardEvent", Scenes.rainbow.keyboardEventHandler)
     positionSystem = BasicPositionSystem2d:new("Positions")
     textureSystem = TextureRenderSystem2d:new("Textures", 2)
-    textSystem = TextRenderSystem2d:new("Text", 2)
-    audioSystem = BasicAudioSystem:new("Sounds")	   
+    textSystem = TextRenderSystem2d:new("Text", 2,"interface")
+    audioSystem = BasicAudioSystem:new("Sounds")
 
 
 

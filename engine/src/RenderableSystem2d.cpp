@@ -3,6 +3,7 @@
 #include "Core.hpp"
 #include "VisualFacet.hpp"
 #include "World.hpp"
+#include "Interface.hpp"
 
 namespace core {
 
@@ -10,8 +11,8 @@ namespace core {
 		if (!this->System::createImpl()) {
 			return false;
 		}
-		//return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;
-		_camera = single<World>().camera();
+		//return (_camera.create() == InitStatus::CREATE_TRUE) ? true : false;	
+		single<Core>().lua().bindFunction("setCamera_bind", RenderableSystem2d::setCamera_bind);
 		return true;
 	}
 
@@ -189,6 +190,23 @@ namespace core {
 			}
 		}
 		return true;
+	}
+
+
+	int RenderableSystem2d::setCamera_bind(LuaState& lua) {
+		auto systemName = lua.pullStack<std::string>(1);
+		auto camera = lua.pullStack<std::string>(2);
+
+		auto system = single<Core>().getSystemByName<RenderableSystem2d>(systemName);
+		if (system != nullptr) {
+			if (!camera.compare("interface")) {
+				system->_camera = single<Interface>().camera();
+			}
+			else {
+				system->_camera = single<World>().camera();
+			}
+		}
+		return 0;
 	}
 
 	int RenderableSystem2d::createFacet_bind(LuaState& lua) {

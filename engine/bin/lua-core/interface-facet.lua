@@ -2,9 +2,14 @@
 
 InterfaceFacet = Facet:new()
 
-function InterfaceFacet:new(entity, o)
+function InterfaceFacet:new(entity, cameraContextSystem, o)
 	o = o or {}
-	return self:create(entity, Interface, o)
+
+	o = self:create(entity, Interface, o)
+    if cameraContextSystem then
+        o:setCameraContext(cameraContextSystem)
+    end
+    return o;
 end
 
 function InterfaceFacet:type()
@@ -81,6 +86,27 @@ function InterfaceFacet:offClick()
     return self._offClick
 end
 
+function InterfaceFacet:setCameraContext(system)
+    local camera = system:camera()
+    if self._cameraContext ~= camera then
+        self._cameraContext = camera
+        updateFacetInCore()
+    end
+end
+
+function InterfaceFacet:cameraContext()
+    if not self._cameraContext then
+        for i, v in pairs(self:of().facets) do	
+		    if v:isRenderableFacet() then
+                self._cameraContext = v:system():camera()
+            end
+        end		
+	end
+    if not self._cameraContext then
+        self._cameraContext = "world"
+    end
+    return self._cameraContext
+end
 
 function InterfaceFacet:setDraggable(draggable)
 	if self.draggable ~= draggable then
@@ -148,6 +174,7 @@ end
 function InterfaceFacet:createFacetInCore()
    local facetDef = {   position = self:of():position(),
                         dimensions = self:of():dimensions(),
+                        camera = self:cameraContext(),
                         draggable = self:isDraggable(),
 					    clickable = self:isClickable(),
 					    hoverable = self:isHoverable(),
@@ -164,6 +191,7 @@ function InterfaceFacet:updateFacetInCore()
 	    local facetDef = {  draggable = self:isDraggable(),
 					        clickable = self:isClickable(),
 					        hoverable = self:isHoverable(),
+                            camera = self:cameraContext(),
 					        onClick = self:onClick(),
                             offClick = self:offClick(),
                             onHover = self:onHover(),

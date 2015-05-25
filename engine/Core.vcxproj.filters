@@ -19,9 +19,6 @@
     <Filter Include="Source\Math">
       <UniqueIdentifier>{ff02b40f-a234-46b3-b4c7-3f5a060a03a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Particles">
-      <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Systems">
       <UniqueIdentifier>{bc630133-5c4a-47b9-bb55-4782c031f1f8}</UniqueIdentifier>
     </Filter>
@@ -91,6 +88,9 @@
     </Filter>
     <Filter Include="Source\Textures">
       <UniqueIdentifier>{eea02a1c-bc37-4ddc-a7b2-abbe2a1a49ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Particles">
+      <UniqueIdentifier>{cd6e978b-d40c-4202-9736-8f7c09418ed0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

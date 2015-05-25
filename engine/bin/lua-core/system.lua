@@ -42,3 +42,15 @@ end
 function System:name()
     return self._name
 end
+
+function System:isRenderable()
+    return false
+end
+
+function System:camera()
+    return nil
+end
+
+function System:setCamera(camera)
+
+end
