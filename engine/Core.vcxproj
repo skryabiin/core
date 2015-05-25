@@ -119,6 +119,7 @@
     <ClCompile Include="src\PlaySoundEvent.cpp" />
     <ClCompile Include="src\PositionChangeEvent.cpp" />
     <ClCompile Include="src\PrimitiveRenderSystem2d.cpp" />
+    <ClCompile Include="src\RectSorter.cpp" />
     <ClCompile Include="src\RenderableSystem2d.cpp" />
     <ClCompile Include="src\RenderedTextToken.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="src\PositionFacet.hpp" />
     <ClInclude Include="src\PrimitiveFacet.hpp" />
     <ClInclude Include="src\PrimitiveRenderSystem2d.hpp" />
+    <ClInclude Include="src\RectSorter.hpp" />
     <ClInclude Include="src\RenderableSystem2d.hpp" />
     <ClInclude Include="src\RenderedTextToken.hpp" />
     <ClInclude Include="src\Renderer.hpp" />

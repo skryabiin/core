@@ -50,7 +50,9 @@ namespace core {
 
 
 		_camera.initialize();
-
+		auto windowRect = single<Renderer>().windowDimensions();
+		auto p = Pixel{ windowRect.w / 2, windowRect.h / 2, 0 };
+		_camera.setPosition(p);
 		_textureRenderSystem = new TextureRenderSystem2d{};
 		_textureRenderSystem->setName("InterfaceTextures");
 		single<Core>().addSystem(_textureRenderSystem);
@@ -581,7 +583,7 @@ namespace core {
 	}
 
 	void Interface::showHideSystemCursor(bool show) {
-		//SDL_ShowCursor((show) ? 1 : 0);
+		SDL_ShowCursor((show) ? 1 : 0);
 	}
 
 	void Interface::showCursor() {

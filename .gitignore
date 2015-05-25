@@ -5,6 +5,9 @@ ehthumbs.db
 # vs whatever
 *.sdf
 *.vcxproj.user
+*.vsp
+*.psess
+
 
 # Folder config file
 Desktop.ini

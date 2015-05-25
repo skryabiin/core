@@ -11,6 +11,7 @@ namespace core {
 
 	class Texture : public Resource {
 		friend class Renderer;
+		friend class TextureManager;
 	public:
 
 		Texture() : _sdlSurface{ nullptr } {
@@ -48,11 +49,15 @@ namespace core {
 
 		virtual ~Texture();
 
-		SDL_Rect dimensions() const;
+		const SDL_Rect& dimensions() const;
 
-		SDL_Rect surfaceTrueDimensions() const;
+		const SDL_Rect& surfaceTrueDimensions() const;
 
 		bool createFromSurface();
+
+		bool isTextureAtlasManaged();
+
+		const Pixel& getTextureAtlasOrigin();
 
 	private:
 		GLenum _blendMode;
@@ -69,6 +74,10 @@ namespace core {
 		bool _isColorModulated;
 
 		GLuint _glTextureId;
+
+		bool _isTextureAtlasManaged;
+
+		Pixel _textureAtlasOrigin;
 
 	};
 

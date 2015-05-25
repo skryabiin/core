@@ -102,7 +102,7 @@ function InterfaceFacet:onDrag(onDrag)
 	if not self._onDrag then
         local myself = self
         self._onDrag = function(interfaceState)
-            Interface.functions.basicOnDrag(myself, interfaceState)
+            Interface.functions.basicDragMove(myself, interfaceState)
         end 		
 	end
 	return self._onDrag

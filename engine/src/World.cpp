@@ -26,8 +26,8 @@ namespace core {
 		for (auto& map : _maps) {
 			map.second.initialize();
 		}		
-		
-		_camera.initialize();		
+
+		_camera.initialize();			
 		return true;
 
 	}

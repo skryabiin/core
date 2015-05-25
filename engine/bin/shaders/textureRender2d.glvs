@@ -6,12 +6,7 @@
 	uniform mat4 mvp;
 
 	void main() { 
-		float x = floor(vertexPos.x + 0.5);
-		float y = floor(vertexPos.y + 0.5);
 
-		int w = gl_VertexID;
-		
-
-		gl_Position = mvp * vec4( x, y, -1, 1); 
+		gl_Position = mvp * vec4( vertexPos.x, vertexPos.y, -1, 1); 
 		uvPassed = uvIn;
 	}

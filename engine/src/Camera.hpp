@@ -66,7 +66,7 @@ namespace core {
 			
 		void lensToWorld(Pixel& p) const; //projects a point on the surface of the camera lens (the screen) into the world
 
-		void getVertices(Rect& rect, std::vector<GLfloat>& values); //outputs projected world opengl vertices for the supplied rectangle
+		void getVertices(Rect& rect, std::vector<GLint>& values); //outputs projected world opengl vertices for the supplied rectangle
 
 
 	private:
@@ -116,11 +116,11 @@ namespace core {
 
 		glm::mat4 _view;
 
+		glm::mat4 _viewInverse;
+
 		glm::mat4 _projection;
 
 		glm::mat4 _viewProjection;
-
-		glm::mat4 _viewProjectionInverse;
 
 
 
@@ -131,6 +131,7 @@ namespace core {
 
 		//window dimensions used for calculating ortho
 		Dimension _windowDimensions;
+
 
 
 

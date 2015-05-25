@@ -286,6 +286,9 @@
     <ClCompile Include="src\FrameBuffer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\RectSorter.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\shaders\basic.glfs">
@@ -791,6 +794,9 @@
     </ClInclude>
     <ClInclude Include="src\FrameBuffer.hpp">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RectSorter.hpp">
+      <Filter>Source\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

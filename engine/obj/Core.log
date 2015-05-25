@@ -1,56 +1,8 @@
-﻿Build started 5/18/2015 4:54:15 PM.
+﻿Build started 5/24/2015 9:50:40 PM.
      1>Project "C:\code\core\engine\Core.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Animation.cpp src\AnimationChangeEvent.cpp src\AnimationSystem2d.cpp src\AudioManager.cpp src\BasicAudioSystem.cpp src\BasicPositionSystem2d.cpp src\Camera.cpp src\Camera2d.cpp src\ColorChangeEvent.cpp src\Console.cpp src\Core.cpp src\DimensionChangeEvent.cpp src\EntitiesInRectQuery.cpp src\EntityLayerQuery.cpp src\EntityPositionQuery.cpp src\EventProcessor.cpp src\EventRegistry.cpp src\FacetDimensionQuery.cpp src\FacetPauseEvent.cpp src\FadeTransition.cpp src\Font.cpp src\Interface.cpp src\LinearParticleField.cpp src\LuaFunction.cpp src\OffsetChangeEvent.cpp src\OrientationChangeEvent.cpp src\ParticleSystem2d.cpp src\PhysicsSystem.cpp src\PlaySoundEvent.cpp src\PositionChangeEvent.cpp src\PrimitiveRenderSystem2d.cpp src\RenderLayer.cpp src\RenderableSystem2d.cpp src\Renderer.cpp src\RendererFadeTransition.cpp src\ScaleChangeEvent.cpp src\ShaderManager.cpp src\Sound.cpp src\TextContentChangeEvent.cpp src\TextRenderSystem2d.cpp src\TextureChangeEvent.cpp src\TextureManager.cpp src\TextureRenderSystem2d.cpp src\TransitionManager.cpp src\VolumeChangeEvent.cpp src\World.cpp src\main.cpp
-         Animation.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\World.cpp
          World.cpp
-         VolumeChangeEvent.cpp
-         TransitionManager.cpp
-         TextureRenderSystem2d.cpp
-         TextureManager.cpp
-         TextureChangeEvent.cpp
-         TextRenderSystem2d.cpp
-         TextContentChangeEvent.cpp
-         Sound.cpp
-         ShaderManager.cpp
-         ScaleChangeEvent.cpp
-         RendererFadeTransition.cpp
-         Renderer.cpp
-         RenderableSystem2d.cpp
-         RenderLayer.cpp
-         PrimitiveRenderSystem2d.cpp
-         PositionChangeEvent.cpp
-         PlaySoundEvent.cpp
-         PhysicsSystem.cpp
-         ParticleSystem2d.cpp
-         OrientationChangeEvent.cpp
-         OffsetChangeEvent.cpp
-         LuaFunction.cpp
-         LinearParticleField.cpp
-         Interface.cpp
-         Font.cpp
-         FadeTransition.cpp
-         FacetPauseEvent.cpp
-         FacetDimensionQuery.cpp
-         EventRegistry.cpp
-         EventProcessor.cpp
-         EntityPositionQuery.cpp
-         EntityLayerQuery.cpp
-         EntitiesInRectQuery.cpp
-         DimensionChangeEvent.cpp
-         Core.cpp
-         Console.cpp
-         ColorChangeEvent.cpp
-         Camera2d.cpp
-         Camera.cpp
-         BasicPositionSystem2d.cpp
-         BasicAudioSystem.cpp
-         AudioManager.cpp
-         AnimationSystem2d.cpp
-         AnimationChangeEvent.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 /PROFILE obj\AccelerationChangeEvent.obj
          obj\Animation.obj
@@ -95,6 +47,7 @@
          obj\PlaySoundEvent.obj
          obj\PositionChangeEvent.obj
          obj\PrimitiveRenderSystem2d.obj
+         obj\RectSorter.obj
          obj\RenderableSystem2d.obj
          obj\RenderedTextToken.obj
          obj\Renderer.obj
@@ -125,4 +78,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.09
+Time Elapsed 00:00:04.17

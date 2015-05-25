@@ -75,8 +75,35 @@ function Interface.functions.basicDragMove(self, interfaceState)
 	else 				
 		local newPosition = Util.addPositions(interfaceState.currentPosition, self.dragDelta)			
 		newPosition[3] = self.dragDelta[3]		
-		newPosition[1] = Util.bounds(newPosition[1], 0, Config.window[1] - self.dragDelta[4])
-		newPosition[2] = Util.bounds(newPosition[2], 0, Config.window[2] - self.dragDelta[5])
+		newPosition[1] = newPosition[1], 0, Config.window.dimensions[1] - self.dragDelta[4]
+		newPosition[2] = newPosition[2], 0, Config.window.dimensions[2] - self.dragDelta[5]
+		self:of():setPosition(newPosition)
+	end
+	
+	for i, v in pairs(self:of():children()) do	
+		local childOnDrag = v.facets.interface:getOnDrag()
+		childOnDrag(interfaceState)
+	end
+	
+end
+
+function Interface.functions.boundedDragMove(self, interfaceState)
+	if self:of():isPaused() then 
+		return
+	end
+	
+	if interfaceState.pickedUpThisTick then
+		local position = self:of():position()
+		self.dragDelta = Util.subtractPositions(position,interfaceState.clickPosition)		
+		local dimensions = self:of():dimensions()		
+		self.dragDelta[3] = position[3]
+		self.dragDelta[4] = dimensions[1]
+		self.dragDelta[5] = dimensions[2]
+	else 				
+		local newPosition = Util.addPositions(interfaceState.currentPosition, self.dragDelta)			
+		newPosition[3] = self.dragDelta[3]		
+		newPosition[1] = Util.bounds(newPosition[1], 0, Config.window.dimensions[1] - self.dragDelta[4])
+		newPosition[2] = Util.bounds(newPosition[2], 0, Config.window.dimensions[2] - self.dragDelta[5])
 		self:of():setPosition(newPosition)
 	end
 	
@@ -99,8 +126,8 @@ function Interface.functions.gridDragMove(self, interfaceState)
 		local newPosition = Util.addPositions(interfaceState.currentPosition, self.dragDelta)
 			newPosition[1] = newPosition[1] - newPosition[1] % 50
 			newPosition[2] = newPosition[2] - newPosition[2] % 50
-			newPosition[1] = Util.bounds(newPosition[1], 0, Config.window[1] - self.dragDelta[4])
-			newPosition[2] = Util.bounds(newPosition[2], 0, Config.window[2] - self.dragDelta[5])
+			newPosition[1] = Util.bounds(newPosition[1], 0, Config.window[1].dimensions - self.dragDelta[4])
+			newPosition[2] = Util.bounds(newPosition[2], 0, Config.window[2].dimensions - self.dragDelta[5])
 			newPosition[3] = self.dragDelta[3]
 		self:getOf():setPosition(newPosition)
 	end

@@ -6,5 +6,8 @@
 	uniform mat4 colorTransform;
 
 	void main() {
-		fragmentColor = colorTransform * texture(textureSampler, uvPassed); 
+	float tx2 = uvPassed.x;
+	float ty2 = uvPassed.y;
+	vec2 uvBiased = vec2(tx2, ty2);
+		fragmentColor = colorTransform * texture(textureSampler, uvBiased); 
 	}

@@ -7,7 +7,7 @@
 #include "Console.hpp"
 #include "Core.hpp"
 #include "Font.hpp"
-
+#include "RectSorter.hpp"
 
 namespace core {
 
@@ -48,15 +48,15 @@ namespace core {
 
 	bool TextureManager::initializeImpl() {
 		for (auto& texture : _loadedTextures) {
-			texture.second.get()->initialize();
+			texture.second->initialize();
 		}
 
 		for (auto& font : _loadedFonts) {
-			font.second.get()->initialize();
+			font.second->initialize();
 		}
 
-
-
+		_initializeTextureAtlas();
+		single<Renderer>().setTextureAtlas(_atlas);
 		
 		return true;
 	}
@@ -64,14 +64,14 @@ namespace core {
 	bool TextureManager::resetImpl() {
 		
 		for (auto& texture : _loadedTextures) {
-			texture.second.get()->reset();
+			texture.second->reset();
 		}
 
 		for (auto& font : _loadedFonts) {
-			font.second.get()->reset();
+			font.second->reset();
 		}
 
-
+		_resetTextureAtlas();
 		
 		//TODO reset everything
 		return true;
@@ -80,14 +80,16 @@ namespace core {
 	bool TextureManager::destroyImpl() {
 
 		for (auto& texture : _loadedTextures) {
-			texture.second.get()->destroy();
+			texture.second->destroy();
+			delete texture.second;
 		}
 		_loadedTextures.clear();
 
 		_loadedAnimationSets.clear();
 
 		for (auto& font : _loadedFonts) {
-			font.second.get()->destroy();
+			font.second->destroy();
+			delete font.second;
 		}
 		_loadedFonts.clear();
 
@@ -99,10 +101,10 @@ namespace core {
 		return true;
 	}
 
-	Font* TextureManager::addFont(std::unique_ptr<Font> font) {
+	Font* TextureManager::addFont(Font* font) {
 		std::string name = font->name();
-		_loadedFonts.insert(std::pair<std::string, std::unique_ptr<Font>>(font->name(), std::move(font)));
-		return _loadedFonts.find(name)->second.get();
+		_loadedFonts.insert(std::pair<std::string, Font*>(font->name(), font));
+		return _loadedFonts.find(name)->second;
 	}
 
 	Font* TextureManager::getFont(std::string name) {
@@ -115,7 +117,7 @@ namespace core {
 			return nullptr;
 		}
 		else {
-			return iter->second.get();
+			return iter->second;
 		}
 	}
 
@@ -129,16 +131,16 @@ namespace core {
 		for (auto& font : _loadedFonts) {
 
 			if (!font.second->name().compare(fontName)) {
-				_defaultFont = font.second.get();
+				_defaultFont = font.second;
 				break;
 			}
 		}
 	}
 
 
-	Texture* TextureManager::addTexture(std::unique_ptr<Texture> texture) {
+	Texture* TextureManager::addTexture(Texture* texture) {
 		std::string name = texture->name();
-		_loadedTextures.insert(std::pair<std::string, std::unique_ptr<Texture>>(texture->name(), std::move(texture)));
+		_loadedTextures.insert(std::pair<std::string,Texture*>(texture->name(), texture));
 		return getTexture(name);
 	}
 
@@ -148,14 +150,14 @@ namespace core {
 
 	Texture* TextureManager::getTexture(std::string name) {
 
-		std::map<std::string, std::unique_ptr<Texture>>::iterator iter = _loadedTextures.find(name);
+		std::map<std::string, Texture*>::iterator iter = _loadedTextures.find(name);
 
 		if (iter == _loadedTextures.end()) {
 			warn("Texture '", name, "' not found!");
 
 			return nullptr;
 		} else {
-			return iter->second.get();
+			return iter->second;
 		}
 
 	}
@@ -200,7 +202,7 @@ namespace core {
 			f->initialize();
 		}
 
-		single<TextureManager>().addFont(std::unique_ptr<Font>(f));
+		single<TextureManager>().addFont(f);
 
 		auto b = lua.pullStack<bool>(4);
 
@@ -222,13 +224,9 @@ namespace core {
 			error("Could not load texture ", t->name());
 			return 0;
 		}
-		if (t->initialize() != InitStatus::INIT_TRUE) {
-			error("Could not bind GL texture ", t->name());
-			return 0;
-		}
 
 		else {
-			single<TextureManager>().addTexture(std::unique_ptr<Texture>(t));
+			single<TextureManager>().addTexture(t);
 		}
 		return 0;
 	}
@@ -243,9 +241,10 @@ namespace core {
 
 		texture->setFileSource(lua["path"]);
 		texture->setName(textureName);
+		texture->create();
 		texture->initialize();
 		
-		single<TextureManager>().addTexture(std::unique_ptr<Texture>(texture));
+		single<TextureManager>().addTexture(texture);
 
 
 		lua.getTable("animations");
@@ -303,6 +302,60 @@ namespace core {
 		single<TextureManager>().addParticleEffect(effect);
 		
 		return 0;
+	}
+
+
+	void TextureManager::_initializeTextureAtlas() {
+
+		auto rs = RectSorter{};		
+		auto rect = SDL_Rect();
+		int depth = 0;
+		for (auto& texture : _loadedTextures) {
+			rect = texture.second->dimensions();
+			rs.addRect(texture.second->id(), rect);
+			
+		}
+
+		Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+		rmask = 0xff000000;
+		gmask = 0x00ff0000;
+		bmask = 0x0000ff00;
+		amask = 0x000000ff;
+#else
+		rmask = 0x000000ff;
+		gmask = 0x0000ff00;
+		bmask = 0x00ff0000;
+		amask = 0xff000000;
+#endif
+
+		auto sr = rs.sort();
+		auto atlasSurface = SDL_CreateRGBSurface(0, sr.dimension, sr.dimension, 32, rmask, gmask, bmask, amask);
+
+		SDL_FillRect(atlasSurface, NULL, 0);
+
+		auto srcRect = SDL_Rect();
+		for (auto& texture : _loadedTextures) {
+			rect = rs.getRect(texture.second->id());
+			srcRect = texture.second->dimensions();
+			texture.second->_textureAtlasOrigin = Pixel{ rect.x, rect.y, 0 };
+			texture.second->_isTextureAtlasManaged = true;
+			SDL_BlitSurface(texture.second->_sdlSurface, &srcRect, atlasSurface, &rect);
+			texture.second->destroy();
+		}
+
+		_atlas = new Texture{};
+		_atlas->setSdlSurfaceSource(atlasSurface);
+		_atlas->create();
+		_atlas->initialize();
+
+
+	}
+
+	void TextureManager::_resetTextureAtlas() {
+		_atlas->reset();
+		_atlas->destroy();
+		delete _atlas;
 	}
 
 

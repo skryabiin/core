@@ -60,7 +60,7 @@ namespace core {
 		ShaderProgram* program;
 		VertexArrayObject vao;
 		VertexBufferObject<GLfloat> uvbo;
-		VertexBufferObject<GLfloat> vbo;
+		VertexBufferObject<GLint> vbo;
 
 		DrawableType drawableType;
 	};

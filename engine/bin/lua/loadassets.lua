@@ -163,9 +163,18 @@ Assets.maps = {
                 spriteName="level1guy"
             }
         }
+    },
+    {
+		name = "test",
+	    tmxFilePath = "./lua/maps/test/test.tmx",
+        tilesets = {            
+            {
+                name="Palette2",
+                spriteName="level1tileset"
+            }
+        }
     }
 }
-
 	
 Assets.sprites = {
 

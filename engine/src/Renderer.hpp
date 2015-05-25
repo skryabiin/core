@@ -137,6 +137,10 @@ public:
 	//returns the z element of the closest (z-wise) drawable in the specified layer
 
 
+	void setTextureAtlas(Texture* atlas);
+	//sets the gl id for the atlas texture
+
+
 	void setBackgroundColor(Color& color);
 	//sets the clear color for the renderer
 
@@ -152,6 +156,7 @@ public:
 	void setDepthTestFunction(GLenum test);
 	//sets the opengl depth test function. This isnt used much since the renderer does its own
 	//depth sorting and thus can use easier transparency
+
 
 
 	Dimension windowDimensions() const;
@@ -308,6 +313,9 @@ private:
 	VertexBufferObject<GLfloat> _finalPassVbo;
 	VertexBufferObject<GLfloat> _finalPassUvbo;
 	
+	//the current texture atlas 
+	Texture* _textureAtlas;
+
 	//gl contexts
 	SDL_GLContext _sdlInitContext;
 	SDL_GLContext _sdlGlContext;

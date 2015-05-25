@@ -41,7 +41,7 @@ namespace core {
 		bool resetImpl();
 		bool destroyImpl();
 
-		Texture* addTexture(std::unique_ptr<Texture> texture);
+		Texture* addTexture(Texture* texture);
 
 		Texture* getTexture(std::string name);
 
@@ -53,7 +53,7 @@ namespace core {
 		
 		void replaceAnimationSet(AnimationSet animationSet);
 
-		Font* addFont(std::unique_ptr<Font> font);
+		Font* addFont(Font* font);
 
 		Font* getFont(std::string name);
 
@@ -89,21 +89,27 @@ namespace core {
 
 	private:
 
-		std::map<std::string, std::unique_ptr<Texture>> _loadedTextures;
+		//atlas
+		void _initializeTextureAtlas();
+
+		void _resetTextureAtlas();
+
+		Texture* _atlas;
+
+		
+		//loaded resources
+		std::map<std::string, Texture*> _loadedTextures;
 
 		std::map<std::string, AnimationSet> _loadedAnimationSets;
 
-		std::map<std::string, std::unique_ptr<Font>> _loadedFonts;
-
-
-
-		
+		std::map<std::string, Font*> _loadedFonts;
 
 		std::map<std::string, LinearParticleDef> _loadedParticleEffects;
 
-
+				
 		Font* _defaultFont;
 
+		
 	};
 
 

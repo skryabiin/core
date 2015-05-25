@@ -73,6 +73,8 @@ namespace core {
 	bool Texture::createFromSurface() {
 
 		_dimensions = SDL_Rect{ 0, 0, _sdlSurface->w, _sdlSurface->h };
+		_surfaceTrueDimensions = _dimensions;
+		/*
 		if (!(isPowerOfTwo(_sdlSurface->w)) || !(isPowerOfTwo(_sdlSurface->h))) {
 
 			//convert to gl dimension texture
@@ -102,8 +104,8 @@ namespace core {
 
 		}
 		else {
-			_surfaceTrueDimensions = _dimensions;
-		}
+			
+		} */
 
 
 
@@ -111,11 +113,11 @@ namespace core {
 	}
 
 
-	SDL_Rect Texture::surfaceTrueDimensions() const {
+	const SDL_Rect& Texture::surfaceTrueDimensions() const {
 		return _surfaceTrueDimensions;
 	}
 
-	SDL_Rect Texture::dimensions() const {
+	const SDL_Rect& Texture::dimensions() const {
 
 		return _dimensions;
 	}
@@ -128,6 +130,14 @@ namespace core {
 
 	GLuint Texture::getGlTextureId() const {
 		return _glTextureId;
+	}
+
+	bool Texture::isTextureAtlasManaged() {
+		return _isTextureAtlasManaged;
+	}
+
+	const Pixel& Texture::getTextureAtlasOrigin() {
+		return _textureAtlasOrigin;
 	}
 
 	Texture::~Texture() {

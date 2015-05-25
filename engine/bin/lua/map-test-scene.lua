@@ -24,6 +24,10 @@ function Scenes.maptest.tileParseCallback(tileInformation)
     e.facets.texture = TextureFacet:new(e, Scenes.maptest.textures, tileInformation.textureName)
     e.facets.texture:setTextureCoordinates({tileInformation.sourceTexturePosition[1], tileInformation.sourceTexturePosition[2], tileInformation.dimensions[1], tileInformation.dimensions[2]})    
     e.facets.texture:createFacetInCore()
+    e.facets.interface = InterfaceFacet:new(e)
+    e.facets.interface:setClickable(true)
+    e.facets.interface:setDraggable(true)
+
 end
 
 function Scenes.maptest.init()
@@ -33,29 +37,14 @@ function Scenes.maptest.init()
     Scenes.maptest.textures = TextureRenderSystem2d:new("MapTextures",1)    
     Scenes.maptest.textures:disableAutoCreation()    
 
-    World.camera.centerAt({0,4160,0})
-    World.runMap("Level1", Scenes.maptest.tileParseCallback)
+    World.camera.centerAt({0,0,0})
+    World.runMap("test", Scenes.maptest.tileParseCallback)
 
     Scenes.maptest.moveleft = false
     Scenes.maptest.moveright = false
     Scenes.maptest.moveup = false
     Scenes.maptest.movedown = false
     Scenes.maptest.pps = 300
-
-    local function fadeCallback()
-        Console.debug("In fade callback")
-    end
-
-    Renderer.setGlobalColorModulation(
-        {0.0, 0.0, 0.0, 0.0,
-         0.0, 0.0, 0.0, 0.0,
-         0.0, 0.0, 0.0, 0.0,
-         0.0, 0.0, 0.0, 1.0})
-    Renderer.fadeWindow(2000,
-        {1.0, 0.0, 0.0, 0.0,
-         0.0, 1.0, 0.0, 0.0,
-         0.0, 0.0, 1.0, 0.0,
-         0.0, 0.0, 0.0, 1.0},fadeCallback)
 
 end
 

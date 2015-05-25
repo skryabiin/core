@@ -274,15 +274,16 @@ namespace core {
 			_processDrawableChanges();
 		}
 		start();
-	
+		float colors[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+		int samplerId = 0;
 		SDL_AtomicLock(&_renderThreadLock);	
-
+		glActiveTexture(GL_TEXTURE0);
 		if (!_renderThread && _renderMultithreaded) return;
 		for (auto& layer : _layers) {
 			if (layer.isPaused()) continue;
 			layer.frame.bind();
 			layer.frame.bindTexture();
-			float colors[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+
 			//glClear(GL_COLOR_BUFFER_BIT);
 			glClearBufferfv(GL_COLOR, 0,colors);
 			for (auto& drawable : layer.drawables) {
@@ -290,9 +291,7 @@ namespace core {
 				_draw(drawable);
 			}
 			layer.frame.unbind();
-			glActiveTexture(GL_TEXTURE0);
 			layer.frame.bindTexture();
-			int samplerId = 0;
 			_finalPassVao.bind();
 			_finalPassVao.setUniformVariable<int>("textureSampler", samplerId);
 			_finalPassVao.setUniformVariableMatrix("globalTransform", _colorTransform.transform);
@@ -354,6 +353,10 @@ namespace core {
 
 		warn("Drawable layer not found for layerId ", layerId);
 		return 0;
+	}
+
+	void Renderer::setTextureAtlas(Texture* atlas) {
+		_textureAtlas = atlas;
 	}
 
 
@@ -497,32 +500,24 @@ namespace core {
 	void Renderer::_drawTexture(Drawable& d) {
 
 		if (!d.camera->isInViewportRect(d.targetRect)) return;
-		//if (!d.camera->positionRect(d.targetRect, _textureVertices)) return;	
 		//will have to be more preicse for rotation
 
 		d.vao.bind();
 
-		//_textureVbo.bind();
-		//d.camera->getVertices(d.targetRect, _textureVertices);
-		//_textureVbo.buffer(4, &_textureVertices[0], GL_DYNAMIC_DRAW);
-
-		//d.vao.setVertexArrayAttribute("vertexPos", _textureVbo);		
 		d.vao.setUniformVariableMatrix("colorTransform", d.colorTransform.transform);
 
 		auto mvp = d.camera->getViewProjectionLocked();
 		d.vao.setUniformVariableMatrix("mvp", mvp);
 
-		//d.vao.setUniformVariableArray("cameraCenter", d.camera->getPosition());
-
 		int samplerId = 0;
-		d.vao.setUniformVariable<int>("textureSampler", samplerId);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, d.texture->getGlTextureId());
-		d.vao.draw(GL_TRIANGLE_FAN);
-
-		//d.vao.unbind();
-		_textureVbo.unbind();
-
+		d.vao.setUniformVariable<int>("textureSampler", samplerId);		
+		if (d.texture->isTextureAtlasManaged()) {
+			glBindTexture(GL_TEXTURE_2D, _textureAtlas->getGlTextureId());
+		}
+		else {
+			glBindTexture(GL_TEXTURE_2D, d.texture->getGlTextureId());
+		}
+		d.vao.draw(GL_TRIANGLE_FAN);		
 
 	}
 
@@ -632,7 +627,20 @@ namespace core {
 		d->texture = dc.texture;
 		d->targetRect = dc.targetRect;
 		d->drawableType = Drawable::DrawableType::TEXTURE;
-		d->sourceRect = dc.textureCoordinates;
+
+		auto textureDim = SDL_Rect();
+		if (dc.texture->isTextureAtlasManaged()) {
+			auto newCoords = dc.textureCoordinates;
+			auto texAtlasOrigin = dc.texture->getTextureAtlasOrigin();
+			newCoords.x += texAtlasOrigin.x;
+			newCoords.y += texAtlasOrigin.y;
+			d->sourceRect = newCoords;
+			textureDim = _textureAtlas->surfaceTrueDimensions();
+		}
+		else {
+			d->sourceRect = dc.textureCoordinates;
+			textureDim = d->texture->surfaceTrueDimensions();
+		}
 		auto renderShaderProgram = single<ShaderManager>().getShaderProgram(dc.shaderProgramName);
 
 
@@ -646,14 +654,12 @@ namespace core {
 		GLushort i[] = {
 			0, 1, 2, 3
 		};
-		vao.indices().buffer(4, i);
+		vao.indices().buffer(4, i);		
 
-		auto textureDim = d->texture->surfaceTrueDimensions();
-
-		GLfloat uv[] = { dc.textureCoordinates.x, dc.textureCoordinates.y + dc.textureCoordinates.h,
-			dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y + dc.textureCoordinates.h,
-			dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y,
-			dc.textureCoordinates.x, dc.textureCoordinates.y };
+		GLfloat uv[] = { d->sourceRect.x, d->sourceRect.y + d->sourceRect.h,
+			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y + d->sourceRect.h,
+			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y,
+			d->sourceRect.x, d->sourceRect.y };
 
 
 		uv[0] = uv[0] / (1.0 * textureDim.w);
@@ -673,7 +679,7 @@ namespace core {
 		d->vbo.create(2);
 		d->vbo.initialize();
 		d->vbo.bind();
-		auto vertexValues = std::vector<GLfloat>{};
+		auto vertexValues = std::vector<GLint>{};
 		d->camera->getVertices(d->targetRect, vertexValues);
 		d->vbo.buffer(vertexValues);	
 		vao.setVertexArrayAttribute("vertexPos", d->vbo);
@@ -726,12 +732,25 @@ namespace core {
 		auto& vao = d->vao;
 		vao.bind();
 
-		auto textureDim = d->texture->surfaceTrueDimensions();
+		auto textureDim = SDL_Rect();
 
-		GLfloat uv[] = { dc.textureCoordinates.x, dc.textureCoordinates.y + dc.textureCoordinates.h,
-			dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y + dc.textureCoordinates.h,
-			dc.textureCoordinates.x + dc.textureCoordinates.w, dc.textureCoordinates.y,
-			dc.textureCoordinates.x, dc.textureCoordinates.y };
+		if (dc.texture->isTextureAtlasManaged()) {
+			auto newCoords = dc.textureCoordinates;
+			auto texAtlasOrigin = dc.texture->getTextureAtlasOrigin();
+			newCoords.x += texAtlasOrigin.x;
+			newCoords.y += texAtlasOrigin.y;
+			d->sourceRect = newCoords;
+			textureDim = _textureAtlas->surfaceTrueDimensions();
+		}
+		else {
+			d->sourceRect = dc.textureCoordinates;
+			textureDim = d->texture->surfaceTrueDimensions();
+		}
+
+		GLfloat uv[] = { d->sourceRect.x, d->sourceRect.y + d->sourceRect.h,
+			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y + d->sourceRect.h,
+			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y,
+			d->sourceRect.x, d->sourceRect.y };
 
 
 		uv[0] = uv[0] / (1.0 * textureDim.w);
@@ -789,7 +808,7 @@ namespace core {
 		d->targetRect = dc.targetRect;
 		d->vao.bind();
 		d->vbo.bind();
-		auto vertexValues = std::vector<GLfloat>{};
+		auto vertexValues = std::vector<GLint>{};
 		d->camera->getVertices(d->targetRect, vertexValues);
 		d->vbo.buffer(vertexValues);
 		d->vao.setVertexArrayAttribute("vertexPos", d->vbo);

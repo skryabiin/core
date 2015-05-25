@@ -14,7 +14,7 @@ namespace core {
 		return true;
 	}
 
-	bool Camera::initializeImpl() {		
+	bool Camera::initializeImpl() {
 
 		_windowDimensions = single<Renderer>().windowDimensions();
 
@@ -23,7 +23,8 @@ namespace core {
 		_theta = 0;
 		_phi = 0;
 		_psi = 0;
-		_position = glm::vec3(0.0f, 0.0f, 0.0f);
+		auto position = Pixel{ 0, 0, 0 };
+		setPosition(position);
 
 		_recalculateProjection();
 
@@ -40,7 +41,7 @@ namespace core {
 	}
 
 	void Camera::setPosition(const Pixel& pos) {
-		auto p = glm::vec3(pos.x, pos.y, _position[2]);
+		auto p = glm::vec3(pos.x - _windowDimensions.w / 2.0f, pos.y - _windowDimensions.h / 2.0f, _position[2]);
 		_setPosition(p);
 	}
 
@@ -60,19 +61,19 @@ namespace core {
 	void Camera::pitch(const float& theta) {
 		_theta += theta;
 		_view = glm::rotate(theta * glm::pi<float>() / 180.0f, glm::vec3(1, 0, 0)) * _view;
-		_recalculateViewProjection();
+		_recalculateView();
 	}
 
 	void Camera::yaw(const float& phi) {
 		_phi += phi;
 		_view = glm::rotate(phi * glm::pi<float>() / 180.0f, glm::vec3(0, 1, 0)) * _view;
-		_recalculateViewProjection();
+		_recalculateView();
 	}
 
 	void Camera::roll(const float& psi) {
 		_psi += psi;
 		_view = glm::rotate(psi * glm::pi<float>() / 180.0f, glm::vec3(0, 0, 1)) * _view;
-		_recalculateViewProjection();
+		_recalculateView();
 	}
 
 
@@ -109,32 +110,32 @@ namespace core {
 	void Camera::worldToLens(Pixel& p) const {
 		auto aligned = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 		_pixelToGl(p, aligned);
-		aligned = _viewProjection * aligned;
+		aligned = _view * aligned;
 		_glToPixel(aligned, p);
 	}
 
 	void Camera::lensToWorld(Pixel& p) const {
 		auto aligned = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 		_pixelToGl(p, aligned);
-		aligned = _viewProjectionInverse * aligned;
+		aligned = _viewInverse * aligned;
 		_glToPixel(aligned, p);
 	}
 
-	void Camera::getVertices(Rect& rect, std::vector<GLfloat>& values) {
+	void Camera::getVertices(Rect& rect, std::vector<GLint>& values) {
 
 		auto p = Pixel(rect.x, rect.y);
 		auto gl = glm::vec4{};
 		_pixelToGl(p, gl);
 
-		GLfloat x1 = gl.x;
-		GLfloat y1 = gl.y;
+		int x1 = roundFloat(gl.x);
+		int y1 = roundFloat(gl.y);
 
 		p.x = rect.x + rect.w;
 		p.y = rect.y + rect.h;
 		_pixelToGl(p, gl);
 
-		GLfloat x2 = gl.x;
-		GLfloat y2 = gl.y;
+		int x2 = roundFloat(gl.x);
+		int y2 = roundFloat(gl.y);
 
 		values.clear();
 		values.push_back(x1);
@@ -151,27 +152,27 @@ namespace core {
 	//private
 
 	void Camera::_pixelToGl(const Pixel& p, glm::vec4& glPos) const {
-		glPos.x = p.x - (_windowDimensions.w / 2.0f);
-		glPos.y = p.y - (_windowDimensions.h / 2.0f);
+		glPos.x = p.x;
+		glPos.y = p.y;
 		glPos.z = 0.0f;
 		glPos.w = 1.0f;
 	}
 
 	void Camera::_glToPixel(const glm::vec4& glPos, Pixel& p) const {
-		p.x = glPos.x + (_windowDimensions.w / 2.0f);
-		p.y = glPos.y + (_windowDimensions.h / 2.0f);
+		p.x = glPos.x;
+		p.y = glPos.y;
 	}
 
 
 	void Camera::_translate(glm::vec3&& delta) {
 		_position += delta;
 		_view = glm::translate(_view, -1.0f * delta);
-		_recalculateViewProjection();
+		_recalculateView();		
 	}
 
-	void Camera::_setPosition(const glm::vec3& position) {
+	void Camera::_setPosition(const glm::vec3& position) {		
 		_view = glm::translate(_view, _position - position);
-		_recalculateViewProjection();
+		_recalculateView();
 		_position = position;
 	}
 
@@ -188,12 +189,12 @@ namespace core {
 	}
 
 	void Camera::_recalculateView() {
-
+		_viewInverse = glm::inverse(_view);
 		_recalculateViewProjection();
 	}
 
 	void Camera::_recalculateProjection() {
-		_projection = glm::ortho(-0.5f * _zoom.x * _windowDimensions.w, 0.5f *  _zoom.x * _windowDimensions.w, -0.5f *  _zoom.y * _windowDimensions.h, 0.5f * _zoom.y * _windowDimensions.h);
+		_projection = glm::ortho(0.0f, _windowDimensions.w * 1.0f, 0.0f, _windowDimensions.h * 1.0f);
 		_recalculateViewProjection();
 	}
 
@@ -201,7 +202,6 @@ namespace core {
 
 		SDL_AtomicLock(&_cameraLock);
 		_viewProjection = _projection * _view;
-		_viewProjectionInverse = glm::inverse(_viewProjection);
 		_isChanged = true;
 		auto botLeft = Pixel{};
 		auto topRight = Pixel{ _windowDimensions.w, _windowDimensions.h };

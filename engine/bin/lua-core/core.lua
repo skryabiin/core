@@ -96,7 +96,7 @@ function Entity:create(o)
 	setmetatable(o, self)
 	self.__index = self
 	Core.createEntity(o)
-	o.children = {}	
+	o._children = {}	
 	o.facets = {}	
 	o.positionFacetHandled = false
 	return o	
@@ -119,7 +119,7 @@ function Entity:addBasicPosition(system)
 end
 
 
-function Entity:getChildren()
+function Entity:children()
 	return self._children or {}
 end
 
