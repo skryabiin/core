@@ -3,7 +3,6 @@
 
 
 #include "Texture.hpp"
-#include "Camera2d.hpp"
 #include "Drawable.hpp"
 #include "Geometry.hpp"
 

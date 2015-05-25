@@ -16,11 +16,11 @@ namespace core {
 			return false;
 		}
 
-		auto& lua = single<Core>().lua();
 
-		int samplingFrequency = lua("Config")["audio"]["samplingFrequency"];
-		bool stereo = lua("Config")["audio"]["stereo"];
-		int chunkSize = lua("Config")["audio"]["chunkSize"];
+		auto& config = single<Config>();
+		int samplingFrequency = config.audio.samplingFrequency;
+		bool stereo = config.audio.stereo;
+		int chunkSize = config.audio.chunkSize;
 		auto outputDimension = (stereo) ? 2 : 1;
 		info("Initializing SDL_mixer...");
 
@@ -31,6 +31,7 @@ namespace core {
 		info("Registering lua functions...");
 
 		//register lua functions
+		auto& lua = single<Core>().lua();
 		lua.bindFunction("playSound_bind", playSound_bind);
 		lua.bindFunction("loadSound_bind", loadSound_bind);
 		lua.bindFunction("setGlobalVolumeLevel_bind", setGlobalVolumeLevel_bind);

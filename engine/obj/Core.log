@@ -1,8 +1,8 @@
-﻿Build started 5/24/2015 10:51:33 PM.
+﻿Build started 5/24/2015 11:37:39 PM.
      1>Project "C:\code\core\engine\Core.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\RenderableSystem2d.cpp
-         RenderableSystem2d.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Core.cpp
+         Core.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 /PROFILE obj\AccelerationChangeEvent.obj
          obj\Animation.obj
@@ -12,9 +12,9 @@
          obj\BasicAudioSystem.obj
          obj\BasicPositionSystem2d.obj
          obj\Camera.obj
-         obj\Camera2d.obj
          obj\ColorChangeEvent.obj
          obj\ColorModulationEvent.obj
+         obj\Config.obj
          obj\Console.obj
          obj\Core.obj
          obj\DimensionChangeEvent.obj
@@ -78,4 +78,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.28
+Time Elapsed 00:00:04.94

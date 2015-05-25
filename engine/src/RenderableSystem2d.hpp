@@ -3,7 +3,6 @@
 
 #include "System.hpp"
 #include "Templates.hpp"
-#include "Camera2d.hpp"
 #include "CameraFollowFacet.hpp"
 #include "PositionChangeEvent.hpp"
 #include "ColorChangeEvent.hpp"

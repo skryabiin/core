@@ -40,11 +40,14 @@ namespace core {
 	}
 
 	bool Core::createImpl() {
+
 		notice("---------------------------------------------");
 		notice("Initializing Core at ", getTimestamp());
-
-		_coreConfig.debugMemory = _lua("Config")["system"]["debugMemory"];
+		auto& config = single<Config>();
+		config.create();
+		_coreConfig.debugMemory = config.system.debugMemory;
 		if (_coreConfig.debugMemory) {
+			warn("Debug memory is enabled. This will have a noticeable performance impact. You can disable this by setting 'Config.system.debugMemory' to false.");
 			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 		}
 
@@ -103,7 +106,7 @@ namespace core {
 		_lua.bindFunction("reset_bind", Core::reset_bind);
 		_lua.bindFunction("destroy_bind", Core::destroy_bind);
 
-		_coreConfig.maxUpdatesPerSecond = _lua("Config")["system"]["maxUpdatesPerSecond"];
+		_coreConfig.maxUpdatesPerSecond = config.system.maxUpdatesPerSecond;
 
 		_luaUpdateFunction = _lua("Core")["update"];
 
@@ -171,27 +174,19 @@ namespace core {
 
 		_lastTick = SDL_GetTicks();
 		
-		auto fpsCounter = _lastTick;
-
-		bool tickMinimumMet = false;
-		
+		auto fpsCounter = _lastTick;				
 
 		_gogogo = true;		
 
 		single<Renderer>().showWindow();
 
 
-		while (_gogogo) {
+		while (_gogogo) {			
 
-			tickMinimumMet = resetRuntimeContext();
-
-			if (!tickMinimumMet) {
+			if (!resetRuntimeContext()) {
 				continue;
 			}
-
 			
-
-
 			update();		
 
 			if (!multithreaded) {
@@ -328,7 +323,7 @@ namespace core {
 	}
 
 	void Core::doHardQuit(std::string msg) {
-		std::string windowTitle = _lua("Config")["window"]["title"];
+		std::string windowTitle =single<Config>().window.title;
 		auto title = "Fatal Error in " + windowTitle;
 		single<Renderer>().hideWindow();
 		single<Renderer>().pause();

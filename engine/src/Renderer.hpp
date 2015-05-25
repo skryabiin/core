@@ -16,7 +16,6 @@
 #include "Math.hpp"
 #include "TextureManager.hpp"
 #include "Animation.hpp"
-#include "Camera2d.hpp"
 #include "RuntimeContext.hpp"
 #include "Texture.hpp"
 #include "Drawable.hpp"

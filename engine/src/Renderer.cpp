@@ -21,31 +21,32 @@ namespace core {
 		}
 
 
-		auto& lua = single<Core>().lua();
-
-		_debugOpenGl = lua("Config")["graphics"]["debugOpenGl"];
-
-
-
-		std::string title = lua("Config")["window"]["title"];
+		
+		auto& config = single<Config>();
+		_debugOpenGl = config.graphics.debugOpenGl;
 
 
-		int winw = lua("Config")["window"]["dimensions"][1];
-		int winh = lua("Config")["window"]["dimensions"][2];
-		_windowDimensions = Dimension{ winw, winh };
 
-		bool borderless = lua("Config")["window"]["borderless"];
-		bool fullscreen = lua("Config")["window"]["fullscreen"];
-		bool centered = lua("Config")["window"]["centered"];
-		bool resizable = lua("Config")["window"]["resizable"];
-		bool grabMouse = lua("Config")["window"]["grabMouse"];
+		std::string title = config.window.title;
 
-		int winx = (centered) ? SDL_WINDOWPOS_CENTERED : lua("Config")["window"]["position"][1];
-		int winy = (centered) ? SDL_WINDOWPOS_CENTERED : lua("Config")["window"]["position"][2];
+
+		
+		_windowDimensions = config.window.dimensions.getDimension();
+
+		bool borderless = config.window.borderless;
+		bool fullscreen = config.window.fullscreen;
+		bool centered = config.window.centered;
+		bool resizable = config.window.resizable;
+		bool grabMouse = config.window.grabMouse;
+
+		auto windowPos = config.window.position.getPixel();
+
+		int winx = (centered) ? SDL_WINDOWPOS_CENTERED : windowPos.x;
+		int winy = (centered) ? SDL_WINDOWPOS_CENTERED : windowPos.y;
 
 		
 		_windowShown = false;
-		info("Creating SDL window '", title, "' size ", winw, "x", winh);		
+		info("Creating SDL window '", title, "' size ", _windowDimensions.w, "x", _windowDimensions.h);		
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -62,7 +63,7 @@ namespace core {
 		flags = (fullscreen) ? flags | SDL_WINDOW_FULLSCREEN : flags;
 		flags = (resizable) ? flags | SDL_WINDOW_RESIZABLE : flags;
 		
-		_sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, winw, winh, flags);
+		_sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _windowDimensions.w, _windowDimensions.h, flags);
 
 		if (grabMouse) SDL_SetWindowGrab(_sdlWindow, SDL_TRUE);
 
@@ -89,6 +90,7 @@ namespace core {
 			info("AMD debug output extension is available.");
 		}
 
+		auto& lua = single<Core>().lua();
 		lua.bindFunction("getMinZIndex_bind", Renderer::getMinZIndex_bind);
 		lua.bindFunction("hideWindow_bind", Renderer::hideWindow_bind);
 		lua.bindFunction("showWindow_bind", Renderer::showWindow_bind);
@@ -104,9 +106,9 @@ namespace core {
 
 		SDL_ShowCursor(1);
 
-		_maxFramesPerSecond = lua("Config")["graphics"]["maxFramesPerSecond"];
-		_renderMultithreaded = lua("Config")["graphics"]["renderMultithreaded"];
-		_maxPendingQueueDepth = lua("Config")["graphics"]["maxWaitFreeQueueDepth"];
+		_maxFramesPerSecond = config.graphics.maxFramesPerSecond;
+		_renderMultithreaded = config.graphics.renderMultithreaded;
+		_maxPendingQueueDepth = config.graphics.maxWaitFreeQueueDepth;
 
 		if (_renderMultithreaded) {
 			info("Renderer multithreaded mode enabled.");
