@@ -62,7 +62,7 @@ namespace core {
 		bool renderMultithreaded;
 		unsigned short maxWaitFreeQueueDepth;
 		bool debugOpenGl;
-		short vsync;
+		bool vsync;
 	};
 
 	struct AudioConfig : public LuaTable {

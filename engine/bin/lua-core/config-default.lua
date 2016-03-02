@@ -87,9 +87,8 @@ Config.graphics.maxWaitFreeQueueDepth = 10
 --This will have some performance impact
 Config.graphics.debugOpenGl = true
 
---Vsync options
---see Constnats.VSYNC* options
-Config.graphics.vsync = Constants.VSYNC_OFF
+--Vsync enabled
+Config.graphics.vsync = false
 
 
 

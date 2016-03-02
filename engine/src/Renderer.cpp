@@ -582,7 +582,12 @@ namespace core {
 
 		auto& config = single<Config>();
 
-		SDL_GL_SetSwapInterval(config.graphics.vsync);
+		//set vsync options
+		auto vsyncStatus = SDL_GL_SetSwapInterval(config.graphics.vsync ? -1 : 0);
+		
+		//if that failed, late swap is not supported, so regular vsync
+		if (vsyncStatus == -1)
+			SDL_GL_SetSwapInterval(1);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
