@@ -56,11 +56,13 @@ namespace core {
 			lua_reg("renderMultithreaded", &renderMultithreaded);
 			lua_reg("maxWaitFreeQueueDepth", &maxWaitFreeQueueDepth);
 			lua_reg("debugOpenGl", &debugOpenGl);
+			lua_reg("vsync", &vsync);
 		}
 		unsigned short maxFramesPerSecond;
 		bool renderMultithreaded;
 		unsigned short maxWaitFreeQueueDepth;
 		bool debugOpenGl;
+		short vsync;
 	};
 
 	struct AudioConfig : public LuaTable {

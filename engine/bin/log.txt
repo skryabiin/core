@@ -466,3 +466,159 @@
 [info] Unloaded texture 'rainbow' with source path './lua/sprites/6807326-rainbow.jpg
 [info] Unloaded texture 'redBox' with source path './lua/sprites/red_box.png
 [notice] Core system destroy complete at Mon Aug 10 10:00:49 2015
+[notice] ---------------------------------------------
+[notice] Initializing Core at Wed Mar 02 10:11:43 2016
+[info] Creating event processor...
+[info] Initializing SDL events...
+[info] Initializing SDL timer...
+[info] Creating console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Creating interface...
+[info] Creating TextureManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Registering lua functions...
+[info] Creating AudioManager:
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Creating Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.11672 Compatibility Profile/Debug Context
+[info] AMD debug output extension is available.
+[info] Renderer multithreaded mode enabled.
+[dbug] arbor.lua(14): After core create
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, size 30
+[info] audio.lua(10),load: Loading sounds...
+[info] audio.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] audio.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] maps.lua(14),load: Loading maps...
+[info] maps.lua(9),loadMap: Adding map: 'Level1', 
+[info] maps.lua(9),loadMap: Adding map: 'test', 
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'level1guy', ./lua/maps/tilesets/guy.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'level1tileset', ./lua/maps/tilesets/Palette2.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'rainbow', ./lua/sprites/6807326-rainbow.jpg
+[info] particles.lua(7),load: Loading particle effects...
+[info] shaders.lua(32),load: Loading vertex shaders...
+[info] shaders.lua(24),loadShader: Loading vertex shader 'basic', ./shaders/basic.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'shape2d', ./shaders/shape2d.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'textureRender2d', ./shaders/textureRender2d.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'finalPass2d', ./shaders/finalPass2d.glvs
+[info] shaders.lua(13),load: Loading fragment shaders...
+[info] shaders.lua(6),loadShader: Loading fragment shader 'basic', ./shaders/basic.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'shape2d', ./shaders/shape2d.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'textureRender2d', ./shaders/textureRender2d.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'finalPass2d', ./shaders/finalPass2d.glfs
+[info] arbor.lua(42): Entering main loop.
+[info] Initializing framework for scene...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[dbug] Shader id is : 7
+[dbug] Shader id is : 8
+[warn] Overwriting registered lua bound function 'setCamera_bind'
+[info] Running map Level1
+[dbug] Parse map took 505ms
+[dbug] Callbacks took 616ms
+[dbug] Entire load took 1321ms
+[info] arbor.lua(58): main loop response is AppClosed
+[info] Unloaded texture '' with source path '
+[info] Core system reset complete.
+[notice] Stopping Core with message: AppClosed
+[info] Unloaded texture 'Brobot_texture' with source path './lua/sprites/brobot/littlebot.png
+[info] Unloaded texture 'blueBalls' with source path './lua/sprites/AUAlogowithRibbon.png
+[info] Unloaded texture 'cursor_brown' with source path './lua/sprites/cursor_brown.png
+[info] Unloaded texture 'level1guy' with source path './lua/maps/tilesets/guy.png
+[info] Unloaded texture 'level1tileset' with source path './lua/maps/tilesets/Palette2.png
+[info] Unloaded texture 'rainbow' with source path './lua/sprites/6807326-rainbow.jpg
+[info] Unloaded texture 'redBox' with source path './lua/sprites/red_box.png
+[notice] Core system destroy complete at Wed Mar 02 10:12:38 2016
+[notice] ---------------------------------------------
+[notice] Initializing Core at Wed Mar 02 10:29:41 2016
+[info] Creating event processor...
+[info] Initializing SDL events...
+[info] Initializing SDL timer...
+[info] Creating console...
+[warn] Overwriting registered lua bound function 'setDebug_bind'
+[info] Creating interface...
+[info] Creating TextureManager:
+[info] Initializing SDL_image...
+[info] Initializing SDL_ttf...
+[info] Registering lua functions...
+[info] Creating AudioManager:
+[info] Initializing SDL_audio...
+[info] Initializing SDL_mixer...
+[info] Registering lua functions...
+[info] Creating Renderer:
+[info] Initializing SDL window...
+[info] Creating SDL window 'Arbor' size 1024x768
+[info] OpenGL version: 3.1.11672 Compatibility Profile/Debug Context
+[info] AMD debug output extension is available.
+[info] Renderer multithreaded mode enabled.
+[dbug] arbor.lua(14): After core create
+[info] fonts.lua(20),load: Loading fonts...
+[info] fonts.lua(7),loadFont: Loading font: 'RobotoCondensed-Regular', ./lua/fonts/RobotoCondensed-Regular.ttf, size 15
+[info] fonts.lua(7),loadFont: Loading font: 'PixelBerry', ./lua/fonts/pixel_berry.ttf, size 30
+[info] audio.lua(10),load: Loading sounds...
+[info] audio.lua(5),loadSound: Loading sound: 'DoorOpen', ./lua/sounds/button-25.wav
+[info] audio.lua(5),loadSound: Loading sound: 'RobotJump', ./lua/sounds/button-3.wav
+[info] maps.lua(14),load: Loading maps...
+[info] maps.lua(9),loadMap: Adding map: 'Level1', 
+[info] maps.lua(9),loadMap: Adding map: 'test', 
+[info] sprites.lua(16),load: Loading sprites...
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'level1tileset', ./lua/maps/tilesets/Palette2.png
+[info] sprites.lua(5),loadAnimationSprite: Loading animation set: 'Brobot', ./lua/sprites/brobot/littlebot.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'redBox', ./lua/sprites/red_box.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'level1guy', ./lua/maps/tilesets/guy.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'cursor_brown', ./lua/sprites/cursor_brown.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'blueBalls', ./lua/sprites/AUAlogowithRibbon.png
+[info] sprites.lua(11),loadTextureSprite: Loading texture: 'rainbow', ./lua/sprites/6807326-rainbow.jpg
+[info] particles.lua(7),load: Loading particle effects...
+[info] shaders.lua(32),load: Loading vertex shaders...
+[info] shaders.lua(24),loadShader: Loading vertex shader 'basic', ./shaders/basic.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'shape2d', ./shaders/shape2d.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'textureRender2d', ./shaders/textureRender2d.glvs
+[info] shaders.lua(24),loadShader: Loading vertex shader 'finalPass2d', ./shaders/finalPass2d.glvs
+[info] shaders.lua(13),load: Loading fragment shaders...
+[info] shaders.lua(6),loadShader: Loading fragment shader 'basic', ./shaders/basic.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'shape2d', ./shaders/shape2d.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'textureRender2d', ./shaders/textureRender2d.glfs
+[info] shaders.lua(6),loadShader: Loading fragment shader 'finalPass2d', ./shaders/finalPass2d.glfs
+[info] arbor.lua(42): Entering main loop.
+[info] Initializing framework for scene...
+[dbug] Shader id is : 1
+[dbug] Shader id is : 2
+[dbug] Shader id is : 3
+[dbug] Shader id is : 4
+[dbug] Shader id is : 5
+[dbug] Shader id is : 6
+[dbug] Shader id is : 7
+[dbug] Shader id is : 8
+[warn] Overwriting registered lua bound function 'setCamera_bind'
+[info] Running map Level1
+[dbug] Parse map took 518ms
+[dbug] Callbacks took 1466ms
+[dbug] Entire load took 2220ms
+[info] arbor.lua(58): main loop response is AppClosed
+[info] Unloaded texture '' with source path '
+[info] Core system reset complete.
+[notice] Stopping Core with message: AppClosed
+[info] Unloaded texture 'Brobot_texture' with source path './lua/sprites/brobot/littlebot.png
+[info] Unloaded texture 'blueBalls' with source path './lua/sprites/AUAlogowithRibbon.png
+[info] Unloaded texture 'cursor_brown' with source path './lua/sprites/cursor_brown.png
+[info] Unloaded texture 'level1guy' with source path './lua/maps/tilesets/guy.png
+[info] Unloaded texture 'level1tileset' with source path './lua/maps/tilesets/Palette2.png
+[info] Unloaded texture 'rainbow' with source path './lua/sprites/6807326-rainbow.jpg
+[info] Unloaded texture 'redBox' with source path './lua/sprites/red_box.png
+[notice] Core system destroy complete at Wed Mar 02 10:30:19 2016

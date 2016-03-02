@@ -7,3 +7,7 @@ Constants.VERBOSITY_LEVEL_ERROR = 2
 Constants.VERBOSITY_LEVEL_WARNING = 3
 Constants.VERBOSITY_LEVEL_INFO = 4
 Constants.VERBOSITY_LEVEL_DEBUG = 5
+
+Constants.VSYNC_OFF = 0
+Constants.VSYNC_ON = 1
+Constants.VSYNC_LATE = -1

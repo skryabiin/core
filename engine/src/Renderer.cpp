@@ -580,7 +580,9 @@ namespace core {
 		_didInitGlObjects = true;
 		SDL_GL_MakeCurrent(_sdlWindow, _sdlGlContext);
 
-		SDL_GL_SetSwapInterval(-1);
+		auto& config = single<Config>();
+
+		SDL_GL_SetSwapInterval(config.graphics.vsync);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 

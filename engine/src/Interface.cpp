@@ -575,7 +575,7 @@ namespace core {
 	}
 
 	void Interface::showHideSystemCursor(bool show) {
-		//SDL_ShowCursor((show) ? 1 : 0);
+		SDL_ShowCursor((show) ? 1 : 0);
 	}
 
 	void Interface::showCursor() {

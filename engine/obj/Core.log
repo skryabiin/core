@@ -1,8 +1,173 @@
-﻿Build started 6/6/2015 7:56:00 AM.
+﻿Build started 3/2/2016 10:27:49 AM.
      1>Project "C:\code\core\engine\Core.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\Interface.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\lib\glm\glm /I"..\lib\glew-1.12.0\include" /I"..\lib\glut-3.7.6-bin" /I"..\lib\SDL2_mixer-2.0.0\include" /I..\lib\TmxParser /I..\lib\Lua5.2.2 /I"..\lib\SDL2-2.0.3\include" /I"..\lib\SDL2_image-2.0.0\include" /I"..\lib\SDL2_ttf-2.0.12\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\\" /Fd"obj\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\AccelerationChangeEvent.cpp src\Animation.cpp src\AnimationChangeEvent.cpp src\AnimationSystem2d.cpp src\AudioManager.cpp src\BasicAudioSystem.cpp src\BasicPositionSystem2d.cpp src\Camera.cpp src\ColorChangeEvent.cpp src\ColorModulationEvent.cpp src\Config.cpp src\Console.cpp src\Core.cpp src\DimensionChangeEvent.cpp src\EntitiesInRectQuery.cpp src\EntityLayerQuery.cpp src\EntityPositionQuery.cpp src\EventProcessor.cpp src\EventRegistry.cpp src\FacetDimensionQuery.cpp src\FacetPauseEvent.cpp src\FadeTransition.cpp src\Font.cpp src\FrameBuffer.cpp src\Interface.cpp src\LinearParticleField.cpp src\LuaFunction.cpp src\LuaState.cpp src\LuaTable.cpp src\MouseEvent.cpp src\OffsetChangeEvent.cpp src\OrientationChangeEvent.cpp src\ParticleSystem2d.cpp src\PhysicsSystem.cpp src\PlaySoundEvent.cpp src\PositionChangeEvent.cpp src\PrimitiveRenderSystem2d.cpp src\RenderLayer.cpp src\RenderableSystem2d.cpp src\RenderedTextToken.cpp src\Renderer.cpp src\RendererFadeTransition.cpp src\ScaleChangeEvent.cpp src\ShaderManager.cpp src\ShaderProgram.cpp src\Sound.cpp src\System.cpp src\TextContentChangeEvent.cpp src\TextRenderSystem2d.cpp src\Texture.cpp src\TextureChangeEvent.cpp src\TextureManager.cpp src\TextureRenderSystem2d.cpp src\TransitionManager.cpp src\TransitionRegistry.cpp src\VertexArrayObject.cpp src\VolumeChangeEvent.cpp src\World.cpp src\main.cpp
+         Renderer.cpp
+     1>c:\code\core\engine\src\particlesystem2d.hpp(45): warning C4250: 'core::ParticleSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(39) : see declaration of 'core::RenderableSystem2d::handleEvent'
          Interface.cpp
+         Generating Code...
+         Compiling...
+         main.cpp
+         World.cpp
+         VolumeChangeEvent.cpp
+         VertexArrayObject.cpp
+         TransitionRegistry.cpp
+         TransitionManager.cpp
+         TextureRenderSystem2d.cpp
+         TextureManager.cpp
+         TextureChangeEvent.cpp
+         Texture.cpp
+         TextRenderSystem2d.cpp
+         TextContentChangeEvent.cpp
+         System.cpp
+         Sound.cpp
+         ShaderProgram.cpp
+         ShaderManager.cpp
+         ScaleChangeEvent.cpp
+         RendererFadeTransition.cpp
+         RenderedTextToken.cpp
+         RenderableSystem2d.cpp
+         Generating Code...
+         Compiling...
+         RenderLayer.cpp
+         PrimitiveRenderSystem2d.cpp
+         PositionChangeEvent.cpp
+         PlaySoundEvent.cpp
+         PhysicsSystem.cpp
+         ParticleSystem2d.cpp
+     1>c:\code\core\engine\src\particlesystem2d.hpp(45): warning C4250: 'core::ParticleSystem2d' : inherits 'core::RenderableSystem2d::core::RenderableSystem2d::handleEvent' via dominance
+                 c:\code\core\engine\src\renderablesystem2d.hpp(39) : see declaration of 'core::RenderableSystem2d::handleEvent'
+         OrientationChangeEvent.cpp
+         OffsetChangeEvent.cpp
+         MouseEvent.cpp
+         LuaTable.cpp
+         LuaState.cpp
+         LuaFunction.cpp
+         LinearParticleField.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xrefwrap(283): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(228) : see reference to function template instantiation '_Ret std::_Callable_obj<core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>,false>::_ApplyX<_Rx,_Ty,Particle_type&,int>(_Ty &&,Particle_type &,int &&)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            _Rx=bool
+         ,            _Ty=core::ParticleField<core::BasicParticle> *
+         ,            Particle_type=core::BasicParticle
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(228) : see reference to function template instantiation '_Ret std::_Callable_obj<core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>,false>::_ApplyX<_Rx,_Ty,Particle_type&,int>(_Ty &&,Particle_type &,int &&)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            _Rx=bool
+         ,            _Ty=core::ParticleField<core::BasicParticle> *
+         ,            Particle_type=core::BasicParticle
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(226) : while compiling class template member function 'bool std::_Func_impl<_MyWrapper,_Alloc,_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Do_call(core::ParticleField<Particle_type> *&&,Particle_type &,int &&)'
+                 with
+                 [
+                     _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+         ,            _Ret=bool
+         ,            Particle_type=core::BasicParticle
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(495) : see reference to class template instantiation 'std::_Func_impl<_MyWrapper,_Alloc,_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>' being compiled
+                 with
+                 [
+                     _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+         ,            _Ret=bool
+         ,            Particle_type=core::BasicParticle
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(396) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Do_alloc<_Myimpl,_Ty,_Alloc>(_Fty &&,_Alloc)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(396) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Do_alloc<_Myimpl,_Ty,_Alloc>(_Fty &&,_Alloc)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(385) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Reset_alloc<_Ty,std::allocator<std::_Func_class<_Ret,core::ParticleField<Particle_type> *,Particle_type &,int>>>(_Fty &&,_Alloc)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(385) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Reset_alloc<_Ty,std::allocator<std::_Func_class<_Ret,core::ParticleField<Particle_type> *,Particle_type &,int>>>(_Fty &&,_Alloc)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Alloc=std::allocator<std::_Func_class<bool,core::ParticleField<core::BasicParticle> *,core::BasicParticle &,int>>
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(671) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Reset<_Ty>(_Fty &&)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\functional(671) : see reference to function template instantiation 'void std::_Func_class<_Ret,core::ParticleField<core::BasicParticle> *,Particle_type &,int>::_Reset<_Ty>(_Fty &&)' being compiled
+                 with
+                 [
+                     _Ret=bool
+         ,            Particle_type=core::BasicParticle
+         ,            _Ty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+         ,            _Fty=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+                 c:\code\core\engine\src\linearparticlefield.cpp(88) : see reference to function template instantiation 'std::function<bool (core::ParticleField<core::BasicParticle> *,Particle_type &,int)>::function<core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>>(_Fx &&)' being compiled
+                 with
+                 [
+                     Particle_type=core::BasicParticle
+         ,            _Fx=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+                 c:\code\core\engine\src\linearparticlefield.cpp(88) : see reference to function template instantiation 'std::function<bool (core::ParticleField<core::BasicParticle> *,Particle_type &,int)>::function<core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>>(_Fx &&)' being compiled
+                 with
+                 [
+                     Particle_type=core::BasicParticle
+         ,            _Fx=core::LinearParticleField::init::<lambda_336b8014dc19bbbefe3852a55cf19bef>
+                 ]
+         FrameBuffer.cpp
+         Font.cpp
+         FadeTransition.cpp
+         FacetPauseEvent.cpp
+         FacetDimensionQuery.cpp
+         EventRegistry.cpp
+         EventProcessor.cpp
+         Generating Code...
+         Compiling...
+         EntityPositionQuery.cpp
+         EntityLayerQuery.cpp
+         EntitiesInRectQuery.cpp
+         DimensionChangeEvent.cpp
+         Core.cpp
+         Console.cpp
+         Config.cpp
+         ColorModulationEvent.cpp
+         ColorChangeEvent.cpp
+         Camera.cpp
+     1>c:\code\core\engine\src\camera.cpp(103): warning C4800: 'SDL_bool' : forcing value to bool 'true' or 'false' (performance warning)
+         BasicPositionSystem2d.cpp
+         BasicAudioSystem.cpp
+         AudioManager.cpp
+         AnimationSystem2d.cpp
+         AnimationChangeEvent.cpp
+         Animation.cpp
+         AccelerationChangeEvent.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Core.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\lib\glew-1.12.0\lib\Release\Win32" /LIBPATH:"..\lib\glut-3.7.6-bin" /LIBPATH:"..\lib\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\lib\SDL2-2.0.3\lib\x86" /LIBPATH:"..\lib\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\lib\SDL2_image-2.0.0\lib\x86" glew32.lib glew32s.lib glut32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"bin\Core.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Core.lib" /MACHINE:X86 /PROFILE obj\AccelerationChangeEvent.obj
          obj\Animation.obj
@@ -78,4 +243,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.33
+Time Elapsed 00:01:48.87

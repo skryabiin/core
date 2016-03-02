@@ -32,7 +32,7 @@ Config.window.grabMouse = false
 
 
 
---Logging and debugging settigns
+--Logging and debugging settings
 Config.logging = {}
 --log file path
 Config.logging.logFile = "log.txt"
@@ -86,6 +86,10 @@ Config.graphics.maxWaitFreeQueueDepth = 10
 --
 --This will have some performance impact
 Config.graphics.debugOpenGl = true
+
+--Vsync options
+--see Constnats.VSYNC* options
+Config.graphics.vsync = Constants.VSYNC_OFF
 
 
 
