@@ -8,6 +8,7 @@ namespace core {
 	AnimationChangeEvent::AnimationChangeEvent() {
 		
 		lua_reg("entityId", &entity);
+		lua_reg("facetId", &facetId);
 		lua_reg("nextAnimation", &nextAnimation);
 		lua_reg("endImmediate", &endImmediate);
 	}

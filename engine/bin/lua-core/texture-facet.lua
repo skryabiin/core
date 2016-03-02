@@ -72,18 +72,17 @@ function TextureFacet:setOffset(offset)
 end
 
 function TextureFacet:scaleToEntity()
-
-    if self:isCoreFacet() then
-        local dimensions = self:of():dimensions()         
-        local myDimensions = self:dimensions()
-        local scale = self:scale()
-        local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }
+    if self:isCoreFacet() then        
+        local dimensions = self:of():dimensions()            
+        local myDimensions = self:dimensions()        
+        local scale = self:scale()        
+        local newScale = {dimensions[1] * scale[1] / myDimensions[1], dimensions[2] * scale[2] / myDimensions[2] }        
         self:setScale(newScale)
-    elseif self._textureCoordinates and self._textureCoordinates[3] ~= 0 and self._textureCoordinates[4] ~= 0 then
+    elseif self._textureCoordinates and self._textureCoordinates[3] ~= 0 and self._textureCoordinates[4] ~= 0 then        
         local dimensions = self:of():dimensions() 
         local newScale = {dimensions[1] / self._textureCoordinates[3], dimensions[2] / self._textureCoordinates[3]}
         self:setScale(newScale)
-    else
+    else        
         self:setScale({1,1})
     end
        
@@ -98,9 +97,7 @@ function TextureFacet:setScale(scale)
             scale = self:scale(),
             facetId = self:id()
         }
-        EventProcessor.process(scaleChange)
-    else
-        debug("Setting scale for non-core facet")
+        EventProcessor.process(scaleChange)           
     end
 end
    

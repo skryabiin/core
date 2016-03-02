@@ -100,7 +100,7 @@ namespace core {
 		_writingToFirstQueue = true;
 		_drawableChangeQueue1 = new SPSCQueue<DrawableChange>{};
 		_drawableChangeQueue2 = new SPSCQueue<DrawableChange>{};
-
+		_createRenderLayerQueue = new SPSCQueue<CreateLayerRequest>{};
 
 		_doRenderThread = true;
 
@@ -276,30 +276,21 @@ namespace core {
 			_processDrawableChanges();
 		}
 		start();
-		float colors[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+		
 		int samplerId = 0;
 		SDL_AtomicLock(&_renderThreadLock);	
 		glActiveTexture(GL_TEXTURE0);
 		if (!_renderThread && _renderMultithreaded) return;
 		for (auto& layer : _layers) {
-			if (layer.isPaused()) continue;
-			layer.frame.bind();
-			layer.frame.bindTexture();
-
-			//glClear(GL_COLOR_BUFFER_BIT);
-			glClearBufferfv(GL_COLOR, 0,colors);
-			for (auto& drawable : layer.drawables) {
-				if (drawable.disabled) continue;
-				_draw(drawable);
-			}
-			layer.frame.unbind();
-			layer.frame.bindTexture();
+			layer.render();
+			layer.frame()->bindTexture();
 			_finalPassVao.bind();
 			_finalPassVao.setUniformVariable<int>("textureSampler", samplerId);
 			_finalPassVao.setUniformVariableMatrix("globalTransform", _colorTransform.transform);
 			//_finalPassVao.setUniformVariableMatrix("mvp", layer.camera->getProjectionLocked());
 			_finalPassVao.draw(GL_TRIANGLE_FAN);
-		}	
+		}
+		
 		SDL_AtomicUnlock(&_renderThreadLock);
 		if (_debugOpenGl) {
 			_checkGlDebugLog();
@@ -329,26 +320,37 @@ namespace core {
 
 	}
 
-	void Renderer::createRenderLayer(int layerId, Camera* camera) {
+	void Renderer::createRenderLayer(short layerId, Camera* camera) {
+
+		auto clr = CreateLayerRequest{};
+		clr.layerId = layerId;
+		clr.camera = camera;
+		_createRenderLayerQueue->enqueue(clr);
+	}
+
+	void Renderer::_addRenderLayer(short layerId, Camera* camera) {
 
 		auto rl = RenderLayer{};
 		rl.create(layerId);
-		rl.camera = camera;
-		rl.initialize();
+		rl.setCamera(camera);		
+		rl.setTextureAtlas(_textureAtlas);
 		auto insIt = std::begin(_layers);
 		for (auto it = std::begin(_layers); it != std::end(_layers); ++it) {
-			if (rl.layerId > it->layerId) {
+			if (rl.layerId() > it->layerId()) {
 				insIt = it;
 				break;
 			}
 		}
-		insIt = _layers.insert(insIt, rl);
+		SDL_AtomicLock(&_renderThreadLock);
+		insIt = _layers.insert(insIt, std::move(rl));
+		insIt->initialize();
+		SDL_AtomicUnlock(&_renderThreadLock);
 	}
 
-	int Renderer::getMinZIndex(int layerId) const {
+	int Renderer::getMinZIndex(short layerId) const {
 
 		for (auto& layer : _layers) {
-			if (layer.layerId == layerId) {
+			if (layer.layerId() == layerId) {
 				return layer.minZIndex();
 			}
 		}
@@ -468,19 +470,6 @@ namespace core {
 
 
 
-
-
-	void Renderer::_draw(Drawable& d) {
-		switch (d.drawableType) {
-		case Drawable::DrawableType::POLYGON:
-			_drawPoly(d);
-			break;
-		case Drawable::DrawableType::TEXTURE:
-			_drawTexture(d);
-			break;
-		}
-	}
-
 	void Renderer::_drawPoly(Drawable& d) {
 		//if (!d.camera->positionPoints(d.vertices, _drawVertices)) return;	
 
@@ -499,33 +488,7 @@ namespace core {
 		_textureVbo.unbind();
 	}
 
-	void Renderer::_drawTexture(Drawable& d) {
-
-		if (!d.camera->isInViewportRect(d.targetRect)) return;
-		//will have to be more preicse for rotation
-
-		d.vao.bind();
-
-		d.vao.setUniformVariableMatrix("colorTransform", d.colorTransform.transform);
-
-		auto mvp = d.camera->getViewProjectionLocked();
-		d.vao.setUniformVariableMatrix("mvp", mvp);
-
-		int samplerId = 0;
-		d.vao.setUniformVariable<int>("textureSampler", samplerId);		
-		if (d.texture->isTextureAtlasManaged()) {
-			glBindTexture(GL_TEXTURE_2D, _textureAtlas->getGlTextureId());
-		}
-		else {
-			glBindTexture(GL_TEXTURE_2D, d.texture->getGlTextureId());
-		}
-		d.vao.draw(GL_TRIANGLE_FAN);		
-
-	}
-
-
-
-
+	
 
 	void Renderer::_addDrawableChange(DrawableChange& dc) {
 
@@ -538,6 +501,11 @@ namespace core {
 	void Renderer::_processDrawableChanges() {
 
 		SDL_AtomicLock(&_drawableChangePtrLock);
+
+		CreateLayerRequest clr;
+		while (_createRenderLayerQueue->dequeue(clr)) {
+			_addRenderLayer(clr.layerId, clr.camera);
+		}
 
 		if (_changeColorTransform) {
 			_colorTransform = _tempColorTransform;
@@ -554,41 +522,45 @@ namespace core {
 	
 		DrawableChange dc;	
 		while ((*currentChangeQueue)->dequeue(dc)) {
+			for (auto& layer : _layers) {
+				if (layer.layerId() == dc.layerId) {
+					if (dc.operation == DrawableChange::Operation::CREATE_TEXTURE_DRAWABLE) {
+						auto d = layer.createDrawable(dc.facetId, dc.layerId, dc.zIndex);
+						layer.createTextureDrawable(d, dc);
+						continue;
+					}
+					else if (dc.operation == DrawableChange::Operation::CREATE_PRIMITIVE_DRAWABLE) {
+						auto d = layer.createDrawable(dc.facetId, dc.layerId, dc.zIndex);
+						layer.createPrimitiveDrawable(d, dc);
+						continue;
+					}
 
-			if (dc.operation == DrawableChange::Operation::CREATE_TEXTURE_DRAWABLE) {
-				auto d = _createDrawable(dc.facetId, dc.layerId, dc.zIndex);
-				_createTextureDrawable(d, dc);
-				continue;
-			}
-			else if (dc.operation == DrawableChange::Operation::CREATE_PRIMITIVE_DRAWABLE) {
-				auto d = _createDrawable(dc.facetId, dc.layerId, dc.zIndex);
-				_createPrimitiveDrawable(d, dc);
-				continue;
-			}
-
-			auto d = _getDrawable(dc.facetId, dc.layerId);
-			switch (dc.operation) {
-			case DrawableChange::Operation::PAUSE:		
-				_pauseDrawable(d, dc);
-				break;
-			case DrawableChange::Operation::DESTROY_DRAWABLE:			
-				_destroyDrawable(d, dc);
-				break;
-			case DrawableChange::Operation::CHANGE_COLOR:		
-				_changeDrawableColor(d, dc);
-				break;
-			case DrawableChange::Operation::CHANGE_COLOR_TRANSFORM:			
-				_changeDrawableColorTransform(d, dc);
-				break;
-			case DrawableChange::Operation::CHANGE_TEXTURE:			
-				_changeDrawableTexture(d, dc);
-				break;
-			case DrawableChange::Operation::CHANGE_PRIMITIVE_POSITION:			
-				_changePrimitivePosition(d, dc);
-				break;
-			case DrawableChange::Operation::CHANGE_TEXTURE_POSITION:		
-				_changeTexturePosition(d, dc);
-				break;
+					auto d = layer.getDrawable(dc.facetId);
+					switch (dc.operation) {
+					case DrawableChange::Operation::PAUSE:
+						layer.pauseDrawable(d, dc);
+						break;
+					case DrawableChange::Operation::DESTROY_DRAWABLE:
+						layer.destroyDrawable(d, dc);
+						break;
+					case DrawableChange::Operation::CHANGE_COLOR:
+						layer.changeDrawableColor(d, dc);
+						break;
+					case DrawableChange::Operation::CHANGE_COLOR_TRANSFORM:
+						layer.changeDrawableColorTransform(d, dc);
+						break;
+					case DrawableChange::Operation::CHANGE_TEXTURE:
+						layer.changeDrawableTexture(d, dc);
+						break;
+					case DrawableChange::Operation::CHANGE_PRIMITIVE_POSITION:
+						layer.changePrimitivePosition(d, dc);
+						break;
+					case DrawableChange::Operation::CHANGE_TEXTURE_POSITION:
+						layer.changeTexturePosition(d, dc);
+						break;
+					}
+					break;
+				}
 			}
 		}
 		//currentChangeQueue->clear();
@@ -602,250 +574,13 @@ namespace core {
 
 
 
-	Drawable* Renderer::_createDrawable(int facetId, short layerId, short zIndex) {
 
-		auto d = Drawable{};
-		d.facetId = facetId;
-		d.layerId = layerId;
-		d.zIndex = zIndex;
-
-		for (auto& layer : _layers) {
-			if (layer.layerId == layerId) {
-				return layer.addDrawable(d);
-			}
-		}
-
-		return nullptr;
-	}
-
-
-	void Renderer::_createTextureDrawable(Drawable* d, DrawableChange& dc) {
-
-		d->layerId = dc.layerId;
-		d->facetId = dc.facetId;
-		d->camera = dc.camera;
-		d->colorTransform = dc.colorTransform;
-		d->zIndex = dc.zIndex;
-		d->texture = dc.texture;
-		d->targetRect = dc.targetRect;
-		d->drawableType = Drawable::DrawableType::TEXTURE;
-
-		auto textureDim = SDL_Rect();
-		if (dc.texture->isTextureAtlasManaged()) {
-			auto newCoords = dc.textureCoordinates;
-			auto texAtlasOrigin = dc.texture->getTextureAtlasOrigin();
-			newCoords.x += texAtlasOrigin.x;
-			newCoords.y += texAtlasOrigin.y;
-			d->sourceRect = newCoords;
-			textureDim = _textureAtlas->surfaceTrueDimensions();
-		}
-		else {
-			d->sourceRect = dc.textureCoordinates;
-			textureDim = d->texture->surfaceTrueDimensions();
-		}
-		auto renderShaderProgram = single<ShaderManager>().getShaderProgram(dc.shaderProgramName);
-
-
-		auto& vao = d->vao;
-		vao.create();
-		vao.initialize();
-		vao.setProgram(renderShaderProgram);
-		vao.bind();
-
-
-		GLushort i[] = {
-			0, 1, 2, 3
-		};
-		vao.indices().buffer(4, i);		
-
-		GLfloat uv[] = { d->sourceRect.x, d->sourceRect.y + d->sourceRect.h,
-			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y + d->sourceRect.h,
-			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y,
-			d->sourceRect.x, d->sourceRect.y };
-
-
-		uv[0] = uv[0] / (1.0 * textureDim.w);
-		uv[1] = uv[1] / (1.0 * textureDim.h);
-		uv[2] = uv[2] / (1.0 * textureDim.w);
-		uv[3] = uv[3] / (1.0 * textureDim.h);
-		uv[4] = uv[4] / (1.0 * textureDim.w);
-		uv[5] = uv[5] / (1.0 * textureDim.h);
-		uv[6] = uv[6] / (1.0 * textureDim.w);
-		uv[7] = uv[7] / (1.0 * textureDim.h);
-		d->uvbo.create(2);
-		d->uvbo.initialize();
-		d->uvbo.bind();
-		d->uvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
-		vao.setVertexArrayAttribute("uvIn", d->uvbo);
-
-		d->vbo.create(2);
-		d->vbo.initialize();
-		d->vbo.bind();
-		auto vertexValues = std::vector<GLint>{};
-		d->camera->getVertices(d->targetRect, vertexValues);
-		d->vbo.buffer(vertexValues);	
-		vao.setVertexArrayAttribute("vertexPos", d->vbo);
-		vao.setUniformVariableMatrix("mvp", d->camera->getViewProjection());
-
-		vao.unbind();
-		d->uvbo.unbind();
-		d->vbo.unbind();
-
-	}
-	void Renderer::_createPrimitiveDrawable(Drawable* d, DrawableChange& dc) {
-
-		d->layerId = dc.layerId;
-		d->facetId = dc.facetId;
-		d->camera = dc.camera;
-		d->colorTransform = dc.colorTransform;
-		d->color = dc.color;
-		d->zIndex = dc.zIndex;
-		d->drawableType = Drawable::DrawableType::POLYGON;
-		d->vertices = dc.vertices;
-		auto shaderProgram = single<ShaderManager>().getShaderProgram(dc.shaderProgramName);
-
-		auto& vao = d->vao;
-		vao.create();
-		vao.initialize();
-		vao.setProgram(shaderProgram);
-		vao.bind();
-
-		auto indices = std::vector<GLushort>{};
-		for (GLushort i = 0; i < 4; i++) {
-			indices.push_back(i);
-		}
-		vao.indices().buffer(4, &indices[0]);
-		vao.unbind();
-	}
-	void Renderer::_changeDrawableColor(Drawable* d, DrawableChange& dc) {
-
-		d->color = dc.color;
-		d->filled = dc.filled;
-	}
-	void Renderer::_changeDrawableColorTransform(Drawable* d, DrawableChange& dc) {
-
-		d->colorTransform = dc.colorTransform;
-	}
-
-	void Renderer::_changeDrawableTexture(Drawable* d, DrawableChange& dc) {
-
-
-		d->texture = dc.texture;
-		auto& vao = d->vao;
-		vao.bind();
-
-		auto textureDim = SDL_Rect();
-
-		if (dc.texture->isTextureAtlasManaged()) {
-			auto newCoords = dc.textureCoordinates;
-			auto texAtlasOrigin = dc.texture->getTextureAtlasOrigin();
-			newCoords.x += texAtlasOrigin.x;
-			newCoords.y += texAtlasOrigin.y;
-			d->sourceRect = newCoords;
-			textureDim = _textureAtlas->surfaceTrueDimensions();
-		}
-		else {
-			d->sourceRect = dc.textureCoordinates;
-			textureDim = d->texture->surfaceTrueDimensions();
-		}
-
-		GLfloat uv[] = { d->sourceRect.x, d->sourceRect.y + d->sourceRect.h,
-			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y + d->sourceRect.h,
-			d->sourceRect.x + d->sourceRect.w, d->sourceRect.y,
-			d->sourceRect.x, d->sourceRect.y };
-
-
-		uv[0] = uv[0] / (1.0 * textureDim.w);
-		uv[1] = uv[1] / (1.0 * textureDim.h);
-		uv[2] = uv[2] / (1.0 * textureDim.w);
-		uv[3] = uv[3] / (1.0 * textureDim.h);
-		uv[4] = uv[4] / (1.0 * textureDim.w);
-		uv[5] = uv[5] / (1.0 * textureDim.h);
-		uv[6] = uv[6] / (1.0 * textureDim.w);
-		uv[7] = uv[7] / (1.0 * textureDim.h);
-		d->uvbo.bind();
-		d->uvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
-		vao.setVertexArrayAttribute("uvIn", d->uvbo);
-		vao.unbind();
-		d->uvbo.unbind();
-	}
-
-	
-
-
-	void Renderer::_pauseDrawable(Drawable* d, DrawableChange& dc) {
-
-		d->disabled = dc.paused;
-
-	}
-	void Renderer::_changeDrawableZIndex(Drawable* d, DrawableChange& dc) {
-
-		auto newDrawable = *d;
-		newDrawable.zIndex = dc.zIndex;
-		for (auto dlit = std::begin(_layers); dlit != std::end(_layers); ++dlit) {
-			if (dlit->layerId == dc.layerId) {
-				dlit->destroyDrawable(d->facetId);
-				dlit->addDrawable(newDrawable);
-
-			}
-		}
-	}
-
-
-	void Renderer::_destroyDrawable(Drawable* d, DrawableChange& dc) {
-		d->vao.reset();
-		d->vao.destroy();
-		d->uvbo.reset();
-		d->uvbo.destroy();
-		for (auto dlit = std::begin(_layers); dlit != std::end(_layers); ++dlit) {
-			if (dlit->layerId == dc.layerId) {
-				dlit->destroyDrawable(d->facetId);
-				return;
-			}
-		}
-		warn("Attempting to destroy a non-existent drawable.");
-	}
-
-	void Renderer::_changeTexturePosition(Drawable* d, DrawableChange& dc) {
-		d->targetRect = dc.targetRect;
-		d->vao.bind();
-		d->vbo.bind();
-		auto vertexValues = std::vector<GLint>{};
-		d->camera->getVertices(d->targetRect, vertexValues);
-		d->vbo.buffer(vertexValues);
-		d->vao.setVertexArrayAttribute("vertexPos", d->vbo);
-		d->vao.unbind();
-		d->vbo.unbind();
-		if (d->zIndex != dc.zIndex) {
-			_changeDrawableZIndex(d, dc);
-		}
-	}
-
-
-
-	void Renderer::_changePrimitivePosition(Drawable* d, DrawableChange& dc) {
-		d->vertices = dc.vertices;
-		if (d->zIndex != dc.zIndex) {
-			_changeDrawableZIndex(d, dc);
-		}
-	}
-
-	Drawable* Renderer::_getDrawable(int facetId, short layerId) {
-		for (auto& layer : _layers) {
-			if (layerId == layer.layerId || layerId == -1) {
-				for (auto &drawable : layer.drawables) {
-					if (drawable.facetId == facetId) {
-						return &drawable;
-					}
-				}
-			}
-		}
-		return nullptr;
-	}
 
 	bool Renderer::_initGlObjects() {
 		_didInitGlObjects = true;
 		SDL_GL_MakeCurrent(_sdlWindow, _sdlGlContext);
+
+		SDL_GL_SetSwapInterval(-1);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -866,11 +601,9 @@ namespace core {
 		checkStep = drawShaderProgram->link();
 		if (!checkStep) return false;
 
-		auto renderShaderProgram = single<ShaderManager>().createShaderProgram("textureRender2d", "textureRender2d", "textureRender2d");
-		checkStep = renderShaderProgram->link();
-		if (!checkStep) return false;
+	
 		_textureVbo.create(2);
-		_textureVbo.initialize();
+		_textureVbo.initialize(GL_DYNAMIC_DRAW);
 
 		GLfloat defaultV[] = {
 			-1.0f, -1.0f,
@@ -880,7 +613,7 @@ namespace core {
 		};
 
 		_textureVbo.bind();
-		_textureVbo.buffer(4, defaultV, GL_DYNAMIC_DRAW);
+		_textureVbo.buffer(4, defaultV);
 		_textureVbo.unbind();
 
 
@@ -893,23 +626,23 @@ namespace core {
 		_finalPassVao.setProgram(finalPassShaderProgram);
 		_finalPassVao.bind();
 
-		_finalPassVbo.initialize();
+		_finalPassVbo.initialize(GL_DYNAMIC_DRAW);
 		_finalPassVbo.bind();
-		_finalPassVbo.buffer(4, defaultV, GL_DYNAMIC_DRAW);
+		_finalPassVbo.buffer(4, defaultV);
 		_finalPassVao.setVertexArrayAttribute("vertexPos", _finalPassVbo);
 
-		GLushort i[] = {
+		GLuint i[] = {
 			0, 1, 2, 3
 		};
 		_finalPassVao.indices().buffer(4, i);
 
-		_finalPassUvbo.initialize();
+		_finalPassUvbo.initialize(GL_DYNAMIC_DRAW);
 		_finalPassUvbo.bind();
 		GLfloat uv[] = { 0.0f, 0.0f,
 			1.0f, 0.0f,
 			1.0f, 1.0f,
 			0.0f, 1.0f };
-		_finalPassUvbo.buffer(4, uv, GL_DYNAMIC_DRAW);
+		_finalPassUvbo.buffer(4, uv);
 		_finalPassVao.setVertexArrayAttribute("uvIn", _finalPassUvbo);
 		_finalPassVao.unbind();
 

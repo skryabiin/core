@@ -11,10 +11,7 @@ namespace core {
 
 	public:
 
-		
-		bool buffer(std::vector<T>& values) {
-			return buffer(values, GL_STATIC_DRAW);
-		}
+
 
 		
 		bool bindImpl() {
@@ -39,15 +36,39 @@ namespace core {
 			}
 		}
 
+		bool buffer(GLushort numVertices, GLuint offset, std::vector<T>& values) {
+			return buffer(numVertices, offset, values, offset);
+		}
 
+		bool buffer(GLushort numVertices, GLuint bufferOffset, std::vector<T>& values, GLuint vectorOffset) {
+			return buffer(numVertices, bufferOffset, &values[vectorOffset]);
+		}
 
-		bool buffer(std::vector<T>& values, GLenum usage) {			
+		bool buffer(GLushort numVertices, GLuint offset, void* data) {
+			return buffer(numVertices, offset, data, _useType);
+		}
+
+		bool buffer(GLushort numVertices, GLuint offset, void* data, GLenum usage) {
+			if (_isBound) {
+				GLuint numBytes = numVertices * _vertexDimension * sizeof(T);
+				glBufferSubData(BUFFER_TYPE, offset * sizeof(T), numBytes, data);
+				return true;
+			}
+			return false;
+		}
+
+		bool buffer(std::vector<T>& values) {			
+			return buffer(values, _useType);
+		}
+
+		bool buffer(std::vector<T>& values, GLenum usage) {		
+			if (values.empty()) return false;
 			return buffer(values.size() / _vertexDimension, &values[0], usage);
 		}
 
 		
 		bool buffer(GLushort numVertices, void* data) {			
-			return buffer(numVertices * _vertexDimension, data, GL_STATIC_DRAW);
+			return buffer(numVertices, data, _useType);
 		}
 
 		
@@ -56,6 +77,7 @@ namespace core {
 				_numVertices = numVertices;
 				GLuint numBytes = numVertices * _vertexDimension * sizeof(T);
 				glBufferData(BUFFER_TYPE, numBytes, data, usage);
+				return true;
 			}
 			return false;
 		}

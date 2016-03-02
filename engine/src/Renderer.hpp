@@ -128,11 +128,11 @@ public:
 	//add a change to a drawable to the queue, to be processed by the render thread at next cycle
 
 
-	void createRenderLayer(int layerId, Camera* camera);
+	void createRenderLayer(short layerId, Camera* camera);
 	//creates a new render layer with the given id and camera, and sorts it into the render layer list
 
 
-	int getMinZIndex(int layerId) const;
+	int getMinZIndex(short layerId) const;
 	//returns the z element of the closest (z-wise) drawable in the specified layer
 
 
@@ -225,9 +225,8 @@ private:
 
 
 	//rendering calls for various types
-	void _draw(Drawable& d);
 
-	void _drawTexture(Drawable& d);
+	
 
 	void _drawPoly(Drawable& d);
 
@@ -247,27 +246,8 @@ private:
 
 	void _processDrawableChanges();
 
-	Drawable* _createDrawable(int facetId, short layerId, short zIndex);
-
-	void _createTextureDrawable(Drawable* d, DrawableChange& dc);
-
-	void _createPrimitiveDrawable(Drawable* d, DrawableChange& dc);
-
-	void _changeDrawableColor(Drawable* d, DrawableChange& dc);
-
-	void _changeDrawableColorTransform(Drawable* d, DrawableChange& dc);
-
-	void _changeDrawableTexture(Drawable* d, DrawableChange& dc);
-
-	void _pauseDrawable(Drawable* d, DrawableChange& dc);
-
-	void _changeDrawableZIndex(Drawable* d, DrawableChange& dc);
-
-	void _destroyDrawable(Drawable* d, DrawableChange& dc);
-
-	void _changeTexturePosition(Drawable* d, DrawableChange& dc);
-
-	void _changePrimitivePosition(Drawable* d, DrawableChange& dc);
+	void _addRenderLayer(short layerId, Camera* camera);
+	
 	
 	Drawable* _getDrawable(int facetId, short layerId);	
 
@@ -278,6 +258,8 @@ private:
 	SPSCQueue<DrawableChange>** _drawableChanges;
 
 	SPSCQueue<DrawableChange>** _drawablePending;
+
+	SPSCQueue<CreateLayerRequest>* _createRenderLayerQueue;
 
 	bool _writingToFirstQueue;
 

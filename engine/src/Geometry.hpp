@@ -359,14 +359,14 @@ namespace core {
 
 	struct Rect {
 
-		float x, y, w, h;
+		int x, y, w, h;
 
-		Rect() : x{ 0.0f }, y{ 0.0f }, w{ 0.0f }, h{ 0.0f } {}
-		Rect(float xx, float yy, float ww, float hh) : x{ xx }, y{ yy }, w{ ww }, h{ hh } {}
-		Rect(Point p) : x{ p.x }, y{ p.y }, w{ 0.0f }, h{ 0.0f } {}		
+		Rect() : x{ 0 }, y{ 0 }, w{ 0 }, h{ 0 } {}
+		Rect(int xx, int yy, int ww, int hh) : x{ xx }, y{ yy }, w{ ww }, h{ hh } {}
+		Rect(Pixel p) : x{ p.x }, y{ p.y }, w{ 0 }, h{ 0 } {}		
 
 		Rect operator *(const Vec2 scale) const {
-			auto out = Rect{ x, y, w * scale.x, h * scale.y };
+			auto out = Rect{ x, y, roundFloat(w * scale.x), roundFloat(h * scale.y) };
 		}
 
 		Point center() const {

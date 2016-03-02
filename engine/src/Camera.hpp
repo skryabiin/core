@@ -60,13 +60,13 @@ namespace core {
 
 
 		//viewport projection
-		bool isInViewportRect(const Rect& rect) const;  //returns true if the rectangle (in world coordinates) is on the screen
+		bool isInViewportRect(const SDL_Rect& rect) const;  //returns true if the rectangle (in world coordinates) is on the screen
 		
 		void worldToLens(Pixel& p) const; //projects a world coordinate to the surface of the camera lens (the screen)
 			
 		void lensToWorld(Pixel& p) const; //projects a point on the surface of the camera lens (the screen) into the world
 
-		void getVertices(Rect& rect, std::vector<GLint>& values); //outputs projected world opengl vertices for the supplied rectangle
+		void getVertices(SDL_Rect& rect, std::vector<GLint>& values); //outputs projected world opengl vertices for the supplied rectangle
 
 
 	private:
@@ -125,7 +125,7 @@ namespace core {
 
 
 		//camera projection of screen rectangle
-		Rect _viewportRect;
+		SDL_Rect _viewportRect;
 
 
 

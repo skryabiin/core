@@ -35,7 +35,7 @@ local cursorTexture = {
         
 
 
-Core.setNextScene(Scenes.rainbow)
+Core.setNextScene(Scenes.maptest)
 	
 while not doQuit do
 	

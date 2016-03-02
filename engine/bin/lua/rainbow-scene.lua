@@ -19,13 +19,13 @@ function Scenes.rainbow.init()
     local rainbowColorMatrix = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1}
 
     --Renderer.setGlobalColorModulation({0,1,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,1})
-    World.camera.centerAt({600,384,0})
+    World.camera.centerAt({512,384,0})
     Renderer.setBackgroundColor({0,64,0,255})
 
     Scenes.rainbow.keyboardCallbackRef = EventProcessor.addEventListener(-1, "KeyboardEvent", Scenes.rainbow.keyboardEventHandler)
     positionSystem = BasicPositionSystem2d:new("Positions")
     textureSystem = TextureRenderSystem2d:new("Textures", 2)
-    textSystem = TextRenderSystem2d:new("Text", 2,"interface")
+   -- textSystem = TextRenderSystem2d:new("Text", 2,"interface")
     audioSystem = BasicAudioSystem:new("Sounds")
 
 
@@ -148,74 +148,7 @@ function Scenes.rainbow.init()
         EventProcessor.process(colorModEvent)
     end
 
-    local function fadeCallback()
-        Console.debug("In fade callback!")
-    end
 
-    local function fadeCallback2()
-        Console.debug("In fade callback2!")
-    end
-    resetButton = Entity:new()
-	resetButton:addBasicPosition(positionSystem)
-	resetButton:setDimensions({50,21})
-	resetButton.facets.label = TextFacet:new(resetButton, textSystem)
-	resetButton.facets.label:setText("Reset")	
-	resetButton.facets.label:createFacetInCore()
-    resetButton.facets.interface = InterfaceFacet:new(resetButton)
-	resetButton.facets.interface:setClickable(true)
-	resetButton.facets.interface:setOnClick(
-	    function(self, interfaceState)
-            for index, slider in ipairs(sliders) do
-                slider:reset()
-            end
-            Renderer.fadeWindow(3000, {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1}, fadeCallback2)         
-	    end
-	)
-    resetButton:setPosition({60, Config.window.dimensions[2] - 30,10})
-
-    fadeButton = Entity:new()
-    fadeButton:addBasicPosition(positionSystem)
-	fadeButton:setDimensions({50,21})
-	fadeButton.facets.label = TextFacet:new(fadeButton, textSystem)
-	fadeButton.facets.label:setText("Fade")	
-	fadeButton.facets.label:createFacetInCore()
-    fadeButton.facets.interface = InterfaceFacet:new(fadeButton)
-	fadeButton.facets.interface:setClickable(true)
-	fadeButton.facets.interface:setOnClick(
-	    function(self, interfaceState)       
-
-            Renderer.fadeWindow(3000, {0.5,0.5,0.5,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, fadeCallback)
-        
-            --[[local fadeTransition = {
-                typeName = "FadeTransition",
-                entityId = rainbow:getId(),
-                facetId = -1,
-                duration = 3000,
-                beginTransform = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1},
-                endTransform = {0,1,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,0.5},
-                finishedCallback = fadeCallback
-            }
-            Transitions.createTransition(fadeTransition)
-            ]]
-	    end
-	)
-    
-    fadeButton:setPosition({60, Config.window.dimensions[2] - 60,10})     
-   
-   quitButton = Entity:new()
-   quitButton:addBasicPosition(positionSystem)
-   quitButton.facets.label = TextFacet:new(quitButton, textSystem)   
-   quitButton.facets.label:setText("Quit")
-   quitButton.facets.label:createFacetInCore()
-   quitButton.facets.interface = InterfaceFacet:new(quitButton)
-   quitButton.facets.interface:setClickable(true)
-   quitButton.facets.interface:setOnClick(
-    function(self, interfaceState)
-        Core.quit("Quit")
-    end
-    )
-    quitButton:setDimensions(quitButton.facets.label:dimensions())
-    quitButton:setPosition({60, Config.window.dimensions[2] - 90,10})
 
 end
 

@@ -23,10 +23,9 @@ function Scenes.maptest.tileParseCallback(tileInformation)
     
     e.facets.texture = TextureFacet:new(e, Scenes.maptest.textures, tileInformation.textureName)
     e.facets.texture:setTextureCoordinates({tileInformation.sourceTexturePosition[1], tileInformation.sourceTexturePosition[2], tileInformation.dimensions[1], tileInformation.dimensions[2]})    
+    --e.facets.texture:setScale({2.0,2.0})
     e.facets.texture:createFacetInCore()
-    e.facets.interface = InterfaceFacet:new(e)
-    e.facets.interface:setClickable(true)
-    e.facets.interface:setDraggable(true)
+    
 
 end
 
@@ -38,7 +37,7 @@ function Scenes.maptest.init()
     Scenes.maptest.textures:disableAutoCreation()    
 
     World.camera.centerAt({0,0,0})
-    World.runMap("test", Scenes.maptest.tileParseCallback)
+    World.runMap("Level1", Scenes.maptest.tileParseCallback)
 
     Scenes.maptest.moveleft = false
     Scenes.maptest.moveright = false

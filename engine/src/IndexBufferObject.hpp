@@ -6,7 +6,7 @@
 
 namespace core {
 
-	class IndexBufferObject : public BufferObject<GLushort, GL_ELEMENT_ARRAY_BUFFER> {
+	class IndexBufferObject : public BufferObject<GLuint, GL_ELEMENT_ARRAY_BUFFER> {
 
 	public:
 

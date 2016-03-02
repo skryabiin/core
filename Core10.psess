@@ -70,6 +70,9 @@
     <Report>
       <Path>Core150516(4).vsp</Path>
     </Report>
+    <Report>
+      <Path>Core150606.vsp</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

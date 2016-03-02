@@ -39,7 +39,7 @@ namespace core {
 
 		Texture* texture;
 		SDL_Rect textureCoordinates;
-		Rect targetRect;
+		SDL_Rect targetRect;
 		
 		Color color;
 		std::vector<Point> vertices;

@@ -274,9 +274,6 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera2d.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="src\Map.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
@@ -288,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="src\RectSorter.cpp">
       <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +438,12 @@
     </None>
     <None Include="bin\shaders\finalPass2d.glvs">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\lua-core\animation-system-2d.lua">
+      <Filter>Lua-Core</Filter>
+    </None>
+    <None Include="bin\lua-core\animation-facet.lua">
+      <Filter>Lua-Core</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -775,9 +781,6 @@
       <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\World.hpp">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera2d.hpp">
       <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="src\Camera.hpp">

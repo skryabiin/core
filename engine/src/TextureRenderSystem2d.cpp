@@ -12,7 +12,7 @@ namespace core {
 
 
 	TextureRenderSystem2d::TextureRenderSystem2d() {
-		int x = 0;
+	
 	}
 
 
@@ -128,9 +128,6 @@ namespace core {
 	
 		_movingTextures.clear();
 
-		auto dc = DrawableChange{};
-		dc.operation = DrawableChange::Operation::DESTROY_DRAWABLE;
-		dc.layerId = _drawableLayerId;
 		if(_facets.reset() != InitStatus::CREATE_TRUE) return false;
 
 		return RenderableSystem2d::resetImpl();

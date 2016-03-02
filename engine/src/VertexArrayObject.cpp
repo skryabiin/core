@@ -16,7 +16,7 @@ namespace core {
 
 	bool VertexArrayObject::initializeImpl() {		
 		glGenVertexArrays(1, &_id);
-		return (_indices.initialize() == InitStatus::INIT_TRUE);
+		return (_indices.initialize(GL_DYNAMIC_DRAW) == InitStatus::INIT_TRUE);
 	}
 
 	bool VertexArrayObject::resetImpl() {
@@ -42,7 +42,7 @@ namespace core {
 	}
 
 	void VertexArrayObject::draw(GLenum mode) {		
-		glDrawElements(mode, _indices.getNumVertices(), GL_UNSIGNED_SHORT, NULL);		
+		glDrawElements(mode, _indices.getNumVertices(), GL_UNSIGNED_INT, NULL);		
 		//glDrawArrays(mode, 0, 12 * 3);
 	}
 

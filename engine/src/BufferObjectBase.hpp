@@ -7,7 +7,7 @@
 namespace core {
 
 
-	class BufferObjectBase : public initializable<BufferObjectBase, GLushort, void, void, void> {
+	class BufferObjectBase : public initializable<BufferObjectBase, GLushort, GLenum, void, void> {
 	public:
 
 		bool createImpl(GLushort vertexDimension) {
@@ -15,7 +15,8 @@ namespace core {
 			return true;
 		}
 
-		bool initializeImpl() {			
+		bool initializeImpl(GLenum useType) {
+			_useType = useType;
 			glGenBuffers(1, &_buffer);
 			return true;
 		}
@@ -43,7 +44,7 @@ namespace core {
 
 	protected:
 
-		
+		GLenum _useType;
 		GLuint _buffer;
 		GLushort _numVertices;
 		GLushort _vertexDimension;

@@ -15,6 +15,7 @@ namespace core {
 		std::string nextAnimation;
 		bool endImmediate;
 		Entity entity;
+		long facetId;
 
 		static std::string getEventTypeNameImpl();
 

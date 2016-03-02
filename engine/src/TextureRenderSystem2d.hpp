@@ -48,9 +48,7 @@ namespace core {
 
 		virtual ~TextureRenderSystem2d() {};
 
-	private:
-
-		TextureFacet _nullFacet;		
+	private:	
 
 		FacetVector<TextureFacet> _facets;
 

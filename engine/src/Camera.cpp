@@ -99,10 +99,8 @@ namespace core {
 	}
 
 
-	bool Camera::isInViewportRect(const Rect& rect) const {
-
-		return rect.intersects(_viewportRect);
-
+	bool Camera::isInViewportRect(const SDL_Rect& rect) const {		
+		return SDL_HasIntersection(&rect, &_viewportRect);
 	}
 
 
@@ -121,7 +119,7 @@ namespace core {
 		_glToPixel(aligned, p);
 	}
 
-	void Camera::getVertices(Rect& rect, std::vector<GLint>& values) {
+	void Camera::getVertices(SDL_Rect& rect, std::vector<GLint>& values) {
 
 		auto p = Pixel(rect.x, rect.y);
 		auto gl = glm::vec4{};

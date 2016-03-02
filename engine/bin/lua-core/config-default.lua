@@ -19,7 +19,7 @@ Config.window.centered = true
 
 --Initial position of the window
 --Only applies if Config.window.centered = false
-Config.window.position = {0,0}
+Config.window.position = {0,0,0}
 
 --Whether the user can resize the window
 Config.window.resizable = true
@@ -39,15 +39,6 @@ Config.logging.logFile = "log.txt"
 
 --See constants.lua for verbosity level constants
 Config.logging.verbosityLevel = Constants.VERBOSITY_LEVEL_DEBUG
-
-
-
---default camera settings
-Config.camera = {}
-
---Default camera scaling
-Config.camera.scale = {1.5, 1.5}
-
 
 
 --System settings used by the engine

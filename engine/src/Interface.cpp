@@ -67,23 +67,7 @@ namespace core {
 		_mouseCursor = single<Core>().createEntity();
 		setCursorTextureFromDef();
 
-		_primitiveRenderSystem = new PrimitiveRenderSystem2d{};
-		_primitiveRenderSystem->setName("InterfacePrimitives");
-		single<Core>().addSystem(_primitiveRenderSystem);
-		single<Core>().includeRenderableSystem2d(_primitiveRenderSystem);
-		_primitiveRenderSystem->create();
-		_primitiveRenderSystem->initialize();
-		_primitiveRenderSystem->setDrawableLayerId(0);
-		auto offset = Pixel{ 0, 0, 1 };
-		auto rect = SDL_Rect();
-		rect.x = 10;
-		rect.y = 20;
-		rect.w = 20;
-		rect.h = 40;
-		auto color = Color{ 0.0f, 1.0f, 1.0f, 1.0f };
-		auto position = Pixel{10,20};		
-		auto dimension = Dimension{ 20, 40 };
-		//_primitiveRenderSystem->createRectangleFacet(_mouseCursor, position, offset, dimension, color, false);
+		
 		
 		return true;
 	}
@@ -164,7 +148,7 @@ namespace core {
 		auto pos = Pixel{};
 		auto keyStates = SDL_GetMouseState(&pos.x, &pos.y);
 		auto& lua = single<Core>().lua();
-		int winHeight = lua("Config")["window"]["dimensions"][2];
+		int winHeight = single<Config>().window.dimensions.height();
 		pos.y = winHeight - pos.y - 1;
 		if (!(_mouseState.position.getPixel() == pos) || _mouseState.keyStates != keyStates) {
 			_mouseState.delta[0] = _mouseState.position[0] - pos.x;
@@ -377,7 +361,7 @@ namespace core {
 			textureChangeEvent.entity = _mouseCursor;
 			textureChangeEvent.sourceTextureRect = LuaRect{ _mouseCursorDef.sourceRect };
 			textureChangeEvent.textureName = _mouseCursorDef.textureName;
-			textureChangeEvent.facetId = 1;
+			textureChangeEvent.facetId = existingFacets[0]->id();
 			_textureRenderSystem->handleEvent(textureChangeEvent);
 
 		}
@@ -591,7 +575,7 @@ namespace core {
 	}
 
 	void Interface::showHideSystemCursor(bool show) {
-		SDL_ShowCursor((show) ? 1 : 0);
+		//SDL_ShowCursor((show) ? 1 : 0);
 	}
 
 	void Interface::showCursor() {

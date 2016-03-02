@@ -84,9 +84,9 @@
     <ClCompile Include="src\BasicAudioSystem.cpp" />
     <ClCompile Include="src\BasicPositionSystem2d.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Camera2d.cpp" />
     <ClCompile Include="src\ColorChangeEvent.cpp" />
     <ClCompile Include="src\ColorModulationEvent.cpp" />
+    <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Console.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\DimensionChangeEvent.cpp" />
@@ -143,6 +143,8 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\lua-core\animation-facet.lua" />
+    <None Include="bin\lua-core\animation-system-2d.lua" />
     <None Include="bin\lua-core\audio-facet.lua" />
     <None Include="bin\lua-core\basic-audio-system.lua" />
     <None Include="bin\lua-core\basic-position-system-2d.lua" />
@@ -209,7 +211,6 @@
     <ClInclude Include="src\BufferObject.hpp" />
     <ClInclude Include="src\BufferObjectBase.hpp" />
     <ClInclude Include="src\Camera.hpp" />
-    <ClInclude Include="src\Camera2d.hpp" />
     <ClInclude Include="src\CameraFollowFacet.hpp" />
     <ClInclude Include="src\CollisionState.hpp" />
     <ClInclude Include="src\Color.hpp" />

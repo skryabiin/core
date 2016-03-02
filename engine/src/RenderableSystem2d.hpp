@@ -21,7 +21,7 @@ namespace core {
 
 	public:
 
-		RenderableSystem2d() {};
+		RenderableSystem2d() : _camera{ nullptr } {};
 
 		virtual bool createImpl() override;
 		virtual bool initializeImpl() override;

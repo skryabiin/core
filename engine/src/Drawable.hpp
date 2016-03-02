@@ -33,7 +33,7 @@ namespace core {
 
 		Texture* texture;
 		SDL_Rect sourceRect;
-		Rect targetRect;
+		SDL_Rect targetRect;
 
 		short layerId;
 		
@@ -62,7 +62,11 @@ namespace core {
 		VertexBufferObject<GLfloat> uvbo;
 		VertexBufferObject<GLint> vbo;
 
+		unsigned int bufferIndex;
+
 		DrawableType drawableType;
+
+		
 	};
 
 

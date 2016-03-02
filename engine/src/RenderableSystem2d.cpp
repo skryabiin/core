@@ -19,7 +19,9 @@ namespace core {
 	bool RenderableSystem2d::initializeImpl() {
 
 		this->System::initializeImpl();
-
+		if (_camera == nullptr) {
+			_camera = single<World>().camera();
+		}
 		single<Renderer>().createRenderLayer(_drawableLayerId, _camera);
 		//return (_camera.initialize() == InitStatus::INIT_TRUE) ? true : false;
 		return true;

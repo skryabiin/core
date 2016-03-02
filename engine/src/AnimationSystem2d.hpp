@@ -11,6 +11,8 @@
 #include "PositionChangeEvent.hpp"
 #include "RenderableSystem2d.hpp"
 #include "VisualFacet.hpp"
+#include "FacetDimensionQuery.hpp"
+#include "FacetVector.hpp"
 
 namespace core {
 
@@ -28,7 +30,7 @@ namespace core {
 
 		AnimationSystem2d();		
 
-		AnimationFacet& createAnimationFacet(Entity& e);
+		AnimationFacet* createAnimationFacet(Entity& e);
 
 		virtual std::vector<Facet*> getFacets(Entity& e) override;
 
@@ -37,9 +39,10 @@ namespace core {
 		virtual void updateDrawablePosition(VisualFacet* vfacet);
 
 		bool handleEvent(AnimationChangeEvent& animationChange);		
-		using RenderableSystem2d::handleEvent;
 
-		virtual void renderFacet(SDL_Renderer* renderer, Facet* facet) {};
+		bool handleEvent(FacetDimensionQuery& e);
+
+		using RenderableSystem2d::handleEvent;
 		
 		virtual bool createImpl() override;
 		virtual bool initializeImpl() override;
@@ -54,7 +57,7 @@ namespace core {
 
 	private:		
 
-		std::vector<AnimationFacet> _animationFacets;
+		FacetVector<AnimationFacet> _facets;
 
 		std::map<Entity, AnimationFacet*> _movingAnimations;
 
